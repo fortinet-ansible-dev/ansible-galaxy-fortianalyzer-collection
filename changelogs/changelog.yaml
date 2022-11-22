@@ -1,0 +1,31 @@
+ancestor: null
+releases:
+  1.0.1:
+    changes:
+      major_changes:
+      - Flexible error handling mechanism.
+      - Full FortiAnalyzer JRPC URLs coverage (more than 170 modules).
+      release_summary: FortiAnalyzer Base Release
+    fragments:
+    - release_1.0.1.yaml
+    release_date: '2022-11-08'
+  1.0.2:
+    changes:
+      major_changes:
+      - Fixed Many sanity test warnings and errors.
+      - Support API schema 7.2.0, 25 new APIs, 8 new modules.
+      - Supported Ansible Changelogs.
+      release_summary: Minor release of FortiAnalyzer Ansible Collection 1.0.2
+    fragments:
+    - release_1.0.2.yaml
+    release_date: '2022-11-08'
+  1.0.3:
+    changes:
+      major_changes:
+      - deprecate default genrated README in plugin directory.
+      - update meta/runtime.yaml requirement.
+      - update python and ansible requirement in top-level README.
+      release_summary: Release 1.0.3 for Automation Hub.
+    fragments:
+    - release_1.0.3.yaml
+    release_date: '2022-11-21'
