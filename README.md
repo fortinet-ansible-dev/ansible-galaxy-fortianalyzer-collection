@@ -1,6 +1,6 @@
 # Ansible Collection - fortinet.fortianalyzer
 
-[Documentation](https://ansible-galaxy-fortianalyzer-docs.readthedocs.io/en/galaxy-1.0.3) for the collection.
+[Documentation](https://ansible-galaxy-fortianalyzer-docs.readthedocs.io/en/galaxy-1.1.0) for the collection.
 
 
 
@@ -8,7 +8,7 @@
 This collection is distributed via [ansible-galaxy](https://galaxy.ansible.com/), the installation steps are as follows:
 
 1. Install or upgrade to Ansible >= 2.9.10
-2. Download this collection from galaxy: `ansible-galaxy collection install fortinet.fortianalyzer:1.0.3`
+2. Download this collection from galaxy: `ansible-galaxy collection install fortinet.fortianalyzer:1.1.0`
 
 ## Requirements
 * Ansible 2.9.10 or newer is required to support the newer Ansible Collections format

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 from __future__ import absolute_import, division, print_function
-# Copyright 2021 Fortinet, Inc.
+# Copyright 2021-2023 Fortinet, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,8 +29,9 @@ description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
 
-version_added: "2.11"
+version_added: "1.0.0"
 author:
+    - Xinwei Du (@dux-fortinet)
     - Link Zheng (@chillancezen)
     - Jie Xue (@JieX19)
     - Frank Shen (@fshen01)
@@ -40,41 +41,43 @@ notes:
     - To delete an object, use state absent directive.
     - Normally, running one module can fail when a non-zero rc is returned. you can also override
       the conditions to fail or succeed with parameters rc_failed and rc_succeeded
-
 options:
     enable_log:
         description: Enable/Disable logging for task
         required: false
         type: bool
         default: false
-    proposed_method:
-        description: The overridden method for the underlying Json RPC request
+    log_path:
+        description:
+            - The path to save log. Used if enable_log is true.
+            - Please use absolute path instead of relative path.
+            - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
         required: false
         type: str
-        choices:
-          - update
-          - set
-          - add
+        default: '/tmp/fortianalyzer.ansible.log'
     bypass_validation:
         description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         required: false
         type: bool
         default: false
-    state:
-        description: the directive to create, update or delete an object
-        type: str
-        required: true
-        choices:
-          - present
-          - absent
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
         required: false
+        elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
+        elements: int
         required: false
+    proposed_method:
+        description: The overridden method for the underlying Json RPC request
+        type: str
+        required: false
+        choices:
+            - set
+            - update
+            - add
     cli_system_webproxy:
         description: the top level parameters set
         required: false
@@ -85,7 +88,6 @@ options:
                 description: 'web proxy address.'
             mode:
                 type: str
-                default: 'tunnel'
                 description:
                  - 'Web proxy mode (default = tunnel)'
                  - 'proxy - proxy mode'
@@ -98,11 +100,9 @@ options:
                 type: str
             port:
                 type: int
-                default: 1080
                 description: 'The port number of the web proxy (1 - 65535, default = 1080).'
             status:
                 type: str
-                default: 'disable'
                 description:
                  - 'Enable/disable system web proxy (default = disable).'
                  - 'disable - Disable setting.'
@@ -117,52 +117,73 @@ options:
 '''
 
 EXAMPLES = '''
- - hosts: fortianalyzer-inventory
-   collections:
-     - fortinet.fortianalyzer
-   connection: httpapi
-   vars:
-      ansible_httpapi_use_ssl: True
-      ansible_httpapi_validate_certs: False
-      ansible_httpapi_port: 443
-   tasks:
+- hosts: fortianalyzer_inventory
+  collections:
+    - fortinet.fortianalyzer
+  connection: httpapi
+  vars:
+    ansible_httpapi_use_ssl: True
+    ansible_httpapi_validate_certs: False
+    ansible_httpapi_port: 443
+  tasks:
     - name: Configure system web proxy.
       faz_cli_system_webproxy:
-         bypass_validation: False
-         rc_succeeded: [0, -2, -3, ...]
-         rc_failed: [-2, -3, ...]
-         cli_system_webproxy:
-            address: <value of string>
-            mode: <value in [proxy, tunnel]>
-            password: <value of string>
-            port: <value of integer>
-            status: <value in [disable, enable]>
-            username: <value of string>
+        bypass_validation: False
+        rc_succeeded: [0, -2, -3, ...]
+        rc_failed: [-2, -3, ...]
+        cli_system_webproxy:
+          address: <value of string>
+          mode: <value in [proxy, tunnel]>
+          password: <value of string>
+          port: <value of integer>
+          status: <value in [disable, enable]>
+          username: <value of string>
 
 '''
 
 RETURN = '''
-request_url:
-    description: The full url requested
+meta:
+    description: The result of the request.
+    type: dict
     returned: always
-    type: str
-    sample: /sys/login/user
-response_code:
-    description: The status of api request
-    returned: always
+    contains:
+        request_url:
+            description: The full url requested
+            returned: always
+            type: str
+            sample: /sys/login/user
+        response_code:
+            description: The status of api request
+            returned: always
+            type: int
+            sample: 0
+        response_data:
+            description: The api response
+            type: list
+            returned: always
+        response_message:
+            description: The descriptive message of the api response
+            type: str
+            returned: always
+            sample: OK.
+        system_information:
+            description: The information of the target system.
+            type: dict
+            returned: always
+rc:
+    description: The status the request.
     type: int
-    sample: 0
-response_message:
-    description: The descriptive message of the api response
-    type: str
     returned: always
-    sample: OK.
-
+    sample: 0
+version_check_warning:
+    description: Warning if the parameters used in the playbook are not supported by the current fortianalyzer version.
+    type: list
+    returned: complex
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import check_parameter_bypass
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import check_parameter_bypass, remove_revision
 
 
 def main():
@@ -182,6 +203,26 @@ def main():
             'required': False,
             'default': False
         },
+        'log_path': {
+            'type': 'str',
+            'required': False,
+            'default': '/tmp/fortianalyzer.ansible.log'
+        },
+        'bypass_validation': {
+            'type': 'bool',
+            'required': False,
+            'default': False
+        },
+        'rc_succeeded': {
+            'required': False,
+            'type': 'list',
+            'elements': 'int'
+        },
+        'rc_failed': {
+            'required': False,
+            'type': 'list',
+            'elements': 'int'
+        },
         'proposed_method': {
             'type': 'str',
             'required': False,
@@ -191,37 +232,63 @@ def main():
                 'add'
             ]
         },
-        'bypass_validation': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'rc_succeeded': {
-            'required': False,
-            'type': 'list'
-        },
-        'rc_failed': {
-            'required': False,
-            'type': 'list'
-        },
         'cli_system_webproxy': {
             'required': False,
             'type': 'dict',
             'revision': {
-                '7.2.0': True
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'options': {
                 'address': {
                     'required': False,
                     'revision': {
-                        '7.2.0': True
+                        '6.4.8': True,
+                        '6.4.9': True,
+                        '6.4.10': True,
+                        '6.4.11': True,
+                        '7.0.0': False,
+                        '7.0.1': False,
+                        '7.0.2': False,
+                        '7.0.3': True,
+                        '7.0.4': True,
+                        '7.0.5': True,
+                        '7.0.6': True,
+                        '7.0.7': True,
+                        '7.2.0': True,
+                        '7.2.1': True,
+                        '7.2.2': True
                     },
                     'type': 'str'
                 },
                 'mode': {
                     'required': False,
                     'revision': {
-                        '7.2.0': True
+                        '6.4.8': True,
+                        '6.4.9': True,
+                        '6.4.10': True,
+                        '6.4.11': True,
+                        '7.0.0': False,
+                        '7.0.1': False,
+                        '7.0.2': False,
+                        '7.0.3': True,
+                        '7.0.4': True,
+                        '7.0.5': True,
+                        '7.0.6': True,
+                        '7.0.7': True,
+                        '7.2.0': True,
+                        '7.2.1': True,
+                        '7.2.2': True
                     },
                     'choices': [
                         'proxy',
@@ -232,21 +299,64 @@ def main():
                 'password': {
                     'required': False,
                     'revision': {
-                        '7.2.0': True
+                        '6.4.8': True,
+                        '6.4.9': True,
+                        '6.4.10': True,
+                        '6.4.11': True,
+                        '7.0.0': False,
+                        '7.0.1': False,
+                        '7.0.2': False,
+                        '7.0.3': True,
+                        '7.0.4': True,
+                        '7.0.5': True,
+                        '7.0.6': True,
+                        '7.0.7': True,
+                        '7.2.0': True,
+                        '7.2.1': True,
+                        '7.2.2': True
                     },
+                    'no_log': True,
                     'type': 'str'
                 },
                 'port': {
                     'required': False,
                     'revision': {
-                        '7.2.0': True
+                        '6.4.8': True,
+                        '6.4.9': True,
+                        '6.4.10': True,
+                        '6.4.11': True,
+                        '7.0.0': False,
+                        '7.0.1': False,
+                        '7.0.2': False,
+                        '7.0.3': True,
+                        '7.0.4': True,
+                        '7.0.5': True,
+                        '7.0.6': True,
+                        '7.0.7': True,
+                        '7.2.0': True,
+                        '7.2.1': True,
+                        '7.2.2': True
                     },
                     'type': 'int'
                 },
                 'status': {
                     'required': False,
                     'revision': {
-                        '7.2.0': True
+                        '6.4.8': True,
+                        '6.4.9': True,
+                        '6.4.10': True,
+                        '6.4.11': True,
+                        '7.0.0': False,
+                        '7.0.1': False,
+                        '7.0.2': False,
+                        '7.0.3': True,
+                        '7.0.4': True,
+                        '7.0.5': True,
+                        '7.0.6': True,
+                        '7.0.7': True,
+                        '7.2.0': True,
+                        '7.2.1': True,
+                        '7.2.2': True
                     },
                     'choices': [
                         'disable',
@@ -257,7 +367,21 @@ def main():
                 'username': {
                     'required': False,
                     'revision': {
-                        '7.2.0': True
+                        '6.4.8': True,
+                        '6.4.9': True,
+                        '6.4.10': True,
+                        '6.4.11': True,
+                        '7.0.0': False,
+                        '7.0.1': False,
+                        '7.0.2': False,
+                        '7.0.3': True,
+                        '7.0.4': True,
+                        '7.0.5': True,
+                        '7.0.6': True,
+                        '7.0.7': True,
+                        '7.2.0': True,
+                        '7.2.1': True,
+                        '7.2.2': True
                     },
                     'type': 'str'
                 }
@@ -267,18 +391,18 @@ def main():
     }
 
     params_validation_blob = []
-    module = AnsibleModule(argument_spec=check_parameter_bypass(module_arg_spec, 'cli_system_webproxy'),
+    module = AnsibleModule(argument_spec=remove_revision(check_parameter_bypass(module_arg_spec, 'cli_system_webproxy')),
                            supports_check_mode=False)
 
-    faz = None
-    if module._socket_path:
-        connection = Connection(module._socket_path)
-        connection.set_option('enable_log', module.params['enable_log'] if 'enable_log' in module.params else False)
-        faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection, top_level_schema_name='data')
-        faz.validate_parameters(params_validation_blob)
-        faz.process_partial_curd(argument_specs=module_arg_spec)
-    else:
+    if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
+    connection = Connection(module._socket_path)
+    connection.set_option('enable_log', module.params['enable_log'])
+    connection.set_option('log_path', module.params['log_path'])
+    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
+                      metadata=module_arg_spec, task_type='partial crud')
+    faz.validate_parameters(params_validation_blob)
+    faz.process()
     module.exit_json(meta=module.params)
 
 

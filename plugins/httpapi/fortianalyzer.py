@@ -1,4 +1,4 @@
-# Copyright (c) 2018-2022 Fortinet and/or its affiliates.
+# Copyright (c) 2018-2023 Fortinet and/or its affiliates.
 #
 # This file is part of Ansible
 #
@@ -21,16 +21,16 @@ __metaclass__ = type
 
 DOCUMENTATION = """
 ---
+name : fortianalyzer
 author:
     - Link Zheng (@chillancezen)
     - Luke Weighall (@lweighall)
     - Andrew Welsh (@Ghilli3)
     - Jim Huber (@p4r4n0y1ng)
-httpapi : fortianalyzer
-short_description: HttpApi Plugin for Fortinet FortiManager Appliance or VM.
+short_description: HttpApi Plugin for Fortinet FortiAnalyzer Appliance or VM.
 description:
-  - This HttpApi plugin provides methods to connect to Fortinet FortiManager Appliance or VM via JSON RPC API.
-version_added: "2.8"
+  - This HttpApi plugin provides methods to connect to Fortinet FortiAnalyzer Appliance or VM via JSON RPC API.
+version_added: "1.0.0"
 
 """
 
@@ -72,16 +72,17 @@ class HttpApi(HttpApiBase):
         self._prelocking_user_params = list()
 
     def log(self, msg):
-        try:
-            log_enabled = self.connection.get_option('enable_log')
-        except Exception as e:
-            return
+        log_enabled = self.connection.get_option("enable_log")
         if not log_enabled:
             return
         if not self._log:
-            self._log = open("/tmp/fortianalyzer.ansible.log", "a")
+            try:
+                log_path = self.connection.get_option("log_path")
+                self._log = open(log_path, "a")
+            except Exception as e:
+                self._log = open("/tmp/fortianalyzer.ansible.log", "a")
         log_message = str(datetime.now())
-        log_message += ": " + str(msg) + '\n'
+        log_message += ": " + str(msg) + "\n"
         self._log.write(log_message)
         self._log.flush()
 
@@ -104,9 +105,9 @@ class HttpApi(HttpApiBase):
 
     def login(self, username, password):
         """
-        This function will log the plugin into FortiManager, and return the results.
-        :param username: Username of FortiManager Admin
-        :param password: Password of FortiManager Admin
+        This function will log the plugin into FortiAnalyzer, and return the results.
+        :param username: Username of FortiAnalyzer Admin
+        :param password: Password of FortiAnalyzer Admin
 
         :return: Dictionary of status, if it logged in or not.
         """
@@ -116,8 +117,8 @@ class HttpApi(HttpApiBase):
                                                                        passwd=password, user=username,))
 
         self.log(self)
-        if "FortiManager object connected to FortiManager" in self.__str__():
-            # If Login worked, then inspect the FortiManager for Workspace Mode, and it's system information.
+        if "FortiAnalyzer object connected to FortiAnalyzer" in self.__str__():
+            # If Login worked, then inspect the FortiAnalyzer for Workspace Mode, and it's system information.
             self.inspect_fmgr()
             self._logged = True
             for param in self._prelocking_user_params:
@@ -150,7 +151,7 @@ class HttpApi(HttpApiBase):
 
     def logout(self):
         """
-        This function will logout of the FortiManager.
+        This function will logout of the FortiAnalyzer.
         """
         self.log("log out, using workspace:%s user: %s sid: %s" % (
                  self._uses_workspace,
@@ -181,12 +182,13 @@ class HttpApi(HttpApiBase):
                 if not self.connection._connected:
                     self.connection._connect()
         except IndexError:
-            raise FMGBaseException("An attempt was made at communicating with a FMG with "
+            raise FMGBaseException("An attempt was made at communicating with a FAZ with "
                                    "no valid session and an incorrectly formatted request.")
         except Exception:
-            raise FMGBaseException("An attempt was made at communicating with a FMG with "
+            raise FMGBaseException("An attempt was made at communicating with a FAZ with "
                                    "no valid session and an unexpected error was discovered.")
-
+        if params[0]["url"] == "sys/login/user":
+            params[0]["data"]["passwd"] = str(params[0]["data"]["passwd"])
         self._update_request_id()
         json_request = {
             "method": method,
@@ -199,8 +201,8 @@ class HttpApi(HttpApiBase):
         self.log('request: %s' % (data))
         try:
             # Sending URL and Data in Unicode, per Ansible Specifications for Connection Plugins
-            response, response_data = self.connection.send(path=to_text(self._url), data=to_text(data),
-                                                           headers=BASE_HEADERS)
+            response_code, response_data = self.connection.send(path=to_text(self._url), data=to_text(data),
+                                                                headers=BASE_HEADERS)
             # Get Unicode Response - Must convert from StringIO to unicode first so we can do a replace function below
             result = json.loads(to_text(response_data.getvalue()))
             self.log('response: %s' % (str(self._jsonize(result))))
@@ -255,7 +257,7 @@ class HttpApi(HttpApiBase):
 
     def get_system_status(self):
         """
-        Returns the system status page from the FortiManager, for logging and other uses.
+        Returns the system status page from the FortiAnalyzer, for logging and other uses.
         return: status
         """
         status = self.send_request(FMGRMethods.GET, self._tools.format_request(FMGRMethods.GET, "sys/status"))
@@ -265,7 +267,7 @@ class HttpApi(HttpApiBase):
         if not self._uses_workspace or not self.sid:
             return
         if 'workspace_locking_adom' not in param or not param['workspace_locking_adom']:
-            # The FortiManager is running in workspace mode, please `workspace_locking_adom` in your playbook
+            # The FortiAnalyzer is running in workspace mode, please `workspace_locking_adom` in your playbook
             # FIXME:by default, users have to know whether their fmg devices are running in worksapce mode and
             # specify the paramters in plaubook, we will find a better way to notify the users of this error
             return
@@ -338,8 +340,8 @@ class HttpApi(HttpApiBase):
 
     def __str__(self):
         if self.sid is not None and self.connection._url is not None:
-            return "FortiManager object connected to FortiManager: " + to_text(self.connection._url)
-        return "FortiManager object with no valid connection to a FortiManager appliance."
+            return "FortiAnalyzer object connected to FortiAnalyzer: " + to_text(self.connection._url)
+        return "FortiAnalyzer object with no valid connection to a FortiAnalyzer appliance."
 
     ##################################
     # BEGIN DATABASE LOCK CONTEXT CODE
@@ -371,7 +373,7 @@ class HttpApi(HttpApiBase):
 
     def check_mode(self):
         """
-        Checks FortiManager for the use of Workspace mode
+        Checks FortiAnalyzer for the use of Workspace mode
         """
         self._uses_workspace = False
         self._uses_adoms = False
@@ -464,7 +466,7 @@ class HttpApi(HttpApiBase):
 
     def get_adom_list(self):
         """
-        Gets the list of ADOMs for the FortiManager
+        Gets the list of ADOMs for the FortiAnalyzer
         """
         if self._uses_adoms:
             url = "/dvmdb/adom"

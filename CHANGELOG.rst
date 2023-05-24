@@ -5,6 +5,32 @@ Fortinet.Fortianalyzer Release Notes
 .. contents:: Topics
 
 
+v1.1.0
+======
+
+Release Summary
+---------------
+
+Release 1.1.0 to support all FortiAnalyzer versions in 6.2, 6.4, 7.0 and 7.2.
+
+Major Changes
+-------------
+
+- Support all FortiAnalyzer versions in 6.2, 6.4, 7.0 and 7.2. 3 new modules.
+
+Minor Changes
+-------------
+
+- Added param log_path to every module. You can specify the place to save the log when enable_log is True.
+- faz_fact and faz_rename support more URLs.
+
+Bugfixes
+--------
+
+- Fixed Many sanity test warnings and errors.
+- Fixed an issue where some selectors in faz_fact were named incorrectly.
+- Fixed version_added in the document. The value of this parameter is the version each module first supported in the FortiAnalyzer Ansible Collection.
+
 v1.0.3
 ======
 

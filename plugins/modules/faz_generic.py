@@ -1,6 +1,6 @@
 #!/usr/bin/python
 from __future__ import absolute_import, division, print_function
-# Copyright 2021 Fortinet, Inc.
+# Copyright 2021-2023 Fortinet, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,8 +33,9 @@ description:
       fill the session later.
     - the username and password is not managed by the module, but by the plugin.
 
-version_added: "2.11"
+version_added: "1.0.0"
 author:
+    - Xinwei Du (@dux-fortinet)
     - Link Zheng (@zhengl)
     - Jie Xue (@JieX19)
     - Frank Shen (@fshen01)
@@ -46,24 +47,55 @@ notes:
     - method and params should be specified by users if 'json' is not present
     - if all three parameters are provided, the 'json' is preferred.
 options:
-   enable_log:
-      description: Enable/Disable logging for task
-      required: false
-      type: bool
-      default: false
-   method:
-      description:
-        - the method of the json-rpc
-        - it must be in [get, add, set, update, delete, move, clone, exec]
-
-   params:
-      description:
-        - the parameter collection.
-
-   json:
-      description:
-        - the raw json-formatted payload to send to fortianalyzer
-
+    enable_log:
+        description: Enable/Disable logging for task
+        required: false
+        type: bool
+        default: false
+    log_path:
+        description:
+            - The path to save log. Used if enable_log is true.
+            - Please use absolute path instead of relative path.
+            - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
+        required: false
+        type: str
+        default: '/tmp/fortianalyzer.ansible.log'
+    rc_succeeded:
+        description: the rc codes list with which the conditions to succeed will be overriden
+        type: list
+        required: false
+        elements: int
+    rc_failed:
+        description: the rc codes list with which the conditions to fail will be overriden
+        type: list
+        elements: int
+        required: false
+    workspace_locking_adom:
+        description: no description
+        type: str
+        required: false
+    workspace_locking_timeout:
+        description: no description
+        type: int
+        required: false
+        default: 300
+    method:
+        description:
+            - the method of the json-rpc
+            - it must be in [get, add, set, update, delete, move, clone, exec]
+        type: str
+        required: false
+    params:
+        description:
+            - the parameter collection.
+        type: list
+        elements: dict
+        required: false
+    json:
+        description:
+            - the raw json-formatted payload to send to fortianalyzer
+        type: str
+        required: false
 '''
 
 EXAMPLES = '''
@@ -75,38 +107,72 @@ EXAMPLES = '''
     ansible_httpapi_validate_certs: False
     ansible_httpapi_port: 443
   tasks:
-    -   name: 'login a user'
-        faz_generic:
-             method: 'exec'
-             params:
-                - url: 'sys/login/user'
-                  data:
-                   - user: 'APIUser'
-                     passwd: 'Fortinet1!e'
-    -   name: 'login another user'
-        faz_generic:
-             json: |
-                  {
-                   "method":"exec",
-                   "params":[
+    - name: "login a user"
+      faz_generic:
+        method: "exec"
+        params:
+          - url: "sys/login/user"
+            data:
+              - user: "APIUser"
+                passwd: "Fortinet1!e"
+    - name: "login another user"
+      faz_generic:
+        json: |
+          {
+           "method":"exec",
+           "params":[
+            {
+                 "url":"sys/login/user",
+                 "data":[
                     {
-                         "url":"sys/login/user",
-                         "data":[
-                            {
-                               "user":"APIUser",
-                               "passwd":"Fortinet1!"
-                            }
-                          ]
-                     }
-                    ]
-                  }
+                       "user":"APIUser",
+                       "passwd":"Fortinet1!"
+                    }
+                  ]
+             }
+            ]
+          }
+
 '''
 
 RETURN = """
-api_result:
-  description: full API response, includes status code and message
-  returned: always
-  type: str
+meta:
+    description: The result of the request.
+    type: dict
+    returned: always
+    contains:
+        request_url:
+            description: The full url requested
+            returned: always
+            type: str
+            sample: /sys/login/user
+        response_code:
+            description: The status of api request
+            returned: always
+            type: int
+            sample: 0
+        response_data:
+            description: The api response
+            type: list
+            returned: always
+        response_message:
+            description: The descriptive message of the api response
+            type: str
+            returned: always
+            sample: OK.
+        system_information:
+            description: The information of the target system.
+            type: dict
+            returned: always
+rc:
+    description: The status the request.
+    type: int
+    returned: always
+    sample: 0
+version_check_warning:
+    description: Warning if the parameters used in the playbook are not supported by the current fortianalyzer version.
+    type: list
+    returned: complex
 """
 
 from ansible.module_utils.basic import AnsibleModule
@@ -123,6 +189,11 @@ def main():
             'required': False,
             'default': False
         },
+        'log_path': {
+            'type': 'str',
+            'required': False,
+            'default': '/tmp/fortianalyzer.ansible.log'
+        },
         'workspace_locking_adom': {
             'type': 'str',
             'required': False
@@ -134,10 +205,12 @@ def main():
         },
         'rc_succeeded': {
             'required': False,
+            'elements': 'int',
             'type': 'list'
         },
         'rc_failed': {
             'required': False,
+            'elements': 'int',
             'type': 'list'
         },
         'method': {
@@ -146,6 +219,7 @@ def main():
         },
         'params': {
             'type': 'list',
+            'elements': 'dict',
             'required': False
         },
         'json': {
@@ -159,7 +233,8 @@ def main():
     if not module._socket_path:
         module.fail_json(msg='Only Httpapi plugin is supported in this module.')
     connection = Connection(module._socket_path)
-    connection.set_option('enable_log', module.params['enable_log'] if 'enable_log' in module.params else False)
+    connection.set_option('enable_log', module.params['enable_log'])
+    connection.set_option('log_path', module.params['log_path'])
     fmgr = NAPIManager(None, None, None, None, module, connection)
     method = None
     params = None

@@ -4,7 +4,7 @@
 # still belong to the author of the module, and may assign their own license
 # to the complete work.
 #
-# (c) 2017-2020 Fortinet, Inc
+# (c) 2017-2023 Fortinet, Inc
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -102,13 +102,13 @@ FMGR_RC = {
             "skipped": True
         },
         -20010: {
-            "msg": "Device already added to FortiManager. Serial number already in use.",
+            "msg": "Device already added to FortiAnalyzer. Serial number already in use.",
             "good_codes": [0, -20010],
             "changed": False,
             "stop_on_success": True
         },
         -20002: {
-            "msg": "Invalid Argument -- Does this Device exist on FortiManager?",
+            "msg": "Invalid Argument -- Does this Device exist on FortiAnalyzer?",
             "changed": False,
             "skipped": True,
         }
@@ -219,7 +219,7 @@ class FMGRCommon(object):
         The child keys of the desired attribute need to be deleted, and then that "parent" keys' contents is replaced
         With the list of items that was provided.
 
-        :param list_overrides: Contains the response from the FortiManager.
+        :param list_overrides: Contains the response from the FortiAnalyzer.
         :type list_overrides: list
         :param paramgram: Contains the paramgram passed to the modules' local modify function.
         :type paramgram: dict
@@ -534,7 +534,7 @@ class FMGRCommon(object):
 # RECURSIVE FUNCTIONS START
 def prepare_dict(obj):
     """
-    Removes any keys from a dictionary that are only specific to our use in the module. FortiManager will reject
+    Removes any keys from a dictionary that are only specific to our use in the module. FortiAnalyzer will reject
     requests with these empty/None keys in it.
 
     :param obj: Dictionary object to be processed.
@@ -553,7 +553,7 @@ def prepare_dict(obj):
 
 def scrub_dict(obj):
     """
-    Removes any keys from a dictionary that are EMPTY -- this includes parent keys. FortiManager doesn't
+    Removes any keys from a dictionary that are EMPTY -- this includes parent keys. FortiAnalyzer doesn't
     like empty keys in dictionaries
 
     :param obj: Dictionary object to be processed.

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 from __future__ import absolute_import, division, print_function
-# Copyright 2021 Fortinet, Inc.
+# Copyright 2021-2023 Fortinet, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,9 +28,9 @@ short_description: Rename an object in FortiAnalyzer.
 description:
     - This module is able to configure a FortiAnalyzer device by renaming an object.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
-version_added: "2.11"
+version_added: "1.0.0"
 author:
+    - Xinwei Du (@dux-fortinet)
     - Link Zheng (@chillancezen)
     - Jie Xue (@JieX19)
     - Frank Shen (@fshen01)
@@ -42,69 +42,156 @@ notes:
       the conditions to fail or succeed with parameters rc_failed and rc_succeeded
 options:
     enable_log:
-        description: Enable/Disable logging for task
+        description: Enable/Disable logging for task.
         required: false
         type: bool
         default: false
+    log_path:
+        description:
+            - The path to save log. Used if enable_log is true.
+            - Please use absolute path instead of relative path.
+            - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
+        required: false
+        type: str
+        default: '/tmp/fortianalyzer.ansible.log'
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters.
         required: false
         type: bool
         default: false
     rc_succeeded:
-        description: the rc codes list with which the conditions to succeed will be overriden
+        description: The rc codes list with which the conditions to succeed will be overriden.
         type: list
         required: false
+        elements: int
     rc_failed:
-        description: the rc codes list with which the conditions to fail will be overriden
+        description: The rc codes list with which the conditions to fail will be overriden.
         type: list
         required: false
+        elements: int
     rename:
-        description: the top level parameters set
+        description: The top level parameters set.
         type: dict
-        required: false
+        required: true
+        suboptions:
+            selector:
+                required: true
+                description: Selector of the renamed object.
+                type: str
+                choices:
+                    - 'cli_fmupdate_fdssetting_pushoverridetoclient_announceip'
+                    - 'cli_fmupdate_fdssetting_serveroverride_servlist'
+                    - 'cli_fmupdate_serveraccesspriorities_privateserver'
+                    - 'cli_fmupdate_webspam_fgdsetting_serveroverride_servlist'
+                    - 'cli_system_admin_group'
+                    - 'cli_system_admin_group_member'
+                    - 'cli_system_admin_ldap'
+                    - 'cli_system_admin_radius'
+                    - 'cli_system_admin_tacacs'
+                    - 'cli_system_admin_user'
+                    - 'cli_system_admin_user_adom'
+                    - 'cli_system_admin_user_adomexclude'
+                    - 'cli_system_admin_user_dashboard'
+                    - 'cli_system_admin_user_dashboardtabs'
+                    - 'cli_system_admin_user_metadata'
+                    - 'cli_system_admin_user_policypackage'
+                    - 'cli_system_admin_user_restrictdevvdom'
+                    - 'cli_system_alertevent'
+                    - 'cli_system_certificate_ca'
+                    - 'cli_system_certificate_crl'
+                    - 'cli_system_certificate_local'
+                    - 'cli_system_certificate_remote'
+                    - 'cli_system_certificate_ssh'
+                    - 'cli_system_ha_peer'
+                    - 'cli_system_ha_privatepeer'
+                    - 'cli_system_ha_vip'
+                    - 'cli_system_interface'
+                    - 'cli_system_localinpolicy'
+                    - 'cli_system_localinpolicy6'
+                    - 'cli_system_log_devicedisable'
+                    - 'cli_system_log_maildomain'
+                    - 'cli_system_log_ratelimit_device'
+                    - 'cli_system_log_ratelimit_ratelimits'
+                    - 'cli_system_logfetch_clientprofile'
+                    - 'cli_system_logfetch_clientprofile_devicefilter'
+                    - 'cli_system_logfetch_clientprofile_logfilter'
+                    - 'cli_system_logforward'
+                    - 'cli_system_logforward_devicefilter'
+                    - 'cli_system_logforward_logfieldexclusion'
+                    - 'cli_system_logforward_logfilter'
+                    - 'cli_system_logforward_logmaskingcustom'
+                    - 'cli_system_mail'
+                    - 'cli_system_metadata_admins'
+                    - 'cli_system_ntp_ntpserver'
+                    - 'cli_system_report_group'
+                    - 'cli_system_route'
+                    - 'cli_system_route6'
+                    - 'cli_system_saml_fabricidp'
+                    - 'cli_system_saml_serviceproviders'
+                    - 'cli_system_sniffer'
+                    - 'cli_system_snmp_community'
+                    - 'cli_system_snmp_community_hosts'
+                    - 'cli_system_snmp_community_hosts6'
+                    - 'cli_system_snmp_user'
+                    - 'cli_system_sql_customindex'
+                    - 'cli_system_sql_customskipidx'
+                    - 'cli_system_sql_tsindexfield'
+                    - 'cli_system_syslog'
+                    - 'cli_system_workflow_approvalmatrix'
+                    - 'dvmdb_adom'
+                    - 'dvmdb_device_vdom'
+                    - 'dvmdb_folder'
+                    - 'dvmdb_group'
+            self:
+                required: true
+                description: The parameter for each selector.
+                type: dict
+            target:
+                required: true
+                description: Attribute to override for target object.
+                type: dict
 '''
 
 EXAMPLES = '''
 - collections:
-  - fortinet.fortianalyzer
+    - fortinet.fortianalyzer
   connection: httpapi
-  hosts: fortianalyzer-inventory
+  hosts: fortianalyzer_inventory
   tasks:
-  - faz_dvmdb_group:
-      adom: root
-      dvmdb_group:
-        #desc: <value of string>
-        #meta fields: <value of dict>
-        name: foogroup
-        os_type: unknown
-        type: normal
-      state: present
-    name: Device group table.
-
-  - faz_rename:
-     rename:
-       selector: dvmdb_group
-       self:
+    - faz_dvmdb_group:
         adom: root
-        group: foogroup
-       target:
-        name: 'foogroup_renamed'
+        dvmdb_group:
+          # desc: <value of string>
+          # meta fields: <value of dict>
+          name: foogroup
+          os_type: unknown
+          type: normal
+        state: present
+      name: Device group table.
 
-  - faz_fact:
-      facts:
-       selector: dvmdb_group
-       params:
+    - faz_rename:
+        rename:
+          selector: dvmdb_group
+          self:
+            adom: root
+            group: foogroup
+          target:
+            name: "foogroup_renamed"
+
+    - faz_fact:
+        facts:
+          selector: dvmdb_group
+          params:
+            adom: root
+            group: foogroup
+      register: info
+      failed_when: info.rc == 0
+
+    - faz_dvmdb_group:
         adom: root
-        group: foogroup
-    register: info
-    failed_when: info.rc == 0
-
-  - faz_dvmdb_group:
-     adom: root
-     state: absent
-     dvmdb_group:
-        name: foogroup_renamed
+        state: absent
+        dvmdb_group:
+          name: foogroup_renamed
 
   vars:
     ansible_httpapi_port: 443
@@ -113,22 +200,43 @@ EXAMPLES = '''
 '''
 
 RETURN = '''
-request_url:
-    description: The full url requested
+meta:
+    description: The result of the request.
+    type: dict
     returned: always
-    type: str
-    sample: /sys/login/user
-response_code:
-    description: The status of api request
-    returned: always
+    contains:
+        request_url:
+            description: The full url requested
+            returned: always
+            type: str
+            sample: /sys/login/user
+        response_code:
+            description: The status of api request
+            returned: always
+            type: int
+            sample: 0
+        response_data:
+            description: The api response
+            type: list
+            returned: always
+        response_message:
+            description: The descriptive message of the api response
+            type: str
+            returned: always
+            sample: OK.
+        system_information:
+            description: The information of the target system.
+            type: dict
+            returned: always
+rc:
+    description: The status the request.
     type: int
-    sample: 0
-response_message:
-    description: The descriptive message of the api response
-    type: str
     returned: always
-    sample: OK.
-
+    sample: 0
+version_check_warning:
+    description: Warning if the parameters used in the playbook are not supported by the current fortianalyzer version.
+    type: list
+    returned: complex
 '''
 
 from ansible.module_utils.basic import AnsibleModule
@@ -139,8 +247,6 @@ from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import
 def main():
     rename_metadata = {
         'cli_fmupdate_fdssetting_pushoverridetoclient_announceip': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/fmupdate/fds-setting/push-override-to-client/announce-ip/{announce-ip}'
             ],
@@ -150,19 +256,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_fmupdate_fdssetting_serveroverride_servlist': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/fmupdate/fds-setting/server-override/servlist/{servlist}'
             ],
@@ -172,19 +295,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_fmupdate_serveraccesspriorities_privateserver': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/fmupdate/server-access-priorities/private-server/{private-server}'
             ],
@@ -194,19 +334,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_fmupdate_webspam_fgdsetting_serveroverride_servlist': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/fmupdate/web-spam/fgd-setting/server-override/servlist/{servlist}'
             ],
@@ -216,19 +373,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_admin_group': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/admin/group/{group}'
             ],
@@ -238,20 +412,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'name'
         },
         'cli_system_admin_group_member': {
-            'params': [
-                'group'
-            ],
             'urls': [
                 '/cli/global/system/admin/group/{group}/member/{member}'
             ],
@@ -261,19 +451,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'name'
         },
         'cli_system_admin_ldap': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/admin/ldap/{ldap}'
             ],
@@ -283,19 +490,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'name'
         },
         'cli_system_admin_radius': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/admin/radius/{radius}'
             ],
@@ -305,19 +529,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'name'
         },
         'cli_system_admin_tacacs': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/admin/tacacs/{tacacs}'
             ],
@@ -327,19 +568,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'name'
         },
         'cli_system_admin_user': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/admin/user/{user}'
             ],
@@ -349,20 +607,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'userid'
         },
         'cli_system_admin_user_adom': {
-            'params': [
-                'user'
-            ],
             'urls': [
                 '/cli/global/system/admin/user/{user}/adom/{adom}'
             ],
@@ -372,20 +646,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'adom-name'
         },
         'cli_system_admin_user_adomexclude': {
-            'params': [
-                'user'
-            ],
             'urls': [
                 '/cli/global/system/admin/user/{user}/adom-exclude/{adom-exclude}'
             ],
@@ -395,19 +685,28 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
-                '7.0.0': True
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
+                '7.0.0': True,
+                '7.0.1': True,
+                '7.0.2': True
             },
             'mkey': 'adom-name'
         },
         'cli_system_admin_user_dashboard': {
-            'params': [
-                'user'
-            ],
             'urls': [
                 '/cli/global/system/admin/user/{user}/dashboard/{dashboard}'
             ],
@@ -417,20 +716,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'tabid'
         },
         'cli_system_admin_user_dashboardtabs': {
-            'params': [
-                'user'
-            ],
             'urls': [
                 '/cli/global/system/admin/user/{user}/dashboard-tabs/{dashboard-tabs}'
             ],
@@ -440,20 +755,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'name'
         },
         'cli_system_admin_user_metadata': {
-            'params': [
-                'user'
-            ],
             'urls': [
                 '/cli/global/system/admin/user/{user}/meta-data/{meta-data}'
             ],
@@ -463,20 +794,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'fieldname'
         },
         'cli_system_admin_user_policypackage': {
-            'params': [
-                'user'
-            ],
             'urls': [
                 '/cli/global/system/admin/user/{user}/policy-package/{policy-package}'
             ],
@@ -486,20 +833,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'policy-package-name'
         },
         'cli_system_admin_user_restrictdevvdom': {
-            'params': [
-                'user'
-            ],
             'urls': [
                 '/cli/global/system/admin/user/{user}/restrict-dev-vdom/{restrict-dev-vdom}'
             ],
@@ -511,8 +874,6 @@ def main():
             'mkey': 'dev-vdom'
         },
         'cli_system_alertevent': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/alert-event/{alert-event}'
             ],
@@ -522,19 +883,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'name'
         },
         'cli_system_certificate_ca': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/certificate/ca/{ca}'
             ],
@@ -544,19 +922,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'name'
         },
         'cli_system_certificate_crl': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/certificate/crl/{crl}'
             ],
@@ -566,19 +961,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'name'
         },
         'cli_system_certificate_local': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/certificate/local/{local}'
             ],
@@ -588,19 +1000,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'name'
         },
         'cli_system_certificate_remote': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/certificate/remote/{remote}'
             ],
@@ -610,19 +1039,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'name'
         },
         'cli_system_certificate_ssh': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/certificate/ssh/{ssh}'
             ],
@@ -632,19 +1078,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'name'
         },
         'cli_system_ha_peer': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/ha/peer/{peer}'
             ],
@@ -654,19 +1117,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_ha_privatepeer': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/ha/private-peer/{private-peer}'
             ],
@@ -676,30 +1156,50 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_ha_vip': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/ha/vip/{vip}'
             ],
             'revision': {
-                '7.2.0': True
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_interface': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/interface/{interface}'
             ],
@@ -709,55 +1209,85 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'name'
         },
         'cli_system_localinpolicy': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/local-in-policy/{local-in-policy}'
             ],
             'revision': {
-                '7.2.0': True
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_localinpolicy6': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/local-in-policy6/{local-in-policy6}'
             ],
             'revision': {
-                '7.2.0': True
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_log_devicedisable': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/log/device-disable/{device-disable}'
             ],
             'revision': {
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_log_maildomain': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/log/mail-domain/{mail-domain}'
             ],
@@ -767,41 +1297,67 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_log_ratelimit_device': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/log/ratelimit/device/{device}'
             ],
             'revision': {
-                '7.0.0': True
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
+                '7.0.0': True,
+                '7.0.1': True,
+                '7.0.2': True
             },
             'mkey': 'id'
         },
         'cli_system_log_ratelimit_ratelimits': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/log/ratelimit/ratelimits/{ratelimits}'
             ],
             'revision': {
-                '7.2.0': True
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_logfetch_clientprofile': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/log-fetch/client-profile/{client-profile}'
             ],
@@ -811,20 +1367,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_logfetch_clientprofile_devicefilter': {
-            'params': [
-                'client-profile'
-            ],
             'urls': [
                 '/cli/global/system/log-fetch/client-profile/{client-profile}/device-filter/{device-filter}'
             ],
@@ -834,20 +1406,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_logfetch_clientprofile_logfilter': {
-            'params': [
-                'client-profile'
-            ],
             'urls': [
                 '/cli/global/system/log-fetch/client-profile/{client-profile}/log-filter/{log-filter}'
             ],
@@ -857,19 +1445,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_logforward': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/log-forward/{log-forward}'
             ],
@@ -879,20 +1484,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_logforward_devicefilter': {
-            'params': [
-                'log-forward'
-            ],
             'urls': [
                 '/cli/global/system/log-forward/{log-forward}/device-filter/{device-filter}'
             ],
@@ -902,20 +1523,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_logforward_logfieldexclusion': {
-            'params': [
-                'log-forward'
-            ],
             'urls': [
                 '/cli/global/system/log-forward/{log-forward}/log-field-exclusion/{log-field-exclusion}'
             ],
@@ -925,20 +1562,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_logforward_logfilter': {
-            'params': [
-                'log-forward'
-            ],
             'urls': [
                 '/cli/global/system/log-forward/{log-forward}/log-filter/{log-filter}'
             ],
@@ -948,32 +1601,55 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_logforward_logmaskingcustom': {
-            'params': [
-                'log-forward'
-            ],
             'urls': [
                 '/cli/global/system/log-forward/{log-forward}/log-masking-custom/{log-masking-custom}'
             ],
             'revision': {
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_mail': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/mail/{mail}'
             ],
@@ -983,19 +1659,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_metadata_admins': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/metadata/admins/{admins}'
             ],
@@ -1005,19 +1698,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'fieldname'
         },
         'cli_system_ntp_ntpserver': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/ntp/ntpserver/{ntpserver}'
             ],
@@ -1027,19 +1737,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_report_group': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/report/group/{group}'
             ],
@@ -1049,19 +1776,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'group-id'
         },
         'cli_system_route': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/route/{route}'
             ],
@@ -1071,19 +1815,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'seq_num'
         },
         'cli_system_route6': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/route6/{route6}'
             ],
@@ -1093,19 +1854,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'prio'
         },
         'cli_system_saml_fabricidp': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/saml/fabric-idp/{fabric-idp}'
             ],
@@ -1116,14 +1894,27 @@ def main():
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'dev-id'
         },
         'cli_system_saml_serviceproviders': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/saml/service-providers/{service-providers}'
             ],
@@ -1133,19 +1924,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'name'
         },
         'cli_system_sniffer': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/sniffer/{sniffer}'
             ],
@@ -1155,19 +1963,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_snmp_community': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/snmp/community/{community}'
             ],
@@ -1177,20 +2002,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_snmp_community_hosts': {
-            'params': [
-                'community'
-            ],
             'urls': [
                 '/cli/global/system/snmp/community/{community}/hosts/{hosts}'
             ],
@@ -1200,20 +2041,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_snmp_community_hosts6': {
-            'params': [
-                'community'
-            ],
             'urls': [
                 '/cli/global/system/snmp/community/{community}/hosts6/{hosts6}'
             ],
@@ -1223,19 +2080,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_snmp_user': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/snmp/user/{user}'
             ],
@@ -1245,19 +2119,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'name'
         },
         'cli_system_sql_customindex': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/sql/custom-index/{custom-index}'
             ],
@@ -1267,19 +2158,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_sql_customskipidx': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/sql/custom-skipidx/{custom-skipidx}'
             ],
@@ -1288,19 +2196,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'id'
         },
         'cli_system_sql_tsindexfield': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/sql/ts-index-field/{ts-index-field}'
             ],
@@ -1310,19 +2235,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'category'
         },
         'cli_system_syslog': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/syslog/{syslog}'
             ],
@@ -1332,19 +2274,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'name'
         },
         'cli_system_workflow_approvalmatrix': {
-            'params': [
-            ],
             'urls': [
                 '/cli/global/system/workflow/approval-matrix/{approval-matrix}'
             ],
@@ -1354,18 +2313,23 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
-                '7.0.0': True
+                '6.4.6': True,
+                '6.4.7': True,
+                '7.0.0': True,
+                '7.0.1': True,
+                '7.0.2': True
             },
             'mkey': 'adom-name'
         },
         'dvmdb_adom': {
-            'params': [
-            ],
             'urls': [
                 '/dvmdb/adom/{adom}'
             ],
@@ -1375,21 +2339,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'name'
         },
         'dvmdb_device_vdom': {
-            'params': [
-                'adom',
-                'device'
-            ],
             'urls': [
                 '/dvmdb/adom/{adom}/device/{device}/vdom/{vdom}',
                 '/dvmdb/device/{device}/vdom/{vdom}'
@@ -1400,20 +2379,36 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'name'
         },
         'dvmdb_folder': {
-            'params': [
-                'adom'
-            ],
             'urls': [
                 '/dvmdb/adom/{adom}/folder/{folder}',
                 '/dvmdb/folder/{folder}'
@@ -1423,15 +2418,27 @@ def main():
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'name'
         },
         'dvmdb_group': {
-            'params': [
-                'adom'
-            ],
             'urls': [
                 '/dvmdb/adom/{adom}/group/{group}',
                 '/dvmdb/group/{group}'
@@ -1442,13 +2449,32 @@ def main():
                 '6.2.3': True,
                 '6.2.5': True,
                 '6.2.6': True,
+                '6.2.7': True,
+                '6.2.8': True,
+                '6.2.9': True,
+                '6.2.10': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
                 '6.4.4': True,
                 '6.4.5': True,
+                '6.4.6': True,
+                '6.4.7': True,
+                '6.4.8': True,
+                '6.4.9': True,
+                '6.4.10': True,
+                '6.4.11': True,
                 '7.0.0': True,
-                '7.2.0': True
+                '7.0.1': True,
+                '7.0.2': True,
+                '7.0.3': True,
+                '7.0.4': True,
+                '7.0.5': True,
+                '7.0.6': True,
+                '7.0.7': True,
+                '7.2.0': True,
+                '7.2.1': True,
+                '7.2.2': True
             },
             'mkey': 'name'
         }
@@ -1460,13 +2486,25 @@ def main():
             'required': False,
             'default': False
         },
+        'log_path': {
+            'type': 'str',
+            'required': False,
+            'default': '/tmp/fortianalyzer.ansible.log'
+        },
+        'bypass_validation': {
+            'type': 'bool',
+            'required': False,
+            'default': False
+        },
         'rc_succeeded': {
             'required': False,
-            'type': 'list'
+            'type': 'list',
+            'elements': 'int'
         },
         'rc_failed': {
             'required': False,
-            'type': 'list'
+            'type': 'list',
+            'elements': 'int'
         },
         'rename': {
             'required': True,
@@ -1554,14 +2592,13 @@ def main():
     }
     module = AnsibleModule(argument_spec=module_arg_spec,
                            supports_check_mode=False)
-    faz = None
-    if module._socket_path:
-        connection = Connection(module._socket_path)
-        connection.set_option('enable_log', module.params['enable_log'] if 'enable_log' in module.params else False)
-        faz = NAPIManager(None, None, None, None, module, connection)
-        faz.process_rename(rename_metadata)
-    else:
+    if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
+    connection = Connection(module._socket_path)
+    connection.set_option('enable_log', module.params['enable_log'])
+    connection.set_option('log_path', module.params['log_path'])
+    faz = NAPIManager(None, None, None, None, module, connection, metadata=rename_metadata, task_type='rename')
+    faz.process()
     module.exit_json(meta=module.params)
 
 

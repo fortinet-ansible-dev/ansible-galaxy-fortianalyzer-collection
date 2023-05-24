@@ -4,7 +4,7 @@
 # still belong to the author of the module, and may assign their own license
 # to the complete work.
 #
-# (c) 2020-2022 Fortinet, Inc
+# (c) 2020-2023 Fortinet, Inc
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -28,12 +28,22 @@
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.module_utils.basic import _load_params
-import sys
+import re
+
+
+def remove_revision(schema):
+    if not isinstance(schema, dict):
+        return schema
+    new_schema = {}
+    for key in schema:
+        if key != 'revision' and key != 'api_name':
+            new_schema[key] = remove_revision(schema[key])
+    return new_schema
 
 
 def check_parameter_bypass(schema, module_level2_name):
     params = _load_params()
-    if 'bypass_validation' in params and params['bypass_validation'] is True:
+    if params and 'bypass_validation' in params and params['bypass_validation'] is True:
         top_level_schema = dict()
         for key in schema:
             if key != module_level2_name:
@@ -61,9 +71,9 @@ class NAPIManager(object):
     conn = None
     module_name = None
     module_level2_name = None
-    top_level_schema_name = None
 
-    def __init__(self, jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, conn, top_level_schema_name=None):
+    def __init__(self, jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, conn,
+                 metadata=None, task_type=None):
         self.jrpc_urls = jrpc_urls
         self.perobject_jrpc_urls = perobject_jrpc_urls
         self.module_primary_key = module_primary_key
@@ -72,14 +82,53 @@ class NAPIManager(object):
         self.conn = conn
         self.module_name = self.module._name
         self.module_level2_name = self.module_name.split('.')[-1][4:]
-        self.top_level_schema_name = top_level_schema_name
         self.system_status = self.get_system_status()
         self.version_check_warnings = list()
+        self.task_type = task_type
+        self.metadata = metadata
 
-    def _propose_method(self, default_method):
+    def process(self):
+        if self.task_type == 'exec':
+            self.process_exec()
+        elif self.task_type == 'partial crud':
+            self.process_partial_curd()
+        elif self.task_type == 'full crud' or self.task_type == 'object member':
+            self.process_curd()
+        elif self.task_type == 'fact':
+            self.process_fact()
+        elif self.task_type == 'rename':
+            self.process_rename()
+        else:
+            raise AssertionError('Wrong task type')
+
+    def get_propose_method(self, default_method):
         if 'proposed_method' in self.module.params and self.module.params['proposed_method']:
             return self.module.params['proposed_method']
         return default_method
+
+    def get_params_in_url(self, s):
+        """Find contents in {}"""
+        pattern = r'\{(.*?)\}'
+        result = re.findall(pattern, s)
+        return result
+
+    def version_check(self, revisions):
+        # if system version is not determined, give up version checking
+        if not revisions or not self.system_status:
+            return True, None
+        # pass check
+        if int(self.system_status['Major']) <= 5:
+            return False, 'not support in the major version lower than 6, please try a version at least 6.2.1'
+        elif int(self.system_status['Major']) == 6:
+            if self.system_status['Minor'] < 2:
+                return False, 'not support in the version 6.{0}.x, please try a version at least 6.2.1'.format(self.system_status['Minor'])
+
+        sys_version = '{0}.{1}.{2}'.format(self.system_status['Major'], self.system_status['Minor'], self.system_status['Patch'])
+
+        versions = set([ver for ver in revisions if revisions[ver]])
+        if sys_version in versions:
+            return True, None
+        return False, 'not support in {0}. Support versions: {1}'.format(sys_version, list(versions))
 
     def _version_matched(self, revisions):
         if not revisions or not self.system_status:
@@ -155,7 +204,7 @@ class NAPIManager(object):
             if uparam in _param_applied:
                 continue
             token_hint = '{%s}' % (uparam)
-            token = self.module.params[uparam]
+            token = str(self.module.params[uparam])
             the_url = the_url.replace(token_hint, token)
         return the_url
 
@@ -166,7 +215,7 @@ class NAPIManager(object):
             return url_getting
         last_token = url_getting.split('/')[-1]
         second_last_token = url_getting.split('/')[-2]
-        if last_token != '{' + second_last_token + '}':
+        if last_token.replace('-', '_') != '{' + second_last_token.replace('-', '_') + '}':
             raise AssertionError('wrong last_token received')
         return url_getting.replace('{' + second_last_token + '}', str(mvalue))
 
@@ -178,18 +227,16 @@ class NAPIManager(object):
 
     def update_object(self, mvalue):
         url_updating = self._get_base_perobject_url(mvalue)
-        if not self.top_level_schema_name:
-            raise AssertionError('top level schema name MUST NOT be NULL')
-        params = [{'url': url_updating, self.top_level_schema_name: self.__tailor_attributes(self.module.params[self.module_level2_name])}]
+        params = [{'url': url_updating,
+                   'data': self.get_tailor_attributes(self.module.params[self.module_level2_name])}]
         response = self.conn.send_request('update', params)
         return response
 
     def create_objejct(self):
         url_creating = self._get_basic_url(False)
-        if not self.top_level_schema_name:
-            raise AssertionError('top level schema name MUST NOT be NULL')
-        params = [{'url': url_creating, self.top_level_schema_name: self.__tailor_attributes(self.module.params[self.module_level2_name])}]
-        return self.conn.send_request(self._propose_method('set'), params)
+        params = [{'url': url_creating,
+                   'data': self.get_tailor_attributes(self.module.params[self.module_level2_name])}]
+        return self.conn.send_request(self.get_propose_method('set'), params)
 
     def delete_object(self, mvalue):
         url_deleting = self._get_base_perobject_url(mvalue)
@@ -198,11 +245,11 @@ class NAPIManager(object):
 
     def get_system_status(self):
         params = [{'url': '/cli/global/system/status'}]
-        response = self.conn.send_request('get', params)
-        if response[0] == 0:
-            if 'data' not in response[1]:
-                raise AssertionError()
-            return response[1]['data']
+        status_code, response = self.conn.send_request('get', params)
+        if status_code == 0:
+            if 'data' not in response:
+                raise AssertionError('Error when getting system status')
+            return response['data']
         return None
 
     def _compare_subnet(self, object_remote, object_present):
@@ -287,364 +334,177 @@ class NAPIManager(object):
         response = self.conn.send_request(method, param)
         self.do_exit(response)
 
-    def process_exec(self, argument_specs=None):
-        track = [self.module_level2_name]
-        if 'bypass_validation' not in self.module.params or self.module.params['bypass_validation'] is False:
+    def process_exec(self):
+        argument_specs = self.metadata
+        params = self.module.params
+        selector = self.module_level2_name
+        track = [selector]
+        if 'bypass_validation' not in params or params['bypass_validation'] is False:
             self.check_versioning_mismatch(track,
-                                           argument_specs[self.module_level2_name] if self.module_level2_name in argument_specs else None,
-                                           self.module.params[self.module_level2_name] if self.module_level2_name in self.module.params else None)
-        the_url = self.jrpc_urls[0]
-        if 'adom' in self.url_params and not self.jrpc_urls[0].endswith('{adom}'):
-            if self.module.params['adom'] == 'global':
-                for _url in self.jrpc_urls:
-                    if '/global/' in _url:
-                        the_url = _url
-                        break
-            else:
-                for _url in self.jrpc_urls:
-                    if '/adom/{adom}/' in _url:
-                        the_url = _url
-                        break
-        for _param in self.url_params:
-            token_hint = '{%s}' % (_param)
-            token = '%s' % (self.module.params[_param])
-            the_url = the_url.replace(token_hint, token)
+                                           argument_specs[selector] if selector in argument_specs else None,
+                                           params[selector] if selector in params else None)
+        url = self.jrpc_urls[0]  # exec method only have one url
+        for param_name in self.url_params:
+            token_hint = '{%s}' % (param_name)
+            token = str(params[param_name])
+            url = url.replace(token_hint, token)
 
-        api_params = [{'url': the_url}]
-        if self.module_level2_name in self.module.params:
-            if not self.top_level_schema_name:
-                raise AssertionError('top level schema name MUST NOT be NULL')
-            api_params[0][self.top_level_schema_name] = self.__tailor_attributes(self.module.params[self.module_level2_name])
+        api_params = [{'url': url}]
+        if selector in params:  # except sys_logout
+            api_params[0]['data'] = self.get_tailor_attributes(params[selector])
 
         response = self.conn.send_request('exec', api_params)
         self.do_exit(response)
 
-    def __extract_renamed_urls(self, urls):
-        _param_set = list()
-        for url in urls:
-            tokens = url.split('/')
-            if len(tokens) < 2:
-                continue
-            token_2 = tokens[-2]
-            token_1 = tokens[-1]
-            if '{%s}' % (token_2) == token_1 and token_2 not in _param_set:
-                _param_set.append(token_2)
-        return _param_set
-
-    def process_rename(self, metadata):
+    def process_curd(self):
+        argument_specs = self.metadata
         params = self.module.params
-        if params['rename']['selector'] not in metadata:
-            raise AssertionError('unknown selector: %s' % (params['rename']['selector']))
+        selector = self.module_level2_name
+        track = [selector]
+        if 'bypass_validation' not in params or params['bypass_validation'] is False:
+            self.check_versioning_mismatch(track,
+                                           argument_specs[selector] if selector in argument_specs else None,
+                                           params[selector] if selector in params else None)
+        has_mkey = self.module_primary_key is not None and isinstance(params[selector], dict)
+        if has_mkey:
+            mvalue = params[selector][self.module_primary_key]
+            self.do_exit(self._process_with_mkey(mvalue))
+        else:
+            self.do_exit(self._process_without_mkey())
+
+    def process_partial_curd(self):
+        argument_specs = self.metadata
+        params = self.module.params
+        selector = self.module_level2_name
+        url_list = self.jrpc_urls
+        track = [selector]
+        if 'bypass_validation' not in params or params['bypass_validation'] is False:
+            self.check_versioning_mismatch(track,
+                                           argument_specs[selector] if selector in argument_specs else None,
+                                           params[selector] if selector in params else None)
+        
+        # Get real url
+        url = None
+        given_params = set(self.url_params)
+        for possible_url in url_list:
+            required_params = set(self.get_params_in_url(possible_url))
+            if given_params == required_params:
+                url = possible_url
+                break
+        if not url:
+            error_message = 'Given params in self:%s, expect params: ' % (list(given_params))
+            error_message += ', or '.join(['%s' % (self.get_params_in_url(possible_url)) for possible_url in url_list])
+            self.module.fail_json(msg=error_message)
+        for param_name in given_params:
+            token_hint = '{%s}' % (param_name)
+            token = str(params[param_name])
+            url = url.replace(token_hint, token)
+
+        # Send data
+        api_params = [{'url': url}]
+        if selector in params:
+            api_params[0]['data'] = self.get_tailor_attributes(params[selector])
+        response = self.conn.send_request(self.get_propose_method('set'), api_params)
+        self.do_exit(response)
+
+    def process_rename(self):
+        metadata = self.metadata
+        params = self.module.params
         selector = params['rename']['selector']
-        rename_urls = metadata[selector]['urls']
-        rename_mkey = metadata[selector]['mkey']
-        rename_params = metadata[selector]['params']
-        for _url_param in self.__extract_renamed_urls(rename_urls):
-            if _url_param not in rename_params:
-                rename_params.append(_url_param)
-        rename_revisions = metadata[selector]['revision']
-        matched, checking_message = self._version_matched(rename_revisions)
+        url_list = metadata[selector]['urls']
+
+        # Version check
+        revisions = metadata[selector]['revision']
+        matched, checking_message = self._version_matched(revisions)
         if not matched:
             self.version_check_warnings.append('selector:%s %s' % (selector, checking_message))
-        real_params_keys = set()
-        if self.module.params['rename']['self']:
-            real_params_keys = set(self.module.params['rename']['self'].keys())
-        if real_params_keys != set(rename_params):
-            self.module.fail_json(msg='expect params in self:%s, given params:%s' % (list(rename_params), list(real_params_keys)))
+
+        # Mkey check
+        mkey = metadata[selector]['mkey']
+        if mkey and mkey not in params['rename']['target']:
+            self.module.fail_json(msg='Must give the primary key/value in target: %s!' % (mkey))
+
+        # Get real url
         url = None
-        if 'adom' in rename_params and not rename_urls[0].endswith('{adom}'):
-            if params['rename']['self']['adom'] == 'global':
-                for _url in rename_urls:
-                    if '/global/' in _url:
-                        url = _url
-                        break
-            else:
-                for _url in rename_urls:
-                    if '/adom/{adom}/' in _url:
-                        url = _url
-                        break
-        else:
-            url = rename_urls[0]
+        given_params = set()
+        if params['rename']['self']:
+            given_params = set(params['rename']['self'].keys())
+        for possible_url in url_list:
+            required_params = set(self.get_params_in_url(possible_url))
+            if given_params == required_params:
+                url = possible_url
+                break
         if not url:
-            self.module.fail_json(msg='can not find url in following sets:%s! please check params: adom' % (rename_urls))
-        _param_applied = list()
-        for _param in rename_params:
-            token_hint = '/%s/{%s}' % (_param, _param)
-            token = '/%s/%s' % (_param, params['rename']['self'][_param])
-            if token_hint in url:
-                _param_applied.append(_param)
+            error_message = 'Given params in self:%s, expect params: ' % (list(given_params))
+            error_message += ', or '.join(['%s' % (self.get_params_in_url(possible_url)) for possible_url in url_list])
+            self.module.fail_json(msg=error_message)
+        for param_name in given_params:
+            token_hint = '{%s}' % (param_name)
+            token = str(params['rename']['self'][param_name])
             url = url.replace(token_hint, token)
-        for _param in rename_params:
-            if _param in _param_applied:
-                continue
-            token_hint = '{%s}' % (_param)
-            token = params['rename']['self'][_param]
-            url = url.replace(token_hint, token)
-        if rename_mkey and rename_mkey not in params['rename']['target']:
-            self.module.fail_json(msg='Must give the primary key/value in target: %s!' % (rename_mkey))
+
+        # Send data
         api_params = [{'url': url,
                        'data': params['rename']['target']}]
         response = self.conn.send_request('update', api_params)
         self.do_exit(response)
 
-    def process_clone(self, metadata):
-        if self.module.params['clone']['selector'] not in metadata:
-            raise AssertionError('selector is expected in parameters')
-        selector = self.module.params['clone']['selector']
-        clone_params_schema = metadata[selector]['params']
-        clone_urls = metadata[selector]['urls']
-        clone_revisions = metadata[selector]['revision']
-        matched, checking_message = self._version_matched(clone_revisions)
+    def process_fact(self):
+        metadata = self.metadata
+        params = self.module.params
+        selector = params['facts']['selector']
+        url_list = metadata[selector]['urls']
+
+        # Version check
+        revisions = metadata[selector]['revision']
+        matched, checking_message = self._version_matched(revisions)
         if not matched:
             self.version_check_warnings.append('selector:%s %s' % (selector, checking_message))
-        real_params_keys = set()
-        if self.module.params['clone']['self']:
-            real_params_keys = set(self.module.params['clone']['self'].keys())
-        if real_params_keys != set(clone_params_schema):
-            self.module.fail_json(msg='expect params in self:%s, given params:%s' % (list(clone_params_schema), list(real_params_keys)))
+
+        # Get real url
         url = None
-        if 'adom' in clone_params_schema and not clone_urls[0].endswith('{adom}'):
-            if self.module.params['clone']['self']['adom'] == 'global':
-                for _url in clone_urls:
-                    if '/global/' in _url:
-                        url = _url
-                        break
-            else:
-                for _url in clone_urls:
-                    if '/adom/{adom}/' in _url:
-                        url = _url
-                        break
-        else:
-            url = clone_urls[0]
+        given_params = set()
+        if params['facts']['params']:
+            given_params = set(params['facts']['params'].keys())
+        for possible_url in url_list:
+            required_params = set(self.get_params_in_url(possible_url))
+            if given_params == required_params:
+                url = possible_url
+                break
         if not url:
-            self.module.fail_json(msg='can not find url in following sets:%s! please check params: adom' % (clone_urls))
-        _param_applied = list()
-        for _param in clone_params_schema:
-            token_hint = '/%s/{%s}' % (_param, _param)
-            token = '/%s/%s' % (_param, self.module.params['clone']['self'][_param])
-            if token_hint in url:
-                _param_applied.append(_param)
-            url = url.replace(token_hint, token)
-        for _param in clone_params_schema:
-            if _param in _param_applied:
-                continue
-            token_hint = '{%s}' % (_param)
-            token = self.module.params['clone']['self'][_param]
+            error_message = 'Given params: %s, expect params: ' % (list(given_params))
+            error_message += ', or '.join(['%s' % (self.get_params_in_url(possible_url)) for possible_url in url_list])
+            self.module.fail_json(msg=error_message)
+        for param_name in given_params:
+            token_hint = '{%s}' % (param_name)
+            token = str(params['facts']['params'][param_name])
             url = url.replace(token_hint, token)
 
-        mkey = metadata[selector]['mkey']
-        if mkey and mkey not in self.module.params['clone']['target']:
-            self.module.fail_json(msg='Must give the primary key/value in target: %s!' % (mkey))
-        api_params = [{'url': url,
-                       'data': self.module.params['clone']['target']}]
-        response = self.conn.send_request('clone', api_params)
-        self.do_exit(response)
-
-    def process_move(self, metadata):
-        if self.module.params['move']['selector'] not in metadata:
-            raise AssertionError('selector is expected in parameters')
-        selector = self.module.params['move']['selector']
-        move_params = metadata[selector]['params']
-        move_urls = metadata[selector]['urls']
-        move_revisions = metadata[selector]['revision']
-        matched, checking_message = self._version_matched(move_revisions)
-        if not matched:
-            self.version_check_warnings.append('selector:%s %s' % (selector, checking_message))
-        if not len(move_urls):
-            raise AssertionError('unexpected move urls set')
-        real_params_keys = set()
-        if self.module.params['move']['self']:
-            real_params_keys = set(self.module.params['move']['self'].keys())
-        if real_params_keys != set(move_params):
-            self.module.fail_json(msg='expect params in self:%s, given params:%s' % (list(move_params), list(real_params_keys)))
-
-        url = None
-        if 'adom' in move_params and not move_urls[0].endswith('{adom}'):
-            if self.module.params['move']['self']['adom'] == 'global':
-                for _url in move_urls:
-                    if '/global/' in _url:
-                        url = _url
-                        break
-            else:
-                for _url in move_urls:
-                    if '/adom/{adom}/' in _url:
-                        url = _url
-                        break
-        else:
-            url = move_urls[0]
-        if not url:
-            self.module.fail_json(msg='can not find url in following sets:%s! please check params: adom' % (move_urls))
-        _param_applied = list()
-        for _param in move_params:
-            token_hint = '/%s/{%s}' % (_param, _param)
-            token = '/%s/%s' % (_param, self.module.params['move']['self'][_param])
-            if token_hint in url:
-                _param_applied.append(_param)
-            url = url.replace(token_hint, token)
-        for _param in move_params:
-            if _param in _param_applied:
-                continue
-            token_hint = '{%s}' % (_param)
-            token = self.module.params['move']['self'][_param]
-            url = url.replace(token_hint, token)
-
-        api_params = [{'url': url,
-                       'option': self.module.params['move']['action'],
-                       'target': self.module.params['move']['target']}]
-        response = self.conn.send_request('move', api_params)
-        self.do_exit(response)
-
-    def process_fact(self, metadata):
-        if self.module.params['facts']['selector'] not in metadata:
-            raise AssertionError('selector is expected in parameters')
-        selector = self.module.params['facts']['selector']
-        fact_params = metadata[selector]['params']
-        fact_urls = metadata[selector]['urls']
-        fact_revisions = metadata[selector]['revision']
-        matched, checking_message = self._version_matched(fact_revisions)
-        if not matched:
-            self.version_check_warnings.append('selector:%s %s' % (selector, checking_message))
-        if not len(fact_urls):
-            raise AssertionError('unexpected fact urls set')
-        real_params_keys = set()
-        if self.module.params['facts']['params']:
-            real_params_keys = set(self.module.params['facts']['params'].keys())
-        if real_params_keys != set(fact_params):
-            self.module.fail_json(msg='expect params:%s, given params:%s' % (list(fact_params), list(real_params_keys)))
-        url = None
-        if 'adom' in fact_params and not fact_urls[0].endswith('{adom}'):
-            if self.module.params['facts']['params']['adom'] == 'global':
-                for _url in fact_urls:
-                    if '/global/' in _url:
-                        url = _url
-                        break
-            elif self.module.params['facts']['params']['adom'] != '' and self.module.params['facts']['params']['adom'] is not None:
-                for _url in fact_urls:
-                    if '/adom/{adom}/' in _url:
-                        url = _url
-                        # url = _url.replace('/adom/{adom}/', '/adom/%s/' % (self.module.params['facts']['params']['adom']))
-                        break
-            else:
-                # choose default URL which is for all domains
-                for _url in fact_urls:
-                    if '/global/' not in _url and '/adom/{adom}/' not in _url:
-                        url = _url
-                        break
-        else:
-            url = fact_urls[0]
-        if not url:
-            self.module.fail_json(msg='can not find url in following sets:%s! please check params: adom' % (fact_urls))
-        _param_applied = list()
-        for _param in fact_params:
-            _the_param = self.module.params['facts']['params'][_param]
-            if self.module.params['facts']['params'][_param] is None:
-                _the_param = ''
-            token_hint = '/%s/{%s}' % (_param, _param)
-            token = '/%s/%s' % (_param, _the_param)
-            if token_hint in url:
-                _param_applied.append(_param)
-            url = url.replace(token_hint, token)
-        for _param in fact_params:
-            if _param in _param_applied:
-                continue
-            token_hint = '{%s}' % (_param)
-            token = self.module.params['facts']['params'][_param] if self.module.params['facts']['params'][_param] else ''
-            url = url.replace(token_hint, token)
-        # Other Filters and Sorters
-        filters = self.module.params['facts']['filter']
-        sortings = self.module.params['facts']['sortings']
-        fields = self.module.params['facts']['fields']
-        options = self.module.params['facts']['option']
-
+        # Send data
         api_params = [{'url': url}]
-        if filters:
-            api_params[0]['filter'] = filters
-        if sortings:
-            api_params[0]['sortings'] = sortings
-        if fields:
-            api_params[0]['fields'] = fields
-        if options:
-            api_params[0]['option'] = options
-
-        # Now issue the request.
+        for key in ['filter', 'sortings', 'fields', 'option']:
+            if params['facts'][key]:
+                api_params[0][key] = params['facts'][key]
         response = self.conn.send_request('get', api_params)
-        self.do_exit(response)
+        self.do_exit(response, changed=False)
 
-    def process_curd(self, argument_specs=None):
-        if 'state' not in self.module.params:
-            raise AssertionError('parameter state is expected')
-        track = [self.module_level2_name]
-        if 'bypass_validation' not in self.module.params or self.module.params['bypass_validation'] is False:
-            self.check_versioning_mismatch(track,
-                                           argument_specs[self.module_level2_name] if self.module_level2_name in argument_specs else None,
-                                           self.module.params[self.module_level2_name] if self.module_level2_name in self.module.params else None)
-        has_mkey = self.module_primary_key is not None and type(self.module.params[self.module_level2_name]) is dict
-        if has_mkey:
-            mvalue = ''
-            if self.module_primary_key.startswith('complex:'):
-                mvalue_exec_string = self.module_primary_key[len('complex:'):]
-                mvalue_exec_string = mvalue_exec_string.replace('{{module}}', 'self.module.params[self.module_level2_name]')
-                # mvalue_exec_string = 'mvalue = %s' % (mvalue_exec_string)
-                # exec(mvalue_exec_string)
-                # On Windows Platform, exec() call doesn't take effect.
-                mvalue = eval(mvalue_exec_string)
-            else:
-                mvalue = self.module.params[self.module_level2_name][self.module_primary_key]
-            self.do_exit(self._process_with_mkey(mvalue))
-        else:
-            self.do_exit(self._process_without_mkey())
-
-    def __tailor_attributes(self, data):
-        if type(data) == dict:
-            rdata = dict()
-            for key in data:
-                value = data[key]
+    def get_tailor_attributes(self, data):
+        if isinstance(data, dict):
+            return_data = dict()
+            for param_name, value in data.items():
                 if value is None:
                     continue
-                rdata[key] = self.__tailor_attributes(value)
-            return rdata
-        elif type(data) == list:
-            rdata = list()
+                return_data[param_name] = self.get_tailor_attributes(value)
+            return return_data
+        elif isinstance(data, list):
+            return_data = list()
             for item in data:
-                if item is None:
-                    continue
-                rdata.append(self.__tailor_attributes(item))
-            return rdata
+                return_data.append(self.get_tailor_attributes(item))
+            return return_data
         else:
             if data is None:
                 raise AssertionError('data is expected to be not none')
             return data
-
-    def process_partial_curd(self, argument_specs=None):
-        track = [self.module_level2_name]
-        if 'bypass_validation' not in self.module.params or self.module.params['bypass_validation'] is False:
-            self.check_versioning_mismatch(track,
-                                           argument_specs[self.module_level2_name] if self.module_level2_name in argument_specs else None,
-                                           self.module.params[self.module_level2_name] if self.module_level2_name in self.module.params else None)
-        the_url = self.jrpc_urls[0]
-        if 'adom' in self.url_params and not self.jrpc_urls[0].endswith('{adom}'):
-            if self.module.params['adom'] == 'global':
-                for _url in self.jrpc_urls:
-                    if '/global/' in _url:
-                        the_url = _url
-                        break
-            else:
-                for _url in self.jrpc_urls:
-                    if '/adom/{adom}/' in _url:
-                        the_url = _url
-                        break
-        for _param in self.url_params:
-            token_hint = '{%s}' % (_param)
-            token = '%s' % (self.module.params[_param])
-            the_url = the_url.replace(token_hint, token)
-        the_url = the_url.rstrip('/')
-        api_params = [{'url': the_url}]
-        if self.module_level2_name in self.module.params:
-            if not self.top_level_schema_name:
-                raise AssertionError('top level schem name is not supposed to be empty')
-            api_params[0][self.top_level_schema_name] = self.__tailor_attributes(self.module.params[self.module_level2_name])
-        response = self.conn.send_request(self._propose_method('set'), api_params)
-        self.do_exit(response)
 
     def check_versioning_mismatch(self, track, schema, params):
         if not params or not schema:
@@ -654,9 +514,7 @@ class NAPIManager(object):
 
         matched, checking_message = self._version_matched(revisions)
         if not matched:
-            param_path = track[0]
-            for _param in track[1:]:
-                param_path += '-->%s' % (_param)
+            param_path = '-->'.join(track)
             self.version_check_warnings.append('param: %s %s' % (param_path, checking_message))
         if param_type == 'dict' and 'options' in schema:
             if type(params) is not dict:
@@ -705,11 +563,10 @@ class NAPIManager(object):
                     # assert blob['fail_action'] == 'quit':
                     self.module.fail_json(msg=blob['hint_message'])
 
-    def _do_final_exit(self, rc, result):
+    def _do_final_exit(self, rc, result, changed=True):
         # XXX: as with https://github.com/fortinet/ansible-fortimanager-generic.
         # the failing conditions priority: failed_when > rc_failed > rc_succeeded.
         failed = rc != 0
-        changed = rc == 0
 
         if 'response_code' not in result:
             raise AssertionError('response_code should be in result')
@@ -745,15 +602,12 @@ class NAPIManager(object):
         result['response_message'] = 'object not exist'
         self._do_final_exit(rc, result)
 
-    def do_exit(self, response):
-        rc = response[0]
+    def do_exit(self, response, changed=True):
+        rc, response_data = response
         result = dict()
-        result['response_data'] = list()
-        if 'data' in response[1]:
-            result['response_data'] = response[1]['data']
-        result['response_code'] = response[1]['status']['code']
-        result['response_message'] = response[1]['status']['message']
-        if 'url' in response[1]:
-            result['request_url'] = response[1]['url']
+        result['request_url'] = response_data['url'] if 'url' in response_data else ''
+        result['response_code'] = response_data['status']['code']
+        result['response_data'] = response_data['data'] if 'data' in response_data else list()
+        result['response_message'] = response_data['status']['message']
         # XXX:Do further status mapping
-        self._do_final_exit(rc, result)
+        self._do_final_exit(rc, result, changed=changed)
