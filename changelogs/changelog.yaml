@@ -7,7 +7,7 @@ releases:
       - Full FortiAnalyzer JRPC URLs coverage (more than 170 modules).
       release_summary: FortiAnalyzer Base Release
     fragments:
-    - release_1.0.1.yaml
+    - 1.0.1.yaml
     release_date: '2022-11-08'
   1.0.2:
     changes:
@@ -17,7 +17,7 @@ releases:
       - Supported Ansible Changelogs.
       release_summary: Minor release of FortiAnalyzer Ansible Collection 1.0.2
     fragments:
-    - release_1.0.2.yaml
+    - 1.0.2.yaml
     release_date: '2022-11-08'
   1.0.3:
     changes:
@@ -27,7 +27,7 @@ releases:
       - update python and ansible requirement in top-level README.
       release_summary: Release 1.0.3 for Automation Hub.
     fragments:
-    - release_1.0.3.yaml
+    - 1.0.3.yaml
     release_date: '2022-11-21'
   1.1.0:
     changes:
@@ -45,4 +45,16 @@ releases:
       release_summary: Release 1.1.0 to support all FortiAnalyzer versions in 6.2,
         6.4, 7.0 and 7.2.
     fragments:
-    - release_1.1.0.yaml
+    - 1.1.0.yaml
+    release_date: '2023-05-24'
+  1.2.0:
+    changes:
+      minor_changes:
+      - Support IAM access token login method.
+      - Support fortianalyzer cloud.     
+      - Support Fortianalyze v7.4, 1 new modules, faz_cli_system_socfabric_trustedlist.
+      release_summary: Update FortiAnalyzer Ansible to support FortiAnalyzer v7.4.
+        Support fortianalyzer cloud and IAM access token login method.
+    fragments:
+    - 1.2.0.yml
+    release_date: '2023-08-11'

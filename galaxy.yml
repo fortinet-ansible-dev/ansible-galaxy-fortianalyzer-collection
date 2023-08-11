@@ -9,7 +9,7 @@ namespace: fortinet
 name: fortianalyzer
 
 # The version of the collection. Must be compatible with semantic versioning
-version: 1.1.0
+version: 1.2.0
 
 # The path to the Markdown (.md) readme file. This path is relative to the root of the collection
 readme: README.md
@@ -51,10 +51,10 @@ dependencies: {
 }
 
 # The URL of the originating SCM repository
-repository: https://github.com/fortinet-ansible-dev/ansible-galaxy-fortianalyzer-collection/tree/galaxy/1.1.0
+repository: https://github.com/fortinet-ansible-dev/ansible-galaxy-fortianalyzer-collection
 
 # The URL to any online docs
-documentation: https://ansible-galaxy-fortianalyzer-docs.readthedocs.io/en/galaxy-1.1.0
+documentation: https://ansible-galaxy-fortianalyzer-docs.readthedocs.io/en/latest
 
 # The URL to the homepage of the collection/project
 homepage: https://fortinet.com
@@ -67,3 +67,6 @@ issues: https://github.com/fortinet-ansible-dev/ansible-galaxy-fortianalyzer-col
 # uses 'fnmatch' to match the files or directories. Some directories and files like 'galaxy.yml', '*.pyc', '*.retry',
 # and '.git' are always filtered
   
+build_ignore:
+  - "changelogs"
+  - "tests"

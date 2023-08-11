@@ -47,11 +47,19 @@ notes:
     - method and params should be specified by users if 'json' is not present
     - if all three parameters are provided, the 'json' is preferred.
 options:
+    access_token:
+        description: The token to access FortiManager without using username and password.
+        required: false
+        type: str
     enable_log:
         description: Enable/Disable logging for task
         required: false
         type: bool
         default: false
+    forticloud_access_token:
+        description: Authenticate Ansible client with forticloud API access token.
+        required: false
+        type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
@@ -70,15 +78,6 @@ options:
         type: list
         elements: int
         required: false
-    workspace_locking_adom:
-        description: no description
-        type: str
-        required: false
-    workspace_locking_timeout:
-        description: no description
-        type: int
-        required: false
-        default: 300
     method:
         description:
             - the method of the json-rpc
@@ -182,26 +181,26 @@ import json
 
 
 def main():
-
     module_arg_spec = {
+        'access_token': {
+            'type': 'str',
+            'required': False,
+            'no_log': True
+        },
         'enable_log': {
             'type': 'bool',
             'required': False,
             'default': False
         },
+        'forticloud_access_token': {
+            'type': 'str',
+            'required': False,
+            'no_log': True
+        },
         'log_path': {
             'type': 'str',
             'required': False,
             'default': '/tmp/fortianalyzer.ansible.log'
-        },
-        'workspace_locking_adom': {
-            'type': 'str',
-            'required': False
-        },
-        'workspace_locking_timeout': {
-            'type': 'int',
-            'required': False,
-            'default': 300
         },
         'rc_succeeded': {
             'required': False,
@@ -233,7 +232,9 @@ def main():
     if not module._socket_path:
         module.fail_json(msg='Only Httpapi plugin is supported in this module.')
     connection = Connection(module._socket_path)
+    connection.set_option('access_token', module.params['access_token'])
     connection.set_option('enable_log', module.params['enable_log'])
+    connection.set_option('forticloud_access_token', module.params['forticloud_access_token'])
     connection.set_option('log_path', module.params['log_path'])
     fmgr = NAPIManager(None, None, None, None, module, connection)
     method = None

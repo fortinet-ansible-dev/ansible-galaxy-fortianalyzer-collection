@@ -5,6 +5,21 @@ Fortinet.Fortianalyzer Release Notes
 .. contents:: Topics
 
 
+v1.2.0
+======
+
+Release Summary
+---------------
+
+Update FortiAnalyzer Ansible to support FortiAnalyzer v7.4. Support fortianalyzer cloud and IAM access token login method.
+
+Minor Changes
+-------------
+
+- Support IAM access token login method.
+- Support fortianalyzer cloud.
+- Support Fortianalyze v7.4, 1 new modules, faz_cli_system_socfabric_trustedlist.
+
 v1.1.0
 ======
 

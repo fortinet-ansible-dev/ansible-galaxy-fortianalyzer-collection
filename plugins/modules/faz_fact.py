@@ -37,16 +37,22 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - Running in workspace locking mode is supported in this FortiAnalyzer module, the top
-      level parameters workspace_locking_adom and workspace_locking_timeout help do the work.
     - Normally, running one module can fail when a non-zero rc is returned. you can also override
       the conditions to fail or succeed with parameters rc_failed and rc_succeeded
 options:
+    access_token:
+        description: The token to access FortiManager without using username and password.
+        required: false
+        type: str
     enable_log:
         description: Enable/Disable logging for task
         required: false
         type: bool
         default: false
+    forticloud_access_token:
+        description: Access token of FortiCloud managed API users, this option is available with FortiManager later than 6.4.0.
+        required: false
+        type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
@@ -55,15 +61,6 @@ options:
         required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
-    workspace_locking_adom:
-        description: the adom to lock for FortiAnalyzer running in workspace mode, the value can be global and others including root
-        required: false
-        type: str
-    workspace_locking_timeout:
-        description: the maximum time in seconds to wait for other user to release the workspace lock
-        required: false
-        type: int
-        default: 300
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
@@ -226,6 +223,7 @@ options:
                     - 'cli_system_snmp_sysinfo'
                     - 'cli_system_snmp_user'
                     - 'cli_system_socfabric'
+                    - 'cli_system_socfabric_trustedlist'
                     - 'cli_system_sql'
                     - 'cli_system_sql_customindex'
                     - 'cli_system_sql_customskipidx'
@@ -302,6 +300,7 @@ options:
                     - 'ueba_endpoints_stats'
                     - 'ueba_endusers'
                     - 'ueba_endusers_stats'
+                    - 'ueba_otview'
             fields:
                 required: false
                 description: Field filtering expression list.
@@ -324,6 +323,10 @@ options:
             params:
                 required: false
                 description: The specific parameters for each different selector.
+                type: dict
+            extra_params:
+                required: false
+                description: Extra parameters for each different selector.
                 type: dict
 '''
 
@@ -440,5489 +443,1994 @@ def main():
             'urls': [
                 '/cli/global/fmupdate/analyzer/virusreport'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_avips_advancedlog': {
             'urls': [
                 '/cli/global/fmupdate/av-ips/advanced-log'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_avips_webproxy': {
             'urls': [
                 '/cli/global/fmupdate/av-ips/web-proxy'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_customurllist': {
             'urls': [
                 '/cli/global/fmupdate/custom-url-list'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_diskquota': {
             'urls': [
                 '/cli/global/fmupdate/disk-quota'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_fctservices': {
             'urls': [
                 '/cli/global/fmupdate/fct-services'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_fdssetting': {
             'urls': [
                 '/cli/global/fmupdate/fds-setting'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_fdssetting_pushoverride': {
             'urls': [
                 '/cli/global/fmupdate/fds-setting/push-override'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_fdssetting_pushoverridetoclient': {
             'urls': [
                 '/cli/global/fmupdate/fds-setting/push-override-to-client'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_fdssetting_pushoverridetoclient_announceip': {
             'urls': [
                 '/cli/global/fmupdate/fds-setting/push-override-to-client/announce-ip',
                 '/cli/global/fmupdate/fds-setting/push-override-to-client/announce-ip/{announce-ip}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_fdssetting_serveroverride': {
             'urls': [
                 '/cli/global/fmupdate/fds-setting/server-override'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_fdssetting_serveroverride_servlist': {
             'urls': [
                 '/cli/global/fmupdate/fds-setting/server-override/servlist',
                 '/cli/global/fmupdate/fds-setting/server-override/servlist/{servlist}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_fdssetting_updateschedule': {
             'urls': [
                 '/cli/global/fmupdate/fds-setting/update-schedule'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_fwmsetting': {
             'urls': [
                 '/cli/global/fmupdate/fwm-setting'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_fwmsetting_upgradetimeout': {
             'urls': [
                 '/cli/global/fmupdate/fwm-setting/upgrade-timeout'
             ],
-            'revision': {
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '7.0.5', '7.0.6', '7.0.7', '7.0.8', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'cli_fmupdate_multilayer': {
             'urls': [
                 '/cli/global/fmupdate/multilayer'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_publicnetwork': {
             'urls': [
                 '/cli/global/fmupdate/publicnetwork'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_serveraccesspriorities': {
             'urls': [
                 '/cli/global/fmupdate/server-access-priorities'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_serveraccesspriorities_privateserver': {
             'urls': [
                 '/cli/global/fmupdate/server-access-priorities/private-server',
                 '/cli/global/fmupdate/server-access-priorities/private-server/{private-server}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_serveroverridestatus': {
             'urls': [
                 '/cli/global/fmupdate/server-override-status'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_service': {
             'urls': [
                 '/cli/global/fmupdate/service'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_webspam_fgdsetting': {
             'urls': [
                 '/cli/global/fmupdate/web-spam/fgd-setting'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_webspam_fgdsetting_serveroverride': {
             'urls': [
                 '/cli/global/fmupdate/web-spam/fgd-setting/server-override'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_webspam_fgdsetting_serveroverride_servlist': {
             'urls': [
                 '/cli/global/fmupdate/web-spam/fgd-setting/server-override/servlist',
                 '/cli/global/fmupdate/web-spam/fgd-setting/server-override/servlist/{servlist}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_fmupdate_webspam_webproxy': {
             'urls': [
                 '/cli/global/fmupdate/web-spam/web-proxy'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_metafields_system_admin_user': {
             'urls': [
                 '/cli/global/_meta_fields/system/admin/user'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_admin_group': {
             'urls': [
                 '/cli/global/system/admin/group',
                 '/cli/global/system/admin/group/{group}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_admin_group_member': {
             'urls': [
                 '/cli/global/system/admin/group/{group}/member',
                 '/cli/global/system/admin/group/{group}/member/{member}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_admin_ldap': {
             'urls': [
                 '/cli/global/system/admin/ldap',
                 '/cli/global/system/admin/ldap/{ldap}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_admin_ldap_adom': {
             'urls': [
                 '/cli/global/system/admin/ldap/{ldap}/adom',
                 '/cli/global/system/admin/ldap/{ldap}/adom/{adom}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_admin_profile': {
             'urls': [
                 '/cli/global/system/admin/profile',
                 '/cli/global/system/admin/profile/{profile}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_admin_profile_datamaskcustomfields': {
             'urls': [
                 '/cli/global/system/admin/profile/{profile}/datamask-custom-fields',
                 '/cli/global/system/admin/profile/{profile}/datamask-custom-fields/{datamask-custom-fields}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_admin_radius': {
             'urls': [
                 '/cli/global/system/admin/radius',
                 '/cli/global/system/admin/radius/{radius}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_admin_setting': {
             'urls': [
                 '/cli/global/system/admin/setting'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_admin_tacacs': {
             'urls': [
                 '/cli/global/system/admin/tacacs',
                 '/cli/global/system/admin/tacacs/{tacacs}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_admin_user': {
             'urls': [
                 '/cli/global/system/admin/user',
                 '/cli/global/system/admin/user/{user}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_admin_user_adom': {
             'urls': [
                 '/cli/global/system/admin/user/{user}/adom',
                 '/cli/global/system/admin/user/{user}/adom/{adom}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_admin_user_adomexclude': {
             'urls': [
                 '/cli/global/system/admin/user/{user}/adom-exclude',
                 '/cli/global/system/admin/user/{user}/adom-exclude/{adom-exclude}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2'
+            ],
         },
         'cli_system_admin_user_dashboard': {
             'urls': [
                 '/cli/global/system/admin/user/{user}/dashboard',
                 '/cli/global/system/admin/user/{user}/dashboard/{dashboard}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_admin_user_dashboardtabs': {
             'urls': [
                 '/cli/global/system/admin/user/{user}/dashboard-tabs',
                 '/cli/global/system/admin/user/{user}/dashboard-tabs/{dashboard-tabs}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_admin_user_metadata': {
             'urls': [
                 '/cli/global/system/admin/user/{user}/meta-data',
                 '/cli/global/system/admin/user/{user}/meta-data/{meta-data}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_admin_user_policypackage': {
             'urls': [
                 '/cli/global/system/admin/user/{user}/policy-package',
                 '/cli/global/system/admin/user/{user}/policy-package/{policy-package}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_admin_user_restrictdevvdom': {
             'urls': [
                 '/cli/global/system/admin/user/{user}/restrict-dev-vdom',
                 '/cli/global/system/admin/user/{user}/restrict-dev-vdom/{restrict-dev-vdom}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3'
+            ],
         },
         'cli_system_alertconsole': {
             'urls': [
                 '/cli/global/system/alert-console'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_alertemail': {
             'urls': [
                 '/cli/global/system/alertemail'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_alertevent': {
             'urls': [
                 '/cli/global/system/alert-event',
                 '/cli/global/system/alert-event/{alert-event}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_alertevent_alertdestination': {
             'urls': [
                 '/cli/global/system/alert-event/{alert-event}/alert-destination',
                 '/cli/global/system/alert-event/{alert-event}/alert-destination/{alert-destination}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_autodelete': {
             'urls': [
                 '/cli/global/system/auto-delete'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_autodelete_dlpfilesautodeletion': {
             'urls': [
                 '/cli/global/system/auto-delete/dlp-files-auto-deletion'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_autodelete_logautodeletion': {
             'urls': [
                 '/cli/global/system/auto-delete/log-auto-deletion'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_autodelete_quarantinefilesautodeletion': {
             'urls': [
                 '/cli/global/system/auto-delete/quarantine-files-auto-deletion'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_autodelete_reportautodeletion': {
             'urls': [
                 '/cli/global/system/auto-delete/report-auto-deletion'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_backup_allsettings': {
             'urls': [
                 '/cli/global/system/backup/all-settings'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_centralmanagement': {
             'urls': [
                 '/cli/global/system/central-management'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_certificate_ca': {
             'urls': [
                 '/cli/global/system/certificate/ca',
                 '/cli/global/system/certificate/ca/{ca}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_certificate_crl': {
             'urls': [
                 '/cli/global/system/certificate/crl',
                 '/cli/global/system/certificate/crl/{crl}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_certificate_local': {
             'urls': [
                 '/cli/global/system/certificate/local',
                 '/cli/global/system/certificate/local/{local}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_certificate_oftp': {
             'urls': [
                 '/cli/global/system/certificate/oftp'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_certificate_remote': {
             'urls': [
                 '/cli/global/system/certificate/remote',
                 '/cli/global/system/certificate/remote/{remote}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_certificate_ssh': {
             'urls': [
                 '/cli/global/system/certificate/ssh',
                 '/cli/global/system/certificate/ssh/{ssh}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_connector': {
             'urls': [
                 '/cli/global/system/connector'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_dns': {
             'urls': [
                 '/cli/global/system/dns'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_docker': {
             'urls': [
                 '/cli/global/system/docker'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.4.1', '6.4.2', '6.4.3', '6.4.4', '6.4.5', '6.4.6',
+                '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11', '6.4.12', '7.0.0',
+                '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7',
+                '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'cli_system_fips': {
             'urls': [
                 '/cli/global/system/fips'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_fortiview_autocache': {
             'urls': [
                 '/cli/global/system/fortiview/auto-cache'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_fortiview_setting': {
             'urls': [
                 '/cli/global/system/fortiview/setting'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_global': {
             'urls': [
                 '/cli/global/system/global'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_guiact': {
             'urls': [
                 '/cli/global/system/guiact'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_ha': {
             'urls': [
                 '/cli/global/system/ha'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_ha_peer': {
             'urls': [
                 '/cli/global/system/ha/peer',
                 '/cli/global/system/ha/peer/{peer}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_ha_privatepeer': {
             'urls': [
                 '/cli/global/system/ha/private-peer',
                 '/cli/global/system/ha/private-peer/{private-peer}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_ha_vip': {
             'urls': [
                 '/cli/global/system/ha/vip',
                 '/cli/global/system/ha/vip/{vip}'
             ],
-            'revision': {
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '7.0.5', '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2',
+                '7.2.3', '7.4.0'
+            ],
         },
         'cli_system_interface': {
             'urls': [
                 '/cli/global/system/interface',
                 '/cli/global/system/interface/{interface}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_interface_ipv6': {
             'urls': [
                 '/cli/global/system/interface/{interface}/ipv6'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_interface_member': {
             'urls': [
                 '/cli/global/system/interface/{interface}/member',
                 '/cli/global/system/interface/{interface}/member/{member}'
             ],
-            'revision': {
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.4.9', '6.4.10', '6.4.11', '6.4.12', '7.0.0', '7.0.1', '7.0.2',
+                '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7', '7.0.8', '7.2.0',
+                '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'cli_system_localinpolicy': {
             'urls': [
                 '/cli/global/system/local-in-policy',
                 '/cli/global/system/local-in-policy/{local-in-policy}'
             ],
-            'revision': {
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '7.2.0', '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'cli_system_localinpolicy6': {
             'urls': [
                 '/cli/global/system/local-in-policy6',
                 '/cli/global/system/local-in-policy6/{local-in-policy6}'
             ],
-            'revision': {
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '7.2.0', '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'cli_system_locallog_disk_filter': {
             'urls': [
                 '/cli/global/system/locallog/disk/filter'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_locallog_disk_setting': {
             'urls': [
                 '/cli/global/system/locallog/disk/setting'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_locallog_fortianalyzer2_filter': {
             'urls': [
                 '/cli/global/system/locallog/fortianalyzer2/filter'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_locallog_fortianalyzer2_setting': {
             'urls': [
                 '/cli/global/system/locallog/fortianalyzer2/setting'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_locallog_fortianalyzer3_filter': {
             'urls': [
                 '/cli/global/system/locallog/fortianalyzer3/filter'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_locallog_fortianalyzer3_setting': {
             'urls': [
                 '/cli/global/system/locallog/fortianalyzer3/setting'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_locallog_fortianalyzer_filter': {
             'urls': [
                 '/cli/global/system/locallog/fortianalyzer/filter'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_locallog_fortianalyzer_setting': {
             'urls': [
                 '/cli/global/system/locallog/fortianalyzer/setting'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_locallog_memory_filter': {
             'urls': [
                 '/cli/global/system/locallog/memory/filter'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_locallog_memory_setting': {
             'urls': [
                 '/cli/global/system/locallog/memory/setting'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_locallog_setting': {
             'urls': [
                 '/cli/global/system/locallog/setting'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_locallog_syslogd2_filter': {
             'urls': [
                 '/cli/global/system/locallog/syslogd2/filter'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_locallog_syslogd2_setting': {
             'urls': [
                 '/cli/global/system/locallog/syslogd2/setting'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_locallog_syslogd3_filter': {
             'urls': [
                 '/cli/global/system/locallog/syslogd3/filter'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_locallog_syslogd3_setting': {
             'urls': [
                 '/cli/global/system/locallog/syslogd3/setting'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_locallog_syslogd_filter': {
             'urls': [
                 '/cli/global/system/locallog/syslogd/filter'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_locallog_syslogd_setting': {
             'urls': [
                 '/cli/global/system/locallog/syslogd/setting'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_log_alert': {
             'urls': [
                 '/cli/global/system/log/alert'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_log_devicedisable': {
             'urls': [
                 '/cli/global/system/log/device-disable',
                 '/cli/global/system/log/device-disable/{device-disable}'
             ],
-            'revision': {
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.4.4', '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10',
+                '6.4.11', '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4',
+                '7.0.5', '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2',
+                '7.2.3', '7.4.0'
+            ],
         },
         'cli_system_log_fospolicystats': {
             'urls': [
                 '/cli/global/system/log/fos-policy-stats'
             ],
-            'revision': {
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '7.0.2', '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7', '7.0.8',
+                '7.2.0', '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'cli_system_log_interfacestats': {
             'urls': [
                 '/cli/global/system/log/interface-stats'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_log_ioc': {
             'urls': [
                 '/cli/global/system/log/ioc'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_log_maildomain': {
             'urls': [
                 '/cli/global/system/log/mail-domain',
                 '/cli/global/system/log/mail-domain/{mail-domain}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_log_ratelimit': {
             'urls': [
                 '/cli/global/system/log/ratelimit'
             ],
-            'revision': {
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.4.8', '6.4.9', '6.4.10', '6.4.11', '6.4.12', '7.0.0', '7.0.1',
+                '7.0.2', '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7', '7.0.8',
+                '7.2.0', '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'cli_system_log_ratelimit_device': {
             'urls': [
                 '/cli/global/system/log/ratelimit/device',
                 '/cli/global/system/log/ratelimit/device/{device}'
             ],
-            'revision': {
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True
-            }
+            'support_versions': [
+                '6.4.8', '6.4.9', '6.4.10', '6.4.11', '6.4.12', '7.0.0', '7.0.1',
+                '7.0.2'
+            ],
         },
         'cli_system_log_ratelimit_ratelimits': {
             'urls': [
                 '/cli/global/system/log/ratelimit/ratelimits',
                 '/cli/global/system/log/ratelimit/ratelimits/{ratelimits}'
             ],
-            'revision': {
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7', '7.0.8', '7.2.0',
+                '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'cli_system_log_settings': {
             'urls': [
                 '/cli/global/system/log/settings'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_log_settings_rollinganalyzer': {
             'urls': [
                 '/cli/global/system/log/settings/rolling-analyzer'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_log_settings_rollinglocal': {
             'urls': [
                 '/cli/global/system/log/settings/rolling-local'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_log_settings_rollingregular': {
             'urls': [
                 '/cli/global/system/log/settings/rolling-regular'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_log_topology': {
             'urls': [
                 '/cli/global/system/log/topology'
             ],
-            'revision': {
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11', '6.4.12', '7.0.2',
+                '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7', '7.0.8', '7.2.0',
+                '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'cli_system_logfetch_clientprofile': {
             'urls': [
                 '/cli/global/system/log-fetch/client-profile',
                 '/cli/global/system/log-fetch/client-profile/{client-profile}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_logfetch_clientprofile_devicefilter': {
             'urls': [
                 '/cli/global/system/log-fetch/client-profile/{client-profile}/device-filter',
                 '/cli/global/system/log-fetch/client-profile/{client-profile}/device-filter/{device-filter}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_logfetch_clientprofile_logfilter': {
             'urls': [
                 '/cli/global/system/log-fetch/client-profile/{client-profile}/log-filter',
                 '/cli/global/system/log-fetch/client-profile/{client-profile}/log-filter/{log-filter}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_logfetch_serversettings': {
             'urls': [
                 '/cli/global/system/log-fetch/server-settings'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_logforward': {
             'urls': [
                 '/cli/global/system/log-forward',
                 '/cli/global/system/log-forward/{log-forward}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_logforward_devicefilter': {
             'urls': [
                 '/cli/global/system/log-forward/{log-forward}/device-filter',
                 '/cli/global/system/log-forward/{log-forward}/device-filter/{device-filter}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_logforward_logfieldexclusion': {
             'urls': [
                 '/cli/global/system/log-forward/{log-forward}/log-field-exclusion',
                 '/cli/global/system/log-forward/{log-forward}/log-field-exclusion/{log-field-exclusion}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_logforward_logfilter': {
             'urls': [
                 '/cli/global/system/log-forward/{log-forward}/log-filter',
                 '/cli/global/system/log-forward/{log-forward}/log-filter/{log-filter}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_logforward_logmaskingcustom': {
             'urls': [
                 '/cli/global/system/log-forward/{log-forward}/log-masking-custom',
                 '/cli/global/system/log-forward/{log-forward}/log-masking-custom/{log-masking-custom}'
             ],
-            'revision': {
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5', '7.0.6',
+                '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'cli_system_logforwardservice': {
             'urls': [
                 '/cli/global/system/log-forward-service'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_mail': {
             'urls': [
                 '/cli/global/system/mail',
                 '/cli/global/system/mail/{mail}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_metadata_admins': {
             'urls': [
                 '/cli/global/system/metadata/admins',
                 '/cli/global/system/metadata/admins/{admins}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_ntp': {
             'urls': [
                 '/cli/global/system/ntp'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_ntp_ntpserver': {
             'urls': [
                 '/cli/global/system/ntp/ntpserver',
                 '/cli/global/system/ntp/ntpserver/{ntpserver}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_passwordpolicy': {
             'urls': [
                 '/cli/global/system/password-policy'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_performance': {
             'urls': [
                 '/cli/global/system/performance'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_report_autocache': {
             'urls': [
                 '/cli/global/system/report/auto-cache'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_report_estbrowsetime': {
             'urls': [
                 '/cli/global/system/report/est-browse-time'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_report_group': {
             'urls': [
                 '/cli/global/system/report/group',
                 '/cli/global/system/report/group/{group}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_report_group_chartalternative': {
             'urls': [
                 '/cli/global/system/report/group/{group}/chart-alternative',
                 '/cli/global/system/report/group/{group}/chart-alternative/{chart-alternative}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_report_group_groupby': {
             'urls': [
                 '/cli/global/system/report/group/{group}/group-by',
                 '/cli/global/system/report/group/{group}/group-by/{group-by}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_report_setting': {
             'urls': [
                 '/cli/global/system/report/setting'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_route': {
             'urls': [
                 '/cli/global/system/route',
                 '/cli/global/system/route/{route}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_route6': {
             'urls': [
                 '/cli/global/system/route6',
                 '/cli/global/system/route6/{route6}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_saml': {
             'urls': [
                 '/cli/global/system/saml'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_saml_fabricidp': {
             'urls': [
                 '/cli/global/system/saml/fabric-idp',
                 '/cli/global/system/saml/fabric-idp/{fabric-idp}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.4.1', '6.4.2', '6.4.3', '6.4.4', '6.4.5', '6.4.6',
+                '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11', '6.4.12', '7.0.0',
+                '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7',
+                '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'cli_system_saml_serviceproviders': {
             'urls': [
                 '/cli/global/system/saml/service-providers',
                 '/cli/global/system/saml/service-providers/{service-providers}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_sniffer': {
             'urls': [
                 '/cli/global/system/sniffer',
                 '/cli/global/system/sniffer/{sniffer}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_snmp_community': {
             'urls': [
                 '/cli/global/system/snmp/community',
                 '/cli/global/system/snmp/community/{community}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_snmp_community_hosts': {
             'urls': [
                 '/cli/global/system/snmp/community/{community}/hosts',
                 '/cli/global/system/snmp/community/{community}/hosts/{hosts}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_snmp_community_hosts6': {
             'urls': [
                 '/cli/global/system/snmp/community/{community}/hosts6',
                 '/cli/global/system/snmp/community/{community}/hosts6/{hosts6}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_snmp_sysinfo': {
             'urls': [
                 '/cli/global/system/snmp/sysinfo'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_snmp_user': {
             'urls': [
                 '/cli/global/system/snmp/user',
                 '/cli/global/system/snmp/user/{user}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_socfabric': {
             'urls': [
                 '/cli/global/system/soc-fabric'
             ],
-            'revision': {
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5', '7.0.6',
+                '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
+        },
+        'cli_system_socfabric_trustedlist': {
+            'urls': [
+                '/cli/global/system/soc-fabric/trusted-list',
+                '/cli/global/system/soc-fabric/trusted-list/{trusted-list}'
+            ],
+            'support_versions': [
+                '7.4.0'
+            ],
         },
         'cli_system_sql': {
             'urls': [
                 '/cli/global/system/sql'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_sql_customindex': {
             'urls': [
                 '/cli/global/system/sql/custom-index',
                 '/cli/global/system/sql/custom-index/{custom-index}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_sql_customskipidx': {
             'urls': [
                 '/cli/global/system/sql/custom-skipidx',
                 '/cli/global/system/sql/custom-skipidx/{custom-skipidx}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8', '6.2.9',
+                '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4', '6.4.5',
+                '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11', '6.4.12',
+                '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5', '7.0.6',
+                '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'cli_system_sql_tsindexfield': {
             'urls': [
                 '/cli/global/system/sql/ts-index-field',
                 '/cli/global/system/sql/ts-index-field/{ts-index-field}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_sslciphersuites': {
             'urls': [
                 '/cli/global/system/global/ssl-cipher-suites',
                 '/cli/global/system/global/ssl-cipher-suites/{ssl-cipher-suites}'
             ],
-            'revision': {
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.4.8', '6.4.9', '6.4.10', '6.4.11', '6.4.12', '7.0.2', '7.0.3',
+                '7.0.4', '7.0.5', '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1',
+                '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'cli_system_status': {
             'urls': [
                 '/cli/global/system/status'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_syslog': {
             'urls': [
                 '/cli/global/system/syslog',
                 '/cli/global/system/syslog/{syslog}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'cli_system_webproxy': {
             'urls': [
                 '/cli/global/system/web-proxy'
             ],
-            'revision': {
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.4.8', '6.4.9', '6.4.10', '6.4.11', '6.4.12', '7.0.3', '7.0.4',
+                '7.0.5', '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2',
+                '7.2.3', '7.4.0'
+            ],
         },
         'cli_system_workflow_approvalmatrix': {
             'urls': [
                 '/cli/global/system/workflow/approval-matrix',
                 '/cli/global/system/workflow/approval-matrix/{approval-matrix}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.4.1', '6.4.2', '6.4.3', '6.4.4', '6.4.5', '6.4.6',
+                '6.4.7', '7.0.0', '7.0.1', '7.0.2'
+            ],
         },
         'cli_system_workflow_approvalmatrix_approver': {
             'urls': [
                 '/cli/global/system/workflow/approval-matrix/{approval-matrix}/approver',
                 '/cli/global/system/workflow/approval-matrix/{approval-matrix}/approver/{approver}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.4.1', '6.4.2', '6.4.3', '6.4.4', '6.4.5', '6.4.6',
+                '6.4.7', '7.0.0', '7.0.1', '7.0.2'
+            ],
         },
         'dvmdb_adom': {
             'urls': [
                 '/dvmdb/adom',
                 '/dvmdb/adom/{adom}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'dvmdb_device': {
             'urls': [
@@ -5931,39 +2439,14 @@ def main():
                 '/dvmdb/device',
                 '/dvmdb/device/{device}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'dvmdb_device_haslave': {
             'urls': [
@@ -5972,39 +2455,14 @@ def main():
                 '/dvmdb/device/{device}/ha_slave',
                 '/dvmdb/device/{device}/ha_slave/{ha_slave}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'dvmdb_device_vdom': {
             'urls': [
@@ -6013,39 +2471,14 @@ def main():
                 '/dvmdb/device/{device}/vdom',
                 '/dvmdb/device/{device}/vdom/{vdom}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'dvmdb_folder': {
             'urls': [
@@ -6054,29 +2487,12 @@ def main():
                 '/dvmdb/folder',
                 '/dvmdb/folder/{folder}'
             ],
-            'revision': {
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.4.2', '6.4.3', '6.4.4', '6.4.5', '6.4.6', '6.4.7', '6.4.8',
+                '6.4.9', '6.4.10', '6.4.11', '6.4.12', '7.0.0', '7.0.1', '7.0.2',
+                '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7', '7.0.8', '7.2.0',
+                '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'dvmdb_group': {
             'urls': [
@@ -6085,1908 +2501,750 @@ def main():
                 '/dvmdb/group',
                 '/dvmdb/group/{group}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'eventmgmt_alertfilter': {
             'urls': [
                 '/eventmgmt/adom/{adom}/alertfilter'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'eventmgmt_alertlogs': {
             'urls': [
                 '/eventmgmt/adom/{adom}/alertlogs'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'eventmgmt_alertlogs_count': {
             'urls': [
                 '/eventmgmt/adom/{adom}/alertlogs/count'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'eventmgmt_alerts': {
             'urls': [
                 '/eventmgmt/adom/{adom}/alerts'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'eventmgmt_alerts_count': {
             'urls': [
                 '/eventmgmt/adom/{adom}/alerts/count'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'eventmgmt_alerts_export': {
             'urls': [
                 '/eventmgmt/adom/{adom}/alerts/export'
             ],
-            'revision': {
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5', '7.0.6',
+                '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'eventmgmt_alerts_extradetails': {
             'urls': [
                 '/eventmgmt/adom/{adom}/alerts/extra-details'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.4.1', '6.4.2', '6.4.3', '6.4.4', '6.4.5', '6.4.6',
+                '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11', '6.4.12', '7.0.0',
+                '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7',
+                '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'eventmgmt_basichandlers_export': {
             'urls': [
                 '/eventmgmt/adom/{adom}/basic-handlers/export'
             ],
-            'revision': {
-                '7.2.2': True
-            }
+            'support_versions': [
+                '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'eventmgmt_correlationhandlers_export': {
             'urls': [
                 '/eventmgmt/adom/{adom}/correlation-handlers/export'
             ],
-            'revision': {
-                '7.2.2': True
-            }
+            'support_versions': [
+                '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'fazsys_enduseravatar': {
             'urls': [
                 '/fazsys/adom/{adom}/enduser-avatar'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'fazsys_forticare_licinfo': {
             'urls': [
                 '/fazsys/adom/{adom}/forticare/licinfo'
             ],
-            'revision': {
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'fazsys_language_fonts_export': {
             'urls': [
                 '/fazsys/language/fonts/export'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'fazsys_language_fonts_list': {
             'urls': [
                 '/fazsys/language/fonts/list'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'fazsys_language_translationfile_export': {
             'urls': [
                 '/fazsys/language/translation-file/export'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'fazsys_language_translationfile_list': {
             'urls': [
                 '/fazsys/language/translation-file/list'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'fazsys_monitor_logforwardstatus': {
             'urls': [
                 '/fazsys/monitor/logforward-status'
             ],
-            'revision': {
-                '7.2.2': True
-            }
+            'support_versions': [
+                '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'fortiview_run': {
             'urls': [
                 '/fortiview/adom/{adom}/{view-name}/run/{tid}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'incidentmgmt_attachments': {
             'urls': [
                 '/incidentmgmt/adom/{adom}/attachments'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'incidentmgmt_attachments_count': {
             'urls': [
                 '/incidentmgmt/adom/{adom}/attachments/count'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'incidentmgmt_epeuhistory': {
             'urls': [
                 '/incidentmgmt/adom/{adom}/epeu-history'
             ],
-            'revision': {
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.4.2', '6.4.3', '6.4.4', '6.4.5', '6.4.6', '6.4.7', '6.4.8',
+                '6.4.9', '6.4.10', '6.4.11', '6.4.12', '7.0.0', '7.0.1', '7.0.2',
+                '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7', '7.0.8', '7.2.0',
+                '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'incidentmgmt_incidents': {
             'urls': [
                 '/incidentmgmt/adom/{adom}/incidents'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'incidentmgmt_incidents_count': {
             'urls': [
                 '/incidentmgmt/adom/{adom}/incidents/count'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'ioc_license_state': {
             'urls': [
                 '/ioc/license/state'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'ioc_rescan_history': {
             'urls': [
                 '/ioc/adom/{adom}/rescan/history'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'ioc_rescan_run': {
             'urls': [
                 '/ioc/adom/{adom}/rescan/run'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'logview_logfields': {
             'urls': [
                 '/logview/adom/{adom}/logfields'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'logview_logfiles_data': {
             'urls': [
                 '/logview/adom/{adom}/logfiles/data'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'logview_logfiles_search': {
             'urls': [
                 '/logview/adom/{adom}/logfiles/search'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'logview_logfiles_state': {
             'urls': [
                 '/logview/adom/{adom}/logfiles/state'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'logview_logsearch': {
             'urls': [
                 '/logview/adom/{adom}/logsearch/{tid}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'logview_logsearch_count': {
             'urls': [
                 '/logview/adom/{adom}/logsearch/count/{tid}'
             ],
-            'revision': {
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7',
+                '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'logview_logstats': {
             'urls': [
                 '/logview/adom/{adom}/logstats'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.4.1', '6.4.2', '6.4.3', '6.4.4', '6.4.5', '6.4.6',
+                '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11', '6.4.12', '7.0.0',
+                '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7',
+                '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'logview_pcapfile': {
             'urls': [
                 '/logview/pcapfile'
             ],
-            'revision': {
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7', '7.0.8', '7.2.0',
+                '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'report_adom_root_template_language': {
             'urls': [
                 '/report/adom/root/template/language'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'report_graphfile': {
             'urls': [
                 '/report/adom/{adom}/graph-file'
             ],
-            'revision': {
-                '7.2.2': True
-            }
+            'support_versions': [
+                '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'report_graphfile_data': {
             'urls': [
                 '/report/adom/{adom}/graph-file/data'
             ],
-            'revision': {
-                '7.2.2': True
-            }
+            'support_versions': [
+                '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'report_graphfile_list': {
             'urls': [
                 '/report/adom/{adom}/graph-file/list'
             ],
-            'revision': {
-                '7.2.2': True
-            }
+            'support_versions': [
+                '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'report_reports_data': {
             'urls': [
                 '/report/adom/{adom}/reports/data/{tid}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'report_reports_state': {
             'urls': [
                 '/report/adom/{adom}/reports/state'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'report_run': {
             'urls': [
                 '/report/adom/{adom}/run/{tid}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'report_template_export': {
             'urls': [
                 '/report/adom/{adom}/template/export'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'report_template_list': {
             'urls': [
                 '/report/adom/{adom}/template/list'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'soar_config_connectors': {
             'urls': [
                 '/soar/adom/{adom}/config/connectors/{connector-uuid}'
             ],
-            'revision': {
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.4.2', '6.4.3', '6.4.4', '6.4.5', '6.4.6', '6.4.7', '6.4.8',
+                '6.4.9', '6.4.10', '6.4.11', '6.4.12', '7.0.0', '7.0.1', '7.0.2',
+                '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7', '7.0.8', '7.2.0',
+                '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'soar_config_playbooks': {
             'urls': [
                 '/soar/adom/{adom}/config/playbooks/{playbook-uuid}'
             ],
-            'revision': {
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.4.2', '6.4.3', '6.4.4', '6.4.5', '6.4.6', '6.4.7', '6.4.8',
+                '6.4.9', '6.4.10', '6.4.11', '6.4.12', '7.0.0', '7.0.1', '7.0.2',
+                '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7', '7.0.8', '7.2.0',
+                '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'soar_fosconnector_automationrules': {
             'urls': [
                 '/soar/adom/{adom}/fos-connector/automation-rules'
             ],
-            'revision': {
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.4.2', '6.4.3', '6.4.4', '6.4.5', '6.4.6', '6.4.7', '6.4.8',
+                '6.4.9', '6.4.10', '6.4.11', '6.4.12', '7.0.0', '7.0.1', '7.0.2',
+                '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7', '7.0.8', '7.2.0',
+                '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'soar_playbook_export': {
             'urls': [
                 '/soar/adom/{adom}/playbook/export'
             ],
-            'revision': {
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5', '7.0.6',
+                '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'soar_playbook_monitor': {
             'urls': [
                 '/soar/adom/{adom}/playbook/monitor'
             ],
-            'revision': {
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True
-            }
+            'support_versions': [
+                '6.4.2', '6.4.3', '6.4.4', '6.4.5', '6.4.6', '6.4.7', '6.4.8',
+                '6.4.9', '6.4.10', '6.4.11', '6.4.12', '7.0.0', '7.0.1', '7.0.2',
+                '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7', '7.0.8', '7.2.0',
+                '7.2.1'
+            ],
         },
         'soar_playbook_run': {
             'urls': [
                 '/soar/adom/{adom}/playbook/run'
             ],
-            'revision': {
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.4.2', '6.4.3', '6.4.4', '6.4.5', '6.4.6', '6.4.7', '6.4.8',
+                '6.4.9', '6.4.10', '6.4.11', '6.4.12', '7.0.0', '7.0.1', '7.0.2',
+                '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7', '7.0.8', '7.2.0',
+                '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'soar_subnet_export': {
             'urls': [
                 '/soar/adom/{adom}/subnet/export'
             ],
-            'revision': {
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5', '7.0.6',
+                '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'soar_task_monitor': {
             'urls': [
                 '/soar/adom/{adom}/task/monitor'
             ],
-            'revision': {
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.4.2', '6.4.3', '6.4.4', '6.4.5', '6.4.6', '6.4.7', '6.4.8',
+                '6.4.9', '6.4.10', '6.4.11', '6.4.12', '7.0.0', '7.0.1', '7.0.2',
+                '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7', '7.0.8', '7.2.0',
+                '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'sys_ha_status': {
             'urls': [
                 '/sys/ha/status'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'sys_status': {
             'urls': [
                 '/sys/status'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'task_task': {
             'urls': [
                 '/task/task',
                 '/task/task/{task}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'task_task_history': {
             'urls': [
                 '/task/task/{task}/history',
                 '/task/task/{task}/history/{history}'
             ],
-            'revision': {
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True
-            }
+            'support_versions': [
+                '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8', '6.2.9',
+                '6.2.10', '6.2.11'
+            ],
         },
         'task_task_line': {
             'urls': [
                 '/task/task/{task}/line',
                 '/task/task/{task}/line/{line}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'task_task_line_history': {
             'urls': [
                 '/task/task/{task}/line/{line}/history',
                 '/task/task/{task}/line/{line}/history/{history}'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.4.1', '6.4.2', '6.4.3', '6.4.4', '6.4.5', '6.4.6',
+                '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11', '6.4.12', '7.0.0',
+                '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7',
+                '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3', '7.4.0'
+            ],
         },
         'ueba_endpoints': {
             'urls': [
                 '/ueba/adom/{adom}/endpoints'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'ueba_endpoints_stats': {
             'urls': [
                 '/ueba/adom/{adom}/endpoints/stats'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'ueba_endusers': {
             'urls': [
                 '/ueba/adom/{adom}/endusers'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
         },
         'ueba_endusers_stats': {
             'urls': [
                 '/ueba/adom/{adom}/endusers/stats'
             ],
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True
-            }
+            'support_versions': [
+                '6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8',
+                '6.2.9', '6.2.10', '6.2.11', '6.4.1', '6.4.2', '6.4.3', '6.4.4',
+                '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                '6.4.12', '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5',
+                '7.0.6', '7.0.7', '7.0.8', '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                '7.4.0'
+            ],
+        },
+        'ueba_otview': {
+            'urls': [
+                '/ueba/adom/{adom}/ot-view'
+            ],
+            'support_versions': [
+                '7.4.0'
+            ],
         }
     }
 
     module_arg_spec = {
+        'access_token': {
+            'type': 'str',
+            'required': False,
+            'no_log': True
+        },
         'enable_log': {
             'type': 'bool',
             'required': False,
             'default': False
         },
+        'forticloud_access_token': {
+            'type': 'str',
+            'required': False,
+            'no_log': True
+        },
         'log_path': {
             'type': 'str',
             'required': False,
             'default': '/tmp/fortianalyzer.ansible.log'
-        },
-        'workspace_locking_adom': {
-            'type': 'str',
-            'required': False
-        },
-        'workspace_locking_timeout': {
-            'type': 'int',
-            'required': False,
-            'default': 300
         },
         'rc_succeeded': {
             'required': False,
@@ -8148,6 +3406,7 @@ def main():
                         'cli_system_snmp_sysinfo',
                         'cli_system_snmp_user',
                         'cli_system_socfabric',
+                        'cli_system_socfabric_trustedlist',
                         'cli_system_sql',
                         'cli_system_sql_customindex',
                         'cli_system_sql_customskipidx',
@@ -8223,7 +3482,8 @@ def main():
                         'ueba_endpoints',
                         'ueba_endpoints_stats',
                         'ueba_endusers',
-                        'ueba_endusers_stats'
+                        'ueba_endusers_stats',
+                        'ueba_otview'
                     ]
                 },
                 'fields': {
@@ -8248,6 +3508,10 @@ def main():
                 'params': {
                     'required': False,
                     'type': 'dict'
+                },
+                'extra_params': {
+                    'required': False,
+                    'type': 'dict'
                 }
             }
         }
@@ -8257,7 +3521,9 @@ def main():
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
+    connection.set_option('access_token', module.params['access_token'])
     connection.set_option('enable_log', module.params['enable_log'])
+    connection.set_option('forticloud_access_token', module.params['forticloud_access_token'])
     connection.set_option('log_path', module.params['log_path'])
     faz = NAPIManager(None, None, None, None, module, connection, metadata=facts_metadata, task_type='fact')
     faz.process()

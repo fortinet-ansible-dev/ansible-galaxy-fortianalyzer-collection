@@ -30,6 +30,11 @@ __metaclass__ = type
 from ansible.module_utils.basic import _load_params
 import re
 
+CONSIDER_VERSIONS = set(['6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8', '6.2.9', '6.2.10',
+                         '6.4.1', '6.4.2', '6.4.3', '6.4.4', '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
+                         '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7',
+                         '7.2.0', '7.2.1', '7.2.2'])
+
 
 def remove_revision(schema):
     if not isinstance(schema, dict):
@@ -112,11 +117,12 @@ class NAPIManager(object):
         result = re.findall(pattern, s)
         return result
 
-    def version_check(self, revisions):
+    def version_check(self, support_versions):
         # if system version is not determined, give up version checking
-        if not revisions or not self.system_status:
+        if not support_versions or not self.system_status:
             return True, None
-        # pass check
+
+        # Error for old versions
         if int(self.system_status['Major']) <= 5:
             return False, 'not support in the major version lower than 6, please try a version at least 6.2.1'
         elif int(self.system_status['Major']) == 6:
@@ -125,10 +131,9 @@ class NAPIManager(object):
 
         sys_version = '{0}.{1}.{2}'.format(self.system_status['Major'], self.system_status['Minor'], self.system_status['Patch'])
 
-        versions = set([ver for ver in revisions if revisions[ver]])
-        if sys_version in versions:
+        if sys_version not in CONSIDER_VERSIONS or sys_version in support_versions:
             return True, None
-        return False, 'not support in {0}. Support versions: {1}'.format(sys_version, list(versions))
+        return False, 'not support in {0}. Support versions: {1}'.format(sys_version, list(support_versions))
 
     def _version_matched(self, revisions):
         if not revisions or not self.system_status:
@@ -169,9 +174,6 @@ class NAPIManager(object):
             url_libs = list(self.perobject_jrpc_urls)
         else:
             url_libs = list(self.jrpc_urls)
-        for uparam in self.url_params:
-            if not self.module.params[uparam]:
-                raise AssertionError('param %s MUST NOT be empty' % (uparam))
         the_url = None
         if 'adom' in self.url_params and not url_libs[0].endswith('{adom}'):
             adom = self.module.params['adom']
@@ -193,18 +195,9 @@ class NAPIManager(object):
             the_url = url_libs[0]
         if not the_url:
             raise AssertionError('the_url is not expected to be NULL')
-        _param_applied = list()
-        for uparam in self.url_params:
-            token_hint = '/%s/{%s}/' % (uparam, uparam)
-            token = '/%s/%s/' % (uparam, self.module.params[uparam])
-            if token_hint in the_url:
-                _param_applied.append(uparam)
-            the_url = the_url.replace(token_hint, token)
-        for uparam in self.url_params:
-            if uparam in _param_applied:
-                continue
-            token_hint = '{%s}' % (uparam)
-            token = str(self.module.params[uparam])
+        for param_name in self.url_params:
+            token_hint = '{%s}' % (param_name)
+            token = str(self.module.params[param_name])
             the_url = the_url.replace(token_hint, token)
         return the_url
 
@@ -227,15 +220,19 @@ class NAPIManager(object):
 
     def update_object(self, mvalue):
         url_updating = self._get_base_perobject_url(mvalue)
+        selector = self.module_level2_name
+        raw_attributes = self.module.params[selector] if selector in self.module.params else {}
         params = [{'url': url_updating,
-                   'data': self.get_tailor_attributes(self.module.params[self.module_level2_name])}]
+                   'data': self.get_tailor_attributes(raw_attributes)}]
         response = self.conn.send_request('update', params)
         return response
 
-    def create_objejct(self):
+    def create_object(self):
         url_creating = self._get_basic_url(False)
+        selector = self.module_level2_name
+        raw_attributes = self.module.params[selector] if selector in self.module.params else {}
         params = [{'url': url_creating,
-                   'data': self.get_tailor_attributes(self.module.params[self.module_level2_name])}]
+                   'data': self.get_tailor_attributes(raw_attributes)}]
         return self.conn.send_request(self.get_propose_method('set'), params)
 
     def delete_object(self, mvalue):
@@ -267,7 +264,7 @@ class NAPIManager(object):
                 return True
             else:
                 return False
-        except Exception as e:
+        except Exception:
             return True
         return True
 
@@ -302,7 +299,8 @@ class NAPIManager(object):
         if object_status != 0:
             return False
         object_remote = robject[1]['data']
-        object_present = self.module.params[self.module_level2_name]
+        selector = self.module_level2_name
+        object_present = self.module.params[selector] if selector in self.module.params else {}
         return self._check_object_difference(object_remote, object_present)
 
     def _process_with_mkey(self, mvalue):
@@ -315,20 +313,15 @@ class NAPIManager(object):
                 else:
                     self.module.exit_json(message='Object update skipped!')
             else:
-                return self.create_objejct()
+                return self.create_object()
         elif self.module.params['state'] == 'absent':
-            # in case the `GET` method returns nothing... see module `fmgr_antivirus_mmschecksum`
-            # if mobject[0] == 0:
             return self.delete_object(mvalue)
-            # else:
-            #    self.do_nonexist_exit()
-        else:
-            raise AssertionError('Not Reachable')
+        raise AssertionError('Not Reachable')
 
     def _process_without_mkey(self):
         if self.module.params['state'] == 'absent':
             self.module.fail_json(msg='this module doesn\'t not support state:absent because of no primary key.')
-        return self.create_objejct()
+        return self.create_object()
 
     def process_generic(self, method, param):
         response = self.conn.send_request(method, param)
@@ -382,7 +375,7 @@ class NAPIManager(object):
             self.check_versioning_mismatch(track,
                                            argument_specs[selector] if selector in argument_specs else None,
                                            params[selector] if selector in params else None)
-        
+
         # Get real url
         url = None
         given_params = set(self.url_params)
@@ -417,7 +410,7 @@ class NAPIManager(object):
         revisions = metadata[selector]['revision']
         matched, checking_message = self._version_matched(revisions)
         if not matched:
-            self.version_check_warnings.append('selector:%s %s' % (selector, checking_message))
+            self.version_check_warnings.append('faz_rename selector:%s %s' % (selector, checking_message))
 
         # Mkey check
         mkey = metadata[selector]['mkey']
@@ -456,10 +449,10 @@ class NAPIManager(object):
         url_list = metadata[selector]['urls']
 
         # Version check
-        revisions = metadata[selector]['revision']
-        matched, checking_message = self._version_matched(revisions)
+        support_versions = metadata[selector]['support_versions']
+        matched, checking_message = self.version_check(support_versions)
         if not matched:
-            self.version_check_warnings.append('selector:%s %s' % (selector, checking_message))
+            self.version_check_warnings.append('faz_fact selector:%s %s' % (selector, checking_message))
 
         # Get real url
         url = None
@@ -485,6 +478,9 @@ class NAPIManager(object):
         for key in ['filter', 'sortings', 'fields', 'option']:
             if params['facts'][key]:
                 api_params[0][key] = params['facts'][key]
+        if 'extra_params' in params['facts'] and params['facts']['extra_params']:
+            for key in params['facts']['extra_params']:
+                api_params[0][key] = params['facts']['extra_params'][key]
         response = self.conn.send_request('get', api_params)
         self.do_exit(response, changed=False)
 
@@ -540,36 +536,9 @@ class NAPIManager(object):
                         self.check_versioning_mismatch(track, sub_schema, sub_param)
                         del track[-1]
 
-    def validate_parameters(self, pvb):
-        for blob in pvb:
-            attribute_path = blob['attribute_path']
-            pointer = self.module.params
-            ignored = False
-            for attr in attribute_path:
-                if attr not in pointer:
-                    # If the parameter is not given, ignore that.
-                    ignored = True
-                    break
-                pointer = pointer[attr]
-            if ignored:
-                continue
-            lambda_expr = blob['lambda']
-            lambda_expr = lambda_expr.replace('$', str(pointer))
-            eval_result = eval(lambda_expr)
-            if not eval_result:
-                if 'fail_action' not in blob or blob['fail_action'] == 'warn':
-                    self.module.warn(blob['hint_message'])
-                else:
-                    # assert blob['fail_action'] == 'quit':
-                    self.module.fail_json(msg=blob['hint_message'])
-
     def _do_final_exit(self, rc, result, changed=True):
-        # XXX: as with https://github.com/fortinet/ansible-fortimanager-generic.
-        # the failing conditions priority: failed_when > rc_failed > rc_succeeded.
+        # The failing conditions priority: failed_when > rc_failed > rc_succeeded.
         failed = rc != 0
-
-        if 'response_code' not in result:
-            raise AssertionError('response_code should be in result')
         if self.module.params['rc_failed']:
             for rc_code in self.module.params['rc_failed']:
                 if str(result['response_code']) == str(rc_code):
@@ -590,17 +559,12 @@ class NAPIManager(object):
             version_check_warning['system_version'] = 'v%s.%s.%s' % (self.system_status['Major'],
                                                                      self.system_status['Minor'],
                                                                      self.system_status['Patch'])
-            self.module.warn('Ansible has detected version mismatch between FortiAnalyzer and your playbook, see more details by appending option -vvv')
+            warn_msg = 'Ansible has detected version mismatches between FortiAnalyzer and your playbook. '
+            warn_msg += 'Version mismatches are described in version_check_warning.'
+            self.module.warn(warn_msg)
             self.module.exit_json(rc=rc, meta=result, version_check_warning=version_check_warning, failed=failed, changed=changed)
         else:
             self.module.exit_json(rc=rc, meta=result, failed=failed, changed=changed)
-
-    def do_nonexist_exit(self):
-        rc = 0
-        result = dict()
-        result['response_code'] = -3
-        result['response_message'] = 'object not exist'
-        self._do_final_exit(rc, result)
 
     def do_exit(self, response, changed=True):
         rc, response_data = response

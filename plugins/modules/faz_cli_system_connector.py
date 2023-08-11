@@ -42,11 +42,24 @@ notes:
     - Normally, running one module can fail when a non-zero rc is returned. you can also override
       the conditions to fail or succeed with parameters rc_failed and rc_succeeded
 options:
+    access_token:
+        description: The token to access FortiManager without using username and password.
+        required: false
+        type: str
+    bypass_validation:
+        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
+        required: false
+        type: bool
+        default: false
     enable_log:
         description: Enable/Disable logging for task
         required: false
         type: bool
         default: false
+    forticloud_access_token:
+        description: Authenticate Ansible client with forticloud API access token.
+        required: false
+        type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
@@ -55,11 +68,14 @@ options:
         required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
-    bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
+    proposed_method:
+        description: The overridden method for the underlying Json RPC request
+        type: str
         required: false
-        type: bool
-        default: false
+        choices:
+            - set
+            - update
+            - add
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
@@ -70,14 +86,6 @@ options:
         type: list
         elements: int
         required: false
-    proposed_method:
-        description: The overridden method for the underlying Json RPC request
-        type: str
-        required: false
-        choices:
-            - set
-            - update
-            - add
     cli_system_connector:
         description: the top level parameters set
         required: false
@@ -98,6 +106,9 @@ options:
             conn-refresh-interval:
                 type: int
                 description: 'connector refresh interval (60 - 1800 seconds).'
+            cloud-orchest-refresh-interval:
+                type: int
+                description: 'Cloud Orchestration refresh interval (300 - 1800 seconds).'
 
 '''
 
@@ -178,20 +189,39 @@ def main():
     url_params = []
     module_primary_key = None
     module_arg_spec = {
+        'access_token': {
+            'type': 'str',
+            'required': False,
+            'no_log': True
+        },
+        'bypass_validation': {
+            'type': 'bool',
+            'required': False,
+            'default': False
+        },
         'enable_log': {
             'type': 'bool',
             'required': False,
             'default': False
+        },
+        'forticloud_access_token': {
+            'type': 'str',
+            'required': False,
+            'no_log': True
         },
         'log_path': {
             'type': 'str',
             'required': False,
             'default': '/tmp/fortianalyzer.ansible.log'
         },
-        'bypass_validation': {
-            'type': 'bool',
+        'proposed_method': {
+            'type': 'str',
             'required': False,
-            'default': False
+            'choices': [
+                'set',
+                'update',
+                'add'
+            ]
         },
         'rc_succeeded': {
             'required': False,
@@ -202,15 +232,6 @@ def main():
             'required': False,
             'type': 'list',
             'elements': 'int'
-        },
-        'proposed_method': {
-            'type': 'str',
-            'required': False,
-            'choices': [
-                'set',
-                'update',
-                'add'
-            ]
         },
         'cli_system_connector': {
             'required': False,
@@ -225,6 +246,7 @@ def main():
                 '6.2.8': True,
                 '6.2.9': True,
                 '6.2.10': True,
+                '6.2.11': True,
                 '6.4.1': True,
                 '6.4.2': True,
                 '6.4.3': True,
@@ -236,6 +258,7 @@ def main():
                 '6.4.9': True,
                 '6.4.10': True,
                 '6.4.11': True,
+                '6.4.12': True,
                 '7.0.0': True,
                 '7.0.1': True,
                 '7.0.2': True,
@@ -244,9 +267,12 @@ def main():
                 '7.0.5': True,
                 '7.0.6': True,
                 '7.0.7': True,
+                '7.0.8': True,
                 '7.2.0': True,
                 '7.2.1': True,
-                '7.2.2': True
+                '7.2.2': True,
+                '7.2.3': True,
+                '7.4.0': True
             },
             'options': {
                 'fsso-refresh-interval': {
@@ -261,6 +287,7 @@ def main():
                         '6.2.8': True,
                         '6.2.9': True,
                         '6.2.10': True,
+                        '6.2.11': True,
                         '6.4.1': True,
                         '6.4.2': True,
                         '6.4.3': True,
@@ -272,6 +299,7 @@ def main():
                         '6.4.9': True,
                         '6.4.10': True,
                         '6.4.11': True,
+                        '6.4.12': True,
                         '7.0.0': True,
                         '7.0.1': True,
                         '7.0.2': True,
@@ -280,9 +308,12 @@ def main():
                         '7.0.5': True,
                         '7.0.6': True,
                         '7.0.7': True,
+                        '7.0.8': True,
                         '7.2.0': True,
                         '7.2.1': True,
-                        '7.2.2': True
+                        '7.2.2': True,
+                        '7.2.3': True,
+                        '7.4.0': True
                     },
                     'type': 'int'
                 },
@@ -298,6 +329,7 @@ def main():
                         '6.2.8': True,
                         '6.2.9': True,
                         '6.2.10': True,
+                        '6.2.11': True,
                         '6.4.1': True,
                         '6.4.2': True,
                         '6.4.3': True,
@@ -309,6 +341,7 @@ def main():
                         '6.4.9': True,
                         '6.4.10': True,
                         '6.4.11': True,
+                        '6.4.12': True,
                         '7.0.0': True,
                         '7.0.1': True,
                         '7.0.2': True,
@@ -317,9 +350,12 @@ def main():
                         '7.0.5': True,
                         '7.0.6': True,
                         '7.0.7': True,
+                        '7.0.8': True,
                         '7.2.0': True,
                         '7.2.1': True,
-                        '7.2.2': True
+                        '7.2.2': True,
+                        '7.2.3': True,
+                        '7.4.0': True
                     },
                     'type': 'int'
                 },
@@ -335,6 +371,7 @@ def main():
                         '6.2.8': True,
                         '6.2.9': True,
                         '6.2.10': True,
+                        '6.2.11': True,
                         '6.4.1': True,
                         '6.4.2': True,
                         '6.4.3': True,
@@ -346,6 +383,7 @@ def main():
                         '6.4.9': True,
                         '6.4.10': True,
                         '6.4.11': True,
+                        '6.4.12': True,
                         '7.0.0': True,
                         '7.0.1': True,
                         '7.0.2': False,
@@ -354,9 +392,12 @@ def main():
                         '7.0.5': False,
                         '7.0.6': False,
                         '7.0.7': False,
+                        '7.0.8': False,
                         '7.2.0': False,
                         '7.2.1': False,
-                        '7.2.2': False
+                        '7.2.2': False,
+                        '7.2.3': False,
+                        '7.4.0': False
                     },
                     'type': 'int'
                 },
@@ -372,6 +413,7 @@ def main():
                         '6.2.8': True,
                         '6.2.9': True,
                         '6.2.10': True,
+                        '6.2.11': True,
                         '6.4.1': True,
                         '6.4.2': True,
                         '6.4.3': True,
@@ -383,6 +425,7 @@ def main():
                         '6.4.9': True,
                         '6.4.10': True,
                         '6.4.11': True,
+                        '6.4.12': True,
                         '7.0.0': True,
                         '7.0.1': True,
                         '7.0.2': True,
@@ -391,9 +434,12 @@ def main():
                         '7.0.5': True,
                         '7.0.6': True,
                         '7.0.7': True,
+                        '7.0.8': True,
                         '7.2.0': True,
                         '7.2.1': True,
-                        '7.2.2': True
+                        '7.2.2': True,
+                        '7.2.3': True,
+                        '7.4.0': True
                     },
                     'type': 'int'
                 },
@@ -406,9 +452,19 @@ def main():
                         '7.0.5': True,
                         '7.0.6': True,
                         '7.0.7': True,
+                        '7.0.8': True,
                         '7.2.0': True,
                         '7.2.1': True,
-                        '7.2.2': True
+                        '7.2.2': True,
+                        '7.2.3': True,
+                        '7.4.0': True
+                    },
+                    'type': 'int'
+                },
+                'cloud-orchest-refresh-interval': {
+                    'required': False,
+                    'revision': {
+                        '7.4.0': True
                     },
                     'type': 'int'
                 }
@@ -417,18 +473,18 @@ def main():
         }
     }
 
-    params_validation_blob = []
     module = AnsibleModule(argument_spec=remove_revision(check_parameter_bypass(module_arg_spec, 'cli_system_connector')),
                            supports_check_mode=False)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
+    connection.set_option('access_token', module.params['access_token'])
     connection.set_option('enable_log', module.params['enable_log'])
+    connection.set_option('forticloud_access_token', module.params['forticloud_access_token'])
     connection.set_option('log_path', module.params['log_path'])
     faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
                       metadata=module_arg_spec, task_type='partial crud')
-    faz.validate_parameters(params_validation_blob)
     faz.process()
     module.exit_json(meta=module.params)
 

@@ -1,19 +1,16 @@
-# Ansible Collection - fortinet.fortianalyzer
+# Ansible Collection - fortinet.fortianalyzer:1.2.0
 
-[Documentation](https://ansible-galaxy-fortianalyzer-docs.readthedocs.io/en/galaxy-1.1.0) for the collection.
-
-
+[Documentation](https://ansible-galaxy-fortianalyzer-docs.readthedocs.io/en/latest) for the collection.
 
 ## Installation
 This collection is distributed via [ansible-galaxy](https://galaxy.ansible.com/), the installation steps are as follows:
 
 1. Install or upgrade to Ansible >= 2.9.10
-2. Download this collection from galaxy: `ansible-galaxy collection install fortinet.fortianalyzer:1.1.0`
+2. Download this collection from galaxy: `ansible-galaxy collection install fortinet.fortianalyzer:1.2.0`
 
 ## Requirements
 * Ansible 2.9.10 or newer is required to support the newer Ansible Collections format
 * Python 3 is prefered when running Ansible with `fortinet.fortianalyzer` collection.
-
 
 ## Modules
 The collection provides the following modules:
@@ -26,13 +23,14 @@ The collection provides the following modules:
 * `faz_cli_fmupdate_diskquota`  Configure disk space available for use by the Upgrade Manager.
 * `faz_cli_fmupdate_fctservices`  Configure FortiGuard to provide services to FortiClient installations.
 * `faz_cli_fmupdate_fdssetting`  Configure FortiGuard settings.
-* `faz_cli_fmupdate_fdssetting_pushoverride`  Enable/disable push updates, and override the default IP address and port used by FortiGuard to send antivirus and IPS push messages for.
-* `faz_cli_fmupdate_fdssetting_pushoverridetoclient`  Enable/disable push updates, and override the default IP address and port used by FortiGuard to send antivirus and IPS push messages for.
+* `faz_cli_fmupdate_fdssetting_pushoverride`  Enable/disable push updates, and override the default IP address and port used by FortiGuard to send antivirus and IPS push messages for...
+* `faz_cli_fmupdate_fdssetting_pushoverridetoclient`  Enable/disable push updates, and override the default IP address and port used by FortiGuard to send antivirus and IPS push messages for...
 * `faz_cli_fmupdate_fdssetting_pushoverridetoclient_announceip`  Announce IP addresses for the device.
 * `faz_cli_fmupdate_fdssetting_serveroverride`  Server override configure.
 * `faz_cli_fmupdate_fdssetting_serveroverride_servlist`  Override server.
 * `faz_cli_fmupdate_fdssetting_updateschedule`  Configure the schedule when built-in FortiGuard retrieves antivirus and IPS updates.
 * `faz_cli_fmupdate_fwmsetting`  Configure firmware management settings.
+* `faz_cli_fmupdate_fwmsetting_upgradetimeout`  Configure the timeout value of image upgrade process.
 * `faz_cli_fmupdate_multilayer`  Configure multilayer mode.
 * `faz_cli_fmupdate_publicnetwork`  Enable/disable access to the public FortiGuard.
 * `faz_cli_fmupdate_serveraccesspriorities`  Configure priorities for FortiGate units accessing antivirus updates and web filtering services.
@@ -89,9 +87,12 @@ The collection provides the following modules:
 * `faz_cli_system_ha`  HA configuration.
 * `faz_cli_system_ha_peer`  Peers.
 * `faz_cli_system_ha_privatepeer`  Peer.
+* `faz_cli_system_ha_vip`  VIPs.
 * `faz_cli_system_interface`  Interface configuration.
 * `faz_cli_system_interface_ipv6`  IPv6 of interface.
 * `faz_cli_system_interface_member`  Physical interfaces that belong to the aggregate or redundant interface.
+* `faz_cli_system_localinpolicy`  IPv4 local in policy configuration.
+* `faz_cli_system_localinpolicy6`  IPv6 local in policy configuration.
 * `faz_cli_system_locallog_disk_filter`  Filter for disk logging.
 * `faz_cli_system_locallog_disk_setting`  Settings for local disk logging.
 * `faz_cli_system_locallog_fortianalyzer2_filter`  Filter for FortiAnalyzer2 logging.
@@ -111,15 +112,18 @@ The collection provides the following modules:
 * `faz_cli_system_locallog_syslogd_setting`  Settings for remote syslog server.
 * `faz_cli_system_log_alert`  Log based alert settings.
 * `faz_cli_system_log_devicedisable`  Disable client device logging.
+* `faz_cli_system_log_fospolicystats`  FortiOS policy statistics settings.
 * `faz_cli_system_log_interfacestats`  Interface statistics settings.
 * `faz_cli_system_log_ioc`  IoC settings.
 * `faz_cli_system_log_maildomain`  FortiMail domain setting.
 * `faz_cli_system_log_ratelimit`  Logging rate limit.
 * `faz_cli_system_log_ratelimit_device`  Device log rate limit.
+* `faz_cli_system_log_ratelimit_ratelimits`  Per device or ADOM log rate limits.
 * `faz_cli_system_log_settings`  Log settings.
 * `faz_cli_system_log_settings_rollinganalyzer`  Log rolling policy for Network Analyzer logs.
 * `faz_cli_system_log_settings_rollinglocal`  Log rolling policy for local logs.
 * `faz_cli_system_log_settings_rollingregular`  Log rolling policy for device logs.
+* `faz_cli_system_log_topology`  Logging topology settings.
 * `faz_cli_system_logfetch_clientprofile`  Log-fetch client profile settings.
 * `faz_cli_system_logfetch_clientprofile_devicefilter`  List of device filter.
 * `faz_cli_system_logfetch_clientprofile_logfilter`  Log content filters.
@@ -153,11 +157,14 @@ The collection provides the following modules:
 * `faz_cli_system_snmp_sysinfo`  SNMP configuration.
 * `faz_cli_system_snmp_user`  SNMP user configuration.
 * `faz_cli_system_socfabric`  SOC Fabric.
+* `faz_cli_system_socfabric_trustedlist`  Pre-authorized security fabric nodes.
 * `faz_cli_system_sql`  SQL settings.
 * `faz_cli_system_sql_customindex`  List of SQL index fields.
 * `faz_cli_system_sql_customskipidx`  List of aditional SQL skip index fields.
 * `faz_cli_system_sql_tsindexfield`  List of SQL text search index fields.
+* `faz_cli_system_sslciphersuites`  Configure preferred SSL/TLS cipher suites.
 * `faz_cli_system_syslog`  Syslog servers.
+* `faz_cli_system_webproxy`  Configure system web proxy.
 * `faz_cli_system_workflow_approvalmatrix`  workflow approval matrix.
 * `faz_cli_system_workflow_approvalmatrix_approver`  Approver.
 * `faz_dvm_cmd_add_device`  Add a device to the Device Manager database.
@@ -172,7 +179,6 @@ The collection provides the following modules:
 * `faz_dvmdb_folder`  no description.
 * `faz_dvmdb_group`  Device group table.
 * `faz_dvmdb_group_objectmember`  Device group table.
-* `faz_fact`  Gather FortiAnalyzer facts.
 * `faz_sys_api_sdnconnector`  Query SDN connector data.
 * `faz_sys_generate_wsdl`  Generate WSDL for specific module and objects.
 * `faz_sys_login_challenge`  Answer a log in challenge question, used following a login/user or login/challenge command.
@@ -180,3 +186,5 @@ The collection provides the following modules:
 * `faz_sys_logout`  Log out a session.
 * `faz_sys_proxy_json`  Send and receive JSON request to/from managed devices.
 * `faz_sys_reboot`  Restart FortiAnalyzer.
+* `faz_um_image_upgrade`  The older API for updating the firmware of specific device.
+* `faz_um_image_upgrade_ext`  Update the firmware of specific device.
