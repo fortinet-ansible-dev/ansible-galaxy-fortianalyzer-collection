@@ -5,6 +5,35 @@ Fortinet.Fortianalyzer Release Notes
 .. contents:: Topics
 
 
+v1.3.0
+======
+
+Release Summary
+---------------
+
+Update FortiAnalyzer Ansible to support newest version of FortiAnalyzer.
+
+Minor Changes
+-------------
+
+- Add 4 new modules.
+- Add module digest page in the document.
+- Support newest patches from v6.2 to v7.4
+
+Bugfixes
+--------
+
+- Fixed the bug that would report an error when providing access_token and username/password at the same time.
+- Improve code robustness.
+
+New Modules
+-----------
+
+- fortinet.fortianalyzer.faz_cli_system_csf - Add this device to a Security Fabric or set up a new Security Fabric on this device.
+- fortinet.fortianalyzer.faz_cli_system_csf_fabricconnector - Fabric connector configuration.
+- fortinet.fortianalyzer.faz_cli_system_csf_trustedlist - Pre-authorized and blocked security fabric nodes.
+- fortinet.fortianalyzer.faz_cli_system_log_pcapfile - Log pcap-file settings.
+
 v1.2.0
 ======
 
@@ -16,9 +45,9 @@ Update FortiAnalyzer Ansible to support FortiAnalyzer v7.4. Support fortianalyze
 Minor Changes
 -------------
 
+- Support Fortianalyze v7.4, 1 new modules, faz_cli_system_socfabric_trustedlist.
 - Support IAM access token login method.
 - Support fortianalyzer cloud.
-- Support Fortianalyze v7.4, 1 new modules, faz_cli_system_socfabric_trustedlist.
 
 v1.1.0
 ======

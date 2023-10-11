@@ -23,13 +23,13 @@ ANSIBLE_METADATA = {'status': ['preview'],
 
 DOCUMENTATION = '''
 ---
-module: faz_cli_system_admin_user_adomexclude
-short_description: Excluding admin domain.
+module: faz_cli_system_log_pcapfile
+short_description: Log pcap-file settings.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
 
-version_added: "1.0.0"
+version_added: "1.3.0"
 author:
     - Xinwei Du (@dux-fortinet)
     - Link Zheng (@chillancezen)
@@ -86,49 +86,42 @@ options:
         type: list
         elements: int
         required: false
-    state:
-        description: The directive to create, update or delete an object
-        type: str
-        required: true
-        choices:
-            - present
-            - absent
-    user:
-        description: the parameter (user) in requested url
-        type: str
-        required: true
-    cli_system_admin_user_adomexclude:
+    cli_system_log_pcapfile:
         description: the top level parameters set
         required: false
         type: dict
         suboptions:
-            adom-name:
+            download-mode:
                 type: str
-                description: 'Admin domain names.'
+                description:
+                 - 'Download mode for pcap files.'
+                 - 'plain - Download original file.'
+                 - 'zip - Download zip file without password.'
+                 - 'zip-with-password - Download zip file with password.'
+                choices:
+                    - 'plain'
+                    - 'zip'
+                    - 'zip-with-password'
 
 '''
 
 EXAMPLES = '''
-- collections:
+- hosts: fortianalyzer_inventory
+  collections:
     - fortinet.fortianalyzer
   connection: httpapi
-  hosts: fortianalyzer_inventory
-  tasks:
-    - faz_cli_system_admin_user_adomexclude:
-        cli_system_admin_user_adomexclude:
-          adom-name: root
-        state: present
-        user: fooadminuser
-      name: Excluding admin domain.
-    # - faz_cli_system_admin_user_adomexclude:
-    #     state: absent
-    #     user: fooadminuser
-    #     cli_system_admin_user_adomexclude:
-    #       adom-name: root
   vars:
+    ansible_httpapi_use_ssl: True
+    ansible_httpapi_validate_certs: False
     ansible_httpapi_port: 443
-    ansible_httpapi_use_ssl: true
-    ansible_httpapi_validate_certs: false
+  tasks:
+    - name: Log pcap-file settings.
+      faz_cli_system_log_pcapfile:
+        bypass_validation: False
+        rc_succeeded: [0, -2, -3, ...]
+        rc_failed: [-2, -3, ...]
+        cli_system_log_pcapfile:
+          download-mode: <value in [plain, zip, zip-with-password]>
 
 '''
 
@@ -179,15 +172,15 @@ from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import
 
 def main():
     jrpc_urls = [
-        '/cli/global/system/admin/user/{user}/adom-exclude'
+        '/cli/global/system/log/pcap-file'
     ]
 
     perobject_jrpc_urls = [
-        '/cli/global/system/admin/user/{user}/adom-exclude/{adom-exclude}'
+        '/cli/global/system/log/pcap-file/{pcap-file}'
     ]
 
-    url_params = ['user']
-    module_primary_key = 'adom-name'
+    url_params = []
+    module_primary_key = None
     module_arg_spec = {
         'access_token': {
             'type': 'str',
@@ -233,96 +226,23 @@ def main():
             'type': 'list',
             'elements': 'int'
         },
-        'state': {
-            'type': 'str',
-            'required': True,
-            'choices': [
-                'present',
-                'absent'
-            ]
-        },
-        'user': {
-            'required': True,
-            'type': 'str'
-        },
-        'cli_system_admin_user_adomexclude': {
+        'cli_system_log_pcapfile': {
             'required': False,
             'type': 'dict',
             'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.2.11': True,
-                '6.2.12': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '6.4.12': True,
-                '6.4.13': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True
+                '7.4.1': True
             },
             'options': {
-                'adom-name': {
+                'download-mode': {
                     'required': False,
                     'revision': {
-                        '6.2.1': True,
-                        '6.2.2': True,
-                        '6.2.3': True,
-                        '6.2.5': True,
-                        '6.2.6': True,
-                        '6.2.7': True,
-                        '6.2.8': True,
-                        '6.2.9': True,
-                        '6.2.10': True,
-                        '6.2.11': True,
-                        '6.2.12': True,
-                        '6.4.1': True,
-                        '6.4.2': True,
-                        '6.4.3': True,
-                        '6.4.4': True,
-                        '6.4.5': True,
-                        '6.4.6': True,
-                        '6.4.7': True,
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': True,
-                        '7.0.1': True,
-                        '7.0.2': True,
-                        '7.0.3': False,
-                        '7.0.4': False,
-                        '7.0.5': False,
-                        '7.0.6': False,
-                        '7.0.7': False,
-                        '7.0.8': False,
-                        '7.0.9': False,
-                        '7.2.0': False,
-                        '7.2.1': False,
-                        '7.2.2': False,
-                        '7.2.3': False,
-                        '7.2.4': False,
-                        '7.4.0': False,
-                        '7.4.1': False
+                        '7.4.1': True
                     },
+                    'choices': [
+                        'plain',
+                        'zip',
+                        'zip-with-password'
+                    ],
                     'type': 'str'
                 }
             }
@@ -330,7 +250,7 @@ def main():
         }
     }
 
-    module = AnsibleModule(argument_spec=remove_revision(check_parameter_bypass(module_arg_spec, 'cli_system_admin_user_adomexclude')),
+    module = AnsibleModule(argument_spec=remove_revision(check_parameter_bypass(module_arg_spec, 'cli_system_log_pcapfile')),
                            supports_check_mode=False)
 
     if not module._socket_path:
@@ -341,7 +261,7 @@ def main():
     connection.set_option('forticloud_access_token', module.params['forticloud_access_token'])
     connection.set_option('log_path', module.params['log_path'])
     faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='full crud')
+                      metadata=module_arg_spec, task_type='partial crud')
     faz.process()
     module.exit_json(meta=module.params)
 

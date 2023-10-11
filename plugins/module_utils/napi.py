@@ -30,10 +30,11 @@ __metaclass__ = type
 from ansible.module_utils.basic import _load_params
 import re
 
-CONSIDER_VERSIONS = set(['6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8', '6.2.9', '6.2.10',
-                         '6.4.1', '6.4.2', '6.4.3', '6.4.4', '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11',
-                         '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7',
-                         '7.2.0', '7.2.1', '7.2.2'])
+CONSIDER_VERSIONS = set(['6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8', '6.2.9', '6.2.10', '6.2.11', '6.2.12',
+                         '6.4.1', '6.4.2', '6.4.3', '6.4.4', '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11', '6.4.12', '6.4.13',
+                         '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7', '7.0.8', '7.0.9',
+                         '7.2.0', '7.2.1', '7.2.2', '7.2.3',
+                         '7.4.0', '7.4.1'])
 
 
 def remove_revision(schema):
@@ -43,6 +44,9 @@ def remove_revision(schema):
     for key in schema:
         if key != 'revision' and key != 'api_name':
             new_schema[key] = remove_revision(schema[key])
+            # if '-' in key or ' ' in key or '.' in key:
+            #     new_schema[key]['removed_in_version'] = '2.0.0'
+            #     new_schema[key]['removed_from_collection'] = 'fortinet.fortianalyzer'
     return new_schema
 
 
@@ -539,16 +543,17 @@ class NAPIManager(object):
     def _do_final_exit(self, rc, result, changed=True):
         # The failing conditions priority: failed_when > rc_failed > rc_succeeded.
         failed = rc != 0
-        if self.module.params['rc_failed']:
-            for rc_code in self.module.params['rc_failed']:
-                if str(result['response_code']) == str(rc_code):
-                    failed = True
-                    result['result_code_overriding'] = 'rc code:%s is overridden to failure' % (rc_code)
-        elif self.module.params['rc_succeeded']:
-            for rc_code in self.module.params['rc_succeeded']:
-                if str(result['response_code']) == str(rc_code):
-                    failed = False
-                    result['result_code_overriding'] = 'rc code:%s is overridden to success' % (rc_code)
+        if 'response_code' in result:
+            if self.module.params['rc_failed']:
+                for rc_code in self.module.params['rc_failed']:
+                    if str(result['response_code']) == str(rc_code):
+                        failed = True
+                        result['result_code_overriding'] = 'rc code:%s is overridden to failure' % (rc_code)
+            elif self.module.params['rc_succeeded']:
+                for rc_code in self.module.params['rc_succeeded']:
+                    if str(result['response_code']) == str(rc_code):
+                        failed = False
+                        result['result_code_overriding'] = 'rc code:%s is overridden to success' % (rc_code)
         if self.system_status:
             result['system_information'] = self.system_status
         if len(self.version_check_warnings):
@@ -570,8 +575,11 @@ class NAPIManager(object):
         rc, response_data = response
         result = dict()
         result['request_url'] = response_data['url'] if 'url' in response_data else ''
-        result['response_code'] = response_data['status']['code']
         result['response_data'] = response_data['data'] if 'data' in response_data else list()
-        result['response_message'] = response_data['status']['message']
-        # XXX:Do further status mapping
+        result['response_message'] = ''
+        if 'status' in response_data:
+            if 'code' in response_data['status']:
+                result['response_code'] = response_data['status']['code']
+            if 'message' in response_data['status']:
+                result['response_message'] = response_data['status']['message']
         self._do_final_exit(rc, result, changed=changed)

@@ -36,6 +36,9 @@ plugins/modules/faz_cli_system_certificate_local.py validate-modules:parameter-i
 plugins/modules/faz_cli_system_certificate_oftp.py validate-modules:parameter-invalid
 plugins/modules/faz_cli_system_certificate_ssh.py validate-modules:parameter-invalid
 plugins/modules/faz_cli_system_connector.py validate-modules:parameter-invalid
+plugins/modules/faz_cli_system_csf.py validate-modules:parameter-invalid
+plugins/modules/faz_cli_system_csf_fabricconnector.py validate-modules:parameter-invalid
+plugins/modules/faz_cli_system_csf_trustedlist.py validate-modules:parameter-invalid
 plugins/modules/faz_cli_system_dns.py validate-modules:parameter-invalid
 plugins/modules/faz_cli_system_docker.py validate-modules:parameter-invalid
 plugins/modules/faz_cli_system_fips.py validate-modules:parameter-invalid
@@ -61,6 +64,7 @@ plugins/modules/faz_cli_system_log_alert.py validate-modules:parameter-invalid
 plugins/modules/faz_cli_system_log_fospolicystats.py validate-modules:parameter-invalid
 plugins/modules/faz_cli_system_log_interfacestats.py validate-modules:parameter-invalid
 plugins/modules/faz_cli_system_log_ioc.py validate-modules:parameter-invalid
+plugins/modules/faz_cli_system_log_pcapfile.py validate-modules:parameter-invalid
 plugins/modules/faz_cli_system_log_ratelimit.py validate-modules:parameter-invalid
 plugins/modules/faz_cli_system_log_ratelimit_device.py validate-modules:parameter-invalid
 plugins/modules/faz_cli_system_log_ratelimit_ratelimits.py validate-modules:parameter-invalid

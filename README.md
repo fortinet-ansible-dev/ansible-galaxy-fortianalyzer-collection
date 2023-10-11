@@ -1,16 +1,20 @@
-# Ansible Collection - fortinet.fortianalyzer:1.2.0
+![Fortinet logo|](https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Fortinet_logo.svg/320px-Fortinet_logo.svg.png)
+
+# Ansible Collection - fortinet.fortianalyzer:1.3.0
+
+FortiAnalyzer Ansible Collection includes the modules that are able to configure FortiAnalyzer.
 
 [Documentation](https://ansible-galaxy-fortianalyzer-docs.readthedocs.io/en/latest) for the collection.
-
-## Installation
-This collection is distributed via [ansible-galaxy](https://galaxy.ansible.com/), the installation steps are as follows:
-
-1. Install or upgrade to Ansible >= 2.9.10
-2. Download this collection from galaxy: `ansible-galaxy collection install fortinet.fortianalyzer:1.2.0`
 
 ## Requirements
 * Ansible 2.9.10 or newer is required to support the newer Ansible Collections format
 * Python 3 is prefered when running Ansible with `fortinet.fortianalyzer` collection.
+
+## Installation
+This collection is distributed via [ansible-galaxy](https://galaxy.ansible.com/fortinet/fortianalyzer), the installation steps are as follows:
+
+1. Install or upgrade to Ansible >= 2.9.10
+2. Download this collection from galaxy: `ansible-galaxy collection install fortinet.fortianalyzer:1.3.0`
 
 ## Modules
 The collection provides the following modules:
@@ -77,6 +81,9 @@ The collection provides the following modules:
 * `faz_cli_system_certificate_remote`  Remote certificate.
 * `faz_cli_system_certificate_ssh`  SSH certificates and keys.
 * `faz_cli_system_connector`  Configure connector.
+* `faz_cli_system_csf`  Add this device to a Security Fabric or set up a new Security Fabric on this device.
+* `faz_cli_system_csf_fabricconnector`  Fabric connector configuration.
+* `faz_cli_system_csf_trustedlist`  Pre-authorized and blocked security fabric nodes.
 * `faz_cli_system_dns`  DNS configuration.
 * `faz_cli_system_docker`  Docker host.
 * `faz_cli_system_fips`  Settings for FIPS-CC mode.
@@ -116,6 +123,7 @@ The collection provides the following modules:
 * `faz_cli_system_log_interfacestats`  Interface statistics settings.
 * `faz_cli_system_log_ioc`  IoC settings.
 * `faz_cli_system_log_maildomain`  FortiMail domain setting.
+* `faz_cli_system_log_pcapfile`  Log pcap-file settings.
 * `faz_cli_system_log_ratelimit`  Logging rate limit.
 * `faz_cli_system_log_ratelimit_device`  Device log rate limit.
 * `faz_cli_system_log_ratelimit_ratelimits`  Per device or ADOM log rate limits.
@@ -188,3 +196,8 @@ The collection provides the following modules:
 * `faz_sys_reboot`  Restart FortiAnalyzer.
 * `faz_um_image_upgrade`  The older API for updating the firmware of specific device.
 * `faz_um_image_upgrade_ext`  Update the firmware of specific device.
+
+
+## License
+
+FortiManager Ansible Collection follows [GNU General Public License v3.0](LICENSE).

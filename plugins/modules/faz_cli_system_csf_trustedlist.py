@@ -23,13 +23,13 @@ ANSIBLE_METADATA = {'status': ['preview'],
 
 DOCUMENTATION = '''
 ---
-module: faz_cli_system_admin_user_adomexclude
-short_description: Excluding admin domain.
+module: faz_cli_system_csf_trustedlist
+short_description: Pre-authorized and blocked security fabric nodes.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
 
-version_added: "1.0.0"
+version_added: "1.3.0"
 author:
     - Xinwei Du (@dux-fortinet)
     - Link Zheng (@chillancezen)
@@ -93,42 +93,81 @@ options:
         choices:
             - present
             - absent
-    user:
-        description: the parameter (user) in requested url
-        type: str
-        required: true
-    cli_system_admin_user_adomexclude:
+    cli_system_csf_trustedlist:
         description: the top level parameters set
         required: false
         type: dict
         suboptions:
-            adom-name:
+            action:
                 type: str
-                description: 'Admin domain names.'
+                description:
+                 - 'Security fabric authorization action.'
+                 - 'accept - Accept authorization request.'
+                 - 'deny - Deny authorization request.'
+                choices:
+                    - 'accept'
+                    - 'deny'
+            authorization-type:
+                type: str
+                description:
+                 - 'Authorization type.'
+                 - 'serial - Verify downstream by serial number.'
+                 - 'certificate - Verify downstream by certificate.'
+                choices:
+                    - 'serial'
+                    - 'certificate'
+            certificate:
+                type: str
+                description: 'Certificate.'
+            downstream-authorization:
+                type: str
+                description:
+                 - 'Trust authorizations by this nodes administrator.'
+                 - 'disable - Disable downstream authorization.'
+                 - 'enable - Enable downstream authorization.'
+                choices:
+                    - 'disable'
+                    - 'enable'
+            ha-members:
+                type: str
+                description: 'HA members.'
+            index:
+                type: int
+                description: 'Index of the downstream in tree.'
+            name:
+                type: str
+                description: 'Name.'
+            serial:
+                type: str
+                description: 'Serial.'
 
 '''
 
 EXAMPLES = '''
-- collections:
+- hosts: fortianalyzer_inventory
+  collections:
     - fortinet.fortianalyzer
   connection: httpapi
-  hosts: fortianalyzer_inventory
-  tasks:
-    - faz_cli_system_admin_user_adomexclude:
-        cli_system_admin_user_adomexclude:
-          adom-name: root
-        state: present
-        user: fooadminuser
-      name: Excluding admin domain.
-    # - faz_cli_system_admin_user_adomexclude:
-    #     state: absent
-    #     user: fooadminuser
-    #     cli_system_admin_user_adomexclude:
-    #       adom-name: root
   vars:
+    ansible_httpapi_use_ssl: True
+    ansible_httpapi_validate_certs: False
     ansible_httpapi_port: 443
-    ansible_httpapi_use_ssl: true
-    ansible_httpapi_validate_certs: false
+  tasks:
+    - name: Pre-authorized and blocked security fabric nodes.
+      faz_cli_system_csf_trustedlist:
+        bypass_validation: False
+        rc_succeeded: [0, -2, -3, ...]
+        rc_failed: [-2, -3, ...]
+        state: <value in [present, absent]>
+        cli_system_csf_trustedlist:
+          action: <value in [accept, deny]>
+          authorization-type: <value in [serial, certificate]>
+          certificate: <value of string>
+          downstream-authorization: <value in [disable, enable]>
+          ha-members: <value of string>
+          index: <value of integer>
+          name: <value of string>
+          serial: <value of string>
 
 '''
 
@@ -179,15 +218,15 @@ from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import
 
 def main():
     jrpc_urls = [
-        '/cli/global/system/admin/user/{user}/adom-exclude'
+        '/cli/global/system/csf/trusted-list'
     ]
 
     perobject_jrpc_urls = [
-        '/cli/global/system/admin/user/{user}/adom-exclude/{adom-exclude}'
+        '/cli/global/system/csf/trusted-list/{trusted-list}'
     ]
 
-    url_params = ['user']
-    module_primary_key = 'adom-name'
+    url_params = []
+    module_primary_key = 'name'
     module_arg_spec = {
         'access_token': {
             'type': 'str',
@@ -241,87 +280,78 @@ def main():
                 'absent'
             ]
         },
-        'user': {
-            'required': True,
-            'type': 'str'
-        },
-        'cli_system_admin_user_adomexclude': {
+        'cli_system_csf_trustedlist': {
             'required': False,
             'type': 'dict',
             'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.2.11': True,
-                '6.2.12': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '6.4.12': True,
-                '6.4.13': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True
+                '7.4.1': True
             },
             'options': {
-                'adom-name': {
+                'action': {
                     'required': False,
                     'revision': {
-                        '6.2.1': True,
-                        '6.2.2': True,
-                        '6.2.3': True,
-                        '6.2.5': True,
-                        '6.2.6': True,
-                        '6.2.7': True,
-                        '6.2.8': True,
-                        '6.2.9': True,
-                        '6.2.10': True,
-                        '6.2.11': True,
-                        '6.2.12': True,
-                        '6.4.1': True,
-                        '6.4.2': True,
-                        '6.4.3': True,
-                        '6.4.4': True,
-                        '6.4.5': True,
-                        '6.4.6': True,
-                        '6.4.7': True,
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': True,
-                        '7.0.1': True,
-                        '7.0.2': True,
-                        '7.0.3': False,
-                        '7.0.4': False,
-                        '7.0.5': False,
-                        '7.0.6': False,
-                        '7.0.7': False,
-                        '7.0.8': False,
-                        '7.0.9': False,
-                        '7.2.0': False,
-                        '7.2.1': False,
-                        '7.2.2': False,
-                        '7.2.3': False,
-                        '7.2.4': False,
-                        '7.4.0': False,
-                        '7.4.1': False
+                        '7.4.1': True
+                    },
+                    'choices': [
+                        'accept',
+                        'deny'
+                    ],
+                    'type': 'str'
+                },
+                'authorization-type': {
+                    'required': False,
+                    'revision': {
+                        '7.4.1': True
+                    },
+                    'choices': [
+                        'serial',
+                        'certificate'
+                    ],
+                    'type': 'str'
+                },
+                'certificate': {
+                    'required': False,
+                    'revision': {
+                        '7.4.1': True
+                    },
+                    'type': 'str'
+                },
+                'downstream-authorization': {
+                    'required': False,
+                    'revision': {
+                        '7.4.1': True
+                    },
+                    'choices': [
+                        'disable',
+                        'enable'
+                    ],
+                    'type': 'str'
+                },
+                'ha-members': {
+                    'required': False,
+                    'revision': {
+                        '7.4.1': True
+                    },
+                    'type': 'str'
+                },
+                'index': {
+                    'required': False,
+                    'revision': {
+                        '7.4.1': True
+                    },
+                    'type': 'int'
+                },
+                'name': {
+                    'required': False,
+                    'revision': {
+                        '7.4.1': True
+                    },
+                    'type': 'str'
+                },
+                'serial': {
+                    'required': False,
+                    'revision': {
+                        '7.4.1': True
                     },
                     'type': 'str'
                 }
@@ -330,7 +360,7 @@ def main():
         }
     }
 
-    module = AnsibleModule(argument_spec=remove_revision(check_parameter_bypass(module_arg_spec, 'cli_system_admin_user_adomexclude')),
+    module = AnsibleModule(argument_spec=remove_revision(check_parameter_bypass(module_arg_spec, 'cli_system_csf_trustedlist')),
                            supports_check_mode=False)
 
     if not module._socket_path:

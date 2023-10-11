@@ -49,13 +49,11 @@ class HttpApi(HttpApiBase):
         self._req_id = 0
         self._sid = None
         self._url = "/jsonrpc"
-        self._host = None
         self._tools = FAZCommon
-        self._logged_in_user = None
-        self._logged = False
         self._log = None
         self._forticloud_access_token = None
         self._access_token = None
+        self._login_method = 'Not set'
 
     def log(self, msg):
         log_enabled = False
@@ -107,7 +105,7 @@ class HttpApi(HttpApiBase):
             return None
 
     def forticloud_login(self):
-        login_data = '{"access_token": "%s"}' % (self.get_forticloud_access_token())
+        login_data = '{"access_token": "%s"}' % (self._forticloud_access_token)
         rc, response_data = self.connection.send(
             path="/p/forticloud_jsonrpc_login/",
             data=login_data,
@@ -125,8 +123,7 @@ class HttpApi(HttpApiBase):
 
         :return: Dictionary of status, if it logged in or not.
         """
-        self.log("login begin, user: %s" % (username))
-        self._logged_in_user = username
+        self.log("log in")
         self._access_token = self.get_access_token()
         self._forticloud_access_token = self.get_forticloud_access_token()
         if self._access_token:
@@ -137,32 +134,27 @@ class HttpApi(HttpApiBase):
         else:
             self._login_method = 'username_password'
             self.send_request("exec", self._tools.format_request("exec", "sys/login/user", passwd=password, user=username))
-        self.log('login method: ' + self._login_method)
-        self.log(self)
+        self.log("Login method: %s, Target: %s" % (self._login_method, to_text(self.connection._url)))
         if (self.sid or self._access_token) and self.connection._url is not None:
-            # If Login worked, then inspect the FortiAnalyzer for Workspace Mode, and it's system information.
-            self.inspect_faz()
-            self._logged = True
+            # If Login worked, then inspect the FortiAnalyzer system information.
+            self.log("Loading system info")
+            rc, status = self.get_system_status()
+            if rc == -11:
+                # THE CONNECTION GOT LOST SOMEHOW, REMOVE THE SID AND REPORT BAD LOGIN
+                self.logout()
+                err_msg = "Can't login. Your login method is %s." % (self._login_method)
+                err_msg += "Please check whether you provide the correct information."
+                raise AssertionError(err_msg)
         else:
             err_msg = "Can't login. Your login method is %s." % (self._login_method)
             err_msg += "Please check whether you provide the correct information."
             raise AssertionError(err_msg)
 
-    def inspect_faz(self):
-        # CHECK FOR WORKSPACE MODE TO SEE IF WE HAVE TO ENABLE ADOM LOCKS
-        rc, status = self.get_system_status()
-        if rc == -11:
-            # THE CONNECTION GOT LOST SOMEHOW, REMOVE THE SID AND REPORT BAD LOGIN
-            self.logout()
-            raise AssertionError("Error -11 -- the Session ID was likely malformed somehow.")
-        elif rc == 0:
-            self._host = status['data']["Hostname"]
-
     def logout(self):
         """
         This function will logout of the FortiAnalyzer.
         """
-        self.log("log out, user: %s sid: %s" % (self._logged_in_user, self.sid))
+        self.log("log out")
         if self.sid:
             rc, response = self.send_request("exec", self._tools.format_request("exec", "sys/logout"))
             self.sid = None
@@ -181,7 +173,7 @@ class HttpApi(HttpApiBase):
         if self.sid is None and params[0]["url"] != "sys/login/user":
             if not self.connection._connected:
                 self.connection._connect()
-        if params[0]["url"] == "sys/login/user" and "passwd" in params[0]["data"]:
+        if params[0]["url"] == "sys/login/user" and "data" in params[0] and "passwd" in params[0]["data"]:
             params[0]["data"]["passwd"] = str(params[0]["data"]["passwd"])
         self._update_request_id()
         json_request = {
@@ -194,7 +186,7 @@ class HttpApi(HttpApiBase):
         data = json.dumps(json_request, ensure_ascii=False).replace('\\\\', '\\')
 
         # Don't log sensitive information
-        if params[0]["url"] == "sys/login/user" and "passwd" in params[0]["data"]:
+        if params[0]["url"] == "sys/login/user" and "data" in params[0] and "passwd" in params[0]["data"]:
             json_request["params"][0]["data"]["passwd"] = "******"
         if "session" in params[0]:
             json_request["params"][0]["session"] = "******"
@@ -202,10 +194,13 @@ class HttpApi(HttpApiBase):
         self.log("request: %s" % (log_data))
 
         # Sending URL and Data in Unicode, per Ansible Specifications for Connection Plugins
+        access_token_str = ''
         header_data = BASE_HEADERS
         if self._login_method == "access_token":
+            access_token_str = '?access_token=' + self._access_token
             header_data["Authorization"] = "Bearer " + self._access_token
-        rc, response_data = self.connection.send(path=to_text(self._url), data=to_text(data), headers=header_data)
+        self.log('header: %s' % (str(header_data)))
+        rc, response_data = self.connection.send(path=to_text(self._url) + access_token_str, data=to_text(data), headers=header_data)
 
         # Get Unicode Response - Must convert from StringIO to unicode first so we can do a replace function below
         result = json.loads(to_text(response_data.getvalue()))
@@ -215,7 +210,7 @@ class HttpApi(HttpApiBase):
     def _jsonize(self, data):
         ret = None
         try:
-            ret = json.dumps(data, indent=3)
+            ret = json.dumps(data, indent=4)
         except Exception:
             pass
         return ret
@@ -258,8 +253,3 @@ class HttpApi(HttpApiBase):
     @sid.setter
     def sid(self, val):
         self._sid = val
-
-    def __str__(self):
-        if self.sid is not None and self.connection._url is not None:
-            return "FortiAnalyzer object connected to FortiAnalyzer: " + to_text(self.connection._url)
-        return "FortiAnalyzer object with no valid connection to a FortiAnalyzer appliance."
