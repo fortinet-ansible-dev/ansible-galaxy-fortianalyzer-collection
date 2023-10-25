@@ -5,6 +5,19 @@ Fortinet.Fortianalyzer Release Notes
 .. contents:: Topics
 
 
+v1.3.1
+======
+
+Release Summary
+---------------
+
+Update FortiAnalyzer Ansible minimum ansible core version.
+
+Bugfixes
+--------
+
+- Require ansible core to be at least 2.13.0
+
 v1.3.0
 ======
 
