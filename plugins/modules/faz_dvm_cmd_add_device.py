@@ -158,6 +158,8 @@ options:
                             - '3.0'
                             - '4.0'
                             - '5.0'
+                            - '6.0'
+                            - '7.0'
                     patch:
                         type: int
                         description: '<i>add model device only</i>.'
@@ -1012,7 +1014,9 @@ def main():
                                 '2.0',
                                 '3.0',
                                 '4.0',
-                                '5.0'
+                                '5.0',
+                                '6.0',
+                                '7.0'
                             ],
                             'type': 'str'
                         },
