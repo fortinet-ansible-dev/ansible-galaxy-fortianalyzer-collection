@@ -5,6 +5,22 @@ Fortinet.Fortianalyzer Release Notes
 .. contents:: Topics
 
 
+v1.3.2
+======
+
+Release Summary
+---------------
+
+Update FortiAnalyzer Ansible to support newest version of FortiAnalyzer.
+
+Bugfixes
+--------
+
+- Added missing enum values for some arguments.
+- Improve logic to decide whether the local data and remote FortiAnalyzer are the same.
+- Require ansible core to be at least 2.14.0
+- Support FortiAnalyzer 7.0.10
+
 v1.3.1
 ======
 

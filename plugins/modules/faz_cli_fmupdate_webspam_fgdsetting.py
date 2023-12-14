@@ -366,6 +366,29 @@ options:
             restrict-iots-dbver:
                 type: str
                 description: 'Restrict system update to indicated file query database version (character limit = 127).'
+            stat-log:
+                type: str
+                description:
+                 - 'stat log setting (default = disable).'
+                 - 'emergency - The unit is unusable(0).'
+                 - 'alert - Immediate action is required(1)'
+                 - 'critical - Functionality is affected(2).'
+                 - 'error - Functionality is probably affected(3).'
+                 - 'warn - Functionality might be affected(4).'
+                 - 'notice - Information about normal events(5).'
+                 - 'info - General information(6).'
+                 - 'debug - Debug information(7).'
+                 - 'disable - Linkd logging is disabled.'
+                choices:
+                    - 'emergency'
+                    - 'alert'
+                    - 'critical'
+                    - 'error'
+                    - 'warn'
+                    - 'notice'
+                    - 'info'
+                    - 'debug'
+                    - 'disable'
             iotv-preload:
                 type: str
                 description:
@@ -540,6 +563,7 @@ def main():
                 '7.0.7': True,
                 '7.0.8': True,
                 '7.0.9': True,
+                '7.0.10': True,
                 '7.2.0': True,
                 '7.2.1': True,
                 '7.2.2': True,
@@ -586,6 +610,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -633,6 +658,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -685,6 +711,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -736,6 +763,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -783,6 +811,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -835,6 +864,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -886,6 +916,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -933,6 +964,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -985,6 +1017,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -1036,6 +1069,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -1087,6 +1121,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -1134,6 +1169,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -1181,6 +1217,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -1233,6 +1270,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -1284,6 +1322,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -1342,6 +1381,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -1389,6 +1429,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -1436,6 +1477,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -1483,6 +1525,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -1530,6 +1573,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -1577,6 +1621,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -1624,6 +1669,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -1671,6 +1717,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -1718,6 +1765,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -1765,6 +1813,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -1816,6 +1865,7 @@ def main():
                                 '7.0.7': True,
                                 '7.0.8': True,
                                 '7.0.9': True,
+                                '7.0.10': True,
                                 '7.2.0': True,
                                 '7.2.1': True,
                                 '7.2.2': True,
@@ -1863,6 +1913,7 @@ def main():
                                         '7.0.7': True,
                                         '7.0.8': True,
                                         '7.0.9': True,
+                                        '7.0.10': True,
                                         '7.2.0': True,
                                         '7.2.1': True,
                                         '7.2.2': True,
@@ -1910,6 +1961,7 @@ def main():
                                         '7.0.7': True,
                                         '7.0.8': True,
                                         '7.0.9': True,
+                                        '7.0.10': True,
                                         '7.2.0': True,
                                         '7.2.1': True,
                                         '7.2.2': True,
@@ -1957,6 +2009,7 @@ def main():
                                         '7.0.7': True,
                                         '7.0.8': True,
                                         '7.0.9': True,
+                                        '7.0.10': True,
                                         '7.2.0': True,
                                         '7.2.1': True,
                                         '7.2.2': True,
@@ -2004,6 +2057,7 @@ def main():
                                         '7.0.7': True,
                                         '7.0.8': True,
                                         '7.0.9': True,
+                                        '7.0.10': True,
                                         '7.2.0': True,
                                         '7.2.1': True,
                                         '7.2.2': True,
@@ -2051,6 +2105,7 @@ def main():
                                         '7.0.7': True,
                                         '7.0.8': True,
                                         '7.0.9': True,
+                                        '7.0.10': True,
                                         '7.2.0': True,
                                         '7.2.1': True,
                                         '7.2.2': True,
@@ -2109,6 +2164,7 @@ def main():
                                 '7.0.7': True,
                                 '7.0.8': True,
                                 '7.0.9': True,
+                                '7.0.10': True,
                                 '7.2.0': True,
                                 '7.2.1': True,
                                 '7.2.2': True,
@@ -2162,6 +2218,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -2209,6 +2266,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -2256,6 +2314,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -2303,6 +2362,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -2354,6 +2414,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -2401,6 +2462,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -2448,6 +2510,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -2495,6 +2558,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -2547,6 +2611,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -2582,6 +2647,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -2613,6 +2679,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -2649,6 +2716,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -2684,6 +2752,7 @@ def main():
                         '7.0.7': True,
                         '7.0.8': True,
                         '7.0.9': True,
+                        '7.0.10': True,
                         '7.2.0': True,
                         '7.2.1': True,
                         '7.2.2': True,
@@ -2692,6 +2761,31 @@ def main():
                         '7.4.0': True,
                         '7.4.1': True
                     },
+                    'type': 'str'
+                },
+                'stat-log': {
+                    'required': False,
+                    'revision': {
+                        '7.0.10': True,
+                        '7.2.0': False,
+                        '7.2.1': False,
+                        '7.2.2': False,
+                        '7.2.3': False,
+                        '7.2.4': False,
+                        '7.4.0': False,
+                        '7.4.1': False
+                    },
+                    'choices': [
+                        'emergency',
+                        'alert',
+                        'critical',
+                        'error',
+                        'warn',
+                        'notice',
+                        'info',
+                        'debug',
+                        'disable'
+                    ],
                     'type': 'str'
                 },
                 'iotv-preload': {

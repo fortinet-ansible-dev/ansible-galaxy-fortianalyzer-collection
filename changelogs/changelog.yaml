@@ -3,94 +3,109 @@ releases:
   1.0.1:
     changes:
       major_changes:
-      - Flexible error handling mechanism.
-      - Full FortiAnalyzer JRPC URLs coverage (more than 170 modules).
+        - Flexible error handling mechanism.
+        - Full FortiAnalyzer JRPC URLs coverage (more than 170 modules).
       release_summary: FortiAnalyzer Base Release
     fragments:
-    - 1.0.1.yaml
-    release_date: '2022-11-08'
+      - 1.0.1.yaml
+    release_date: "2022-11-08"
   1.0.2:
     changes:
       major_changes:
-      - Fixed Many sanity test warnings and errors.
-      - Support API schema 7.2.0, 25 new APIs, 8 new modules.
-      - Supported Ansible Changelogs.
+        - Fixed Many sanity test warnings and errors.
+        - Support API schema 7.2.0, 25 new APIs, 8 new modules.
+        - Supported Ansible Changelogs.
       release_summary: Minor release of FortiAnalyzer Ansible Collection 1.0.2
     fragments:
-    - 1.0.2.yaml
-    release_date: '2022-11-08'
+      - 1.0.2.yaml
+    release_date: "2022-11-08"
   1.0.3:
     changes:
       major_changes:
-      - deprecate default genrated README in plugin directory.
-      - update meta/runtime.yaml requirement.
-      - update python and ansible requirement in top-level README.
+        - deprecate default genrated README in plugin directory.
+        - update meta/runtime.yaml requirement.
+        - update python and ansible requirement in top-level README.
       release_summary: Release 1.0.3 for Automation Hub.
     fragments:
-    - 1.0.3.yaml
-    release_date: '2022-11-21'
+      - 1.0.3.yaml
+    release_date: "2022-11-21"
   1.1.0:
     changes:
       bugfixes:
-      - Fixed Many sanity test warnings and errors.
-      - Fixed an issue where some selectors in faz_fact were named incorrectly.
-      - Fixed version_added in the document. The value of this parameter is the version
-        each module first supported in the FortiAnalyzer Ansible Collection.
+        - Fixed Many sanity test warnings and errors.
+        - Fixed an issue where some selectors in faz_fact were named incorrectly.
+        - Fixed version_added in the document. The value of this parameter is the version
+          each module first supported in the FortiAnalyzer Ansible Collection.
       major_changes:
-      - Support all FortiAnalyzer versions in 6.2, 6.4, 7.0 and 7.2. 3 new modules.
+        - Support all FortiAnalyzer versions in 6.2, 6.4, 7.0 and 7.2. 3 new modules.
       minor_changes:
-      - Added param log_path to every module. You can specify the place to save the
-        log when enable_log is True.
-      - faz_fact and faz_rename support more URLs.
-      release_summary: Release 1.1.0 to support all FortiAnalyzer versions in 6.2,
+        - Added param log_path to every module. You can specify the place to save the
+          log when enable_log is True.
+        - faz_fact and faz_rename support more URLs.
+      release_summary:
+        Release 1.1.0 to support all FortiAnalyzer versions in 6.2,
         6.4, 7.0 and 7.2.
     fragments:
-    - 1.1.0.yaml
-    release_date: '2023-05-24'
+      - 1.1.0.yaml
+    release_date: "2023-05-24"
   1.2.0:
     changes:
       minor_changes:
-      - Support Fortianalyze v7.4, 1 new modules, faz_cli_system_socfabric_trustedlist.
-      - Support IAM access token login method.
-      - Support fortianalyzer cloud.
-      release_summary: Update FortiAnalyzer Ansible to support FortiAnalyzer v7.4.
+        - Support Fortianalyze v7.4, 1 new modules, faz_cli_system_socfabric_trustedlist.
+        - Support IAM access token login method.
+        - Support fortianalyzer cloud.
+      release_summary:
+        Update FortiAnalyzer Ansible to support FortiAnalyzer v7.4.
         Support fortianalyzer cloud and IAM access token login method.
     fragments:
-    - 1.2.0.yml
-    release_date: '2023-08-11'
+      - 1.2.0.yml
+    release_date: "2023-08-11"
   1.3.0:
     changes:
       bugfixes:
-      - Fixed the bug that would report an error when providing access_token and username/password
-        at the same time.
-      - Improve code robustness.
+        - Fixed the bug that would report an error when providing access_token and username/password
+          at the same time.
+        - Improve code robustness.
       minor_changes:
-      - Add 4 new modules.
-      - Add module digest page in the document.
-      - Support newest patches from v6.2 to v7.4
+        - Add 4 new modules.
+        - Add module digest page in the document.
+        - Support newest patches from v6.2 to v7.4
       release_summary: Update FortiAnalyzer Ansible to support newest version of FortiAnalyzer.
     fragments:
-    - 1.3.0.yml
+      - 1.3.0.yml
     modules:
-    - description: Add this device to a Security Fabric or set up a new Security Fabric
-        on this device.
-      name: faz_cli_system_csf
-      namespace: ''
-    - description: Fabric connector configuration.
-      name: faz_cli_system_csf_fabricconnector
-      namespace: ''
-    - description: Pre-authorized and blocked security fabric nodes.
-      name: faz_cli_system_csf_trustedlist
-      namespace: ''
-    - description: Log pcap-file settings.
-      name: faz_cli_system_log_pcapfile
-      namespace: ''
-    release_date: '2023-10-10'
+      - description:
+          Add this device to a Security Fabric or set up a new Security Fabric
+          on this device.
+        name: faz_cli_system_csf
+        namespace: ""
+      - description: Fabric connector configuration.
+        name: faz_cli_system_csf_fabricconnector
+        namespace: ""
+      - description: Pre-authorized and blocked security fabric nodes.
+        name: faz_cli_system_csf_trustedlist
+        namespace: ""
+      - description: Log pcap-file settings.
+        name: faz_cli_system_log_pcapfile
+        namespace: ""
+    release_date: "2023-10-10"
   1.3.1:
     changes:
       bugfixes:
-      - Require ansible core to be at least 2.13.0
+        - Require ansible core to be at least 2.13.0
       release_summary: Update FortiAnalyzer Ansible minimum ansible core version.
     fragments:
-    - 1.3.1.yml
-    release_date: '2023-10-17'
+      - 1.3.1.yml
+    release_date: "2023-10-17"
+  1.3.2:
+    changes:
+      bugfixes:
+        - Added missing enum values for some arguments.
+        - Improve logic to decide whether the local data and remote FortiAnalyzer are
+          the same.
+        - Require ansible core to be at least 2.14.0
+        - Support FortiAnalyzer 7.0.10
+      release_summary: Update FortiAnalyzer Ansible to support newest version of FortiAnalyzer.
+    fragments:
+      - 1.3.2.yml
+    release_date: "2023-12-15"

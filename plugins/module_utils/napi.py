@@ -253,66 +253,71 @@ class NAPIManager(object):
             return response['data']
         return None
 
-    def _compare_subnet(self, object_remote, object_present):
-        if type(object_remote) is not list and len(object_remote) != 2:
-            return True
-        tokens = object_present.split('/')
+    def is_same_subnet(self, object_remote, object_present):
+        if isinstance(object_remote, list) and len(object_remote) != 2:
+            return False
+        tokens = object_present.split("/")
         if len(tokens) != 2:
-            return True
+            return False
         try:
             subnet_number = int(tokens[1])
             if subnet_number < 0 or subnet_number > 32:
-                return True
-            remote_subnet_number = sum(bin(int(x)).count('1') for x in object_remote[1].split('.'))
-            if object_remote[0] != tokens[0] or remote_subnet_number != subnet_number:
-                return True
-            else:
                 return False
-        except Exception:
-            return True
-        return True
+            remote_subnet_number = sum(bin(int(x)).count("1") for x in object_remote[1].split("."))
+            if object_remote[0] == tokens[0] and remote_subnet_number == subnet_number:
+                return True
+        except Exception as e:
+            return False
+        return False
 
-    def _check_object_difference(self, object_remote, object_present):
+    def is_object_difference(self, object_remote, object_present):
         for key in object_present:
-            value = object_present[key]
-            if not value:
+            local_value = object_present[key]
+            if not local_value:
                 continue
             if key not in object_remote or not object_remote[key]:
                 return True
-            value_type = type(value)
-            if value_type is list:
+            remote_value = object_remote[key]
+            if isinstance(local_value, list):
+                try:
+                    if isinstance(remote_value, list):
+                        if str(sorted(remote_value)) == str(sorted(local_value)):
+                            return False
+                    # Won't update if remote = 'var' and local = ['var']
+                    elif len(local_value) == 1:
+                        if str(remote_value) == str(local_value[0]):
+                            return False
+                except Exception as e:
+                    return True
                 return True
-            elif value_type is dict:
-                if type(object_remote[key]) is not dict:
+            elif isinstance(local_value, dict):
+                if not isinstance(remote_value, dict):
                     return True
-                elif self._check_object_difference(object_remote[key], value):
+                elif self.is_object_difference(remote_value, local_value):
                     return True
-            else:
-                value_string = str(value)
-                if type(object_remote[key]) is not list and str(object_remote[key]) != value_string:
-                    return True
-                elif type(object_remote[key]) is list:
-                    if not self._compare_subnet(object_remote[key], value_string):
-                        return False
-                    elif len(object_remote[key]) > 1 or str(object_remote[key][0]) != value_string:
+            else:  # local_value is not list or dict, maybe int, float or str
+                value_string = str(local_value)
+                if isinstance(remote_value, list):  # e.g., subnet
+                    if self.is_same_subnet(remote_value, value_string):
+                        continue
+                    # Won't update if remote = ['var'] and local = 'var'
+                    elif len(remote_value) != 1 or str(remote_value[0]) != value_string:
                         return True
+                elif str(remote_value) != value_string:
+                    return True
         return False
 
     def _update_required(self, robject):
-        object_status = robject[0]
-        if object_status != 0:
-            return False
-        object_remote = robject[1]['data']
+        object_remote = robject['data'] if 'data' in robject else {}
         selector = self.module_level2_name
         object_present = self.module.params[selector] if selector in self.module.params else {}
-        return self._check_object_difference(object_remote, object_present)
+        return self.is_object_difference(object_remote, object_present)
 
     def _process_with_mkey(self, mvalue):
-        mobject = self.get_object(mvalue)
-        update_required = self._update_required(mobject)
+        rc, robject = self.get_object(mvalue)
         if self.module.params['state'] == 'present':
-            if mobject[0] == 0:
-                if update_required:
+            if rc == 0:
+                if self._update_required(robject):
                     return self.update_object(mvalue)
                 else:
                     self.module.exit_json(message='Object update skipped!')

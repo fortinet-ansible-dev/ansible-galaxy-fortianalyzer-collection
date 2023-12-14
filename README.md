@@ -1,20 +1,20 @@
 ![Fortinet logo|](https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Fortinet_logo.svg/320px-Fortinet_logo.svg.png)
 
-# Ansible Collection - fortinet.fortianalyzer:1.3.1
+# Ansible Collection - fortinet.fortianalyzer:1.3.2
 
 FortiAnalyzer Ansible Collection includes the modules that are able to configure FortiAnalyzer.
 
 [Documentation](https://ansible-galaxy-fortianalyzer-docs.readthedocs.io/en/latest) for the collection.
 
 ## Requirements
-* Ansible 2.13.0 or newer is required to support the newer Ansible Collections format
+* Ansible 2.14.0 or newer is required to support the newer Ansible Collections format
 * Python 3 is prefered when running Ansible with `fortinet.fortianalyzer` collection.
 
 ## Installation
 This collection is distributed via [ansible-galaxy](https://galaxy.ansible.com/fortinet/fortianalyzer), the installation steps are as follows:
 
-1. Install or upgrade to Ansible >= 2.13.0
-2. Download this collection from galaxy: `ansible-galaxy collection install fortinet.fortianalyzer:1.3.1`
+1. Install or upgrade to Ansible >= 2.14.0
+2. Download this collection from galaxy: `ansible-galaxy collection install fortinet.fortianalyzer:1.3.2`
 
 ## Modules
 The collection provides the following modules:
