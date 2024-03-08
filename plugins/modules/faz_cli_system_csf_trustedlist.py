@@ -94,7 +94,7 @@ options:
             - present
             - absent
     cli_system_csf_trustedlist:
-        description: the top level parameters set
+        description: The top level parameters set.
         required: false
         type: dict
         suboptions:
@@ -140,35 +140,32 @@ options:
             serial:
                 type: str
                 description: 'Serial.'
-
 '''
 
 EXAMPLES = '''
-- hosts: fortianalyzer_inventory
-  collections:
-    - fortinet.fortianalyzer
+- name: Example playbook
+  hosts: fortianalyzers
   connection: httpapi
   vars:
-    ansible_httpapi_use_ssl: True
-    ansible_httpapi_validate_certs: False
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
     ansible_httpapi_port: 443
   tasks:
     - name: Pre-authorized and blocked security fabric nodes.
-      faz_cli_system_csf_trustedlist:
-        bypass_validation: False
-        rc_succeeded: [0, -2, -3, ...]
-        rc_failed: [-2, -3, ...]
+      fortinet.fortianalyzer.faz_cli_system_csf_trustedlist:
+        # bypass_validation: false
+        # rc_succeeded: [0, -2, -3, ...]
+        # rc_failed: [-2, -3, ...]
         state: <value in [present, absent]>
         cli_system_csf_trustedlist:
           action: <value in [accept, deny]>
-          authorization-type: <value in [serial, certificate]>
+          authorization_type: <value in [serial, certificate]>
           certificate: <value of string>
-          downstream-authorization: <value in [disable, enable]>
-          ha-members: <value of string>
+          downstream_authorization: <value in [disable, enable]>
+          ha_members: <value of string>
           index: <value of integer>
           name: <value of string>
           serial: <value of string>
-
 '''
 
 RETURN = '''
@@ -213,7 +210,7 @@ version_check_warning:
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import check_parameter_bypass, remove_revision
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
@@ -228,139 +225,33 @@ def main():
     url_params = []
     module_primary_key = 'name'
     module_arg_spec = {
-        'access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'bypass_validation': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'enable_log': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'forticloud_access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'log_path': {
-            'type': 'str',
-            'required': False,
-            'default': '/tmp/fortianalyzer.ansible.log'
-        },
-        'proposed_method': {
-            'type': 'str',
-            'required': False,
-            'choices': [
-                'set',
-                'update',
-                'add'
-            ]
-        },
-        'rc_succeeded': {
-            'required': False,
-            'type': 'list',
-            'elements': 'int'
-        },
-        'rc_failed': {
-            'required': False,
-            'type': 'list',
-            'elements': 'int'
-        },
-        'state': {
-            'type': 'str',
-            'required': True,
-            'choices': [
-                'present',
-                'absent'
-            ]
-        },
+        'access_token': {'type': 'str', 'no_log': True},
+        'bypass_validation': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False},
+        'forticloud_access_token': {'type': 'str', 'no_log': True},
+        'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
+        'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'rc_succeeded': {'type': 'list', 'elements': 'int'},
+        'rc_failed': {'type': 'list', 'elements': 'int'},
+        'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},
         'cli_system_csf_trustedlist': {
-            'required': False,
             'type': 'dict',
-            'revision': {
-                '7.4.1': True
-            },
+            'v_range': [['7.4.1', '']],
             'options': {
-                'action': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'accept',
-                        'deny'
-                    ],
-                    'type': 'str'
-                },
-                'authorization-type': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'serial',
-                        'certificate'
-                    ],
-                    'type': 'str'
-                },
-                'certificate': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'type': 'str'
-                },
-                'downstream-authorization': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'disable',
-                        'enable'
-                    ],
-                    'type': 'str'
-                },
-                'ha-members': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'type': 'str'
-                },
-                'index': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'type': 'int'
-                },
-                'name': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'type': 'str'
-                },
-                'serial': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'type': 'str'
-                }
+                'action': {'v_range': [['7.4.1', '']], 'choices': ['accept', 'deny'], 'type': 'str'},
+                'authorization-type': {'v_range': [['7.4.1', '']], 'choices': ['serial', 'certificate'], 'type': 'str'},
+                'certificate': {'v_range': [['7.4.1', '']], 'type': 'str'},
+                'downstream-authorization': {'v_range': [['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'ha-members': {'v_range': [['7.4.1', '']], 'type': 'str'},
+                'index': {'v_range': [['7.4.1', '']], 'type': 'int'},
+                'name': {'v_range': [['7.4.1', '']], 'type': 'str'},
+                'serial': {'v_range': [['7.4.1', '']], 'type': 'str'}
             }
 
         }
     }
 
-    module = AnsibleModule(argument_spec=remove_revision(check_parameter_bypass(module_arg_spec, 'cli_system_csf_trustedlist')),
+    module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_csf_trustedlist'),
                            supports_check_mode=False)
 
     if not module._socket_path:

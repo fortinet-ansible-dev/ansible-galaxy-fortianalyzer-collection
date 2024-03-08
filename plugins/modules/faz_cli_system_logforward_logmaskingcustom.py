@@ -94,11 +94,13 @@ options:
             - present
             - absent
     log-forward:
-        description: the parameter (log-forward) in requested url
+        description: Deprecated, please use "log_forward"
         type: str
-        required: true
+    log_forward:
+        description: The parameter (log-forward) in requested url.
+        type: str
     cli_system_logforward_logmaskingcustom:
-        description: the top level parameters set
+        description: The top level parameters set.
         required: false
         type: dict
         suboptions:
@@ -123,28 +125,25 @@ options:
             id:
                 type: int
                 description: 'Field masking id.'
-
 '''
 
 EXAMPLES = '''
-- collections:
-    - fortinet.fortianalyzer
+- name: Example playbook
   connection: httpapi
-  hosts: fortianalyzer_inventory
+  hosts: fortianalyzers
   tasks:
-    - faz_cli_system_logforward_logmaskingcustom:
+    - name: Log field masking configuration.
+      fortinet.fortianalyzer.faz_cli_system_logforward_logmaskingcustom:
         cli_system_logforward_logmaskingcustom:
-          field-name: foofieldname
-          field-type: string
+          field_name: foofieldname
+          field_type: string
           id: 1
-        log-forward: 1
+        log_forward: 1
         state: present
-      name: Log field masking configuration.
   vars:
     ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
-
 '''
 
 RETURN = '''
@@ -189,7 +188,7 @@ version_check_warning:
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import check_parameter_bypass, remove_revision
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
@@ -204,171 +203,30 @@ def main():
     url_params = ['log-forward']
     module_primary_key = 'id'
     module_arg_spec = {
-        'access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'bypass_validation': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'enable_log': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'forticloud_access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'log_path': {
-            'type': 'str',
-            'required': False,
-            'default': '/tmp/fortianalyzer.ansible.log'
-        },
-        'proposed_method': {
-            'type': 'str',
-            'required': False,
-            'choices': [
-                'set',
-                'update',
-                'add'
-            ]
-        },
-        'rc_succeeded': {
-            'required': False,
-            'type': 'list',
-            'elements': 'int'
-        },
-        'rc_failed': {
-            'required': False,
-            'type': 'list',
-            'elements': 'int'
-        },
-        'state': {
-            'type': 'str',
-            'required': True,
-            'choices': [
-                'present',
-                'absent'
-            ]
-        },
-        'log-forward': {
-            'required': True,
-            'type': 'str'
-        },
+        'access_token': {'type': 'str', 'no_log': True},
+        'bypass_validation': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False},
+        'forticloud_access_token': {'type': 'str', 'no_log': True},
+        'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
+        'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'rc_succeeded': {'type': 'list', 'elements': 'int'},
+        'rc_failed': {'type': 'list', 'elements': 'int'},
+        'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},
+        'log-forward': {'type': 'str', 'api_name': 'log_forward'},
+        'log_forward': {'type': 'str'},
         'cli_system_logforward_logmaskingcustom': {
-            'required': False,
             'type': 'dict',
-            'revision': {
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.0.8': True,
-                '7.0.9': True,
-                '7.0.10': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True,
-                '7.2.3': True,
-                '7.2.4': True,
-                '7.4.0': True,
-                '7.4.1': True
-            },
+            'v_range': [['7.0.0', '']],
             'options': {
-                'field-name': {
-                    'required': False,
-                    'revision': {
-                        '7.0.0': True,
-                        '7.0.1': True,
-                        '7.0.2': True,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'type': 'str'
-                },
-                'field-type': {
-                    'required': False,
-                    'revision': {
-                        '7.0.0': True,
-                        '7.0.1': True,
-                        '7.0.2': True,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'string',
-                        'ip',
-                        'mac',
-                        'email',
-                        'unknown'
-                    ],
-                    'type': 'str'
-                },
-                'id': {
-                    'required': False,
-                    'revision': {
-                        '7.0.0': True,
-                        '7.0.1': True,
-                        '7.0.2': True,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'type': 'int'
-                }
+                'field-name': {'v_range': [['7.0.0', '']], 'type': 'str'},
+                'field-type': {'v_range': [['7.0.0', '']], 'choices': ['string', 'ip', 'mac', 'email', 'unknown'], 'type': 'str'},
+                'id': {'v_range': [['7.0.0', '']], 'type': 'int'}
             }
 
         }
     }
 
-    module = AnsibleModule(argument_spec=remove_revision(check_parameter_bypass(module_arg_spec, 'cli_system_logforward_logmaskingcustom')),
+    module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_logforward_logmaskingcustom'),
                            supports_check_mode=False)
 
     if not module._socket_path:

@@ -94,38 +94,35 @@ options:
             - present
             - absent
     user:
-        description: the parameter (user) in requested url
+        description: The parameter (user) in requested url.
         type: str
         required: true
     cli_system_admin_user_restrictdevvdom:
-        description: the top level parameters set
+        description: The top level parameters set.
         required: false
         type: dict
         suboptions:
             dev-vdom:
                 type: str
                 description: 'Device or device VDOM.'
-
 '''
 
 EXAMPLES = '''
-- collections:
-    - fortinet.fortianalyzer
+- name: Example playbook
   connection: httpapi
-  hosts: fortianalyzer_inventory
+  hosts: fortianalyzers
   tasks:
-    - faz_cli_system_admin_user_restrictdevvdom:
+    - name: Restricted to these devices/VDOMs.
+      fortinet.fortianalyzer.faz_cli_system_admin_user_restrictdevvdom:
         cli_system_admin_user_restrictdevvdom:
-          dev-vdom: root
+          dev_vdom: root
         state: present
         user: fooadminuser
-      name: Restricted to these devices/VDOMs.
-      when: False
+      when: false
   vars:
     ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
-
 '''
 
 RETURN = '''
@@ -170,7 +167,7 @@ version_check_warning:
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import check_parameter_bypass, remove_revision
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
@@ -185,125 +182,25 @@ def main():
     url_params = ['user']
     module_primary_key = 'dev-vdom'
     module_arg_spec = {
-        'access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'bypass_validation': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'enable_log': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'forticloud_access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'log_path': {
-            'type': 'str',
-            'required': False,
-            'default': '/tmp/fortianalyzer.ansible.log'
-        },
-        'proposed_method': {
-            'type': 'str',
-            'required': False,
-            'choices': [
-                'set',
-                'update',
-                'add'
-            ]
-        },
-        'rc_succeeded': {
-            'required': False,
-            'type': 'list',
-            'elements': 'int'
-        },
-        'rc_failed': {
-            'required': False,
-            'type': 'list',
-            'elements': 'int'
-        },
-        'state': {
-            'type': 'str',
-            'required': True,
-            'choices': [
-                'present',
-                'absent'
-            ]
-        },
-        'user': {
-            'required': True,
-            'type': 'str'
-        },
+        'access_token': {'type': 'str', 'no_log': True},
+        'bypass_validation': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False},
+        'forticloud_access_token': {'type': 'str', 'no_log': True},
+        'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
+        'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'rc_succeeded': {'type': 'list', 'elements': 'int'},
+        'rc_failed': {'type': 'list', 'elements': 'int'},
+        'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},
+        'user': {'required': True, 'type': 'str'},
         'cli_system_admin_user_restrictdevvdom': {
-            'required': False,
             'type': 'dict',
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True
-            },
-            'options': {
-                'dev-vdom': {
-                    'required': False,
-                    'revision': {
-                        '6.2.1': True,
-                        '6.2.2': True,
-                        '6.2.3': True,
-                        '6.2.5': False,
-                        '6.2.6': False,
-                        '6.2.7': False,
-                        '6.2.8': False,
-                        '6.2.9': False,
-                        '6.2.10': False,
-                        '6.2.11': False,
-                        '6.2.12': False,
-                        '6.4.1': False,
-                        '6.4.2': False,
-                        '6.4.3': False,
-                        '6.4.4': False,
-                        '6.4.5': False,
-                        '6.4.6': False,
-                        '6.4.7': False,
-                        '6.4.8': False,
-                        '6.4.9': False,
-                        '6.4.10': False,
-                        '6.4.11': False,
-                        '6.4.12': False,
-                        '6.4.13': False,
-                        '7.0.0': False,
-                        '7.0.1': False,
-                        '7.0.2': False,
-                        '7.0.3': False,
-                        '7.0.4': False,
-                        '7.0.5': False,
-                        '7.0.6': False,
-                        '7.0.7': False,
-                        '7.0.8': False,
-                        '7.0.9': False,
-                        '7.0.10': False,
-                        '7.2.0': False,
-                        '7.2.1': False,
-                        '7.2.2': False,
-                        '7.2.3': False,
-                        '7.2.4': False,
-                        '7.4.0': False,
-                        '7.4.1': False
-                    },
-                    'type': 'str'
-                }
-            }
+            'v_range': [['6.2.1', '6.2.3']],
+            'options': {'dev-vdom': {'v_range': [['6.2.1', '6.2.3']], 'type': 'str'}}
 
         }
     }
 
-    module = AnsibleModule(argument_spec=remove_revision(check_parameter_bypass(module_arg_spec, 'cli_system_admin_user_restrictdevvdom')),
+    module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_admin_user_restrictdevvdom'),
                            supports_check_mode=False)
 
     if not module._socket_path:

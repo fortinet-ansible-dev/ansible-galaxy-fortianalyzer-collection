@@ -79,7 +79,7 @@ options:
         elements: int
         required: false
     sys_proxy_json:
-        description: the top level parameters set
+        description: The top level parameters set.
         required: false
         type: dict
         suboptions:
@@ -104,27 +104,24 @@ options:
             timeout:
                 type: int
                 description: 'Maximum time in seconds to wait for response from remote device.  If no response recieved from remote device before timeout ex...'
-
 '''
 
 EXAMPLES = '''
-- collections:
-    - fortinet.fortianalyzer
+- name: Example playbook
   connection: httpapi
-  hosts: fortianalyzer_inventory
+  hosts: fortianalyzers
   tasks:
-    - faz_sys_proxy_json:
+    - name: Send and receive JSON request to/from managed devices.
+      fortinet.fortianalyzer.faz_sys_proxy_json:
         sys_proxy_json:
           action: <value in [get, post, put, ...]>
           payload: <value of dict>
           resource: <value of string>
           target: <value of list>
-      name: Send and receive JSON request to/from managed devices.
   vars:
     ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
-
 '''
 
 RETURN = '''
@@ -169,7 +166,7 @@ version_check_warning:
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import check_parameter_bypass, remove_revision
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
@@ -184,273 +181,28 @@ def main():
     url_params = []
     module_primary_key = None
     module_arg_spec = {
-        'access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'bypass_validation': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'enable_log': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'forticloud_access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'log_path': {
-            'type': 'str',
-            'required': False,
-            'default': '/tmp/fortianalyzer.ansible.log'
-        },
-        'rc_succeeded': {
-            'required': False,
-            'type': 'list',
-            'elements': 'int'
-        },
-        'rc_failed': {
-            'required': False,
-            'type': 'list',
-            'elements': 'int'
-        },
+        'access_token': {'type': 'str', 'no_log': True},
+        'bypass_validation': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False},
+        'forticloud_access_token': {'type': 'str', 'no_log': True},
+        'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
+        'rc_succeeded': {'type': 'list', 'elements': 'int'},
+        'rc_failed': {'type': 'list', 'elements': 'int'},
         'sys_proxy_json': {
-            'required': False,
             'type': 'dict',
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.2.11': True,
-                '6.2.12': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '6.4.12': True,
-                '6.4.13': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.0.8': True,
-                '7.0.9': True,
-                '7.0.10': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True,
-                '7.2.3': True,
-                '7.2.4': True,
-                '7.4.0': True,
-                '7.4.1': True
-            },
+            'v_range': [['6.2.1', '']],
             'options': {
-                'action': {
-                    'required': False,
-                    'revision': {
-                        '6.2.1': True,
-                        '6.2.2': True,
-                        '6.2.3': True,
-                        '6.2.5': True,
-                        '6.2.6': True,
-                        '6.2.7': True,
-                        '6.2.8': True,
-                        '6.2.9': True,
-                        '6.2.10': True,
-                        '6.2.11': True,
-                        '6.2.12': True,
-                        '6.4.1': True,
-                        '6.4.2': True,
-                        '6.4.3': True,
-                        '6.4.4': True,
-                        '6.4.5': True,
-                        '6.4.6': True,
-                        '6.4.7': True,
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': True,
-                        '7.0.1': True,
-                        '7.0.2': True,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'get',
-                        'post',
-                        'put',
-                        'delete'
-                    ],
-                    'type': 'str'
-                },
-                'payload': {
-                    'required': False,
-                    'type': 'dict'
-                },
-                'resource': {
-                    'required': False,
-                    'revision': {
-                        '6.2.1': True,
-                        '6.2.2': True,
-                        '6.2.3': True,
-                        '6.2.5': True,
-                        '6.2.6': True,
-                        '6.2.7': True,
-                        '6.2.8': True,
-                        '6.2.9': True,
-                        '6.2.10': True,
-                        '6.2.11': True,
-                        '6.2.12': True,
-                        '6.4.1': True,
-                        '6.4.2': True,
-                        '6.4.3': True,
-                        '6.4.4': True,
-                        '6.4.5': True,
-                        '6.4.6': True,
-                        '6.4.7': True,
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': True,
-                        '7.0.1': True,
-                        '7.0.2': True,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'type': 'str'
-                },
-                'target': {
-                    'required': False,
-                    'revision': {
-                        '6.2.1': True,
-                        '6.2.2': True,
-                        '6.2.3': True,
-                        '6.2.5': True,
-                        '6.2.6': True,
-                        '6.2.7': True,
-                        '6.2.8': True,
-                        '6.2.9': True,
-                        '6.2.10': True,
-                        '6.2.11': True,
-                        '6.2.12': True,
-                        '6.4.1': True,
-                        '6.4.2': True,
-                        '6.4.3': True,
-                        '6.4.4': True,
-                        '6.4.5': True,
-                        '6.4.6': True,
-                        '6.4.7': True,
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': True,
-                        '7.0.1': True,
-                        '7.0.2': True,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'type': 'list',
-                    'elements': 'str'
-                },
-                'timeout': {
-                    'required': False,
-                    'revision': {
-                        '7.0.1': True,
-                        '7.0.2': True,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'type': 'int'
-                }
+                'action': {'choices': ['get', 'post', 'put', 'delete'], 'type': 'str'},
+                'payload': {'type': 'dict'},
+                'resource': {'type': 'str'},
+                'target': {'type': 'list', 'elements': 'str'},
+                'timeout': {'v_range': [['7.0.1', '']], 'type': 'int'}
             }
 
         }
     }
 
-    module = AnsibleModule(argument_spec=remove_revision(check_parameter_bypass(module_arg_spec, 'sys_proxy_json')),
+    module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'sys_proxy_json'),
                            supports_check_mode=False)
 
     if not module._socket_path:

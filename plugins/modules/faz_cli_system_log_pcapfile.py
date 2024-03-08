@@ -87,7 +87,7 @@ options:
         elements: int
         required: false
     cli_system_log_pcapfile:
-        description: the top level parameters set
+        description: The top level parameters set.
         required: false
         type: dict
         suboptions:
@@ -102,27 +102,24 @@ options:
                     - 'plain'
                     - 'zip'
                     - 'zip-with-password'
-
 '''
 
 EXAMPLES = '''
-- hosts: fortianalyzer_inventory
-  collections:
-    - fortinet.fortianalyzer
+- name: Example playbook
+  hosts: fortianalyzers
   connection: httpapi
   vars:
-    ansible_httpapi_use_ssl: True
-    ansible_httpapi_validate_certs: False
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
     ansible_httpapi_port: 443
   tasks:
     - name: Log pcap-file settings.
-      faz_cli_system_log_pcapfile:
-        bypass_validation: False
-        rc_succeeded: [0, -2, -3, ...]
-        rc_failed: [-2, -3, ...]
+      fortinet.fortianalyzer.faz_cli_system_log_pcapfile:
+        # bypass_validation: false
+        # rc_succeeded: [0, -2, -3, ...]
+        # rc_failed: [-2, -3, ...]
         cli_system_log_pcapfile:
-          download-mode: <value in [plain, zip, zip-with-password]>
-
+          download_mode: <value in [plain, zip, zip-with-password]>
 '''
 
 RETURN = '''
@@ -167,7 +164,7 @@ version_check_warning:
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import check_parameter_bypass, remove_revision
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
@@ -182,75 +179,23 @@ def main():
     url_params = []
     module_primary_key = None
     module_arg_spec = {
-        'access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'bypass_validation': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'enable_log': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'forticloud_access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'log_path': {
-            'type': 'str',
-            'required': False,
-            'default': '/tmp/fortianalyzer.ansible.log'
-        },
-        'proposed_method': {
-            'type': 'str',
-            'required': False,
-            'choices': [
-                'set',
-                'update',
-                'add'
-            ]
-        },
-        'rc_succeeded': {
-            'required': False,
-            'type': 'list',
-            'elements': 'int'
-        },
-        'rc_failed': {
-            'required': False,
-            'type': 'list',
-            'elements': 'int'
-        },
+        'access_token': {'type': 'str', 'no_log': True},
+        'bypass_validation': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False},
+        'forticloud_access_token': {'type': 'str', 'no_log': True},
+        'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
+        'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'rc_succeeded': {'type': 'list', 'elements': 'int'},
+        'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_system_log_pcapfile': {
-            'required': False,
             'type': 'dict',
-            'revision': {
-                '7.4.1': True
-            },
-            'options': {
-                'download-mode': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'plain',
-                        'zip',
-                        'zip-with-password'
-                    ],
-                    'type': 'str'
-                }
-            }
+            'v_range': [['7.4.1', '']],
+            'options': {'download-mode': {'v_range': [['7.4.1', '']], 'choices': ['plain', 'zip', 'zip-with-password'], 'type': 'str'}}
 
         }
     }
 
-    module = AnsibleModule(argument_spec=remove_revision(check_parameter_bypass(module_arg_spec, 'cli_system_log_pcapfile')),
+    module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_log_pcapfile'),
                            supports_check_mode=False)
 
     if not module._socket_path:

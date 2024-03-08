@@ -49,73 +49,65 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     method:
         description:
             - the method of the json-rpc
             - it must be in [get, add, set, update, delete, move, clone, exec]
         type: str
-        required: false
     params:
         description:
             - the parameter collection.
         type: list
         elements: dict
-        required: false
     json:
         description:
             - the raw json-formatted payload to send to fortianalyzer
         type: str
-        required: false
 '''
 
 EXAMPLES = '''
-- hosts: fortianalyzer01
+- name: Example playbook
+  hosts: fortianalyzers
   connection: httpapi
   vars:
     adom: "root"
-    ansible_httpapi_use_ssl: True
-    ansible_httpapi_validate_certs: False
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
     ansible_httpapi_port: 443
   tasks:
-    - name: "login a user"
-      faz_generic:
+    - name: Login a user
+      fortinet.fortianalyzer.faz_generic:
         method: "exec"
         params:
           - url: "sys/login/user"
             data:
               - user: "APIUser"
                 passwd: "Fortinet1!e"
-    - name: "login another user"
-      faz_generic:
+    - name: Login another user
+      fortinet.fortianalyzer.faz_generic:
         json: |
           {
            "method":"exec",
@@ -131,7 +123,6 @@ EXAMPLES = '''
              }
             ]
           }
-
 '''
 
 RETURN = """
@@ -182,49 +173,15 @@ import json
 
 def main():
     module_arg_spec = {
-        'access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'enable_log': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'forticloud_access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'log_path': {
-            'type': 'str',
-            'required': False,
-            'default': '/tmp/fortianalyzer.ansible.log'
-        },
-        'rc_succeeded': {
-            'required': False,
-            'elements': 'int',
-            'type': 'list'
-        },
-        'rc_failed': {
-            'required': False,
-            'elements': 'int',
-            'type': 'list'
-        },
-        'method': {
-            'type': 'str',
-            'required': False
-        },
-        'params': {
-            'type': 'list',
-            'elements': 'dict',
-            'required': False
-        },
-        'json': {
-            'type': 'str',
-            'required': False
-        }
+        'access_token': {'type': 'str', 'no_log': True},
+        'enable_log': {'type': 'bool', 'default': False},
+        'forticloud_access_token': {'type': 'str', 'no_log': True},
+        'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
+        'rc_succeeded': {'elements': 'int', 'type': 'list'},
+        'rc_failed': {'elements': 'int', 'type': 'list'},
+        'method': {'type': 'str'},
+        'params': {'type': 'list', 'elements': 'dict'},
+        'json': {'type': 'str'}
     }
 
     module = AnsibleModule(argument_spec=module_arg_spec,

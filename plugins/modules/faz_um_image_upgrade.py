@@ -79,7 +79,7 @@ options:
         elements: int
         required: false
     um_image_upgrade:
-        description: the top level parameters set
+        description: The top level parameters set.
         required: false
         type: dict
         suboptions:
@@ -129,24 +129,22 @@ options:
             schedule_time:
                 type: str
                 description: no description
-
 '''
 
 EXAMPLES = '''
-- hosts: fortianalyzer_inventory
-  collections:
-    - fortinet.fortianalyzer
+- name: Example playbook
+  hosts: fortianalyzers
   connection: httpapi
   vars:
-    ansible_httpapi_use_ssl: True
-    ansible_httpapi_validate_certs: False
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
     ansible_httpapi_port: 443
   tasks:
     - name: The older API for updating the firmware of specific device.
-      faz_um_image_upgrade:
-        bypass_validation: False
-        rc_succeeded: [0, -2, -3, ...]
-        rc_failed: [-2, -3, ...]
+      fortinet.fortianalyzer.faz_um_image_upgrade:
+        # bypass_validation: false
+        # rc_succeeded: [0, -2, -3, ...]
+        # rc_failed: [-2, -3, ...]
         um_image_upgrade:
           adom: <value of string>
           create_task: <value of string>
@@ -161,7 +159,6 @@ EXAMPLES = '''
             model: <value of string>
             release: <value of string>
           schedule_time: <value of string>
-
 '''
 
 RETURN = '''
@@ -206,7 +203,7 @@ version_check_warning:
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import check_parameter_bypass, remove_revision
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
@@ -221,207 +218,46 @@ def main():
     url_params = []
     module_primary_key = None
     module_arg_spec = {
-        'access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'bypass_validation': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'enable_log': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'forticloud_access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'log_path': {
-            'type': 'str',
-            'required': False,
-            'default': '/tmp/fortianalyzer.ansible.log'
-        },
-        'rc_succeeded': {
-            'required': False,
-            'type': 'list',
-            'elements': 'int'
-        },
-        'rc_failed': {
-            'required': False,
-            'type': 'list',
-            'elements': 'int'
-        },
+        'access_token': {'type': 'str', 'no_log': True},
+        'bypass_validation': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False},
+        'forticloud_access_token': {'type': 'str', 'no_log': True},
+        'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
+        'rc_succeeded': {'type': 'list', 'elements': 'int'},
+        'rc_failed': {'type': 'list', 'elements': 'int'},
         'um_image_upgrade': {
-            'required': False,
             'type': 'dict',
-            'revision': {
-                '7.2.1': True,
-                '7.2.2': True,
-                '7.2.3': True,
-                '7.2.4': True,
-                '7.4.0': True,
-                '7.4.1': True
-            },
+            'v_range': [['7.2.1', '']],
             'options': {
-                'adom': {
-                    'required': False,
-                    'revision': {
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'type': 'str'
-                },
-                'create_task': {
-                    'required': False,
-                    'revision': {
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'type': 'str'
-                },
+                'adom': {'v_range': [['7.2.1', '']], 'type': 'str'},
+                'create_task': {'v_range': [['7.2.1', '']], 'type': 'str'},
                 'device': {
-                    'required': False,
-                    'revision': {
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
+                    'v_range': [['7.2.1', '']],
                     'type': 'list',
-                    'options': {
-                        'name': {
-                            'required': False,
-                            'revision': {
-                                '7.2.1': True,
-                                '7.2.2': True,
-                                '7.2.3': True,
-                                '7.2.4': True,
-                                '7.4.0': True,
-                                '7.4.1': True
-                            },
-                            'type': 'str'
-                        },
-                        'vdom': {
-                            'required': False,
-                            'revision': {
-                                '7.2.1': True,
-                                '7.2.2': True,
-                                '7.2.3': True,
-                                '7.2.4': True,
-                                '7.4.0': True,
-                                '7.4.1': True
-                            },
-                            'type': 'str'
-                        }
-                    },
+                    'options': {'name': {'v_range': [['7.2.1', '']], 'type': 'str'}, 'vdom': {'v_range': [['7.2.1', '']], 'type': 'str'}},
                     'elements': 'dict'
                 },
                 'flags': {
-                    'required': False,
-                    'revision': {
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'f_boot_alt_partition',
-                        'f_skip_retrieve',
-                        'f_skip_multi_steps',
-                        'f_skip_fortiguard_img',
-                        'f_preview'
-                    ],
+                    'v_range': [['7.2.1', '']],
+                    'choices': ['f_boot_alt_partition', 'f_skip_retrieve', 'f_skip_multi_steps', 'f_skip_fortiguard_img', 'f_preview'],
                     'type': 'str'
                 },
                 'image': {
-                    'required': False,
                     'type': 'dict',
                     'options': {
-                        'build': {
-                            'required': False,
-                            'revision': {
-                                '7.2.1': True,
-                                '7.2.2': True,
-                                '7.2.3': True,
-                                '7.2.4': True,
-                                '7.4.0': True,
-                                '7.4.1': True
-                            },
-                            'type': 'str'
-                        },
-                        'id': {
-                            'required': False,
-                            'revision': {
-                                '7.2.1': True,
-                                '7.2.2': True,
-                                '7.2.3': True,
-                                '7.2.4': True,
-                                '7.4.0': True,
-                                '7.4.1': True
-                            },
-                            'type': 'str'
-                        },
-                        'model': {
-                            'required': False,
-                            'revision': {
-                                '7.2.1': True,
-                                '7.2.2': True,
-                                '7.2.3': True,
-                                '7.2.4': True,
-                                '7.4.0': True,
-                                '7.4.1': True
-                            },
-                            'type': 'str'
-                        },
-                        'release': {
-                            'required': False,
-                            'revision': {
-                                '7.2.1': True,
-                                '7.2.2': True,
-                                '7.2.3': True,
-                                '7.2.4': True,
-                                '7.4.0': True,
-                                '7.4.1': True
-                            },
-                            'type': 'str'
-                        }
+                        'build': {'v_range': [['7.2.1', '']], 'type': 'str'},
+                        'id': {'v_range': [['7.2.1', '']], 'type': 'str'},
+                        'model': {'v_range': [['7.2.1', '']], 'type': 'str'},
+                        'release': {'v_range': [['7.2.1', '']], 'type': 'str'}
                     }
                 },
-                'schedule_time': {
-                    'required': False,
-                    'revision': {
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'type': 'str'
-                }
+                'schedule_time': {'v_range': [['7.2.1', '']], 'type': 'str'}
             }
 
         }
     }
 
-    module = AnsibleModule(argument_spec=remove_revision(check_parameter_bypass(module_arg_spec, 'um_image_upgrade')),
+    module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'um_image_upgrade'),
                            supports_check_mode=False)
 
     if not module._socket_path:

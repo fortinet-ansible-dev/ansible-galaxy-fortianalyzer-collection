@@ -87,7 +87,7 @@ options:
         elements: int
         required: false
     cli_system_csf:
-        description: the top level parameters set
+        description: The top level parameters set.
         required: false
         type: dict
         suboptions:
@@ -278,61 +278,58 @@ options:
             upstream-port:
                 type: int
                 description: 'The port number to use to communicate with the FortiGate upstream from this FortiGate in the Security Fabric (default = 8013).'
-
 '''
 
 EXAMPLES = '''
-- hosts: fortianalyzer_inventory
-  collections:
-    - fortinet.fortianalyzer
+- name: Example playbook
+  hosts: fortianalyzers
   connection: httpapi
   vars:
-    ansible_httpapi_use_ssl: True
-    ansible_httpapi_validate_certs: False
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
     ansible_httpapi_port: 443
   tasks:
     - name: Add this device to a Security Fabric or set up a new Security Fabric on this device.
-      faz_cli_system_csf:
-        bypass_validation: False
-        rc_succeeded: [0, -2, -3, ...]
-        rc_failed: [-2, -3, ...]
+      fortinet.fortianalyzer.faz_cli_system_csf:
+        # bypass_validation: false
+        # rc_succeeded: [0, -2, -3, ...]
+        # rc_failed: [-2, -3, ...]
         cli_system_csf:
-          accept-auth-by-cert: <value in [disable, enable]>
-          authorization-request-type: <value in [certificate, serial]>
+          accept_auth_by_cert: <value in [disable, enable]>
+          authorization_request_type: <value in [certificate, serial]>
           certificate: <value of string>
-          configuration-sync: <value in [default, local]>
-          downstream-access: <value in [disable, enable]>
-          downstream-accprofile: <value of string>
-          fabric-connector:
+          configuration_sync: <value in [default, local]>
+          downstream_access: <value in [disable, enable]>
+          downstream_accprofile: <value of string>
+          fabric_connector:
             -
               accprofile: <value of string>
-              configuration-write-access: <value in [disable, enable]>
+              configuration_write_access: <value in [disable, enable]>
               serial: <value of string>
-          fabric-object-unification: <value in [local, default]>
-          fabric-workers: <value of integer>
-          file-mgmt: <value in [disable, enable]>
-          file-quota: <value of integer>
-          file-quota-warning: <value of integer>
-          fixed-key: <value of string>
-          forticloud-account-enforcement: <value in [disable, enable]>
-          group-name: <value of string>
-          group-password: <value of string>
-          log-unification: <value in [disable, enable]>
-          saml-configuration-sync: <value in [local, default]>
+          fabric_object_unification: <value in [local, default]>
+          fabric_workers: <value of integer>
+          file_mgmt: <value in [disable, enable]>
+          file_quota: <value of integer>
+          file_quota_warning: <value of integer>
+          fixed_key: <value of string>
+          forticloud_account_enforcement: <value in [disable, enable]>
+          group_name: <value of string>
+          group_password: <value of string>
+          log_unification: <value in [disable, enable]>
+          saml_configuration_sync: <value in [local, default]>
           status: <value in [disable, enable]>
-          trusted-list:
+          trusted_list:
             -
               action: <value in [accept, deny]>
-              authorization-type: <value in [serial, certificate]>
+              authorization_type: <value in [serial, certificate]>
               certificate: <value of string>
-              downstream-authorization: <value in [disable, enable]>
-              ha-members: <value of string>
+              downstream_authorization: <value in [disable, enable]>
+              ha_members: <value of string>
               index: <value of integer>
               name: <value of string>
               serial: <value of string>
           upstream: <value of string>
-          upstream-port: <value of integer>
-
+          upstream_port: <value of integer>
 '''
 
 RETURN = '''
@@ -377,7 +374,7 @@ version_check_warning:
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import check_parameter_bypass, remove_revision
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
@@ -392,358 +389,69 @@ def main():
     url_params = []
     module_primary_key = None
     module_arg_spec = {
-        'access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'bypass_validation': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'enable_log': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'forticloud_access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'log_path': {
-            'type': 'str',
-            'required': False,
-            'default': '/tmp/fortianalyzer.ansible.log'
-        },
-        'proposed_method': {
-            'type': 'str',
-            'required': False,
-            'choices': [
-                'set',
-                'update',
-                'add'
-            ]
-        },
-        'rc_succeeded': {
-            'required': False,
-            'type': 'list',
-            'elements': 'int'
-        },
-        'rc_failed': {
-            'required': False,
-            'type': 'list',
-            'elements': 'int'
-        },
+        'access_token': {'type': 'str', 'no_log': True},
+        'bypass_validation': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False},
+        'forticloud_access_token': {'type': 'str', 'no_log': True},
+        'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
+        'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'rc_succeeded': {'type': 'list', 'elements': 'int'},
+        'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_system_csf': {
-            'required': False,
             'type': 'dict',
-            'revision': {
-                '7.4.1': True
-            },
+            'v_range': [['7.4.1', '']],
             'options': {
-                'accept-auth-by-cert': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'disable',
-                        'enable'
-                    ],
-                    'type': 'str'
-                },
-                'authorization-request-type': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'certificate',
-                        'serial'
-                    ],
-                    'type': 'str'
-                },
-                'certificate': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'type': 'str'
-                },
-                'configuration-sync': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'default',
-                        'local'
-                    ],
-                    'type': 'str'
-                },
-                'downstream-access': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'disable',
-                        'enable'
-                    ],
-                    'type': 'str'
-                },
-                'downstream-accprofile': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'type': 'str'
-                },
+                'accept-auth-by-cert': {'v_range': [['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'authorization-request-type': {'v_range': [['7.4.1', '']], 'choices': ['certificate', 'serial'], 'type': 'str'},
+                'certificate': {'v_range': [['7.4.1', '']], 'type': 'str'},
+                'configuration-sync': {'v_range': [['7.4.1', '']], 'choices': ['default', 'local'], 'type': 'str'},
+                'downstream-access': {'v_range': [['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'downstream-accprofile': {'v_range': [['7.4.1', '']], 'type': 'str'},
                 'fabric-connector': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
+                    'v_range': [['7.4.1', '']],
                     'type': 'list',
                     'options': {
-                        'accprofile': {
-                            'required': False,
-                            'revision': {
-                                '7.4.1': True
-                            },
-                            'type': 'str'
-                        },
-                        'configuration-write-access': {
-                            'required': False,
-                            'revision': {
-                                '7.4.1': True
-                            },
-                            'choices': [
-                                'disable',
-                                'enable'
-                            ],
-                            'type': 'str'
-                        },
-                        'serial': {
-                            'required': False,
-                            'revision': {
-                                '7.4.1': True
-                            },
-                            'type': 'str'
-                        }
+                        'accprofile': {'v_range': [['7.4.1', '']], 'type': 'str'},
+                        'configuration-write-access': {'v_range': [['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                        'serial': {'v_range': [['7.4.1', '']], 'type': 'str'}
                     },
                     'elements': 'dict'
                 },
-                'fabric-object-unification': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'local',
-                        'default'
-                    ],
-                    'type': 'str'
-                },
-                'fabric-workers': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'type': 'int'
-                },
-                'file-mgmt': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'disable',
-                        'enable'
-                    ],
-                    'type': 'str'
-                },
-                'file-quota': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'type': 'int'
-                },
-                'file-quota-warning': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'type': 'int'
-                },
-                'fixed-key': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'no_log': True,
-                    'type': 'str'
-                },
-                'forticloud-account-enforcement': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'disable',
-                        'enable'
-                    ],
-                    'type': 'str'
-                },
-                'group-name': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'type': 'str'
-                },
-                'group-password': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'no_log': True,
-                    'type': 'str'
-                },
-                'log-unification': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'disable',
-                        'enable'
-                    ],
-                    'type': 'str'
-                },
-                'saml-configuration-sync': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'local',
-                        'default'
-                    ],
-                    'type': 'str'
-                },
-                'status': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'disable',
-                        'enable'
-                    ],
-                    'type': 'str'
-                },
+                'fabric-object-unification': {'v_range': [['7.4.1', '']], 'choices': ['local', 'default'], 'type': 'str'},
+                'fabric-workers': {'v_range': [['7.4.1', '']], 'type': 'int'},
+                'file-mgmt': {'v_range': [['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'file-quota': {'v_range': [['7.4.1', '']], 'type': 'int'},
+                'file-quota-warning': {'v_range': [['7.4.1', '']], 'type': 'int'},
+                'fixed-key': {'v_range': [['7.4.1', '']], 'no_log': True, 'type': 'str'},
+                'forticloud-account-enforcement': {'v_range': [['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'group-name': {'v_range': [['7.4.1', '']], 'type': 'str'},
+                'group-password': {'v_range': [['7.4.1', '']], 'no_log': True, 'type': 'str'},
+                'log-unification': {'v_range': [['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'saml-configuration-sync': {'v_range': [['7.4.1', '']], 'choices': ['local', 'default'], 'type': 'str'},
+                'status': {'v_range': [['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'trusted-list': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
+                    'v_range': [['7.4.1', '']],
                     'type': 'list',
                     'options': {
-                        'action': {
-                            'required': False,
-                            'revision': {
-                                '7.4.1': True
-                            },
-                            'choices': [
-                                'accept',
-                                'deny'
-                            ],
-                            'type': 'str'
-                        },
-                        'authorization-type': {
-                            'required': False,
-                            'revision': {
-                                '7.4.1': True
-                            },
-                            'choices': [
-                                'serial',
-                                'certificate'
-                            ],
-                            'type': 'str'
-                        },
-                        'certificate': {
-                            'required': False,
-                            'revision': {
-                                '7.4.1': True
-                            },
-                            'type': 'str'
-                        },
-                        'downstream-authorization': {
-                            'required': False,
-                            'revision': {
-                                '7.4.1': True
-                            },
-                            'choices': [
-                                'disable',
-                                'enable'
-                            ],
-                            'type': 'str'
-                        },
-                        'ha-members': {
-                            'required': False,
-                            'revision': {
-                                '7.4.1': True
-                            },
-                            'type': 'str'
-                        },
-                        'index': {
-                            'required': False,
-                            'revision': {
-                                '7.4.1': True
-                            },
-                            'type': 'int'
-                        },
-                        'name': {
-                            'required': False,
-                            'revision': {
-                                '7.4.1': True
-                            },
-                            'type': 'str'
-                        },
-                        'serial': {
-                            'required': False,
-                            'revision': {
-                                '7.4.1': True
-                            },
-                            'type': 'str'
-                        }
+                        'action': {'v_range': [['7.4.1', '']], 'choices': ['accept', 'deny'], 'type': 'str'},
+                        'authorization-type': {'v_range': [['7.4.1', '']], 'choices': ['serial', 'certificate'], 'type': 'str'},
+                        'certificate': {'v_range': [['7.4.1', '']], 'type': 'str'},
+                        'downstream-authorization': {'v_range': [['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                        'ha-members': {'v_range': [['7.4.1', '']], 'type': 'str'},
+                        'index': {'v_range': [['7.4.1', '']], 'type': 'int'},
+                        'name': {'v_range': [['7.4.1', '']], 'type': 'str'},
+                        'serial': {'v_range': [['7.4.1', '']], 'type': 'str'}
                     },
                     'elements': 'dict'
                 },
-                'upstream': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'type': 'str'
-                },
-                'upstream-port': {
-                    'required': False,
-                    'revision': {
-                        '7.4.1': True
-                    },
-                    'type': 'int'
-                }
+                'upstream': {'v_range': [['7.4.1', '']], 'type': 'str'},
+                'upstream-port': {'v_range': [['7.4.1', '']], 'type': 'int'}
             }
 
         }
     }
 
-    module = AnsibleModule(argument_spec=remove_revision(check_parameter_bypass(module_arg_spec, 'cli_system_csf')),
+    module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_csf'),
                            supports_check_mode=False)
 
     if not module._socket_path:

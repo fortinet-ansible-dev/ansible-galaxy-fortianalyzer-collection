@@ -87,7 +87,7 @@ options:
         elements: int
         required: false
     cli_system_webproxy:
-        description: the top level parameters set
+        description: The top level parameters set.
         required: false
         type: dict
         suboptions:
@@ -121,24 +121,22 @@ options:
             username:
                 type: str
                 description: 'The user name used for authentication.'
-
 '''
 
 EXAMPLES = '''
-- hosts: fortianalyzer_inventory
-  collections:
-    - fortinet.fortianalyzer
+- name: Example playbook
+  hosts: fortianalyzers
   connection: httpapi
   vars:
-    ansible_httpapi_use_ssl: True
-    ansible_httpapi_validate_certs: False
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
     ansible_httpapi_port: 443
   tasks:
     - name: Configure system web proxy.
-      faz_cli_system_webproxy:
-        bypass_validation: False
-        rc_succeeded: [0, -2, -3, ...]
-        rc_failed: [-2, -3, ...]
+      fortinet.fortianalyzer.faz_cli_system_webproxy:
+        # bypass_validation: false
+        # rc_succeeded: [0, -2, -3, ...]
+        # rc_failed: [-2, -3, ...]
         cli_system_webproxy:
           address: <value of string>
           mode: <value in [proxy, tunnel]>
@@ -146,7 +144,6 @@ EXAMPLES = '''
           port: <value of integer>
           status: <value in [disable, enable]>
           username: <value of string>
-
 '''
 
 RETURN = '''
@@ -191,7 +188,7 @@ version_check_warning:
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import check_parameter_bypass, remove_revision
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
@@ -206,272 +203,30 @@ def main():
     url_params = []
     module_primary_key = None
     module_arg_spec = {
-        'access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'bypass_validation': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'enable_log': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'forticloud_access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'log_path': {
-            'type': 'str',
-            'required': False,
-            'default': '/tmp/fortianalyzer.ansible.log'
-        },
-        'proposed_method': {
-            'type': 'str',
-            'required': False,
-            'choices': [
-                'set',
-                'update',
-                'add'
-            ]
-        },
-        'rc_succeeded': {
-            'required': False,
-            'type': 'list',
-            'elements': 'int'
-        },
-        'rc_failed': {
-            'required': False,
-            'type': 'list',
-            'elements': 'int'
-        },
+        'access_token': {'type': 'str', 'no_log': True},
+        'bypass_validation': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False},
+        'forticloud_access_token': {'type': 'str', 'no_log': True},
+        'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
+        'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'rc_succeeded': {'type': 'list', 'elements': 'int'},
+        'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_system_webproxy': {
-            'required': False,
             'type': 'dict',
-            'revision': {
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '6.4.12': True,
-                '6.4.13': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.0.8': True,
-                '7.0.9': True,
-                '7.0.10': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True,
-                '7.2.3': True,
-                '7.2.4': True,
-                '7.4.0': True,
-                '7.4.1': True
-            },
+            'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']],
             'options': {
-                'address': {
-                    'required': False,
-                    'revision': {
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': False,
-                        '7.0.1': False,
-                        '7.0.2': False,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'type': 'str'
-                },
-                'mode': {
-                    'required': False,
-                    'revision': {
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': False,
-                        '7.0.1': False,
-                        '7.0.2': False,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'proxy',
-                        'tunnel'
-                    ],
-                    'type': 'str'
-                },
-                'password': {
-                    'required': False,
-                    'revision': {
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': False,
-                        '7.0.1': False,
-                        '7.0.2': False,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'no_log': True,
-                    'type': 'str'
-                },
-                'port': {
-                    'required': False,
-                    'revision': {
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': False,
-                        '7.0.1': False,
-                        '7.0.2': False,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'type': 'int'
-                },
-                'status': {
-                    'required': False,
-                    'revision': {
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': False,
-                        '7.0.1': False,
-                        '7.0.2': False,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'disable',
-                        'enable'
-                    ],
-                    'type': 'str'
-                },
-                'username': {
-                    'required': False,
-                    'revision': {
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': False,
-                        '7.0.1': False,
-                        '7.0.2': False,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'type': 'str'
-                }
+                'address': {'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']], 'type': 'str'},
+                'mode': {'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']], 'choices': ['proxy', 'tunnel'], 'type': 'str'},
+                'password': {'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']], 'no_log': True, 'type': 'str'},
+                'port': {'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']], 'type': 'int'},
+                'status': {'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'username': {'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']], 'type': 'str'}
             }
 
         }
     }
 
-    module = AnsibleModule(argument_spec=remove_revision(check_parameter_bypass(module_arg_spec, 'cli_system_webproxy')),
+    module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_webproxy'),
                            supports_check_mode=False)
 
     if not module._socket_path:

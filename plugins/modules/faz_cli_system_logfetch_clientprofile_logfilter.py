@@ -94,11 +94,13 @@ options:
             - present
             - absent
     client-profile:
-        description: the parameter (client-profile) in requested url
+        description: Deprecated, please use "client_profile"
         type: str
-        required: true
+    client_profile:
+        description: The parameter (client-profile) in requested url.
+        type: str
     cli_system_logfetch_clientprofile_logfilter:
-        description: the top level parameters set
+        description: The top level parameters set.
         required: false
         type: dict
         suboptions:
@@ -130,29 +132,26 @@ options:
             value:
                 type: str
                 description: 'Field filter operand or free-text matching expression.'
-
 '''
 
 EXAMPLES = '''
-- collections:
-    - fortinet.fortianalyzer
+- name: Example playbook
   connection: httpapi
-  hosts: fortianalyzer_inventory
+  hosts: fortianalyzers
   tasks:
-    - faz_cli_system_logfetch_clientprofile_logfilter:
+    - name: Log content filters.
+      fortinet.fortianalyzer.faz_cli_system_logfetch_clientprofile_logfilter:
         cli_system_logfetch_clientprofile_logfilter:
           field: foofield
           id: 1
           oper: "="
           value: 124
-        client-profile: 1
+        client_profile: 1
         state: present
-      name: Log content filters.
   vars:
     ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
-
 '''
 
 RETURN = '''
@@ -197,7 +196,7 @@ version_check_warning:
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import check_parameter_bypass, remove_revision
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
@@ -212,319 +211,31 @@ def main():
     url_params = ['client-profile']
     module_primary_key = 'id'
     module_arg_spec = {
-        'access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'bypass_validation': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'enable_log': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'forticloud_access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'log_path': {
-            'type': 'str',
-            'required': False,
-            'default': '/tmp/fortianalyzer.ansible.log'
-        },
-        'proposed_method': {
-            'type': 'str',
-            'required': False,
-            'choices': [
-                'set',
-                'update',
-                'add'
-            ]
-        },
-        'rc_succeeded': {
-            'required': False,
-            'type': 'list',
-            'elements': 'int'
-        },
-        'rc_failed': {
-            'required': False,
-            'type': 'list',
-            'elements': 'int'
-        },
-        'state': {
-            'type': 'str',
-            'required': True,
-            'choices': [
-                'present',
-                'absent'
-            ]
-        },
-        'client-profile': {
-            'required': True,
-            'type': 'str'
-        },
+        'access_token': {'type': 'str', 'no_log': True},
+        'bypass_validation': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False},
+        'forticloud_access_token': {'type': 'str', 'no_log': True},
+        'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
+        'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'rc_succeeded': {'type': 'list', 'elements': 'int'},
+        'rc_failed': {'type': 'list', 'elements': 'int'},
+        'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},
+        'client-profile': {'type': 'str', 'api_name': 'client_profile'},
+        'client_profile': {'type': 'str'},
         'cli_system_logfetch_clientprofile_logfilter': {
-            'required': False,
             'type': 'dict',
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.2.11': True,
-                '6.2.12': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '6.4.12': True,
-                '6.4.13': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.0.8': True,
-                '7.0.9': True,
-                '7.0.10': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True,
-                '7.2.3': True,
-                '7.2.4': True,
-                '7.4.0': True,
-                '7.4.1': True
-            },
+            'v_range': [['6.2.1', '']],
             'options': {
-                'field': {
-                    'required': False,
-                    'revision': {
-                        '6.2.1': True,
-                        '6.2.2': True,
-                        '6.2.3': True,
-                        '6.2.5': True,
-                        '6.2.6': True,
-                        '6.2.7': True,
-                        '6.2.8': True,
-                        '6.2.9': True,
-                        '6.2.10': True,
-                        '6.2.11': True,
-                        '6.2.12': True,
-                        '6.4.1': True,
-                        '6.4.2': True,
-                        '6.4.3': True,
-                        '6.4.4': True,
-                        '6.4.5': True,
-                        '6.4.6': True,
-                        '6.4.7': True,
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': True,
-                        '7.0.1': True,
-                        '7.0.2': True,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'type': 'str'
-                },
-                'id': {
-                    'required': False,
-                    'revision': {
-                        '6.2.1': True,
-                        '6.2.2': True,
-                        '6.2.3': True,
-                        '6.2.5': True,
-                        '6.2.6': True,
-                        '6.2.7': True,
-                        '6.2.8': True,
-                        '6.2.9': True,
-                        '6.2.10': True,
-                        '6.2.11': True,
-                        '6.2.12': True,
-                        '6.4.1': True,
-                        '6.4.2': True,
-                        '6.4.3': True,
-                        '6.4.4': True,
-                        '6.4.5': True,
-                        '6.4.6': True,
-                        '6.4.7': True,
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': True,
-                        '7.0.1': True,
-                        '7.0.2': True,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'type': 'int'
-                },
-                'oper': {
-                    'required': False,
-                    'revision': {
-                        '6.2.1': True,
-                        '6.2.2': True,
-                        '6.2.3': True,
-                        '6.2.5': True,
-                        '6.2.6': True,
-                        '6.2.7': True,
-                        '6.2.8': True,
-                        '6.2.9': True,
-                        '6.2.10': True,
-                        '6.2.11': True,
-                        '6.2.12': True,
-                        '6.4.1': True,
-                        '6.4.2': True,
-                        '6.4.3': True,
-                        '6.4.4': True,
-                        '6.4.5': True,
-                        '6.4.6': True,
-                        '6.4.7': True,
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': True,
-                        '7.0.1': True,
-                        '7.0.2': True,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        '=',
-                        '!=',
-                        '<',
-                        '>',
-                        '<=',
-                        '>=',
-                        'contain',
-                        'not-contain',
-                        'match'
-                    ],
-                    'type': 'str'
-                },
-                'value': {
-                    'required': False,
-                    'revision': {
-                        '6.2.1': True,
-                        '6.2.2': True,
-                        '6.2.3': True,
-                        '6.2.5': True,
-                        '6.2.6': True,
-                        '6.2.7': True,
-                        '6.2.8': True,
-                        '6.2.9': True,
-                        '6.2.10': True,
-                        '6.2.11': True,
-                        '6.2.12': True,
-                        '6.4.1': True,
-                        '6.4.2': True,
-                        '6.4.3': True,
-                        '6.4.4': True,
-                        '6.4.5': True,
-                        '6.4.6': True,
-                        '6.4.7': True,
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': True,
-                        '7.0.1': True,
-                        '7.0.2': True,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'type': 'str'
-                }
+                'field': {'type': 'str'},
+                'id': {'type': 'int'},
+                'oper': {'choices': ['=', '!=', '<', '>', '<=', '>=', 'contain', 'not-contain', 'match'], 'type': 'str'},
+                'value': {'type': 'str'}
             }
 
         }
     }
 
-    module = AnsibleModule(argument_spec=remove_revision(check_parameter_bypass(module_arg_spec, 'cli_system_logfetch_clientprofile_logfilter')),
+    module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_logfetch_clientprofile_logfilter'),
                            supports_check_mode=False)
 
     if not module._socket_path:

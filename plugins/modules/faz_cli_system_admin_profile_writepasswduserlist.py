@@ -23,13 +23,13 @@ ANSIBLE_METADATA = {'status': ['preview'],
 
 DOCUMENTATION = '''
 ---
-module: faz_cli_system_fortiview_autocache
-short_description: FortiView auto-cache settings.
+module: faz_cli_system_admin_profile_writepasswduserlist
+short_description: User list.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
 
-version_added: "1.0.0"
+version_added: "1.4.0"
 author:
     - Xinwei Du (@dux-fortinet)
     - Link Zheng (@chillancezen)
@@ -86,48 +86,45 @@ options:
         type: list
         elements: int
         required: false
-    cli_system_fortiview_autocache:
+    state:
+        description: The directive to create, update or delete an object
+        type: str
+        required: true
+        choices:
+            - present
+            - absent
+    profile:
+        description: The parameter (profile) in requested url.
+        type: str
+        required: true
+    cli_system_admin_profile_writepasswduserlist:
         description: The top level parameters set.
         required: false
         type: dict
         suboptions:
-            aggressive-fortiview:
+            userid:
                 type: str
-                description:
-                 - 'Enable/disable auto-cache on fortiview aggressively.'
-                 - 'disable - Disable the aggressive fortiview auto-cache.'
-                 - 'enable - Enable the aggressive fortiview auto-cache.'
-                choices:
-                    - 'disable'
-                    - 'enable'
-            interval:
-                type: int
-                description: 'The time interval in hours for fortiview auto-cache.'
-            status:
-                type: str
-                description:
-                 - 'Enable/disable fortiview auto-cache.'
-                 - 'disable - Disable the fortiview auto-cache.'
-                 - 'enable - Enable the fortiview auto-cache.'
-                choices:
-                    - 'disable'
-                    - 'enable'
+                description: 'User ID.'
 '''
 
 EXAMPLES = '''
 - name: Example playbook
-  connection: httpapi
   hosts: fortianalyzers
-  tasks:
-    - name: FortiView auto-cache settings.
-      fortinet.fortianalyzer.faz_cli_system_fortiview_autocache:
-        cli_system_fortiview_autocache:
-          aggressive_fortiview: disable
-          status: disable
+  connection: httpapi
   vars:
-    ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
+    ansible_httpapi_port: 443
+  tasks:
+    - name: User list.
+      fortinet.fortianalyzer.faz_cli_system_admin_profile_writepasswduserlist:
+        # bypass_validation: false
+        # rc_succeeded: [0, -2, -3, ...]
+        # rc_failed: [-2, -3, ...]
+        profile: <your own value>
+        state: <value in [present, absent]>
+        cli_system_admin_profile_writepasswduserlist:
+          userid: <value of string>
 '''
 
 RETURN = '''
@@ -177,14 +174,14 @@ from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import
 
 def main():
     jrpc_urls = [
-        '/cli/global/system/fortiview/auto-cache'
+        '/cli/global/system/admin/profile/{profile}/write-passwd-user-list'
     ]
 
     perobject_jrpc_urls = [
-        '/cli/global/system/fortiview/auto-cache/{auto-cache}'
+        '/cli/global/system/admin/profile/{profile}/write-passwd-user-list/{write-passwd-user-list}'
     ]
 
-    url_params = []
+    url_params = ['profile']
     module_primary_key = None
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
@@ -195,19 +192,18 @@ def main():
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
-        'cli_system_fortiview_autocache': {
+        'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},
+        'profile': {'required': True, 'type': 'str'},
+        'cli_system_admin_profile_writepasswduserlist': {
             'type': 'dict',
-            'v_range': [['6.2.1', '']],
-            'options': {
-                'aggressive-fortiview': {'choices': ['disable', 'enable'], 'type': 'str'},
-                'interval': {'type': 'int'},
-                'status': {'choices': ['disable', 'enable'], 'type': 'str'}
-            }
+            'no_log': False,
+            'v_range': [['7.4.2', '']],
+            'options': {'userid': {'v_range': [['7.4.2', '']], 'type': 'str'}}
 
         }
     }
 
-    module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_fortiview_autocache'),
+    module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_admin_profile_writepasswduserlist'),
                            supports_check_mode=False)
 
     if not module._socket_path:
@@ -218,7 +214,7 @@ def main():
     connection.set_option('forticloud_access_token', module.params['forticloud_access_token'])
     connection.set_option('log_path', module.params['log_path'])
     faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='partial crud')
+                      metadata=module_arg_spec, task_type='full crud')
     faz.process()
     module.exit_json(meta=module.params)
 

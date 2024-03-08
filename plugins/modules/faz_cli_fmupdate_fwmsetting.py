@@ -87,7 +87,7 @@ options:
         elements: int
         required: false
     cli_fmupdate_fwmsetting:
-        description: the top level parameters set
+        description: The top level parameters set.
         required: false
         type: dict
         suboptions:
@@ -202,37 +202,70 @@ options:
                     total-timeout:
                         type: int
                         description: 'timeout for the whole fortigate upgrade(1-86400s, default=3600)'
+                    health-check-timeout:
+                        type: int
+                        description: 'timeout for waiting retrieve.(1-6000s, default=600)'
             retry-interval:
                 type: int
                 description: 'waiting time for resending request to device(1-360s, default=60)'
             retry-max:
                 type: int
                 description: 'max retry times(0-100, default=10)'
-
+            health-check:
+                type: str
+                description:
+                 - 'do health check after upgrade'
+                 - 'disable - Disable setting.'
+                 - 'enable - Enable setting.'
+                choices:
+                    - 'disable'
+                    - 'enable'
+            max-device-history:
+                type: int
+                description: 'max number of device upgrade report(1-10000, default=100)'
+            max-profile-history:
+                type: int
+                description: 'max number of profile upgrade report(1-10000, default=100)'
+            retrieve:
+                type: str
+                description:
+                 - 'do retrieve after upgrade'
+                 - 'disable - Disable setting.'
+                 - 'enable - Enable setting.'
+                choices:
+                    - 'disable'
+                    - 'enable'
+            revision-diff:
+                type: str
+                description:
+                 - 'calculate diff script after upgrade'
+                 - 'disable - Disable setting.'
+                 - 'enable - Enable setting.'
+                choices:
+                    - 'disable'
+                    - 'enable'
 '''
 
 EXAMPLES = '''
-- collections:
-    - fortinet.fortianalyzer
+- name: Example playbook
   connection: httpapi
-  hosts: fortianalyzer_inventory
+  hosts: fortianalyzers
   tasks:
-    - faz_cli_fmupdate_fwmsetting:
+    - name: Configure firmware management settings.
+      fortinet.fortianalyzer.faz_cli_fmupdate_fwmsetting:
         cli_fmupdate_fwmsetting:
-          auto-scan-fgt-disk: disable
-          check-fgt-disk: disable
-          fds-failover-fmg: disable
-          #fds-image-timeout: <value of integer>
-          #immx-source: <value in [fmg, fgt, cloud]>
-          #max-fds-retry: <value of integer>
-          #multiple-steps-interval: <value of integer>
-          #skip-disk-check: disable
-      name: Configure firmware management settings.
+          auto_scan_fgt_disk: disable
+          check_fgt_disk: disable
+          fds_failover_fmg: disable
+          # fds_image_timeout: <value of integer>
+          # immx_source: <value in [fmg, fgt, cloud]>
+          # max_fds_retry: <value of integer>
+          # multiple_steps_interval: <value of integer>
+          # skip_disk_check: disable
   vars:
     ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
-
 '''
 
 RETURN = '''
@@ -277,7 +310,7 @@ version_check_warning:
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import check_parameter_bypass, remove_revision
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
@@ -292,811 +325,59 @@ def main():
     url_params = []
     module_primary_key = None
     module_arg_spec = {
-        'access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'bypass_validation': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'enable_log': {
-            'type': 'bool',
-            'required': False,
-            'default': False
-        },
-        'forticloud_access_token': {
-            'type': 'str',
-            'required': False,
-            'no_log': True
-        },
-        'log_path': {
-            'type': 'str',
-            'required': False,
-            'default': '/tmp/fortianalyzer.ansible.log'
-        },
-        'proposed_method': {
-            'type': 'str',
-            'required': False,
-            'choices': [
-                'set',
-                'update',
-                'add'
-            ]
-        },
-        'rc_succeeded': {
-            'required': False,
-            'type': 'list',
-            'elements': 'int'
-        },
-        'rc_failed': {
-            'required': False,
-            'type': 'list',
-            'elements': 'int'
-        },
+        'access_token': {'type': 'str', 'no_log': True},
+        'bypass_validation': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False},
+        'forticloud_access_token': {'type': 'str', 'no_log': True},
+        'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
+        'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'rc_succeeded': {'type': 'list', 'elements': 'int'},
+        'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_fmupdate_fwmsetting': {
-            'required': False,
             'type': 'dict',
-            'revision': {
-                '6.2.1': True,
-                '6.2.2': True,
-                '6.2.3': True,
-                '6.2.5': True,
-                '6.2.6': True,
-                '6.2.7': True,
-                '6.2.8': True,
-                '6.2.9': True,
-                '6.2.10': True,
-                '6.2.11': True,
-                '6.2.12': True,
-                '6.4.1': True,
-                '6.4.2': True,
-                '6.4.3': True,
-                '6.4.4': True,
-                '6.4.5': True,
-                '6.4.6': True,
-                '6.4.7': True,
-                '6.4.8': True,
-                '6.4.9': True,
-                '6.4.10': True,
-                '6.4.11': True,
-                '6.4.12': True,
-                '6.4.13': True,
-                '7.0.0': True,
-                '7.0.1': True,
-                '7.0.2': True,
-                '7.0.3': True,
-                '7.0.4': True,
-                '7.0.5': True,
-                '7.0.6': True,
-                '7.0.7': True,
-                '7.0.8': True,
-                '7.0.9': True,
-                '7.0.10': True,
-                '7.2.0': True,
-                '7.2.1': True,
-                '7.2.2': True,
-                '7.2.3': True,
-                '7.2.4': True,
-                '7.4.0': True,
-                '7.4.1': True
-            },
+            'v_range': [['6.2.1', '']],
             'options': {
-                'auto-scan-fgt-disk': {
-                    'required': False,
-                    'revision': {
-                        '6.2.1': True,
-                        '6.2.2': False,
-                        '6.2.3': False,
-                        '6.2.5': True,
-                        '6.2.6': True,
-                        '6.2.7': True,
-                        '6.2.8': True,
-                        '6.2.9': True,
-                        '6.2.10': True,
-                        '6.2.11': True,
-                        '6.2.12': True,
-                        '6.4.1': True,
-                        '6.4.2': True,
-                        '6.4.3': True,
-                        '6.4.4': True,
-                        '6.4.5': True,
-                        '6.4.6': True,
-                        '6.4.7': True,
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': True,
-                        '7.0.1': True,
-                        '7.0.2': True,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'disable',
-                        'enable'
-                    ],
-                    'type': 'str'
-                },
-                'check-fgt-disk': {
-                    'required': False,
-                    'revision': {
-                        '6.2.1': True,
-                        '6.2.2': False,
-                        '6.2.3': False,
-                        '6.2.5': True,
-                        '6.2.6': True,
-                        '6.2.7': True,
-                        '6.2.8': True,
-                        '6.2.9': True,
-                        '6.2.10': True,
-                        '6.2.11': True,
-                        '6.2.12': True,
-                        '6.4.1': True,
-                        '6.4.2': True,
-                        '6.4.3': True,
-                        '6.4.4': True,
-                        '6.4.5': True,
-                        '6.4.6': True,
-                        '6.4.7': True,
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': True,
-                        '7.0.1': True,
-                        '7.0.2': True,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'disable',
-                        'enable'
-                    ],
-                    'type': 'str'
-                },
-                'fds-failover-fmg': {
-                    'required': False,
-                    'revision': {
-                        '6.2.1': True,
-                        '6.2.2': False,
-                        '6.2.3': False,
-                        '6.2.5': True,
-                        '6.2.6': True,
-                        '6.2.7': True,
-                        '6.2.8': True,
-                        '6.2.9': True,
-                        '6.2.10': True,
-                        '6.2.11': True,
-                        '6.2.12': True,
-                        '6.4.1': True,
-                        '6.4.2': True,
-                        '6.4.3': True,
-                        '6.4.4': True,
-                        '6.4.5': True,
-                        '6.4.6': True,
-                        '6.4.7': True,
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': True,
-                        '7.0.1': True,
-                        '7.0.2': True,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'disable',
-                        'enable'
-                    ],
-                    'type': 'str'
-                },
-                'fds-image-timeout': {
-                    'required': False,
-                    'revision': {
-                        '6.2.1': True,
-                        '6.2.2': True,
-                        '6.2.3': True,
-                        '6.2.5': True,
-                        '6.2.6': True,
-                        '6.2.7': True,
-                        '6.2.8': True,
-                        '6.2.9': True,
-                        '6.2.10': True,
-                        '6.2.11': True,
-                        '6.2.12': True,
-                        '6.4.1': True,
-                        '6.4.2': True,
-                        '6.4.3': True,
-                        '6.4.4': True,
-                        '6.4.5': True,
-                        '6.4.6': True,
-                        '6.4.7': True,
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': True,
-                        '7.0.1': True,
-                        '7.0.2': True,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'type': 'int'
-                },
-                'multiple-steps-interval': {
-                    'required': False,
-                    'revision': {
-                        '6.2.1': True,
-                        '6.2.2': True,
-                        '6.2.3': True,
-                        '6.2.5': True,
-                        '6.2.6': True,
-                        '6.2.7': True,
-                        '6.2.8': True,
-                        '6.2.9': True,
-                        '6.2.10': True,
-                        '6.2.11': True,
-                        '6.2.12': True,
-                        '6.4.1': True,
-                        '6.4.2': True,
-                        '6.4.3': True,
-                        '6.4.4': True,
-                        '6.4.5': True,
-                        '6.4.6': True,
-                        '6.4.7': True,
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': True,
-                        '7.0.1': True,
-                        '7.0.2': True,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'type': 'int'
-                },
-                'max-fds-retry': {
-                    'required': False,
-                    'revision': {
-                        '6.2.2': True,
-                        '6.2.3': True,
-                        '6.2.5': False,
-                        '6.2.6': False,
-                        '6.2.7': False,
-                        '6.2.8': False,
-                        '6.2.9': False,
-                        '6.2.10': False,
-                        '6.2.11': False,
-                        '6.2.12': False,
-                        '6.4.1': False,
-                        '6.4.2': False,
-                        '6.4.3': False,
-                        '6.4.4': False,
-                        '6.4.5': False,
-                        '6.4.6': False,
-                        '6.4.7': False,
-                        '6.4.8': False,
-                        '6.4.9': False,
-                        '6.4.10': False,
-                        '6.4.11': False,
-                        '6.4.12': False,
-                        '6.4.13': False,
-                        '7.0.0': False,
-                        '7.0.1': False,
-                        '7.0.2': False,
-                        '7.0.3': False,
-                        '7.0.4': False,
-                        '7.0.5': False,
-                        '7.0.6': False,
-                        '7.0.7': False,
-                        '7.0.8': False,
-                        '7.0.9': False,
-                        '7.0.10': False,
-                        '7.2.0': False,
-                        '7.2.1': False,
-                        '7.2.2': False,
-                        '7.2.3': False,
-                        '7.2.4': False,
-                        '7.4.0': False,
-                        '7.4.1': False
-                    },
-                    'type': 'int'
-                },
-                'skip-disk-check': {
-                    'required': False,
-                    'revision': {
-                        '6.2.2': True,
-                        '6.2.3': True,
-                        '6.2.5': False,
-                        '6.2.6': False,
-                        '6.2.7': False,
-                        '6.2.8': False,
-                        '6.2.9': False,
-                        '6.2.10': False,
-                        '6.2.11': False,
-                        '6.2.12': False,
-                        '6.4.1': False,
-                        '6.4.2': False,
-                        '6.4.3': False,
-                        '6.4.4': False,
-                        '6.4.5': False,
-                        '6.4.6': False,
-                        '6.4.7': False,
-                        '6.4.8': False,
-                        '6.4.9': False,
-                        '6.4.10': False,
-                        '6.4.11': False,
-                        '6.4.12': False,
-                        '6.4.13': False,
-                        '7.0.0': False,
-                        '7.0.1': False,
-                        '7.0.2': False,
-                        '7.0.3': False,
-                        '7.0.4': False,
-                        '7.0.5': False,
-                        '7.0.6': False,
-                        '7.0.7': False,
-                        '7.0.8': False,
-                        '7.0.9': False,
-                        '7.0.10': False,
-                        '7.2.0': False,
-                        '7.2.1': False,
-                        '7.2.2': False,
-                        '7.2.3': False,
-                        '7.2.4': False,
-                        '7.4.0': False,
-                        '7.4.1': False
-                    },
-                    'choices': [
-                        'disable',
-                        'enable'
-                    ],
-                    'type': 'str'
-                },
-                'immx-source': {
-                    'required': False,
-                    'revision': {
-                        '6.4.2': True,
-                        '6.4.3': True,
-                        '6.4.4': True,
-                        '6.4.5': True,
-                        '6.4.6': True,
-                        '6.4.7': True,
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': True,
-                        '7.0.1': True,
-                        '7.0.2': True,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'fmg',
-                        'fgt',
-                        'cloud'
-                    ],
-                    'type': 'str'
-                },
-                'log': {
-                    'required': False,
-                    'revision': {
-                        '6.4.8': True,
-                        '6.4.9': True,
-                        '6.4.10': True,
-                        '6.4.11': True,
-                        '6.4.12': True,
-                        '6.4.13': True,
-                        '7.0.0': False,
-                        '7.0.1': True,
-                        '7.0.2': True,
-                        '7.0.3': True,
-                        '7.0.4': True,
-                        '7.0.5': True,
-                        '7.0.6': True,
-                        '7.0.7': True,
-                        '7.0.8': True,
-                        '7.0.9': True,
-                        '7.0.10': True,
-                        '7.2.0': True,
-                        '7.2.1': True,
-                        '7.2.2': True,
-                        '7.2.3': True,
-                        '7.2.4': True,
-                        '7.4.0': True,
-                        '7.4.1': True
-                    },
-                    'choices': [
-                        'fwm',
-                        'fwm_dm',
-                        'fwm_dm_json'
-                    ],
-                    'type': 'str'
-                },
+                'auto-scan-fgt-disk': {'v_range': [['6.2.1', '6.2.1'], ['6.2.5', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'check-fgt-disk': {'v_range': [['6.2.1', '6.2.1'], ['6.2.5', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'fds-failover-fmg': {'v_range': [['6.2.1', '6.2.1'], ['6.2.5', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'fds-image-timeout': {'type': 'int'},
+                'multiple-steps-interval': {'type': 'int'},
+                'max-fds-retry': {'v_range': [['6.2.2', '6.2.3']], 'type': 'int'},
+                'skip-disk-check': {'v_range': [['6.2.2', '6.2.3']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'immx-source': {'v_range': [['6.4.2', '']], 'choices': ['fmg', 'fgt', 'cloud'], 'type': 'str'},
+                'log': {'v_range': [['6.4.8', '6.4.14'], ['7.0.1', '']], 'choices': ['fwm', 'fwm_dm', 'fwm_dm_json'], 'type': 'str'},
                 'upgrade-timeout': {
-                    'required': False,
                     'type': 'dict',
                     'options': {
-                        'check-status-timeout': {
-                            'required': False,
-                            'revision': {
-                                '7.0.5': True,
-                                '7.0.6': True,
-                                '7.0.7': True,
-                                '7.0.8': True,
-                                '7.0.9': True,
-                                '7.0.10': True,
-                                '7.2.0': False,
-                                '7.2.1': False,
-                                '7.2.2': True,
-                                '7.2.3': True,
-                                '7.2.4': True,
-                                '7.4.0': True,
-                                '7.4.1': True
-                            },
-                            'type': 'int'
-                        },
-                        'ctrl-check-status-timeout': {
-                            'required': False,
-                            'revision': {
-                                '7.0.5': True,
-                                '7.0.6': True,
-                                '7.0.7': True,
-                                '7.0.8': True,
-                                '7.0.9': True,
-                                '7.0.10': True,
-                                '7.2.0': False,
-                                '7.2.1': False,
-                                '7.2.2': True,
-                                '7.2.3': True,
-                                '7.2.4': True,
-                                '7.4.0': True,
-                                '7.4.1': True
-                            },
-                            'type': 'int'
-                        },
-                        'ctrl-put-image-by-fds-timeout': {
-                            'required': False,
-                            'revision': {
-                                '7.0.5': True,
-                                '7.0.6': True,
-                                '7.0.7': True,
-                                '7.0.8': True,
-                                '7.0.9': True,
-                                '7.0.10': True,
-                                '7.2.0': False,
-                                '7.2.1': False,
-                                '7.2.2': True,
-                                '7.2.3': True,
-                                '7.2.4': True,
-                                '7.4.0': True,
-                                '7.4.1': True
-                            },
-                            'type': 'int'
-                        },
-                        'ha-sync-timeout': {
-                            'required': False,
-                            'revision': {
-                                '7.0.5': True,
-                                '7.0.6': True,
-                                '7.0.7': True,
-                                '7.0.8': True,
-                                '7.0.9': True,
-                                '7.0.10': True,
-                                '7.2.0': False,
-                                '7.2.1': False,
-                                '7.2.2': True,
-                                '7.2.3': True,
-                                '7.2.4': True,
-                                '7.4.0': True,
-                                '7.4.1': True
-                            },
-                            'type': 'int'
-                        },
-                        'license-check-timeout': {
-                            'required': False,
-                            'revision': {
-                                '7.0.5': True,
-                                '7.0.6': True,
-                                '7.0.7': True,
-                                '7.0.8': True,
-                                '7.0.9': True,
-                                '7.0.10': True,
-                                '7.2.0': False,
-                                '7.2.1': False,
-                                '7.2.2': True,
-                                '7.2.3': True,
-                                '7.2.4': True,
-                                '7.4.0': True,
-                                '7.4.1': True
-                            },
-                            'type': 'int'
-                        },
-                        'prepare-image-timeout': {
-                            'required': False,
-                            'revision': {
-                                '7.0.5': True,
-                                '7.0.6': True,
-                                '7.0.7': True,
-                                '7.0.8': True,
-                                '7.0.9': True,
-                                '7.0.10': True,
-                                '7.2.0': False,
-                                '7.2.1': False,
-                                '7.2.2': True,
-                                '7.2.3': True,
-                                '7.2.4': True,
-                                '7.4.0': True,
-                                '7.4.1': True
-                            },
-                            'type': 'int'
-                        },
-                        'put-image-by-fds-timeout': {
-                            'required': False,
-                            'revision': {
-                                '7.0.5': True,
-                                '7.0.6': True,
-                                '7.0.7': True,
-                                '7.0.8': True,
-                                '7.0.9': True,
-                                '7.0.10': True,
-                                '7.2.0': False,
-                                '7.2.1': False,
-                                '7.2.2': True,
-                                '7.2.3': True,
-                                '7.2.4': True,
-                                '7.4.0': True,
-                                '7.4.1': True
-                            },
-                            'type': 'int'
-                        },
-                        'put-image-timeout': {
-                            'required': False,
-                            'revision': {
-                                '7.0.5': True,
-                                '7.0.6': True,
-                                '7.0.7': True,
-                                '7.0.8': True,
-                                '7.0.9': True,
-                                '7.0.10': True,
-                                '7.2.0': False,
-                                '7.2.1': False,
-                                '7.2.2': True,
-                                '7.2.3': True,
-                                '7.2.4': True,
-                                '7.4.0': True,
-                                '7.4.1': True
-                            },
-                            'type': 'int'
-                        },
-                        'reboot-of-fsck-timeout': {
-                            'required': False,
-                            'revision': {
-                                '7.0.5': True,
-                                '7.0.6': True,
-                                '7.0.7': True,
-                                '7.0.8': True,
-                                '7.0.9': True,
-                                '7.0.10': True,
-                                '7.2.0': False,
-                                '7.2.1': False,
-                                '7.2.2': True,
-                                '7.2.3': True,
-                                '7.2.4': True,
-                                '7.4.0': True,
-                                '7.4.1': True
-                            },
-                            'type': 'int'
-                        },
-                        'reboot-of-upgrade-timeout': {
-                            'required': False,
-                            'revision': {
-                                '7.0.5': True,
-                                '7.0.6': True,
-                                '7.0.7': True,
-                                '7.0.8': True,
-                                '7.0.9': True,
-                                '7.0.10': True,
-                                '7.2.0': False,
-                                '7.2.1': False,
-                                '7.2.2': True,
-                                '7.2.3': True,
-                                '7.2.4': True,
-                                '7.4.0': True,
-                                '7.4.1': True
-                            },
-                            'type': 'int'
-                        },
-                        'retrieve-timeout': {
-                            'required': False,
-                            'revision': {
-                                '7.0.5': True,
-                                '7.0.6': True,
-                                '7.0.7': True,
-                                '7.0.8': True,
-                                '7.0.9': True,
-                                '7.0.10': True,
-                                '7.2.0': False,
-                                '7.2.1': False,
-                                '7.2.2': True,
-                                '7.2.3': True,
-                                '7.2.4': True,
-                                '7.4.0': True,
-                                '7.4.1': True
-                            },
-                            'type': 'int'
-                        },
-                        'rpc-timeout': {
-                            'required': False,
-                            'revision': {
-                                '7.0.5': True,
-                                '7.0.6': True,
-                                '7.0.7': True,
-                                '7.0.8': True,
-                                '7.0.9': True,
-                                '7.0.10': True,
-                                '7.2.0': False,
-                                '7.2.1': False,
-                                '7.2.2': True,
-                                '7.2.3': True,
-                                '7.2.4': True,
-                                '7.4.0': True,
-                                '7.4.1': True
-                            },
-                            'type': 'int'
-                        },
-                        'total-timeout': {
-                            'required': False,
-                            'revision': {
-                                '7.0.5': True,
-                                '7.0.6': True,
-                                '7.0.7': True,
-                                '7.0.8': True,
-                                '7.0.9': True,
-                                '7.0.10': True,
-                                '7.2.0': False,
-                                '7.2.1': False,
-                                '7.2.2': True,
-                                '7.2.3': True,
-                                '7.2.4': True,
-                                '7.4.0': True,
-                                '7.4.1': True
-                            },
-                            'type': 'int'
-                        }
+                        'check-status-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
+                        'ctrl-check-status-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
+                        'ctrl-put-image-by-fds-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
+                        'ha-sync-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
+                        'license-check-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
+                        'prepare-image-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
+                        'put-image-by-fds-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
+                        'put-image-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
+                        'reboot-of-fsck-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
+                        'reboot-of-upgrade-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
+                        'retrieve-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
+                        'rpc-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
+                        'total-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
+                        'health-check-timeout': {'v_range': [['7.4.2', '']], 'type': 'int'}
                     }
                 },
-                'retry-interval': {
-                    'required': False,
-                    'revision': {
-                        '7.0.10': True,
-                        '7.2.0': False,
-                        '7.2.1': False,
-                        '7.2.2': False,
-                        '7.2.3': False,
-                        '7.2.4': False,
-                        '7.4.0': False,
-                        '7.4.1': False
-                    },
-                    'type': 'int'
-                },
-                'retry-max': {
-                    'required': False,
-                    'revision': {
-                        '7.0.10': True,
-                        '7.2.0': False,
-                        '7.2.1': False,
-                        '7.2.2': False,
-                        '7.2.3': False,
-                        '7.2.4': False,
-                        '7.4.0': False,
-                        '7.4.1': False
-                    },
-                    'type': 'int'
-                }
+                'retry-interval': {'v_range': [['7.0.10', '7.0.11'], ['7.4.2', '']], 'type': 'int'},
+                'retry-max': {'v_range': [['7.0.10', '7.0.11'], ['7.4.2', '']], 'type': 'int'},
+                'health-check': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'max-device-history': {'v_range': [['7.4.2', '']], 'type': 'int'},
+                'max-profile-history': {'v_range': [['7.4.2', '']], 'type': 'int'},
+                'retrieve': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'revision-diff': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
 
         }
     }
 
-    module = AnsibleModule(argument_spec=remove_revision(check_parameter_bypass(module_arg_spec, 'cli_fmupdate_fwmsetting')),
+    module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_fmupdate_fwmsetting'),
                            supports_check_mode=False)
 
     if not module._socket_path:

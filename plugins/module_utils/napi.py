@@ -30,43 +30,68 @@ __metaclass__ = type
 from ansible.module_utils.basic import _load_params
 import re
 
-CONSIDER_VERSIONS = set(['6.2.1', '6.2.2', '6.2.3', '6.2.5', '6.2.6', '6.2.7', '6.2.8', '6.2.9', '6.2.10', '6.2.11', '6.2.12',
-                         '6.4.1', '6.4.2', '6.4.3', '6.4.4', '6.4.5', '6.4.6', '6.4.7', '6.4.8', '6.4.9', '6.4.10', '6.4.11', '6.4.12', '6.4.13',
-                         '7.0.0', '7.0.1', '7.0.2', '7.0.3', '7.0.4', '7.0.5', '7.0.6', '7.0.7', '7.0.8', '7.0.9',
-                         '7.2.0', '7.2.1', '7.2.2', '7.2.3',
-                         '7.4.0', '7.4.1'])
+
+def _get_modified_name(variable_name):
+    modified_name = variable_name
+    for special_char in ['-', ' ', '.', '(', '+']:
+        modified_name = modified_name.replace(special_char, '_')
+    return modified_name
 
 
-def remove_revision(schema):
+def add_aliases(schema):
     if not isinstance(schema, dict):
         return schema
     new_schema = {}
-    for key in schema:
-        if key != 'revision' and key != 'api_name':
-            new_schema[key] = remove_revision(schema[key])
-            # if '-' in key or ' ' in key or '.' in key:
-            #     new_schema[key]['removed_in_version'] = '2.0.0'
-            #     new_schema[key]['removed_from_collection'] = 'fortinet.fortianalyzer'
+    for param_name in schema:
+        if param_name != 'v_range' and param_name != 'revision' and param_name != 'api_name':
+            new_content = add_aliases(schema[param_name])
+            aliase_name = _get_modified_name(param_name)
+            if aliase_name != param_name:
+                new_content['removed_in_version'] = '2.0.0'
+                new_content['removed_from_collection'] = 'fortinet.fortianalyzer'
+                if aliase_name not in new_schema and "api_name" not in schema[param_name]:
+                    new_content['aliases'] = [aliase_name]
+            new_schema[param_name] = new_content
     return new_schema
 
 
-def check_parameter_bypass(schema, module_level2_name):
+def remove_aliases(user_params, metadata):
+    if not user_params:
+        return user_params
+    if isinstance(user_params, str) or isinstance(user_params, int):
+        return user_params
+    if isinstance(user_params, list):
+        new_params = []
+        for item in user_params:
+            new_params.append(remove_aliases(item, metadata))
+        return new_params
+    replace_key = {'faz_message': 'message'}
+    new_params = {}
+    for param_name, param_data in metadata.items():
+        if user_params.get(param_name, None) is None:
+            continue
+        real_param_name = replace_key.get(param_name, param_name)
+        if 'options' in param_data:
+            new_params[real_param_name] = remove_aliases(user_params[param_name], param_data['options'])
+        else:
+            new_params[real_param_name] = user_params[param_name]
+    return new_params
+
+
+def modify_argument_spec(schema, module_level2_name):
+    schema = add_aliases(schema)
     params = _load_params()
     if params and 'bypass_validation' in params and params['bypass_validation'] is True:
         top_level_schema = dict()
         for key in schema:
             if key != module_level2_name:
                 top_level_schema[key] = schema[key]
-            elif not params[module_level2_name] or type(params[module_level2_name]) is dict:
+            elif not params[module_level2_name] or isinstance(params[module_level2_name], dict):
                 top_level_schema[module_level2_name] = dict()
-                top_level_schema[module_level2_name]['required'] = False
                 top_level_schema[module_level2_name]['type'] = 'dict'
-            elif type(params[module_level2_name]) is list:
+            elif isinstance(params[module_level2_name], list):
                 top_level_schema[module_level2_name] = dict()
-                top_level_schema[module_level2_name]['required'] = False
                 top_level_schema[module_level2_name]['type'] = 'list'
-            else:
-                raise Exception('Value of %s must be a dict or list' % (module_level2_name))
         return top_level_schema
     return schema
 
@@ -121,56 +146,52 @@ class NAPIManager(object):
         result = re.findall(pattern, s)
         return result
 
-    def version_check(self, support_versions):
-        # if system version is not determined, give up version checking
-        if not support_versions or not self.system_status:
-            return True, None
-
-        # Error for old versions
-        if int(self.system_status['Major']) <= 5:
-            return False, 'not support in the major version lower than 6, please try a version at least 6.2.1'
-        elif int(self.system_status['Major']) == 6:
-            if self.system_status['Minor'] < 2:
-                return False, 'not support in the version 6.{0}.x, please try a version at least 6.2.1'.format(self.system_status['Minor'])
-
-        sys_version = '{0}.{1}.{2}'.format(self.system_status['Major'], self.system_status['Minor'], self.system_status['Patch'])
-
-        if sys_version not in CONSIDER_VERSIONS or sys_version in support_versions:
-            return True, None
-        return False, 'not support in {0}. Support versions: {1}'.format(sys_version, list(support_versions))
-
-    def _version_matched(self, revisions):
-        if not revisions or not self.system_status:
+    def _version_matched(self, v_ranges):
+        if not v_ranges or not self.system_status:
             # if system version is not determined, give up version checking
             return True, None
 
-        sys_version_value = int(self.system_status['Major']) * 10000 + int(self.system_status['Minor']) * 100 + int(self.system_status['Patch'])
-        versions = list(revisions.keys())
-        versions.sort(key=lambda x: int(x.split('.')[0]) * 10000 + int(x.split('.')[1]) * 100 + int(x.split('.')[2]))
-        nearest_index = -1
-        for i in range(len(versions)):
-            version_value = int(versions[i].split('.')[0]) * 10000 + int(versions[i].split('.')[1]) * 100 + int(versions[i].split('.')[2])
-            if version_value <= sys_version_value:
-                nearest_index = i
-        if nearest_index == -1:
-            return False, 'not supported until in v%s' % (versions[0])
-        if revisions[versions[nearest_index]] is True:
+        sys_version_value = (
+            int(self.system_status['Major']) * 10000
+            + int(self.system_status['Minor']) * 100
+            + int(self.system_status['Patch'])
+        )
+        b_match = False
+        for vr in v_ranges:
+            min_v = vr[0].split('.')
+            min_vn = (
+                int(min_v[0]) * 10000
+                + int(min_v[1]) * 100
+                + int(min_v[2])
+            )
+            if min_vn > sys_version_value:
+                break
+            if vr[1] == '':  # Empty string means no max version
+                b_match = True
+                break
+            max_v = vr[1].split('.')
+            max_vn = (
+                int(max_v[0]) * 10000
+                + int(max_v[1]) * 100
+                + int(max_v[2])
+            )
+            if max_vn >= sys_version_value:
+                b_match = True
+                break
+        if b_match:
             return True, None
-        latest_index = -1
-        for i in range(nearest_index + 1, len(versions)):
-            if revisions[versions[i]] is True:
-                latest_index = i
-                break
-        earliest_index = nearest_index
-        while earliest_index >= 0:
-            if revisions[versions[earliest_index]] is True:
-                break
-            earliest_index -= 1
-        earliest_index = 0 if earliest_index < 0 else earliest_index
-        if latest_index == -1:
-            return False, 'not supported since v%s' % (versions[earliest_index])
-        else:
-            return False, 'not supported since %s, before %s' % (versions[earliest_index], versions[latest_index])
+        supported_v = []
+        for vr in v_ranges:
+            if vr[1] == '':
+                vr_s = '>= %s' % (vr[0])
+            else:
+                vr_s = '%s-%s' % (vr[0], (vr[1]))
+            supported_v.append(vr_s)
+        return (
+            False,
+            'Current FortiAnalyzer version %s.%s.%s do not support this feature. Supported version range: %s.'
+            % (self.system_status['Major'], self.system_status['Minor'], self.system_status['Patch'], supported_v),
+        )
 
     def _get_basic_url(self, is_perobject):
         url_libs = None
@@ -199,11 +220,49 @@ class NAPIManager(object):
             the_url = url_libs[0]
         if not the_url:
             raise AssertionError('the_url is not expected to be NULL')
-        for param_name in self.url_params:
-            token_hint = '{%s}' % (param_name)
-            token = str(self.module.params[param_name])
-            the_url = the_url.replace(token_hint, token)
-        return the_url
+        return self._get_replaced_url(the_url)
+
+    def _get_target_url(self, adom_value, url_list):
+        target_url = None
+        if adom_value is not None and not url_list[0].endswith("{adom}"):
+            if adom_value == "global":
+                for url in url_list:
+                    if "/global/" in url and "/adom/{adom}/" not in url:
+                        target_url = url
+                        break
+            elif adom_value:
+                for url in url_list:
+                    if "/adom/{adom}/" in url:
+                        target_url = url
+                        break
+            else:
+                # adom = "", choose default URL which is for all domains
+                for url in url_list:
+                    if "/global/" not in url and "/adom/{adom}/" not in url:
+                        target_url = url
+                        break
+        else:
+            target_url = url_list[0]
+        if not target_url:
+            self.module.fail_json(msg="can not find url in following sets:%s! please check params: adom" % (target_url))
+        return target_url
+
+    def _get_replaced_url(self, url_template):
+        target_url = url_template
+        for param in self.url_params:
+            token_hint = "{%s}" % (param)
+            token = ""
+            modified_name = _get_modified_name(param)
+            modified_token = self.module.params.get(modified_name, None)
+            previous_token = self.module.params.get(param, None)
+            if modified_token is not None:
+                token = modified_token
+            elif previous_token is not None:
+                token = previous_token
+            else:
+                self.module.fail_json(msg="Missing input param: %s" % (modified_name))
+            target_url = target_url.replace(token_hint, "%s" % (token))
+        return target_url
 
     def _get_base_perobject_url(self, mvalue):
         url_getting = self._get_basic_url(True)
@@ -211,10 +270,7 @@ class NAPIManager(object):
             # in case of non-regular per-object url.
             return url_getting
         last_token = url_getting.split('/')[-1]
-        second_last_token = url_getting.split('/')[-2]
-        if last_token.replace('-', '_') != '{' + second_last_token.replace('-', '_') + '}':
-            raise AssertionError('wrong last_token received')
-        return url_getting.replace('{' + second_last_token + '}', str(mvalue))
+        return url_getting.replace(last_token, str(mvalue))
 
     def get_object(self, mvalue):
         url_getting = self._get_base_perobject_url(mvalue)
@@ -224,19 +280,17 @@ class NAPIManager(object):
 
     def update_object(self, mvalue):
         url_updating = self._get_base_perobject_url(mvalue)
-        selector = self.module_level2_name
-        raw_attributes = self.module.params[selector] if selector in self.module.params else {}
-        params = [{'url': url_updating,
-                   'data': self.get_tailor_attributes(raw_attributes)}]
+        raw_attributes = remove_aliases(self.module.params, self.metadata)
+        raw_attributes = raw_attributes.get(self.module_level2_name, {})
+        params = [{'url': url_updating, 'data': raw_attributes}]
         response = self.conn.send_request('update', params)
         return response
 
     def create_object(self):
         url_creating = self._get_basic_url(False)
-        selector = self.module_level2_name
-        raw_attributes = self.module.params[selector] if selector in self.module.params else {}
-        params = [{'url': url_creating,
-                   'data': self.get_tailor_attributes(raw_attributes)}]
+        raw_attributes = remove_aliases(self.module.params, self.metadata)
+        raw_attributes = raw_attributes.get(self.module_level2_name, {})
+        params = [{'url': url_creating, 'data': raw_attributes}]
         return self.conn.send_request(self.get_propose_method('set'), params)
 
     def delete_object(self, mvalue):
@@ -270,23 +324,23 @@ class NAPIManager(object):
             return False
         return False
 
-    def is_object_difference(self, object_remote, object_present):
-        for key in object_present:
-            local_value = object_present[key]
-            if not local_value:
+    def is_object_difference(self, remote_obj, local_obj):
+        for key in local_obj:
+            local_value = local_obj[key]
+            if local_value is None:
                 continue
-            if key not in object_remote or not object_remote[key]:
+            remote_value = remote_obj.get(key, None)
+            if remote_value is None:
                 return True
-            remote_value = object_remote[key]
             if isinstance(local_value, list):
                 try:
                     if isinstance(remote_value, list):
                         if str(sorted(remote_value)) == str(sorted(local_value)):
-                            return False
+                            continue
                     # Won't update if remote = 'var' and local = ['var']
                     elif len(local_value) == 1:
                         if str(remote_value) == str(local_value[0]):
-                            return False
+                            continue
                 except Exception as e:
                     return True
                 return True
@@ -309,23 +363,22 @@ class NAPIManager(object):
 
     def _update_required(self, robject):
         object_remote = robject['data'] if 'data' in robject else {}
-        selector = self.module_level2_name
-        object_present = self.module.params[selector] if selector in self.module.params else {}
+        object_present = remove_aliases(self.module.params, self.metadata)
+        object_present = object_present.get(self.module_level2_name, {})
         return self.is_object_difference(object_remote, object_present)
 
     def _process_with_mkey(self, mvalue):
-        rc, robject = self.get_object(mvalue)
         if self.module.params['state'] == 'present':
+            rc, robject = self.get_object(mvalue)
             if rc == 0:
                 if self._update_required(robject):
                     return self.update_object(mvalue)
                 else:
-                    self.module.exit_json(message='Object update skipped!')
+                    self.module.exit_json(message='Your FortiAnalyzer is up to date, no need to update.')
             else:
                 return self.create_object()
         elif self.module.params['state'] == 'absent':
             return self.delete_object(mvalue)
-        raise AssertionError('Not Reachable')
 
     def _process_without_mkey(self):
         if self.module.params['state'] == 'absent':
@@ -338,75 +391,51 @@ class NAPIManager(object):
 
     def process_exec(self):
         argument_specs = self.metadata
-        params = self.module.params
-        selector = self.module_level2_name
-        track = [selector]
-        if 'bypass_validation' not in params or params['bypass_validation'] is False:
-            self.check_versioning_mismatch(track,
-                                           argument_specs[selector] if selector in argument_specs else None,
-                                           params[selector] if selector in params else None)
+        params = remove_aliases(self.module.params, self.metadata)
+        module_name = self.module_level2_name
+        track = [module_name]
+        if not params.get('bypass_validation', False):
+            self.check_versioning_mismatch(track, argument_specs.get(module_name, None), params.get(module_name, None))
         url = self.jrpc_urls[0]  # exec method only have one url
         for param_name in self.url_params:
             token_hint = '{%s}' % (param_name)
             token = str(params[param_name])
             url = url.replace(token_hint, token)
 
-        api_params = [{'url': url}]
-        if selector in params:  # except sys_logout
-            api_params[0]['data'] = self.get_tailor_attributes(params[selector])
+        api_params = {'url': url}
+        if module_name in params:  # except sys_logout
+            api_params['data'] = params[module_name]
 
-        response = self.conn.send_request('exec', api_params)
+        response = self.conn.send_request('exec', [api_params])
         self.do_exit(response)
 
     def process_curd(self):
         argument_specs = self.metadata
         params = self.module.params
-        selector = self.module_level2_name
-        track = [selector]
-        if 'bypass_validation' not in params or params['bypass_validation'] is False:
-            self.check_versioning_mismatch(track,
-                                           argument_specs[selector] if selector in argument_specs else None,
-                                           params[selector] if selector in params else None)
-        has_mkey = self.module_primary_key is not None and isinstance(params[selector], dict)
-        if has_mkey:
-            mvalue = params[selector][self.module_primary_key]
+        module_name = self.module_level2_name
+        track = [module_name]
+        if not params.get('bypass_validation', False):
+            self.check_versioning_mismatch(track, argument_specs.get(module_name, None), params.get(module_name, None))
+        if self.module_primary_key and isinstance(params[module_name], dict):
+            mvalue = params[module_name][self.module_primary_key]
             self.do_exit(self._process_with_mkey(mvalue))
         else:
             self.do_exit(self._process_without_mkey())
 
     def process_partial_curd(self):
         argument_specs = self.metadata
-        params = self.module.params
-        selector = self.module_level2_name
-        url_list = self.jrpc_urls
-        track = [selector]
-        if 'bypass_validation' not in params or params['bypass_validation'] is False:
-            self.check_versioning_mismatch(track,
-                                           argument_specs[selector] if selector in argument_specs else None,
-                                           params[selector] if selector in params else None)
-
-        # Get real url
-        url = None
-        given_params = set(self.url_params)
-        for possible_url in url_list:
-            required_params = set(self.get_params_in_url(possible_url))
-            if given_params == required_params:
-                url = possible_url
-                break
-        if not url:
-            error_message = 'Given params in self:%s, expect params: ' % (list(given_params))
-            error_message += ', or '.join(['%s' % (self.get_params_in_url(possible_url)) for possible_url in url_list])
-            self.module.fail_json(msg=error_message)
-        for param_name in given_params:
-            token_hint = '{%s}' % (param_name)
-            token = str(params[param_name])
-            url = url.replace(token_hint, token)
-
-        # Send data
-        api_params = [{'url': url}]
-        if selector in params:
-            api_params[0]['data'] = self.get_tailor_attributes(params[selector])
-        response = self.conn.send_request(self.get_propose_method('set'), api_params)
+        params = remove_aliases(self.module.params, self.metadata)
+        module_name = self.module_level2_name
+        track = [module_name]
+        if not params.get("bypass_validation", False):
+            self.check_versioning_mismatch(track, argument_specs.get(module_name, None), params.get(module_name, None))
+        adom_value = params.get("adom", None)
+        target_url = self._get_target_url(adom_value, self.jrpc_urls)
+        target_url = self._get_replaced_url(target_url)
+        api_params = {'url': target_url}
+        if module_name in params:
+            api_params['data'] = params[module_name]
+        response = self.conn.send_request(self.get_propose_method('set'), [api_params])
         self.do_exit(response)
 
     def process_rename(self):
@@ -416,8 +445,8 @@ class NAPIManager(object):
         url_list = metadata[selector]['urls']
 
         # Version check
-        revisions = metadata[selector]['revision']
-        matched, checking_message = self._version_matched(revisions)
+        vrange = metadata[selector].get("v_range", None)
+        matched, checking_message = self._version_matched(vrange)
         if not matched:
             self.version_check_warnings.append('faz_rename selector:%s %s' % (selector, checking_message))
 
@@ -430,24 +459,32 @@ class NAPIManager(object):
         url = None
         given_params = set()
         if params['rename']['self']:
-            given_params = set(params['rename']['self'].keys())
+            given_params = set([_get_modified_name(key) for key in params['rename']['self'].keys()])
         for possible_url in url_list:
-            required_params = set(self.get_params_in_url(possible_url))
+            required_params = set([_get_modified_name(key) for key in self.get_params_in_url(possible_url)])
             if given_params == required_params:
                 url = possible_url
                 break
         if not url:
-            error_message = 'Given params in self:%s, expect params: ' % (list(given_params))
-            error_message += ', or '.join(['%s' % (self.get_params_in_url(possible_url)) for possible_url in url_list])
+            error_message = 'Given params in self:%s, expect params: ' % (list(params['rename']['self'].keys()))
+            for i, possible_url in enumerate(url_list):
+                if i:
+                    error_message += ', or '
+                error_message += '%s' % ([_get_modified_name(key) for key in self.get_params_in_url(possible_url)])
             self.module.fail_json(msg=error_message)
-        for param_name in given_params:
+        param_names = self.get_params_in_url(url)
+        for param_name in param_names:
             token_hint = '{%s}' % (param_name)
-            token = str(params['rename']['self'][param_name])
+            token = ''
+            modified_name = _get_modified_name(param_name)
+            if modified_name in params['rename']['self']:
+                token = params['rename']['self'][modified_name]
+            else:
+                token = params['rename']['self'][param_name]
             url = url.replace(token_hint, token)
 
         # Send data
-        api_params = [{'url': url,
-                       'data': params['rename']['target']}]
+        api_params = [{'url': url, 'data': params['rename']['target']}]
         response = self.conn.send_request('update', api_params)
         self.do_exit(response)
 
@@ -458,8 +495,8 @@ class NAPIManager(object):
         url_list = metadata[selector]['urls']
 
         # Version check
-        support_versions = metadata[selector]['support_versions']
-        matched, checking_message = self.version_check(support_versions)
+        vrange = metadata[selector].get("v_range", None)
+        matched, checking_message = self._version_matched(vrange)
         if not matched:
             self.version_check_warnings.append('faz_fact selector:%s %s' % (selector, checking_message))
 
@@ -467,19 +504,28 @@ class NAPIManager(object):
         url = None
         given_params = set()
         if params['facts']['params']:
-            given_params = set(params['facts']['params'].keys())
+            given_params = set([_get_modified_name(key) for key in params['facts']['params'].keys()])
         for possible_url in url_list:
-            required_params = set(self.get_params_in_url(possible_url))
+            required_params = set([_get_modified_name(key) for key in self.get_params_in_url(possible_url)])
             if given_params == required_params:
                 url = possible_url
                 break
         if not url:
-            error_message = 'Given params: %s, expect params: ' % (list(given_params))
-            error_message += ', or '.join(['%s' % (self.get_params_in_url(possible_url)) for possible_url in url_list])
+            error_message = 'Given params: %s, expect params: ' % (list(params['facts']['params'].keys()))
+            for i, possible_url in enumerate(url_list):
+                if i:
+                    error_message += ', or '
+                error_message += '%s' % ([_get_modified_name(key) for key in self.get_params_in_url(possible_url)])
             self.module.fail_json(msg=error_message)
-        for param_name in given_params:
+        param_names = self.get_params_in_url(url)
+        for param_name in param_names:
             token_hint = '{%s}' % (param_name)
-            token = str(params['facts']['params'][param_name])
+            token = ''
+            modified_name = _get_modified_name(param_name)
+            if modified_name in params['facts']['params']:
+                token = params['facts']['params'][modified_name]
+            else:
+                token = params['facts']['params'][param_name]
             url = url.replace(token_hint, token)
 
         # Send data
@@ -493,31 +539,12 @@ class NAPIManager(object):
         response = self.conn.send_request('get', api_params)
         self.do_exit(response, changed=False)
 
-    def get_tailor_attributes(self, data):
-        if isinstance(data, dict):
-            return_data = dict()
-            for param_name, value in data.items():
-                if value is None:
-                    continue
-                return_data[param_name] = self.get_tailor_attributes(value)
-            return return_data
-        elif isinstance(data, list):
-            return_data = list()
-            for item in data:
-                return_data.append(self.get_tailor_attributes(item))
-            return return_data
-        else:
-            if data is None:
-                raise AssertionError('data is expected to be not none')
-            return data
-
     def check_versioning_mismatch(self, track, schema, params):
         if not params or not schema:
             return
         param_type = schema['type'] if 'type' in schema else None
-        revisions = schema['revision'] if 'revision' in schema else None
-
-        matched, checking_message = self._version_matched(revisions)
+        v_range = schema['v_range'] if 'v_range' in schema else None
+        matched, checking_message = self._version_matched(v_range)
         if not matched:
             param_path = '-->'.join(track)
             self.version_check_warnings.append('param: %s %s' % (param_path, checking_message))

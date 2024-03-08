@@ -1,20 +1,20 @@
 ![Fortinet logo|](https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Fortinet_logo.svg/320px-Fortinet_logo.svg.png)
 
-# Ansible Collection - fortinet.fortianalyzer:1.3.2
+# Ansible Collection - fortinet.fortianalyzer:1.4.0
 
 FortiAnalyzer Ansible Collection includes the modules that are able to configure FortiAnalyzer.
 
 [Documentation](https://ansible-galaxy-fortianalyzer-docs.readthedocs.io/en/latest) for the collection.
 
 ## Requirements
-* Ansible 2.14.0 or newer is required to support the newer Ansible Collections format
+* Ansible 2.15.0 or newer is required to support the newer Ansible Collections format
 * Python 3 is prefered when running Ansible with `fortinet.fortianalyzer` collection.
 
 ## Installation
 This collection is distributed via [ansible-galaxy](https://galaxy.ansible.com/fortinet/fortianalyzer), the installation steps are as follows:
 
-1. Install or upgrade to Ansible >= 2.14.0
-2. Download this collection from galaxy: `ansible-galaxy collection install fortinet.fortianalyzer:1.3.2`
+1. Install or upgrade to Ansible >= 2.15.0
+2. Download this collection from galaxy: `ansible-galaxy collection install fortinet.fortianalyzer:1.4.0`
 
 ## Modules
 The collection provides the following modules:
@@ -52,6 +52,8 @@ The collection provides the following modules:
 * `faz_cli_system_admin_ldap_adom`  Admin domain.
 * `faz_cli_system_admin_profile`  Admin profile.
 * `faz_cli_system_admin_profile_datamaskcustomfields`  Customized datamask fields.
+* `faz_cli_system_admin_profile_writepasswdprofiles`  Profile list.
+* `faz_cli_system_admin_profile_writepasswduserlist`  User list.
 * `faz_cli_system_admin_radius`  Configure radius.
 * `faz_cli_system_admin_setting`  Admin setting.
 * `faz_cli_system_admin_tacacs`  TACACS+ server entry configuration.

@@ -5,6 +5,34 @@ Fortinet.Fortianalyzer Release Notes
 .. contents:: Topics
 
 
+v1.4.0
+======
+
+Release Summary
+---------------
+
+release fortinet.fortianalyzer 1.4.0
+
+Minor Changes
+-------------
+
+- Added deprecated warning to invalid argument name, please change the invalid argument name such as "var-name", "var name" to "var_name".
+- Changed minimum required ansible-core version to 2.15.0
+- Supported FortiAnalyzer 6.4.14, 7.0.11, 7.4.2
+
+Bugfixes
+--------
+
+- Changed "revision" to "v_range" to reduce the size of the code.
+- Improved the logic of plugin code.
+- Renamed the input argument "message" in "faz_sys_reboot" to "faz_message".
+
+New Modules
+-----------
+
+- fortinet.fortianalyzer.faz_cli_system_admin_profile_writepasswdprofiles - Profile list.
+- fortinet.fortianalyzer.faz_cli_system_admin_profile_writepasswduserlist - User list.
+
 v1.3.2
 ======
 
