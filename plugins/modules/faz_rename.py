@@ -81,6 +81,11 @@ options:
                     - 'cli_system_admin_group'
                     - 'cli_system_admin_group_member'
                     - 'cli_system_admin_ldap'
+                    - 'cli_system_admin_ldap_adom'
+                    - 'cli_system_admin_profile'
+                    - 'cli_system_admin_profile_datamaskcustomfields'
+                    - 'cli_system_admin_profile_writepasswdprofiles'
+                    - 'cli_system_admin_profile_writepasswduserlist'
                     - 'cli_system_admin_radius'
                     - 'cli_system_admin_tacacs'
                     - 'cli_system_admin_user'
@@ -97,11 +102,13 @@ options:
                     - 'cli_system_certificate_local'
                     - 'cli_system_certificate_remote'
                     - 'cli_system_certificate_ssh'
+                    - 'cli_system_csf_fabricconnector'
                     - 'cli_system_csf_trustedlist'
                     - 'cli_system_ha_peer'
                     - 'cli_system_ha_privatepeer'
                     - 'cli_system_ha_vip'
                     - 'cli_system_interface'
+                    - 'cli_system_interface_member'
                     - 'cli_system_localinpolicy'
                     - 'cli_system_localinpolicy6'
                     - 'cli_system_log_devicedisable'
@@ -120,6 +127,8 @@ options:
                     - 'cli_system_metadata_admins'
                     - 'cli_system_ntp_ntpserver'
                     - 'cli_system_report_group'
+                    - 'cli_system_report_group_chartalternative'
+                    - 'cli_system_report_group_groupby'
                     - 'cli_system_route'
                     - 'cli_system_route6'
                     - 'cli_system_saml_fabricidp'
@@ -133,12 +142,32 @@ options:
                     - 'cli_system_sql_customindex'
                     - 'cli_system_sql_customskipidx'
                     - 'cli_system_sql_tsindexfield'
+                    - 'cli_system_sslciphersuites'
                     - 'cli_system_syslog'
                     - 'cli_system_workflow_approvalmatrix'
                     - 'dvmdb_adom'
                     - 'dvmdb_device_vdom'
                     - 'dvmdb_folder'
                     - 'dvmdb_group'
+                    - 'report_config_chart'
+                    - 'report_config_chart_drilldowntable'
+                    - 'report_config_chart_tablecolumns'
+                    - 'report_config_chart_variabletemplate'
+                    - 'report_config_dataset'
+                    - 'report_config_layout'
+                    - 'report_config_layout_component'
+                    - 'report_config_layout_component_variable'
+                    - 'report_config_layout_footer'
+                    - 'report_config_layout_header'
+                    - 'report_config_layoutfolder'
+                    - 'report_config_macro'
+                    - 'report_config_output'
+                    - 'report_config_output_emailrecipients'
+                    - 'report_config_schedule'
+                    - 'report_config_schedule_addressfilter'
+                    - 'report_config_schedule_devices'
+                    - 'report_config_schedule_filter'
+                    - 'report_config_schedule_reportlayout'
             self:
                 required: true
                 description: The parameter for each selector.
@@ -288,6 +317,41 @@ def main():
             'v_range': [['6.2.1', '']],
             'mkey': 'name'
         },
+        'cli_system_admin_ldap_adom': {
+            'urls': [
+                '/cli/global/system/admin/ldap/{ldap}/adom/{adom}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'adom-name'
+        },
+        'cli_system_admin_profile': {
+            'urls': [
+                '/cli/global/system/admin/profile/{profile}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'profileid'
+        },
+        'cli_system_admin_profile_datamaskcustomfields': {
+            'urls': [
+                '/cli/global/system/admin/profile/{profile}/datamask-custom-fields/{datamask-custom-fields}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'field-name'
+        },
+        'cli_system_admin_profile_writepasswdprofiles': {
+            'urls': [
+                '/cli/global/system/admin/profile/{profile}/write-passwd-profiles/{write-passwd-profiles}'
+            ],
+            'v_range': [['7.4.2', '']],
+            'mkey': 'profileid'
+        },
+        'cli_system_admin_profile_writepasswduserlist': {
+            'urls': [
+                '/cli/global/system/admin/profile/{profile}/write-passwd-user-list/{write-passwd-user-list}'
+            ],
+            'v_range': [['7.4.2', '']],
+            'mkey': 'userid'
+        },
         'cli_system_admin_radius': {
             'urls': [
                 '/cli/global/system/admin/radius/{radius}'
@@ -400,6 +464,13 @@ def main():
             'v_range': [['6.2.1', '']],
             'mkey': 'name'
         },
+        'cli_system_csf_fabricconnector': {
+            'urls': [
+                '/cli/global/system/csf/fabric-connector/{fabric-connector}'
+            ],
+            'v_range': [['7.4.1', '']],
+            'mkey': 'serial'
+        },
         'cli_system_csf_trustedlist': {
             'urls': [
                 '/cli/global/system/csf/trusted-list/{trusted-list}'
@@ -434,6 +505,13 @@ def main():
             ],
             'v_range': [['6.2.1', '']],
             'mkey': 'name'
+        },
+        'cli_system_interface_member': {
+            'urls': [
+                '/cli/global/system/interface/{interface}/member/{member}'
+            ],
+            'v_range': [['6.4.9', '']],
+            'mkey': 'interface-name'
         },
         'cli_system_localinpolicy': {
             'urls': [
@@ -561,6 +639,20 @@ def main():
             'v_range': [['6.2.1', '']],
             'mkey': 'group-id'
         },
+        'cli_system_report_group_chartalternative': {
+            'urls': [
+                '/cli/global/system/report/group/{group}/chart-alternative/{chart-alternative}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'chart-name'
+        },
+        'cli_system_report_group_groupby': {
+            'urls': [
+                '/cli/global/system/report/group/{group}/group-by/{group-by}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'var-name'
+        },
         'cli_system_route': {
             'urls': [
                 '/cli/global/system/route/{route}'
@@ -652,6 +744,13 @@ def main():
             'v_range': [['6.2.1', '']],
             'mkey': 'category'
         },
+        'cli_system_sslciphersuites': {
+            'urls': [
+                '/cli/global/system/global/ssl-cipher-suites/{ssl-cipher-suites}'
+            ],
+            'v_range': [['6.4.8', '6.4.14'], ['7.0.2', '']],
+            'mkey': 'priority'
+        },
         'cli_system_syslog': {
             'urls': [
                 '/cli/global/system/syslog/{syslog}'
@@ -696,6 +795,139 @@ def main():
             ],
             'v_range': [['6.2.1', '']],
             'mkey': 'name'
+        },
+        'report_config_chart': {
+            'urls': [
+                '/report/adom/{adom}/config/chart/{chart}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'name'
+        },
+        'report_config_chart_drilldowntable': {
+            'urls': [
+                '/report/adom/{adom}/config/chart/{chart_name}/drill-down-table/{drill-down-table}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'table_id'
+        },
+        'report_config_chart_tablecolumns': {
+            'urls': [
+                '/report/adom/{adom}/config/chart/{chart_name}/table-columns/{table-columns}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'id'
+        },
+        'report_config_chart_variabletemplate': {
+            'urls': [
+                '/report/adom/{adom}/config/chart/{chart_name}/variable-template/{variable-template}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'var'
+        },
+        'report_config_dataset': {
+            'urls': [
+                '/report/adom/{adom}/config/dataset/{dataset}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'name'
+        },
+        'report_config_layout': {
+            'urls': [
+                '/report/adom/{adom}/config/layout/{layout}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'layout_id'
+        },
+        'report_config_layout_component': {
+            'urls': [
+                '/report/adom/{adom}/config/layout/{layout-id}/component/{component}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'component_id'
+        },
+        'report_config_layout_component_variable': {
+            'urls': [
+                '/report/adom/{adom}/config/layout/{layout-id}/component/{component-id}/variable/{variable}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'var'
+        },
+        'report_config_layout_footer': {
+            'urls': [
+                '/report/adom/{adom}/config/layout/{layout-id}/footer/{footer}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'footer_id'
+        },
+        'report_config_layout_header': {
+            'urls': [
+                '/report/adom/{adom}/config/layout/{layout-id}/header/{header}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'header_id'
+        },
+        'report_config_layoutfolder': {
+            'urls': [
+                '/report/adom/{adom}/config/layout-folder/{layout-folder}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'folder_id'
+        },
+        'report_config_macro': {
+            'urls': [
+                '/report/adom/{adom}/config/macro/{macro}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'name'
+        },
+        'report_config_output': {
+            'urls': [
+                '/report/adom/{adom}/config/output/{output}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'name'
+        },
+        'report_config_output_emailrecipients': {
+            'urls': [
+                '/report/adom/{adom}/config/output/{output-name}/email-recipients/{email-recipients}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'address'
+        },
+        'report_config_schedule': {
+            'urls': [
+                '/report/adom/{adom}/config/schedule/{schedule}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'name'
+        },
+        'report_config_schedule_addressfilter': {
+            'urls': [
+                '/report/adom/{adom}/config/schedule/{schedule_name}/address-filter/{address-filter}'
+            ],
+            'v_range': [['6.4.3', '']],
+            'mkey': 'id'
+        },
+        'report_config_schedule_devices': {
+            'urls': [
+                '/report/adom/{adom}/config/schedule/{schedule_name}/devices/{devices}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'devices_name'
+        },
+        'report_config_schedule_filter': {
+            'urls': [
+                '/report/adom/{adom}/config/schedule/{schedule_name}/filter/{filter}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'name'
+        },
+        'report_config_schedule_reportlayout': {
+            'urls': [
+                '/report/adom/{adom}/config/schedule/{schedule_name}/report-layout/{report-layout}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'layout_id'
         }
     }
 
@@ -721,6 +953,11 @@ def main():
                         'cli_system_admin_group',
                         'cli_system_admin_group_member',
                         'cli_system_admin_ldap',
+                        'cli_system_admin_ldap_adom',
+                        'cli_system_admin_profile',
+                        'cli_system_admin_profile_datamaskcustomfields',
+                        'cli_system_admin_profile_writepasswdprofiles',
+                        'cli_system_admin_profile_writepasswduserlist',
                         'cli_system_admin_radius',
                         'cli_system_admin_tacacs',
                         'cli_system_admin_user',
@@ -737,11 +974,13 @@ def main():
                         'cli_system_certificate_local',
                         'cli_system_certificate_remote',
                         'cli_system_certificate_ssh',
+                        'cli_system_csf_fabricconnector',
                         'cli_system_csf_trustedlist',
                         'cli_system_ha_peer',
                         'cli_system_ha_privatepeer',
                         'cli_system_ha_vip',
                         'cli_system_interface',
+                        'cli_system_interface_member',
                         'cli_system_localinpolicy',
                         'cli_system_localinpolicy6',
                         'cli_system_log_devicedisable',
@@ -760,6 +999,8 @@ def main():
                         'cli_system_metadata_admins',
                         'cli_system_ntp_ntpserver',
                         'cli_system_report_group',
+                        'cli_system_report_group_chartalternative',
+                        'cli_system_report_group_groupby',
                         'cli_system_route',
                         'cli_system_route6',
                         'cli_system_saml_fabricidp',
@@ -773,12 +1014,32 @@ def main():
                         'cli_system_sql_customindex',
                         'cli_system_sql_customskipidx',
                         'cli_system_sql_tsindexfield',
+                        'cli_system_sslciphersuites',
                         'cli_system_syslog',
                         'cli_system_workflow_approvalmatrix',
                         'dvmdb_adom',
                         'dvmdb_device_vdom',
                         'dvmdb_folder',
-                        'dvmdb_group'
+                        'dvmdb_group',
+                        'report_config_chart',
+                        'report_config_chart_drilldowntable',
+                        'report_config_chart_tablecolumns',
+                        'report_config_chart_variabletemplate',
+                        'report_config_dataset',
+                        'report_config_layout',
+                        'report_config_layout_component',
+                        'report_config_layout_component_variable',
+                        'report_config_layout_footer',
+                        'report_config_layout_header',
+                        'report_config_layoutfolder',
+                        'report_config_macro',
+                        'report_config_output',
+                        'report_config_output_emailrecipients',
+                        'report_config_schedule',
+                        'report_config_schedule_addressfilter',
+                        'report_config_schedule_devices',
+                        'report_config_schedule_filter',
+                        'report_config_schedule_reportlayout'
                     ]
                 },
                 'self': {'required': True, 'type': 'dict'},

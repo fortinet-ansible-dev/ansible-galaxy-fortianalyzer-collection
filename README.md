@@ -1,6 +1,6 @@
 ![Fortinet logo|](https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Fortinet_logo.svg/320px-Fortinet_logo.svg.png)
 
-# Ansible Collection - fortinet.fortianalyzer:1.4.0
+# Ansible Collection - fortinet.fortianalyzer:1.5.0
 
 FortiAnalyzer Ansible Collection includes the modules that are able to configure FortiAnalyzer.
 
@@ -14,12 +14,12 @@ FortiAnalyzer Ansible Collection includes the modules that are able to configure
 This collection is distributed via [ansible-galaxy](https://galaxy.ansible.com/fortinet/fortianalyzer), the installation steps are as follows:
 
 1. Install or upgrade to Ansible >= 2.15.0
-2. Download this collection from galaxy: `ansible-galaxy collection install fortinet.fortianalyzer:1.4.0`
+2. Download this collection from galaxy: `ansible-galaxy collection install fortinet.fortianalyzer:1.5.0`
 
 ## Modules
 The collection provides the following modules:
 
-* `faz_cli_exec_fgfm_reclaimdevtunnel`  Reclaim management tunnel to device.
+* `faz_cli_exec_fgfm_reclaimdevtunnel`  Reclaim management tunnel to device.Request without device name specified will reclaim tunnels for all managed devices.
 * `faz_cli_fmupdate_analyzer_virusreport`  Send virus detection notification to FortiGuard.
 * `faz_cli_fmupdate_avips_advancedlog`  Enable/disable logging of FortiGuard antivirus and IPS update packages received by FortiManagers built-in FortiGuard.
 * `faz_cli_fmupdate_avips_webproxy`  Configure the web proxy for use with FortiGuard antivirus and IPS updates.
@@ -27,8 +27,8 @@ The collection provides the following modules:
 * `faz_cli_fmupdate_diskquota`  Configure disk space available for use by the Upgrade Manager.
 * `faz_cli_fmupdate_fctservices`  Configure FortiGuard to provide services to FortiClient installations.
 * `faz_cli_fmupdate_fdssetting`  Configure FortiGuard settings.
-* `faz_cli_fmupdate_fdssetting_pushoverride`  Enable/disable push updates, and override the default IP address and port used by FortiGuard to send antivirus and IPS push messages for...
-* `faz_cli_fmupdate_fdssetting_pushoverridetoclient`  Enable/disable push updates, and override the default IP address and port used by FortiGuard to send antivirus and IPS push messages for...
+* `faz_cli_fmupdate_fdssetting_pushoverride`  Enable/disable push updates, and override the default IP address and port used by FortiGuard to send antivirus and IPS push messages...
+* `faz_cli_fmupdate_fdssetting_pushoverridetoclient`  Enable/disable push updates, and override the default IP address and port used by FortiGuard to send antivirus and IPS push messages...
 * `faz_cli_fmupdate_fdssetting_pushoverridetoclient_announceip`  Announce IP addresses for the device.
 * `faz_cli_fmupdate_fdssetting_serveroverride`  Server override configure.
 * `faz_cli_fmupdate_fdssetting_serveroverride_servlist`  Override server.
@@ -45,7 +45,7 @@ The collection provides the following modules:
 * `faz_cli_fmupdate_webspam_fgdsetting_serveroverride`  Server override configure.
 * `faz_cli_fmupdate_webspam_fgdsetting_serveroverride_servlist`  Override server.
 * `faz_cli_fmupdate_webspam_webproxy`  Configure the web proxy for use with FortiGuard antivirus and IPS updates.
-* `faz_cli_metafields_system_admin_user`  no description.
+* `faz_cli_metafields_system_admin_user`  Cli meta fields system admin user.
 * `faz_cli_system_admin_group`  User group.
 * `faz_cli_system_admin_group_member`  Group members.
 * `faz_cli_system_admin_ldap`  LDAP server entry configuration.
@@ -186,9 +186,38 @@ The collection provides the following modules:
 * `faz_dvmdb_adom_objectmember`  ADOM table, most attributes are read-only and can only be changed internally.
 * `faz_dvmdb_device`  Device table, most attributes are read-only and can only be changed internally.
 * `faz_dvmdb_device_vdom`  Device VDOM table.
-* `faz_dvmdb_folder`  no description.
+* `faz_dvmdb_folder`  Device manager database folder.
 * `faz_dvmdb_group`  Device group table.
 * `faz_dvmdb_group_objectmember`  Device group table.
+* `faz_report_config_chart`  Config chart.
+* `faz_report_config_chart_drilldowntable`  Config drill-down-table.
+* `faz_report_config_chart_tablecolumns`  Config table-columns.
+* `faz_report_config_chart_variabletemplate`  Config variable-template.
+* `faz_report_config_dataset`  Config dataset.
+* `faz_report_config_dataset_variable`  Config variable.
+* `faz_report_config_layout`  Config layout.
+* `faz_report_config_layout_component`  Config component.
+* `faz_report_config_layout_component_variable`  Config variable.
+* `faz_report_config_layout_footer`  Config footer.
+* `faz_report_config_layout_header`  Config header.
+* `faz_report_config_layoutfolder`  Config layout-folder.
+* `faz_report_config_macro`  Config macro.
+* `faz_report_config_output`  Config output.
+* `faz_report_config_output_emailrecipients`  Config email-recipients.
+* `faz_report_config_schedule`  Config schedule.
+* `faz_report_config_schedule_addressfilter`  Config address-filter.
+* `faz_report_config_schedule_devices`  Config devices.
+* `faz_report_config_schedule_filter`  Config filter.
+* `faz_report_config_schedule_reportlayout`  Config report-layout.
+* `faz_report_configfile_import`  Import report config files.
+* `faz_report_graphfile`  Handle graph files.
+* `faz_report_graphfile_delete`  Handle graph files.
+* `faz_report_reports_data_delete`  Handle generated reports.
+* `faz_report_run`  Start report requests.
+* `faz_report_run_delete`  Handle report requests by task ID.
+* `faz_report_template_delete`  Delete report template language package files.
+* `faz_report_template_import`  Import report templates.
+* `faz_report_template_install`  Install report template language packages from files.
 * `faz_sys_api_sdnconnector`  Query SDN connector data.
 * `faz_sys_generate_wsdl`  Generate WSDL for specific module and objects.
 * `faz_sys_login_challenge`  Answer a log in challenge question, used following a login/user or login/challenge command.

@@ -44,75 +44,73 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     cli_system_report_setting:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             aggregate-report:
                 type: str
                 description:
-                 - 'Enable/disable including a group report along with the per-device reports.'
-                 - 'disable - Exclude a group report along with the per-device reports.'
-                 - 'enable - Include a group report along with the per-device reports.'
+                 - Enable/disable including a group report along with the per-device reports.
+                 - disable - Exclude a group report along with the per-device reports.
+                 - enable - Include a group report along with the per-device reports.
                 choices:
                     - 'disable'
                     - 'enable'
             capwap-port:
                 type: int
-                description: 'Exclude capwap traffic by port.'
+                description: Exclude capwap traffic by port.
             capwap-service:
                 type: str
-                description: 'Exclude capwap traffic by service.'
+                description: Exclude capwap traffic by service.
             exclude-capwap:
                 type: str
                 description:
-                 - 'Exclude capwap traffic.'
-                 - 'disable - Disable.'
-                 - 'by-port - By port.'
-                 - 'by-service - By service.'
+                 - Exclude capwap traffic.
+                 - disable - Disable.
+                 - by-port - By port.
+                 - by-service - By service.
                 choices:
                     - 'disable'
                     - 'by-port'
@@ -120,25 +118,25 @@ options:
             hcache-lossless:
                 type: str
                 description:
-                 - 'Usableness of ready-with-loss hcaches.'
-                 - 'disable - Use ready-with-loss hcaches.'
-                 - 'enable - Do not use ready-with-loss hcaches.'
+                 - Usableness of ready-with-loss hcaches.
+                 - disable - Use ready-with-loss hcaches.
+                 - enable - Do not use ready-with-loss hcaches.
                 choices:
                     - 'disable'
                     - 'enable'
             ldap-cache-timeout:
                 type: int
-                description: 'LDAP cache timeout in minutes, default 60, 0 means not use cache.'
+                description: LDAP cache timeout in minutes, default 60, 0 means not use cache.
             max-table-rows:
                 type: int
-                description: 'Maximum number of rows can be generated in a single table.'
+                description: Maximum number of rows can be generated in a single table.
             report-priority:
                 type: str
                 description:
-                 - 'Priority of sql report.'
-                 - 'high - High'
-                 - 'low - Low'
-                 - 'auto - Auto'
+                 - Priority of sql report.
+                 - high - High
+                 - low - Low
+                 - auto - Auto
                 choices:
                     - 'high'
                     - 'low'
@@ -146,24 +144,24 @@ options:
             template-auto-install:
                 type: str
                 description:
-                 - 'The language used for new ADOMs (default = default).'
-                 - 'default - Default.'
-                 - 'english - English.'
+                 - The language used for new ADOMs
+                 - default - Default.
+                 - english - English.
                 choices:
                     - 'default'
                     - 'english'
             week-start:
                 type: str
                 description:
-                 - 'Day of the week on which the week starts.'
-                 - 'sun - Sunday.'
-                 - 'mon - Monday.'
+                 - Day of the week on which the week starts.
+                 - sun - Sunday.
+                 - mon - Monday.
                 choices:
                     - 'sun'
                     - 'mon'
             max-rpt-pdf-rows:
                 type: int
-                description: 'Maximum number of rows can be generated in a single pdf.'
+                description: Maximum number of rows can be generated in a single pdf.
 '''
 
 EXAMPLES = '''
@@ -253,6 +251,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_system_report_setting': {

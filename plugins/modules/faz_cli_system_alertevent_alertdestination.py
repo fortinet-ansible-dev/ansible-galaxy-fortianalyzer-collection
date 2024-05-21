@@ -44,48 +44,47 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     state:
         description: The directive to create, update or delete an object
         type: str
@@ -101,31 +100,30 @@ options:
         type: str
     cli_system_alertevent_alertdestination:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             from:
                 type: str
-                description: 'Sender email address to use in alert emails.'
+                description: Sender email address to use in alert emails.
             smtp-name:
                 type: str
-                description: 'SMTP server name.'
+                description: SMTP server name.
             snmp-name:
                 type: str
-                description: 'SNMP trap name.'
+                description: SNMP trap name.
             syslog-name:
                 type: str
-                description: 'Syslog server name.'
+                description: Syslog server name.
             to:
                 type: str
-                description: 'Recipient email address to use in alert emails.'
+                description: Recipient email address to use in alert emails.
             type:
                 type: str
                 description:
-                 - 'Destination type.'
-                 - 'mail - Send email alert.'
-                 - 'snmp - Send SNMP trap.'
-                 - 'syslog - Send syslog message.'
+                 - Destination type.
+                 - mail - Send email alert.
+                 - snmp - Send SNMP trap.
+                 - syslog - Send syslog message.
                 choices:
                     - 'mail'
                     - 'snmp'
@@ -221,6 +219,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},

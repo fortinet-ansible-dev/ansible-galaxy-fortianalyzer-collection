@@ -131,3 +131,107 @@ releases:
         name: faz_cli_system_admin_profile_writepasswduserlist
         namespace: ""
     release_date: "2024-03-07"
+  1.5.0:
+    changes:
+      bugfixes:
+        - Improved 10 modules to support "state:absent".
+        - Improved bypass_validation. If you now set bypass_validation to true, it will
+          allow you to send parameters that are not defined in the schema.
+        - Improved documentation, added description for all "no description" modules.
+        - Improved faz_fact, it can support selectors start with "report".
+      minor_changes:
+        - Added report serial modules.
+        - Supported FortiAnalyzer 7.0.12, 7.2.5.
+        - Added parameter version_check. If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer.
+      release_summary: Release fortinet.fortianalyzer 1.5.0
+    fragments:
+      - 1.5.0.yml
+    modules:
+      - description: Config chart.
+        name: faz_report_config_chart
+        namespace: ""
+      - description: Config drill-down-table.
+        name: faz_report_config_chart_drilldowntable
+        namespace: ""
+      - description: Config table-columns.
+        name: faz_report_config_chart_tablecolumns
+        namespace: ""
+      - description: Config variable-template.
+        name: faz_report_config_chart_variabletemplate
+        namespace: ""
+      - description: Config dataset.
+        name: faz_report_config_dataset
+        namespace: ""
+      - description: Config variable.
+        name: faz_report_config_dataset_variable
+        namespace: ""
+      - description: Config layout.
+        name: faz_report_config_layout
+        namespace: ""
+      - description: Config component.
+        name: faz_report_config_layout_component
+        namespace: ""
+      - description: Config variable.
+        name: faz_report_config_layout_component_variable
+        namespace: ""
+      - description: Config footer.
+        name: faz_report_config_layout_footer
+        namespace: ""
+      - description: Config header.
+        name: faz_report_config_layout_header
+        namespace: ""
+      - description: Config layout-folder.
+        name: faz_report_config_layoutfolder
+        namespace: ""
+      - description: Config macro.
+        name: faz_report_config_macro
+        namespace: ""
+      - description: Config output.
+        name: faz_report_config_output
+        namespace: ""
+      - description: Config email-recipients.
+        name: faz_report_config_output_emailrecipients
+        namespace: ""
+      - description: Config schedule.
+        name: faz_report_config_schedule
+        namespace: ""
+      - description: Config address-filter.
+        name: faz_report_config_schedule_addressfilter
+        namespace: ""
+      - description: Config devices.
+        name: faz_report_config_schedule_devices
+        namespace: ""
+      - description: Config filter.
+        name: faz_report_config_schedule_filter
+        namespace: ""
+      - description: Config report-layout.
+        name: faz_report_config_schedule_reportlayout
+        namespace: ""
+      - description: Import report config files.
+        name: faz_report_configfile_import
+        namespace: ""
+      - description: Handle graph files.
+        name: faz_report_graphfile
+        namespace: ""
+      - description: Handle graph files.
+        name: faz_report_graphfile_delete
+        namespace: ""
+      - description: Handle generated reports.
+        name: faz_report_reports_data_delete
+        namespace: ""
+      - description: Start report requests.
+        name: faz_report_run
+        namespace: ""
+      - description: Handle report requests by task ID.
+        name: faz_report_run_delete
+        namespace: ""
+      - description: Delete report template language package files.
+        name: faz_report_template_delete
+        namespace: ""
+      - description: Import report templates.
+        name: faz_report_template_import
+        namespace: ""
+      - description: Install report template language packages from files.
+        name: faz_report_template_install
+        namespace: ""
+    release_date: "2024-05-21"

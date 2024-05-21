@@ -44,105 +44,103 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     cli_fmupdate_fwmsetting:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             auto-scan-fgt-disk:
                 type: str
                 description:
-                 - 'auto scan fgt disk if needed.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - auto scan fgt disk if needed.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             check-fgt-disk:
                 type: str
                 description:
-                 - 'check fgt disk before upgrade image.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - check fgt disk before upgrade image.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             fds-failover-fmg:
                 type: str
                 description:
-                 - 'using fmg local image file is download from fds fails.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - using fmg local image file is download from fds fails.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             fds-image-timeout:
                 type: int
-                description: 'timer for fgt download image from fortiguard (300-3600s default=1800)'
+                description: timer for fgt download image from fortiguard
             multiple-steps-interval:
                 type: int
-                description: 'waiting time between multiple steps upgrade (30-180s, default=60)'
+                description: waiting time between multiple steps upgrade
             max-fds-retry:
                 type: int
-                description: 'The retries when fgt download from fds fail (5-20, default=10)'
+                description: The retries when fgt download from fds fail
             skip-disk-check:
                 type: str
                 description:
-                 - 'skip disk check when upgrade image.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - skip disk check when upgrade image.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             immx-source:
                 type: str
                 description:
-                 - 'Configure which of IMMX file to be used for choosing upgrade pach. Default is file for FortiManager'
-                 - 'fmg - Use IMMX file for FortiManager'
-                 - 'fgt - Use IMMX file for FortiGate'
-                 - 'cloud - Use IMMX file for FortiCloud'
+                 - Configure which of IMMX file to be used for choosing upgrade pach.
+                 - fmg - Use IMMX file for FortiManager
+                 - fgt - Use IMMX file for FortiGate
+                 - cloud - Use IMMX file for FortiCloud
                 choices:
                     - 'fmg'
                     - 'fgt'
@@ -150,10 +148,10 @@ options:
             log:
                 type: str
                 description:
-                 - 'Configure log setting for fwm daemon'
-                 - 'fwm - FWM daemon log'
-                 - 'fwm_dm - FWM and Deployment service log'
-                 - 'fwm_dm_json - FWM and Deployment service log with JSON data between FMG-FGT'
+                 - Configure log setting for fwm daemon
+                 - fwm - FWM daemon log
+                 - fwm_dm - FWM and Deployment service log
+                 - fwm_dm_json - FWM and Deployment service log with JSON data between FMG-FGT
                 choices:
                     - 'fwm'
                     - 'fwm_dm'
@@ -161,86 +159,85 @@ options:
             upgrade-timeout:
                 description: no description
                 type: dict
-                required: false
                 suboptions:
                     check-status-timeout:
                         type: int
-                        description: 'timeout for checking status after tunnnel is up.(1-6000s, default=600)'
+                        description: timeout for checking status after tunnnel is up.
                     ctrl-check-status-timeout:
                         type: int
-                        description: 'timeout for checking fap/fsw/fext status after request upgrade.(1-12000s, default=1200)'
+                        description: timeout for checking fap/fsw/fext status after request upgrade.
                     ctrl-put-image-by-fds-timeout:
                         type: int
-                        description: 'timeout for waiting device get fap/fsw/fext image from fortiguard.(1-9000ss, default=900)'
+                        description: timeout for waiting device get fap/fsw/fext image from fortiguard.
                     ha-sync-timeout:
                         type: int
-                        description: 'timeout for waiting HA sync.(1-18000s, default=1800)'
+                        description: timeout for waiting HA sync.
                     license-check-timeout:
                         type: int
-                        description: 'timeout for waiting fortigate check license.(1-6000s, default=600)'
+                        description: timeout for waiting fortigate check license.
                     prepare-image-timeout:
                         type: int
-                        description: 'timeout for preparing image.(1-6000s, default=600)'
+                        description: timeout for preparing image.
                     put-image-by-fds-timeout:
                         type: int
-                        description: 'timeout for waiting device get image from fortiguard.(1-18000s, default=1800)'
+                        description: timeout for waiting device get image from fortiguard.
                     put-image-timeout:
                         type: int
-                        description: 'timeout for waiting send image over tunnel.(1-18000s, default=1800)'
+                        description: timeout for waiting send image over tunnel.
                     reboot-of-fsck-timeout:
                         type: int
-                        description: 'timeout for waiting fortigate reboot.(1-18000s, default=1800)'
+                        description: timeout for waiting fortigate reboot.
                     reboot-of-upgrade-timeout:
                         type: int
-                        description: 'timeout for waiting fortigate reboot after image upgrade.(1-12000s, default=1200)'
+                        description: timeout for waiting fortigate reboot after image upgrade.
                     retrieve-timeout:
                         type: int
-                        description: 'timeout for waiting retrieve.(1-18000s, default=1800)'
+                        description: timeout for waiting retrieve.
                     rpc-timeout:
                         type: int
-                        description: 'timeout for waiting fortigate rpc response.(1-1800s, default=180)'
+                        description: timeout for waiting fortigate rpc response.
                     total-timeout:
                         type: int
-                        description: 'timeout for the whole fortigate upgrade(1-86400s, default=3600)'
+                        description: timeout for the whole fortigate upgrade
                     health-check-timeout:
                         type: int
-                        description: 'timeout for waiting retrieve.(1-6000s, default=600)'
+                        description: timeout for waiting retrieve.
             retry-interval:
                 type: int
-                description: 'waiting time for resending request to device(1-360s, default=60)'
+                description: waiting time for resending request to device
             retry-max:
                 type: int
-                description: 'max retry times(0-100, default=10)'
+                description: max retry times
             health-check:
                 type: str
                 description:
-                 - 'do health check after upgrade'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - do health check after upgrade
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             max-device-history:
                 type: int
-                description: 'max number of device upgrade report(1-10000, default=100)'
+                description: max number of device upgrade report
             max-profile-history:
                 type: int
-                description: 'max number of profile upgrade report(1-10000, default=100)'
+                description: max number of profile upgrade report
             retrieve:
                 type: str
                 description:
-                 - 'do retrieve after upgrade'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - do retrieve after upgrade
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             revision-diff:
                 type: str
                 description:
-                 - 'calculate diff script after upgrade'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - calculate diff script after upgrade
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
@@ -331,6 +328,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_fmupdate_fwmsetting': {
@@ -347,26 +345,27 @@ def main():
                 'immx-source': {'v_range': [['6.4.2', '']], 'choices': ['fmg', 'fgt', 'cloud'], 'type': 'str'},
                 'log': {'v_range': [['6.4.8', '6.4.14'], ['7.0.1', '']], 'choices': ['fwm', 'fwm_dm', 'fwm_dm_json'], 'type': 'str'},
                 'upgrade-timeout': {
+                    'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']],
                     'type': 'dict',
                     'options': {
-                        'check-status-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
-                        'ctrl-check-status-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
-                        'ctrl-put-image-by-fds-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
-                        'ha-sync-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
-                        'license-check-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
-                        'prepare-image-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
-                        'put-image-by-fds-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
-                        'put-image-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
-                        'reboot-of-fsck-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
-                        'reboot-of-upgrade-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
-                        'retrieve-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
-                        'rpc-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
-                        'total-timeout': {'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']], 'type': 'int'},
+                        'check-status-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
+                        'ctrl-check-status-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
+                        'ctrl-put-image-by-fds-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
+                        'ha-sync-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
+                        'license-check-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
+                        'prepare-image-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
+                        'put-image-by-fds-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
+                        'put-image-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
+                        'reboot-of-fsck-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
+                        'reboot-of-upgrade-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
+                        'retrieve-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
+                        'rpc-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
+                        'total-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
                         'health-check-timeout': {'v_range': [['7.4.2', '']], 'type': 'int'}
                     }
                 },
-                'retry-interval': {'v_range': [['7.0.10', '7.0.11'], ['7.4.2', '']], 'type': 'int'},
-                'retry-max': {'v_range': [['7.0.10', '7.0.11'], ['7.4.2', '']], 'type': 'int'},
+                'retry-interval': {'v_range': [['7.0.10', '7.0.12'], ['7.2.5', '7.2.5'], ['7.4.2', '']], 'type': 'int'},
+                'retry-max': {'v_range': [['7.0.10', '7.0.12'], ['7.2.5', '7.2.5'], ['7.4.2', '']], 'type': 'int'},
                 'health-check': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'max-device-history': {'v_range': [['7.4.2', '']], 'type': 'int'},
                 'max-profile-history': {'v_range': [['7.4.2', '']], 'type': 'int'},

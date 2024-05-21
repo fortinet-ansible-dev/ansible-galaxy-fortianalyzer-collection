@@ -44,48 +44,47 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     state:
         description: The directive to create, update or delete an object
         type: str
@@ -95,7 +94,6 @@ options:
             - absent
     cli_system_admin_user:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             adom:
@@ -105,7 +103,7 @@ options:
                 suboptions:
                     adom-name:
                         type: str
-                        description: 'Admin domain names.'
+                        description: Admin domain names.
             adom-exclude:
                 description: no description
                 type: list
@@ -113,19 +111,19 @@ options:
                 suboptions:
                     adom-name:
                         type: str
-                        description: 'Admin domain names.'
+                        description: Admin domain names.
             avatar:
                 type: str
-                description: 'Image file for avatar (maximum 4K base64 encoded).'
+                description: Image file for avatar
             ca:
                 type: str
-                description: 'PKI user certificate CA (CA name in local).'
+                description: PKI user certificate CA
             change-password:
                 type: str
                 description:
-                 - 'Enable/disable restricted user to change self password.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable restricted user to change self password.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
@@ -136,14 +134,14 @@ options:
                 suboptions:
                     column:
                         type: int
-                        description: 'Widgets column ID.'
+                        description: Widgets column ID.
                     diskio-content-type:
                         type: str
                         description:
-                         - 'Disk I/O Monitor widgets chart type.'
-                         - 'util - bandwidth utilization.'
-                         - 'iops - the number of I/O requests.'
-                         - 'blks - the amount of data of I/O requests.'
+                         - Disk I/O Monitor widgets chart type.
+                         - util - bandwidth utilization.
+                         - iops - the number of I/O requests.
+                         - blks - the amount of data of I/O requests.
                         choices:
                             - 'util'
                             - 'iops'
@@ -151,10 +149,10 @@ options:
                     diskio-period:
                         type: str
                         description:
-                         - 'Disk I/O Monitor widgets data period.'
-                         - '1hour - 1 hour.'
-                         - '8hour - 8 hour.'
-                         - '24hour - 24 hour.'
+                         - Disk I/O Monitor widgets data period.
+                         - 1hour - 1 hour.
+                         - 8hour - 8 hour.
+                         - 24hour - 24 hour.
                         choices:
                             - '1hour'
                             - '8hour'
@@ -162,10 +160,10 @@ options:
                     log-rate-period:
                         type: str
                         description:
-                         - 'Log receive monitor widgets data period.'
-                         - '2min  - 2 minutes.'
-                         - '1hour - 1 hour.'
-                         - '6hours - 6 hours.'
+                         - Log receive monitor widgets data period.
+                         - 2min  - 2 minutes.
+                         - 1hour - 1 hour.
+                         - 6hours - 6 hours.
                         choices:
                             - '2min '
                             - '1hour'
@@ -173,12 +171,12 @@ options:
                     log-rate-topn:
                         type: str
                         description:
-                         - 'Log receive monitor widgets number of top items to display.'
-                         - '1 - Top 1.'
-                         - '2 - Top 2.'
-                         - '3 - Top 3.'
-                         - '4 - Top 4.'
-                         - '5 - Top 5.'
+                         - Log receive monitor widgets number of top items to display.
+                         - 1 - Top 1.
+                         - 2 - Top 2.
+                         - 3 - Top 3.
+                         - 4 - Top 4.
+                         - 5 - Top 5.
                         choices:
                             - '1'
                             - '2'
@@ -188,40 +186,40 @@ options:
                     log-rate-type:
                         type: str
                         description:
-                         - 'Log receive monitor widgets statistics breakdown options.'
-                         - 'log - Show log rates for each log type.'
-                         - 'device - Show log rates for each device.'
+                         - Log receive monitor widgets statistics breakdown options.
+                         - log - Show log rates for each log type.
+                         - device - Show log rates for each device.
                         choices:
                             - 'log'
                             - 'device'
                     moduleid:
                         type: int
-                        description: 'Widget ID.'
+                        description: Widget ID.
                     name:
                         type: str
-                        description: 'Widget name.'
+                        description: Widget name.
                     num-entries:
                         type: int
-                        description: 'Number of entries.'
+                        description: Number of entries.
                     refresh-interval:
                         type: int
-                        description: 'Widgets refresh interval.'
+                        description: Widgets refresh interval.
                     res-cpu-display:
                         type: str
                         description:
-                         - 'Widgets CPU display type.'
-                         - 'average  - Average usage of CPU.'
-                         - 'each - Each usage of CPU.'
+                         - Widgets CPU display type.
+                         - average  - Average usage of CPU.
+                         - each - Each usage of CPU.
                         choices:
                             - 'average '
                             - 'each'
                     res-period:
                         type: str
                         description:
-                         - 'Widgets data period.'
-                         - '10min  - Last 10 minutes.'
-                         - 'hour - Last hour.'
-                         - 'day - Last day.'
+                         - Widgets data period.
+                         - 10min  - Last 10 minutes.
+                         - hour - Last hour.
+                         - day - Last day.
                         choices:
                             - '10min '
                             - 'hour'
@@ -229,31 +227,31 @@ options:
                     res-view-type:
                         type: str
                         description:
-                         - 'Widgets data view type.'
-                         - 'real-time  - Real-time view.'
-                         - 'history - History view.'
+                         - Widgets data view type.
+                         - real-time  - Real-time view.
+                         - history - History view.
                         choices:
                             - 'real-time '
                             - 'history'
                     status:
                         type: str
                         description:
-                         - 'Widgets opened/closed state.'
-                         - 'close - Widget closed.'
-                         - 'open - Widget opened.'
+                         - Widgets opened/closed state.
+                         - close - Widget closed.
+                         - open - Widget opened.
                         choices:
                             - 'close'
                             - 'open'
                     tabid:
                         type: int
-                        description: 'ID of tab where widget is displayed.'
+                        description: ID of tab where widget is displayed.
                     time-period:
                         type: str
                         description:
-                         - 'Log Database Monitor widgets data period.'
-                         - '1hour - 1 hour.'
-                         - '8hour - 8 hour.'
-                         - '24hour - 24 hour.'
+                         - Log Database Monitor widgets data period.
+                         - 1hour - 1 hour.
+                         - 8hour - 8 hour.
+                         - 24hour - 24 hour.
                         choices:
                             - '1hour'
                             - '8hour'
@@ -261,23 +259,23 @@ options:
                     widget-type:
                         type: str
                         description:
-                         - 'Widget type.'
-                         - 'top-lograte - Log Receive Monitor.'
-                         - 'sysres - System resources.'
-                         - 'sysinfo - System Information.'
-                         - 'licinfo - License Information.'
-                         - 'jsconsole - CLI Console.'
-                         - 'sysop - Unit Operation.'
-                         - 'alert - Alert Message Console.'
-                         - 'statistics - Statistics.'
-                         - 'rpteng - Report Engine.'
-                         - 'raid - Disk Monitor.'
-                         - 'logrecv - Logs/Data Received.'
-                         - 'devsummary - Device Summary.'
-                         - 'logdb-perf - Log Database Performance Monitor.'
-                         - 'logdb-lag - Log Database Lag Time.'
-                         - 'disk-io - Disk I/O.'
-                         - 'log-rcvd-fwd - Log receive and forwarding Monitor.'
+                         - Widget type.
+                         - top-lograte - Log Receive Monitor.
+                         - sysres - System resources.
+                         - sysinfo - System Information.
+                         - licinfo - License Information.
+                         - jsconsole - CLI Console.
+                         - sysop - Unit Operation.
+                         - alert - Alert Message Console.
+                         - statistics - Statistics.
+                         - rpteng - Report Engine.
+                         - raid - Disk Monitor.
+                         - logrecv - Logs/Data Received.
+                         - devsummary - Device Summary.
+                         - logdb-perf - Log Database Performance Monitor.
+                         - logdb-lag - Log Database Lag Time.
+                         - disk-io - Disk I/O.
+                         - log-rcvd-fwd - Log receive and forwarding Monitor.
                         choices:
                             - 'top-lograte'
                             - 'sysres'
@@ -302,58 +300,58 @@ options:
                 suboptions:
                     name:
                         type: str
-                        description: 'Tab name.'
+                        description: Tab name.
                     tabid:
                         type: int
-                        description: 'Tab ID.'
+                        description: Tab ID.
             description:
                 type: str
-                description: 'Description.'
+                description: Description.
             dev-group:
                 type: str
-                description: 'device group.'
+                description: device group.
             email-address:
                 type: str
-                description: 'Email address.'
+                description: Email address.
             ext-auth-accprofile-override:
                 type: str
                 description:
-                 - 'Allow to use the access profile provided by the remote authentication server.'
-                 - 'disable - Disable access profile override.'
-                 - 'enable - Enable access profile override.'
+                 - Allow to use the access profile provided by the remote authentication server.
+                 - disable - Disable access profile override.
+                 - enable - Enable access profile override.
                 choices:
                     - 'disable'
                     - 'enable'
             ext-auth-adom-override:
                 type: str
                 description:
-                 - 'Allow to use the ADOM provided by the remote authentication server.'
-                 - 'disable - Disable ADOM override.'
-                 - 'enable - Enable ADOM override.'
+                 - Allow to use the ADOM provided by the remote authentication server.
+                 - disable - Disable ADOM override.
+                 - enable - Enable ADOM override.
                 choices:
                     - 'disable'
                     - 'enable'
             ext-auth-group-match:
                 type: str
-                description: 'Only administrators belonging to this group can login.'
+                description: Only administrators belonging to this group can login.
             first-name:
                 type: str
-                description: 'First name.'
+                description: First name.
             force-password-change:
                 type: str
                 description:
-                 - 'Enable/disable force password change on next login.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable force password change on next login.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             group:
                 type: str
-                description: 'Group name.'
+                description: Group name.
             hidden:
                 type: int
-                description: 'Hidden administrator.'
+                description: Hidden administrator.
             ipv6_trusthost1:
                 type: str
                 description: 'Admin user trusted host IPv6, default ::/0 for all.'
@@ -386,10 +384,10 @@ options:
                 description: 'Admin user trusted host IPv6, default ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff/128 for none.'
             last-name:
                 type: str
-                description: 'Last name.'
+                description: Last name.
             ldap-server:
                 type: str
-                description: 'LDAP server name.'
+                description: LDAP server name.
             meta-data:
                 description: no description
                 type: list
@@ -397,46 +395,46 @@ options:
                 suboptions:
                     fieldlength:
                         type: int
-                        description: 'Field length.'
+                        description: Field length.
                     fieldname:
                         type: str
-                        description: 'Field name.'
+                        description: Field name.
                     fieldvalue:
                         type: str
-                        description: 'Field value.'
+                        description: Field value.
                     importance:
                         type: str
                         description:
-                         - 'Importance.'
-                         - 'optional - This field is optional.'
-                         - 'required - This field is required.'
+                         - Importance.
+                         - optional - This field is optional.
+                         - required - This field is required.
                         choices:
                             - 'optional'
                             - 'required'
                     status:
                         type: str
                         description:
-                         - 'Status.'
-                         - 'disabled - This field is disabled.'
-                         - 'enabled - This field is enabled.'
+                         - Status.
+                         - disabled - This field is disabled.
+                         - enabled - This field is enabled.
                         choices:
                             - 'disabled'
                             - 'enabled'
             mobile-number:
                 type: str
-                description: 'Mobile number.'
+                description: Mobile number.
             pager-number:
                 type: str
-                description: 'Pager number.'
+                description: Pager number.
             password:
-                description: no description
+                description: Password.
                 type: str
             password-expire:
                 type: str
-                description: 'Password expire time in GMT.'
+                description: Password expire time in GMT.
             phone-number:
                 type: str
-                description: 'Phone number.'
+                description: Phone number.
             policy-package:
                 description: no description
                 type: list
@@ -444,19 +442,19 @@ options:
                 suboptions:
                     policy-package-name:
                         type: str
-                        description: 'Policy package names.'
+                        description: Policy package names.
             profileid:
                 type: str
-                description: 'Profile ID.'
+                description: Profile ID.
             radius_server:
                 type: str
-                description: 'RADIUS server name.'
+                description: RADIUS server name.
             restrict-access:
                 type: str
                 description:
-                 - 'Enable/disable restricted access to development VDOM.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable restricted access to development VDOM.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
@@ -467,70 +465,70 @@ options:
                 suboptions:
                     dev-vdom:
                         type: str
-                        description: 'Device or device VDOM.'
+                        description: Device or device VDOM.
             rpc-permit:
                 type: str
                 description:
-                 - 'set none/read/read-write rpc-permission.'
-                 - 'read-write - Read-write permission.'
-                 - 'none - No permission.'
-                 - 'read - Read-only permission.'
+                 - set none/read/read-write rpc-permission.
+                 - read-write - Read-write permission.
+                 - none - No permission.
+                 - read - Read-only permission.
                 choices:
                     - 'read-write'
                     - 'none'
                     - 'read'
                     - 'from-profile'
             ssh-public-key1:
-                description: no description
+                description: SSH public key 1.
                 type: str
             ssh-public-key2:
-                description: no description
+                description: SSH public key 2.
                 type: str
             ssh-public-key3:
-                description: no description
+                description: SSH public key 3.
                 type: str
             subject:
                 type: str
-                description: 'PKI user certificate name constraints.'
+                description: PKI user certificate name constraints.
             tacacs-plus-server:
                 type: str
-                description: 'TACACS+ server name.'
+                description: TACACS+ server name.
             trusthost1:
                 type: str
-                description: 'Admin user trusted host IP, default 0.0.0.0 0.0.0.0 for all.'
+                description: Admin user trusted host IP, default 0.0.0.0 0.0.0.0 for all.
             trusthost10:
                 type: str
-                description: 'Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.'
+                description: Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.
             trusthost2:
                 type: str
-                description: 'Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.'
+                description: Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.
             trusthost3:
                 type: str
-                description: 'Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.'
+                description: Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.
             trusthost4:
                 type: str
-                description: 'Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.'
+                description: Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.
             trusthost5:
                 type: str
-                description: 'Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.'
+                description: Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.
             trusthost6:
                 type: str
-                description: 'Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.'
+                description: Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.
             trusthost7:
                 type: str
-                description: 'Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.'
+                description: Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.
             trusthost8:
                 type: str
-                description: 'Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.'
+                description: Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.
             trusthost9:
                 type: str
-                description: 'Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.'
+                description: Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.
             two-factor-auth:
                 type: str
                 description:
-                 - 'Enable 2-factor authentication (certificate + password).'
-                 - 'disable - Disable 2-factor authentication.'
-                 - 'enable - Enable 2-factor authentication.'
+                 - Enable 2-factor authentication
+                 - disable - Disable 2-factor authentication.
+                 - enable - Enable 2-factor authentication.
                 choices:
                     - 'disable'
                     - 'enable'
@@ -541,14 +539,14 @@ options:
             user_type:
                 type: str
                 description:
-                 - 'User type.'
-                 - 'local - Local user.'
-                 - 'radius - RADIUS user.'
-                 - 'ldap - LDAP user.'
-                 - 'tacacs-plus - TACACS+ user.'
-                 - 'pki-auth - PKI user.'
-                 - 'group - Group user.'
-                 - 'sso - SSO user.'
+                 - User type.
+                 - local - Local user.
+                 - radius - RADIUS user.
+                 - ldap - LDAP user.
+                 - tacacs-plus - TACACS+ user.
+                 - pki-auth - PKI user.
+                 - group - Group user.
+                 - sso - SSO user.
                 choices:
                     - 'local'
                     - 'radius'
@@ -560,62 +558,62 @@ options:
                     - 'api'
             userid:
                 type: str
-                description: 'User name.'
+                description: User name.
             wildcard:
                 type: str
                 description:
-                 - 'Enable/disable wildcard remote authentication.'
-                 - 'disable - Disable username wildcard.'
-                 - 'enable - Enable username wildcard.'
+                 - Enable/disable wildcard remote authentication.
+                 - disable - Disable username wildcard.
+                 - enable - Enable username wildcard.
                 choices:
                     - 'disable'
                     - 'enable'
             login-max:
                 type: int
-                description: 'Max login session for this user.'
+                description: Max login session for this user.
             fingerprint:
                 type: str
-                description: 'PKI user certificate fingerprint (MD5, SHA1, SHA256) constraints.'
+                description: PKI user certificate fingerprint
             use-global-theme:
                 type: str
                 description:
-                 - 'Enable/disble global theme for administration GUI.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disble global theme for administration GUI.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             user-theme:
                 type: str
                 description:
-                 - 'Color scheme to use for the admin user GUI.'
-                 - 'blue - Blueberry'
-                 - 'green - Kiwi'
-                 - 'red - Cherry'
-                 - 'melongene - Plum'
-                 - 'spring - Spring'
-                 - 'summer - Summer'
-                 - 'autumn - Autumn'
-                 - 'winter - Winter'
-                 - 'circuit-board - Circuit Board'
-                 - 'calla-lily - Calla Lily'
-                 - 'binary-tunnel - Binary Tunnel'
-                 - 'mars - Mars'
-                 - 'blue-sea - Blue Sea'
-                 - 'technology - Technology'
-                 - 'landscape - Landscape'
-                 - 'twilight - Twilight'
-                 - 'canyon - Canyon'
-                 - 'northern-light - Northern Light'
-                 - 'astronomy - Astronomy'
-                 - 'fish - Fish'
-                 - 'penguin - Penguin'
-                 - 'mountain - Mountain'
-                 - 'panda - Panda'
-                 - 'parrot - Parrot'
-                 - 'cave - Cave'
-                 - 'zebra - Zebra'
-                 - 'contrast-dark - High Contrast Dark'
+                 - Color scheme to use for the admin user GUI.
+                 - blue - Blueberry
+                 - green - Kiwi
+                 - red - Cherry
+                 - melongene - Plum
+                 - spring - Spring
+                 - summer - Summer
+                 - autumn - Autumn
+                 - winter - Winter
+                 - circuit-board - Circuit Board
+                 - calla-lily - Calla Lily
+                 - binary-tunnel - Binary Tunnel
+                 - mars - Mars
+                 - blue-sea - Blue Sea
+                 - technology - Technology
+                 - landscape - Landscape
+                 - twilight - Twilight
+                 - canyon - Canyon
+                 - northern-light - Northern Light
+                 - astronomy - Astronomy
+                 - fish - Fish
+                 - penguin - Penguin
+                 - mountain - Mountain
+                 - panda - Panda
+                 - parrot - Parrot
+                 - cave - Cave
+                 - zebra - Zebra
+                 - contrast-dark - High Contrast Dark
                 choices:
                     - 'blue'
                     - 'green'
@@ -654,10 +652,10 @@ options:
             adom-access:
                 type: str
                 description:
-                 - 'set all/specify/exclude adom access mode.'
-                 - 'all - All ADOMs access.'
-                 - 'specify - Specify ADOMs access.'
-                 - 'exclude - Exclude ADOMs access.'
+                 - set all/specify/exclude adom access mode.
+                 - all - All ADOMs access.
+                 - specify - Specify ADOMs access.
+                 - exclude - Exclude ADOMs access.
                 choices:
                     - 'all'
                     - 'specify'
@@ -671,7 +669,7 @@ options:
                 description: 'Internal use only: ipv6_trusthostX from-profile flag'
             cors-allow-origin:
                 type: str
-                description: 'Access-Control-Allow-Origin.'
+                description: Access-Control-Allow-Origin.
 '''
 
 EXAMPLES = '''
@@ -760,6 +758,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},
@@ -776,7 +775,7 @@ def main():
                 },
                 'avatar': {'type': 'str'},
                 'ca': {'type': 'str'},
-                'change-password': {'choices': ['disable', 'enable'], 'no_log': True, 'type': 'str'},
+                'change-password': {'choices': ['disable', 'enable'], 'no_log': False, 'type': 'str'},
                 'dashboard': {
                     'type': 'list',
                     'options': {
@@ -814,7 +813,7 @@ def main():
                 'ext-auth-adom-override': {'choices': ['disable', 'enable'], 'type': 'str'},
                 'ext-auth-group-match': {'type': 'str'},
                 'first-name': {'type': 'str'},
-                'force-password-change': {'choices': ['disable', 'enable'], 'no_log': True, 'type': 'str'},
+                'force-password-change': {'choices': ['disable', 'enable'], 'no_log': False, 'type': 'str'},
                 'group': {'type': 'str'},
                 'hidden': {'type': 'int'},
                 'ipv6_trusthost1': {'type': 'str'},
@@ -843,7 +842,7 @@ def main():
                 'mobile-number': {'type': 'str'},
                 'pager-number': {'type': 'str'},
                 'password': {'no_log': True, 'type': 'str'},
-                'password-expire': {'no_log': True, 'type': 'str'},
+                'password-expire': {'no_log': False, 'type': 'str'},
                 'phone-number': {'type': 'str'},
                 'policy-package': {'type': 'list', 'options': {'policy-package-name': {'type': 'str'}}, 'elements': 'dict'},
                 'profileid': {'type': 'str'},
@@ -856,9 +855,9 @@ def main():
                     'elements': 'dict'
                 },
                 'rpc-permit': {'choices': ['read-write', 'none', 'read', 'from-profile'], 'type': 'str'},
-                'ssh-public-key1': {'no_log': True, 'type': 'str'},
-                'ssh-public-key2': {'no_log': True, 'type': 'str'},
-                'ssh-public-key3': {'no_log': True, 'type': 'str'},
+                'ssh-public-key1': {'no_log': False, 'type': 'str'},
+                'ssh-public-key2': {'no_log': False, 'type': 'str'},
+                'ssh-public-key3': {'no_log': False, 'type': 'str'},
                 'subject': {'type': 'str'},
                 'tacacs-plus-server': {'type': 'str'},
                 'trusthost1': {'type': 'str'},

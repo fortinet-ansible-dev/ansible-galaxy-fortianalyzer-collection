@@ -65,27 +65,34 @@ options:
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     rc_succeeded:
-        description: the rc codes list with which the conditions to succeed will be overriden
+        description: The rc codes list with which the conditions to succeed will be overriden
         type: list
         elements: int
     rc_failed:
-        description: the rc codes list with which the conditions to fail will be overriden
+        description: The rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
     method:
         description:
-            - the method of the json-rpc
-            - it must be in [get, add, set, update, delete, move, clone, exec]
+            - The method of the json-rpc
+            - It must be in [get, add, set, update, delete, move, clone, exec]
         type: str
     params:
         description:
-            - the parameter collection.
+            - The parameter collection.
         type: list
         elements: dict
     json:
         description:
-            - the raw json-formatted payload to send to fortianalyzer
+            - The raw json-formatted payload to send to fortianalyzer
         type: str
+    jsonrpc:
+        description:
+            - Some APIs may require jsonrpc set as 2.0 (such as fortiview, report, etc.)
+        type: str
+        choices:
+            - '2.0'
+            - ''
 '''
 
 EXAMPLES = '''
@@ -181,7 +188,8 @@ def main():
         'rc_failed': {'elements': 'int', 'type': 'list'},
         'method': {'type': 'str'},
         'params': {'type': 'list', 'elements': 'dict'},
-        'json': {'type': 'str'}
+        'json': {'type': 'str'},
+        'jsonrpc': {'type': 'str', 'choices': ['2.0', '']}
     }
 
     module = AnsibleModule(argument_spec=module_arg_spec,
@@ -220,8 +228,7 @@ def main():
         if 'url' not in param_block:
             module.fail_json(msg='url must be specified in params')
     try:
-        fmgr.process_generic(method, params)
-
+        fmgr.process_generic(method, params, module.params['jsonrpc'])
     except Exception as e:
         module.fail_json(msg='error sending request: %s' % (e))
 

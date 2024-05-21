@@ -44,84 +44,82 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     cli_system_report_autocache:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             aggressive-schedule:
                 type: str
                 description:
-                 - 'Enable/disable auto-cache on schedule reports aggressively.'
-                 - 'disable - Disable the aggressive schedule auto-cache.'
-                 - 'enable - Enable the aggressive schedule auto-cache.'
+                 - Enable/disable auto-cache on schedule reports aggressively.
+                 - disable - Disable the aggressive schedule auto-cache.
+                 - enable - Enable the aggressive schedule auto-cache.
                 choices:
                     - 'disable'
                     - 'enable'
             order:
                 type: str
                 description:
-                 - 'The order of which SQL log table is processed first.'
-                 - 'oldest-first - The oldest SQL log table is processed first.'
+                 - The order of which SQL log table is processed first.
+                 - oldest-first - The oldest SQL log table is processed first.
                 choices:
                     - 'oldest-first'
             status:
                 type: str
                 description:
-                 - 'Enable/disable sql report auto cache.'
-                 - 'disable - Disable the sql report auto-cache.'
-                 - 'enable - Enable the sql report auto-cache.'
+                 - Enable/disable sql report auto cache.
+                 - disable - Disable the sql report auto-cache.
+                 - enable - Enable the sql report auto-cache.
                 choices:
                     - 'disable'
                     - 'enable'
             sche-rpt-only:
                 type: str
                 description:
-                 - 'Enable/disable auto-cache on scheduled reports only.'
-                 - 'disable - Disable auto-cache on scheduled report only.'
-                 - 'enable - Enable auto-cache on scheduled report only.'
+                 - Enable/disable auto-cache on scheduled reports only.
+                 - disable - Disable auto-cache on scheduled report only.
+                 - enable - Enable auto-cache on scheduled report only.
                 choices:
                     - 'disable'
                     - 'enable'
@@ -207,6 +205,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_system_report_autocache': {
@@ -216,7 +215,7 @@ def main():
                 'aggressive-schedule': {'choices': ['disable', 'enable'], 'type': 'str'},
                 'order': {'choices': ['oldest-first'], 'type': 'str'},
                 'status': {'choices': ['disable', 'enable'], 'type': 'str'},
-                'sche-rpt-only': {'v_range': [['7.0.8', '7.0.11'], ['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
+                'sche-rpt-only': {'v_range': [['7.0.8', '7.0.12'], ['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
 
         }

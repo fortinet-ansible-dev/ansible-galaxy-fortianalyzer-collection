@@ -5,6 +5,61 @@ Fortinet.Fortianalyzer Release Notes
 .. contents:: Topics
 
 
+v1.5.0
+======
+
+Release Summary
+---------------
+
+Release fortinet.fortianalyzer 1.5.0
+
+Minor Changes
+-------------
+
+- Added report serial modules.
+- Supported FortiAnalyzer 7.0.12, 7.2.5.
+
+Bugfixes
+--------
+
+- Improved 10 modules to support "state:absent".
+- Improved bypass_validation. If you now set bypass_validation to true, it will allow you to send parameters that are not defined in the schema.
+- Improved documentation, added description for all "no description" modules.
+- Improved faz_fact, it can support selectors start with "report".
+
+New Modules
+-----------
+
+- fortinet.fortianalyzer.faz_report_config_chart - Config chart.
+- fortinet.fortianalyzer.faz_report_config_chart_drilldowntable - Config drill-down-table.
+- fortinet.fortianalyzer.faz_report_config_chart_tablecolumns - Config table-columns.
+- fortinet.fortianalyzer.faz_report_config_chart_variabletemplate - Config variable-template.
+- fortinet.fortianalyzer.faz_report_config_dataset - Config dataset.
+- fortinet.fortianalyzer.faz_report_config_dataset_variable - Config variable.
+- fortinet.fortianalyzer.faz_report_config_layout - Config layout.
+- fortinet.fortianalyzer.faz_report_config_layout_component - Config component.
+- fortinet.fortianalyzer.faz_report_config_layout_component_variable - Config variable.
+- fortinet.fortianalyzer.faz_report_config_layout_footer - Config footer.
+- fortinet.fortianalyzer.faz_report_config_layout_header - Config header.
+- fortinet.fortianalyzer.faz_report_config_layoutfolder - Config layout-folder.
+- fortinet.fortianalyzer.faz_report_config_macro - Config macro.
+- fortinet.fortianalyzer.faz_report_config_output - Config output.
+- fortinet.fortianalyzer.faz_report_config_output_emailrecipients - Config email-recipients.
+- fortinet.fortianalyzer.faz_report_config_schedule - Config schedule.
+- fortinet.fortianalyzer.faz_report_config_schedule_addressfilter - Config address-filter.
+- fortinet.fortianalyzer.faz_report_config_schedule_devices - Config devices.
+- fortinet.fortianalyzer.faz_report_config_schedule_filter - Config filter.
+- fortinet.fortianalyzer.faz_report_config_schedule_reportlayout - Config report-layout.
+- fortinet.fortianalyzer.faz_report_configfile_import - Import report config files.
+- fortinet.fortianalyzer.faz_report_graphfile - Handle graph files.
+- fortinet.fortianalyzer.faz_report_graphfile_delete - Handle graph files.
+- fortinet.fortianalyzer.faz_report_reports_data_delete - Handle generated reports.
+- fortinet.fortianalyzer.faz_report_run - Start report requests.
+- fortinet.fortianalyzer.faz_report_run_delete - Handle report requests by task ID.
+- fortinet.fortianalyzer.faz_report_template_delete - Delete report template language package files.
+- fortinet.fortianalyzer.faz_report_template_import - Import report templates.
+- fortinet.fortianalyzer.faz_report_template_install - Install report template language packages from files.
+
 v1.4.0
 ======
 

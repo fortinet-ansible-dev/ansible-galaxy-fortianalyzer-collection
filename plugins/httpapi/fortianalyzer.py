@@ -160,7 +160,7 @@ class HttpApi(HttpApiBase):
             self.sid = None
             return rc, response
 
-    def send_request(self, method, params):
+    def send_request(self, method, params, jsonrpc2=False):
         """
         Responsible for actual sending of data to the connection httpapi base plugin. Does some formatting as well.
         :param params: A formatted dictionary that was returned by self.common_datagram_params()
@@ -170,10 +170,11 @@ class HttpApi(HttpApiBase):
 
         :return: Dictionary of status, if it logged in or not.
         """
-        if self.sid is None and params[0]["url"] != "sys/login/user":
+        request_url = params[0]["url"]
+        if self.sid is None and request_url != "sys/login/user":
             if not self.connection._connected:
                 self.connection._connect()
-        if params[0]["url"] == "sys/login/user" and "data" in params[0] and "passwd" in params[0]["data"]:
+        if request_url == "sys/login/user" and "data" in params[0] and "passwd" in params[0]["data"]:
             params[0]["data"]["passwd"] = str(params[0]["data"]["passwd"])
         self._update_request_id()
         json_request = {
@@ -183,13 +184,16 @@ class HttpApi(HttpApiBase):
             "id": self.req_id,
             "verbose": 1
         }
+        # FortiAnalyzer handle report API
+        if request_url.startswith("/report/") or jsonrpc2:
+            json_request["jsonrpc"] = "2.0"
+            json_request["params"][0]["apiver"] = 3
         data = json.dumps(json_request, ensure_ascii=False).replace('\\\\', '\\')
 
-        # Don't log sensitive information
-        if params[0]["url"] == "sys/login/user" and "data" in params[0] and "passwd" in params[0]["data"]:
+        # Log debug data, don't log sensitive information
+        if request_url == "sys/login/user" and "data" in params[0] and "passwd" in params[0]["data"]:
             json_request["params"][0]["data"]["passwd"] = "******"
-        if "session" in params[0]:
-            json_request["params"][0]["session"] = "******"
+        json_request["session"] = "******"
         log_data = json.dumps(json_request, ensure_ascii=False).replace("\\\\", "\\")
         self.log("request: %s" % (log_data))
 
@@ -199,13 +203,14 @@ class HttpApi(HttpApiBase):
         if self._login_method == "access_token":
             access_token_str = '?access_token=' + self._access_token
             header_data["Authorization"] = "Bearer " + self._access_token
-        self.log('header: %s' % (str(header_data)))
         rc, response_data = self.connection.send(path=to_text(self._url) + access_token_str, data=to_text(data), headers=header_data)
+        header_data["Authorization"] = "******"
+        self.log('header: %s' % (str(header_data)))
 
         # Get Unicode Response - Must convert from StringIO to unicode first so we can do a replace function below
         result = json.loads(to_text(response_data.getvalue()))
         self.log('response: %s' % (str(self._jsonize(result))))
-        return self._handle_response(result)
+        return self._handle_response(result, request_url)
 
     def _jsonize(self, data):
         ret = None
@@ -215,13 +220,22 @@ class HttpApi(HttpApiBase):
             pass
         return ret
 
-    def _handle_response(self, response):
+    def _handle_response(self, response, request_url):
         self._set_sid(response)
+        error_code = 0
+        if "result" not in response or response.get("jsonrpc", None) == "2.0":
+            if "error" in response and "code" in response["error"]:
+                error_code = response["error"]["code"]
+            if "url" not in response:
+                response["url"] = request_url
+            return error_code, response
         if isinstance(response["result"], list):
             result = response["result"][0]
         else:
             result = response["result"]
-        return result["status"]["code"], result
+        if "status" in result and "code" in result["status"]:
+            error_code = result["status"]["code"]
+        return error_code, result
 
     def _set_sid(self, response):
         if self.sid is None and "session" in response:

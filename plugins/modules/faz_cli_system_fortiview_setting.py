@@ -44,78 +44,76 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     cli_system_fortiview_setting:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             not-scanned-apps:
                 type: str
                 description:
-                 - 'Include/Exclude Not.Scanned applications in FortiView. Set as exclude if you want to filter out never scanned applications.'
-                 - 'exclude - Exclude Not.Scanned applications in FortiView.'
-                 - 'include - Include Not.Scanned applications in FortiView.'
+                 - Include/Exclude Not.Scanned applications in FortiView.
+                 - exclude - Exclude Not.Scanned applications in FortiView.
+                 - include - Include Not.Scanned applications in FortiView.
                 choices:
                     - 'exclude'
                     - 'include'
             resolve-ip:
                 type: str
                 description:
-                 - 'Enable or disable resolving IP address to hostname in FortiView.'
-                 - 'disable - Disable resolving IP address to hostname.'
-                 - 'enable - Enable resolving IP address to hostname.'
+                 - Enable or disable resolving IP address to hostname in FortiView.
+                 - disable - Disable resolving IP address to hostname.
+                 - enable - Enable resolving IP address to hostname.
                 choices:
                     - 'disable'
                     - 'enable'
             data-source:
                 type: str
                 description:
-                 - 'Data soure of the fortiview query.'
-                 - 'auto - Data from hcache, and from logs in a flexible way.'
-                 - 'cache-only - Data from hcache only.'
-                 - 'log-and-cache - Data from logs and hcache.'
+                 - Data soure of the fortiview query.
+                 - auto - Data from hcache, and from logs in a flexible way.
+                 - cache-only - Data from hcache only.
+                 - log-and-cache - Data from logs and hcache.
                 choices:
                     - 'auto'
                     - 'cache-only'
@@ -201,6 +199,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_system_fortiview_setting': {

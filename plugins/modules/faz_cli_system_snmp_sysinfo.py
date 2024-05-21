@@ -44,92 +44,90 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     cli_system_snmp_sysinfo:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             contact_info:
                 type: str
-                description: 'Contact information.'
+                description: Contact information.
             description:
                 type: str
-                description: 'System description.'
+                description: System description.
             engine-id:
                 type: str
-                description: 'Local SNMP engineID string (maximum 24 characters).'
+                description: Local SNMP engineID string
             fortianalyzer-legacy-sysoid:
                 type: str
                 description:
-                 - 'Enable legacy FortiAnalyzer sysObjectOID.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable legacy FortiAnalyzer sysObjectOID.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             location:
                 type: str
-                description: 'System location.'
+                description: System location.
             status:
                 type: str
                 description:
-                 - 'Enable/disable SNMP.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable SNMP.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             trap-cpu-high-exclude-nice-threshold:
                 type: int
-                description: 'SNMP trap for CPU usage threshold (exclude NICE processes).'
+                description: SNMP trap for CPU usage threshold
             trap-high-cpu-threshold:
                 type: int
-                description: 'SNMP trap for CPU usage threshold.'
+                description: SNMP trap for CPU usage threshold.
             trap-low-memory-threshold:
                 type: int
-                description: 'SNMP trap for memory usage threshold.'
+                description: SNMP trap for memory usage threshold.
 '''
 
 EXAMPLES = '''
@@ -218,6 +216,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_system_snmp_sysinfo': {

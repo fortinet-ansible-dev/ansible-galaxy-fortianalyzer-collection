@@ -44,55 +44,61 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     cli_system_log_settings_rollinglocal:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             days:
-                description: no description
+                description:
+                 - Log files rolling schedule
+                 - sun - Sunday.
+                 - mon - Monday.
+                 - tue - Tuesday.
+                 - wed - Wednesday.
+                 - thu - Thursday.
+                 - fri - Friday.
+                 - sat - Saturday.
                 type: list
                 elements: str
                 choices:
@@ -106,78 +112,78 @@ options:
             del-files:
                 type: str
                 description:
-                 - 'Enable/disable log file deletion after uploading.'
-                 - 'disable - Disable log file deletion.'
-                 - 'enable - Enable log file deletion.'
+                 - Enable/disable log file deletion after uploading.
+                 - disable - Disable log file deletion.
+                 - enable - Enable log file deletion.
                 choices:
                     - 'disable'
                     - 'enable'
             directory:
                 type: str
-                description: 'Upload server directory, for Unix server, use absolute'
+                description: Upload server directory, for Unix server, use absolute
             file-size:
                 type: int
-                description: 'Roll log files when they reach this size (MB).'
+                description: Roll log files when they reach this size
             gzip-format:
                 type: str
                 description:
-                 - 'Enable/disable compression of uploaded log files.'
-                 - 'disable - Disable compression.'
-                 - 'enable - Enable compression.'
+                 - Enable/disable compression of uploaded log files.
+                 - disable - Disable compression.
+                 - enable - Enable compression.
                 choices:
                     - 'disable'
                     - 'enable'
             hour:
                 type: int
-                description: 'Log files rolling schedule (hour).'
+                description: Log files rolling schedule
             ip:
                 type: str
-                description: 'Upload server IP address.'
+                description: Upload server IP address.
             ip2:
                 type: str
-                description: 'Upload server IP2 address.'
+                description: Upload server IP2 address.
             ip3:
                 type: str
-                description: 'Upload server IP3 address.'
+                description: Upload server IP3 address.
             log-format:
                 type: str
                 description:
-                 - 'Format of uploaded log files.'
-                 - 'native - Native format (text or compact).'
-                 - 'text - Text format (convert if necessary).'
-                 - 'csv - CSV (comma-separated value) format.'
+                 - Format of uploaded log files.
+                 - native - Native format
+                 - text - Text format
+                 - csv - CSV
                 choices:
                     - 'native'
                     - 'text'
                     - 'csv'
             min:
                 type: int
-                description: 'Log files rolling schedule (minutes).'
+                description: Log files rolling schedule
             password:
-                description: no description
+                description: Upload server login password.
                 type: str
             password2:
-                description: no description
+                description: Upload server login password2.
                 type: str
             password3:
-                description: no description
+                description: Upload server login password3.
                 type: str
             port:
                 type: int
-                description: 'Upload server IP1 port number.'
+                description: Upload server IP1 port number.
             port2:
                 type: int
-                description: 'Upload server IP2 port number.'
+                description: Upload server IP2 port number.
             port3:
                 type: int
-                description: 'Upload server IP3 port number.'
+                description: Upload server IP3 port number.
             server-type:
                 type: str
                 description:
-                 - 'Upload server type.'
-                 - 'ftp - Upload via FTP.'
-                 - 'sftp - Upload via SFTP.'
-                 - 'scp - Upload via SCP.'
+                 - Upload server type.
+                 - ftp - Upload via FTP.
+                 - sftp - Upload via SFTP.
+                 - scp - Upload via SCP.
                 choices:
                     - 'ftp'
                     - 'sftp'
@@ -185,65 +191,65 @@ options:
             upload:
                 type: str
                 description:
-                 - 'Enable/disable log file uploads.'
-                 - 'disable - Disable log files uploading.'
-                 - 'enable - Enable log files uploading.'
+                 - Enable/disable log file uploads.
+                 - disable - Disable log files uploading.
+                 - enable - Enable log files uploading.
                 choices:
                     - 'disable'
                     - 'enable'
             upload-hour:
                 type: int
-                description: 'Log files upload schedule (hour).'
+                description: Log files upload schedule
             upload-mode:
                 type: str
                 description:
-                 - 'Upload mode with multiple servers.'
-                 - 'backup - Servers are attempted and used one after the other upon failure to connect.'
-                 - 'mirror - All configured servers are attempted and used.'
+                 - Upload mode with multiple servers.
+                 - backup - Servers are attempted and used one after the other upon failure to connect.
+                 - mirror - All configured servers are attempted and used.
                 choices:
                     - 'backup'
                     - 'mirror'
             upload-trigger:
                 type: str
                 description:
-                 - 'Event triggering log files upload.'
-                 - 'on-roll - Upload log files after they are rolled.'
-                 - 'on-schedule - Upload log files daily.'
+                 - Event triggering log files upload.
+                 - on-roll - Upload log files after they are rolled.
+                 - on-schedule - Upload log files daily.
                 choices:
                     - 'on-roll'
                     - 'on-schedule'
             username:
                 type: str
-                description: 'Upload server login username.'
+                description: Upload server login username.
             username2:
                 type: str
-                description: 'Upload server login username2.'
+                description: Upload server login username2.
             username3:
                 type: str
-                description: 'Upload server login username3.'
+                description: Upload server login username3.
             when:
                 type: str
                 description:
-                 - 'Roll log files periodically.'
-                 - 'none - Do not roll log files periodically.'
-                 - 'daily - Roll log files daily.'
-                 - 'weekly - Roll log files on certain days of week.'
+                 - Roll log files periodically.
+                 - none - Do not roll log files periodically.
+                 - daily - Roll log files daily.
+                 - weekly - Roll log files on certain days of week.
                 choices:
                     - 'none'
                     - 'daily'
                     - 'weekly'
             rolling-upgrade-status:
                 type: int
-                description: 'rolling upgrade status (1|0).'
+                description: rolling upgrade status
             server:
                 type: str
-                description: 'Upload server FQDN/IP.'
+                description: Upload server FQDN/IP.
             server2:
                 type: str
-                description: 'Upload server2 FQDN/IP.'
+                description: Upload server2 FQDN/IP.
             server3:
                 type: str
-                description: 'Upload server3 FQDN/IP.'
+                description: Upload server3 FQDN/IP.
 '''
 
 EXAMPLES = '''
@@ -334,6 +340,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_system_log_settings_rollinglocal': {
@@ -346,9 +353,9 @@ def main():
                 'file-size': {'type': 'int'},
                 'gzip-format': {'choices': ['disable', 'enable'], 'type': 'str'},
                 'hour': {'type': 'int'},
-                'ip': {'v_range': [['6.2.1', '7.0.11']], 'type': 'str'},
-                'ip2': {'v_range': [['6.2.1', '7.0.11']], 'type': 'str'},
-                'ip3': {'v_range': [['6.2.1', '7.0.11']], 'type': 'str'},
+                'ip': {'v_range': [['6.2.1', '7.0.12']], 'type': 'str'},
+                'ip2': {'v_range': [['6.2.1', '7.0.12']], 'type': 'str'},
+                'ip3': {'v_range': [['6.2.1', '7.0.12']], 'type': 'str'},
                 'log-format': {'choices': ['native', 'text', 'csv'], 'type': 'str'},
                 'min': {'type': 'int'},
                 'password': {'no_log': True, 'type': 'str'},

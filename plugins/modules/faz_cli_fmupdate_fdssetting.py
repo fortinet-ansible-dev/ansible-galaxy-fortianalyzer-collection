@@ -44,65 +44,63 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     cli_fmupdate_fdssetting:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             User-Agent:
                 type: str
-                description: 'Configure the user agent string.'
+                description: Configure the user agent string.
             fds-clt-ssl-protocol:
                 type: str
                 description:
-                 - 'The SSL protocols version for connecting fds server (default = tlsv1.2).'
-                 - 'sslv3 - set SSLv3 as the client version.'
-                 - 'tlsv1.0 - set TLSv1.0 as the client version.'
-                 - 'tlsv1.1 - set TLSv1.1 as the client version.'
-                 - 'tlsv1.2 - set TLSv1.2 as the client version (default).'
-                 - 'tlsv1.3 - set TLSv1.3 as the client version.'
+                 - The SSL protocols version for connecting fds server
+                 - sslv3 - set SSLv3 as the client version.
+                 - tlsv1.0 - set TLSv1.0 as the client version.
+                 - tlsv1.1 - set TLSv1.1 as the client version.
+                 - tlsv1.2 - set TLSv1.2 as the client version
+                 - tlsv1.3 - set TLSv1.3 as the client version.
                 choices:
                     - 'sslv3'
                     - 'tlsv1.0'
@@ -112,12 +110,12 @@ options:
             fds-ssl-protocol:
                 type: str
                 description:
-                 - 'The SSL protocols version for receiving fgt connection (default = tlsv1.2).'
-                 - 'sslv3 - set SSLv3 as the lowest version.'
-                 - 'tlsv1.0 - set TLSv1.0 as the lowest version.'
-                 - 'tlsv1.1 - set TLSv1.1 as the lowest version.'
-                 - 'tlsv1.2 - set TLSv1.2 as the lowest version (default).'
-                 - 'tlsv1.3 - set TLSv1.3 as the lowest version.'
+                 - The SSL protocols version for receiving fgt connection
+                 - sslv3 - set SSLv3 as the lowest version.
+                 - tlsv1.0 - set TLSv1.0 as the lowest version.
+                 - tlsv1.1 - set TLSv1.1 as the lowest version.
+                 - tlsv1.2 - set TLSv1.2 as the lowest version
+                 - tlsv1.3 - set TLSv1.3 as the lowest version.
                 choices:
                     - 'sslv3'
                     - 'tlsv1.0'
@@ -127,16 +125,16 @@ options:
             fmtr-log:
                 type: str
                 description:
-                 - 'fmtr log level'
-                 - 'emergency - Log level - emergency'
-                 - 'alert - Log level - alert'
-                 - 'critical - Log level - critical'
-                 - 'error - Log level - error'
-                 - 'warn - Log level - warn'
-                 - 'notice - Log level - notice'
-                 - 'info - Log level - info'
-                 - 'debug - Log level - debug'
-                 - 'disable - Disable linkd log'
+                 - fmtr log level
+                 - emergency - Log level - emergency
+                 - alert - Log level - alert
+                 - critical - Log level - critical
+                 - error - Log level - error
+                 - warn - Log level - warn
+                 - notice - Log level - notice
+                 - info - Log level - info
+                 - debug - Log level - debug
+                 - disable - Disable linkd log
                 choices:
                     - 'emergency'
                     - 'alert'
@@ -150,34 +148,34 @@ options:
             fortiguard-anycast:
                 type: str
                 description:
-                 - 'Enable/disable use of FortiGuards anycast network'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable use of FortiGuards anycast network
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             fortiguard-anycast-source:
                 type: str
                 description:
-                 - 'Configure which of Fortinets servers to provide FortiGuard services in FortiGuards anycast network. Default is Fortinet'
-                 - 'fortinet - Use Fortinets servers to provide FortiGuard services in FortiGuards anycast network.'
-                 - 'aws - Use Fortinets AWS servers to provide FortiGuard services in FortiGuards anycast network.'
+                 - Configure which of Fortinets servers to provide FortiGuard services in FortiGuards anycast network.
+                 - fortinet - Use Fortinets servers to provide FortiGuard services in FortiGuards anycast network.
+                 - aws - Use Fortinets AWS servers to provide FortiGuard services in FortiGuards anycast network.
                 choices:
                     - 'fortinet'
                     - 'aws'
             linkd-log:
                 type: str
                 description:
-                 - 'The linkd log level (default = info).'
-                 - 'emergency - Log level - emergency'
-                 - 'alert - Log level - alert'
-                 - 'critical - Log level - critical'
-                 - 'error - Log level - error'
-                 - 'warn - Log level - warn'
-                 - 'notice - Log level - notice'
-                 - 'info - Log level - info'
-                 - 'debug - Log level - debug'
-                 - 'disable - Disable linkd log'
+                 - The linkd log level
+                 - emergency - Log level - emergency
+                 - alert - Log level - alert
+                 - critical - Log level - critical
+                 - error - Log level - error
+                 - warn - Log level - warn
+                 - notice - Log level - notice
+                 - info - Log level - info
+                 - debug - Log level - debug
+                 - disable - Disable linkd log
                 choices:
                     - 'emergency'
                     - 'alert'
@@ -190,34 +188,32 @@ options:
                     - 'disable'
             max-av-ips-version:
                 type: int
-                description: 'The maximum number of downloadable, full version AV/IPS packages (1 - 1000, default = 20).'
+                description: The maximum number of downloadable, full version AV/IPS packages
             max-work:
                 type: int
-                description: 'The maximum number of worker processing download requests (1 - 32, default = 1).'
+                description: The maximum number of worker processing download requests
             push-override:
                 description: no description
                 type: dict
-                required: false
                 suboptions:
                     ip:
                         type: str
-                        description: 'External or virtual IP address of the NAT device that will forward push messages to the FortiManager unit.'
+                        description: External or virtual IP address of the NAT device that will forward push messages to the FortiManager unit.
                     port:
                         type: int
-                        description: 'Receiving port number on the NAT device (1 - 65535, default = 9443).'
+                        description: Receiving port number on the NAT device
                     status:
                         type: str
                         description:
-                         - 'Enable/disable push updates for clients (default = disable).'
-                         - 'disable - Disable setting.'
-                         - 'enable - Enable setting.'
+                         - Enable/disable push updates for clients
+                         - disable - Disable setting.
+                         - enable - Enable setting.
                         choices:
                             - 'disable'
                             - 'enable'
             push-override-to-client:
                 description: no description
                 type: dict
-                required: false
                 suboptions:
                     announce-ip:
                         description: no description
@@ -226,44 +222,43 @@ options:
                         suboptions:
                             id:
                                 type: int
-                                description: 'ID of the announce IP address (1 - 10).'
+                                description: ID of the announce IP address
                             ip:
                                 type: str
-                                description: 'Announce IPv4 address.'
+                                description: Announce IPv4 address.
                             port:
                                 type: int
-                                description: 'Announce IP port (1 - 65535, default = 8890).'
+                                description: Announce IP port
                     status:
                         type: str
                         description:
-                         - 'Enable/disable push updates (default = disable).'
-                         - 'disable - Disable setting.'
-                         - 'enable - Enable setting.'
+                         - Enable/disable push updates
+                         - disable - Disable setting.
+                         - enable - Enable setting.
                         choices:
                             - 'disable'
                             - 'enable'
             send_report:
                 type: str
                 description:
-                 - 'send report/fssi to fds server.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - send report/fssi to fds server.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             send_setup:
                 type: str
                 description:
-                 - 'forward setup to fds server.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - forward setup to fds server.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             server-override:
                 description: no description
                 type: dict
-                required: false
                 suboptions:
                     servlist:
                         description: no description
@@ -272,36 +267,44 @@ options:
                         suboptions:
                             id:
                                 type: int
-                                description: 'Override server ID (1 - 10).'
+                                description: Override server ID
                             ip:
                                 type: str
-                                description: 'IPv4 address of the override server.'
+                                description: IPv4 address of the override server.
                             ip6:
                                 type: str
-                                description: 'IPv6 address of the override server.'
+                                description: IPv6 address of the override server.
                             port:
                                 type: int
-                                description: 'Port number to use when contacting FortiGuard (1 - 65535, default = 443).'
+                                description: Port number to use when contacting FortiGuard
                             service-type:
                                 type: str
                                 description:
-                                 - 'Override service type.'
-                                 - 'fct - Server override config for fct'
-                                 - 'fds - Server override config for fds'
+                                 - Override service type.
+                                 - fct - Server override config for fct
+                                 - fds - Server override config for fds
                                 choices:
                                     - 'fct'
                                     - 'fds'
                     status:
                         type: str
                         description:
-                         - 'Override status.'
-                         - 'disable - Disable setting.'
-                         - 'enable - Enable setting.'
+                         - Override status.
+                         - disable - Disable setting.
+                         - enable - Enable setting.
                         choices:
                             - 'disable'
                             - 'enable'
             system-support-fct:
-                description: no description
+                description:
+                 - Supported FortiClient versions.
+                 - 4.x - Support version 4.x
+                 - 5.0 - Support version 5.0
+                 - 5.2 - Support version 5.2
+                 - 5.4 - Support version 5.4
+                 - 5.6 - Support version 5.6
+                 - 6.0 - Support version 6.0
+                 - 6.2 - Support version 6.2
                 type: list
                 elements: str
                 choices:
@@ -316,7 +319,13 @@ options:
                     - '7.0'
                     - '7.2'
             system-support-fgt:
-                description: no description
+                description:
+                 - Supported FortiOS versions.
+                 - 5.4 - Support version 5.4
+                 - 5.6 - Support version 5.6
+                 - 6.0 - Support version 6.0
+                 - 6.2 - Support version 6.2
+                 - 6.4 - Support version 6.4
                 type: list
                 elements: str
                 choices:
@@ -329,7 +338,11 @@ options:
                     - '7.2'
                     - '7.4'
             system-support-fml:
-                description: no description
+                description:
+                 - Supported FortiMail versions.
+                 - 4.x - Support version 4.x
+                 - 5.x - Support version 5.x
+                 - 6.x - Support version 6.x
                 type: list
                 elements: str
                 choices:
@@ -343,7 +356,11 @@ options:
                     - '7.2'
                     - '7.x'
             system-support-fsa:
-                description: no description
+                description:
+                 - Supported FortiSandbox versions.
+                 - 1.x - Support version 1.x
+                 - 2.x - Support version 2.x
+                 - 3.x - Support version 3.x
                 type: list
                 elements: str
                 choices:
@@ -355,7 +372,15 @@ options:
                     - '3.2'
                     - '4.x'
             system-support-fsw:
-                description: no description
+                description:
+                 - Supported FortiSwitch versions.
+                 - 4.x - Support version 4.x
+                 - 5.0 - Support version 5.0
+                 - 5.2 - Support version 5.2
+                 - 5.4 - Support version 5.4
+                 - 5.6 - Support version 5.6
+                 - 6.0 - Support version 6.0
+                 - 6.2 - Support version 6.2
                 type: list
                 elements: str
                 choices:
@@ -370,16 +395,16 @@ options:
             umsvc-log:
                 type: str
                 description:
-                 - 'The um_service log level (default = info).'
-                 - 'emergency - Log level - emergency'
-                 - 'alert - Log level - alert'
-                 - 'critical - Log level - critical'
-                 - 'error - Log level - error'
-                 - 'warn - Log level - warn'
-                 - 'notice - Log level - notice'
-                 - 'info - Log level - info'
-                 - 'debug - Log level - debug'
-                 - 'disable - Disable linkd log'
+                 - The um_service log level
+                 - emergency - Log level - emergency
+                 - alert - Log level - alert
+                 - critical - Log level - critical
+                 - error - Log level - error
+                 - warn - Log level - warn
+                 - notice - Log level - notice
+                 - info - Log level - info
+                 - debug - Log level - debug
+                 - disable - Disable linkd log
                 choices:
                     - 'emergency'
                     - 'alert'
@@ -393,10 +418,10 @@ options:
             unreg-dev-option:
                 type: str
                 description:
-                 - 'set the option for unregister devices'
-                 - 'ignore - Ignore all unregistered devices.'
-                 - 'svc-only - Allow update requests without adding the device.'
-                 - 'add-service - Add unregistered devices and allow update request.'
+                 - set the option for unregister devices
+                 - ignore - Ignore all unregistered devices.
+                 - svc-only - Allow update requests without adding the device.
+                 - add-service - Add unregistered devices and allow update request.
                 choices:
                     - 'ignore'
                     - 'svc-only'
@@ -404,19 +429,18 @@ options:
             update-schedule:
                 description: no description
                 type: dict
-                required: false
                 suboptions:
                     day:
                         type: str
                         description:
-                         - 'Configure the day the update will occur, if the freqnecy is weekly (Sunday - Saturday, default = Monday).'
-                         - 'Sunday - Update every Sunday.'
-                         - 'Monday - Update every Monday.'
-                         - 'Tuesday - Update every Tuesday.'
-                         - 'Wednesday - Update every Wednesday.'
-                         - 'Thursday - Update every Thursday.'
-                         - 'Friday - Update every Friday.'
-                         - 'Saturday - Update every Saturday.'
+                         - Configure the day the update will occur, if the freqnecy is weekly
+                         - Sunday - Update every Sunday.
+                         - Monday - Update every Monday.
+                         - Tuesday - Update every Tuesday.
+                         - Wednesday - Update every Wednesday.
+                         - Thursday - Update every Thursday.
+                         - Friday - Update every Friday.
+                         - Saturday - Update every Saturday.
                         choices:
                             - 'Sunday'
                             - 'Monday'
@@ -428,10 +452,10 @@ options:
                     frequency:
                         type: str
                         description:
-                         - 'Configure update frequency: every - time interval, daily - once a day, weekly - once a week (default = every).'
-                         - 'every - Time interval.'
-                         - 'daily - Every day.'
-                         - 'weekly - Every week.'
+                         - 'Configure update frequency: every - time interval, daily - once a day, weekly - once a week'
+                         - every - Time interval.
+                         - daily - Every day.
+                         - weekly - Every week.
                         choices:
                             - 'every'
                             - 'daily'
@@ -439,33 +463,37 @@ options:
                     status:
                         type: str
                         description:
-                         - 'Enable/disable scheduled updates.'
-                         - 'disable - Disable setting.'
-                         - 'enable - Enable setting.'
+                         - Enable/disable scheduled updates.
+                         - disable - Disable setting.
+                         - enable - Enable setting.
                         choices:
                             - 'disable'
                             - 'enable'
                     time:
-                        description: no description
+                        description: Time interval between updates, or the hour and minute when the update occurs
                         type: str
             wanip-query-mode:
                 type: str
                 description:
-                 - 'public ip query mode'
-                 - 'disable - Do not query public ip'
+                 - public ip query mode
+                 - disable - Do not query public ip
                  - 'ipify - Get public IP through https://api.ipify.org'
                 choices:
                     - 'disable'
                     - 'ipify'
             system-support-fdc:
-                description: no description
+                description:
+                 - Supported FortiDeceptor versions.
+                 - 3.x - Support version 3.x
                 type: list
                 elements: str
                 choices:
                     - '3.x'
                     - '4.x'
             system-support-fts:
-                description: no description
+                description:
+                 - Supported FortiTester versions.
+                 - 4.x - Support version 4.x
                 type: list
                 elements: str
                 choices:
@@ -473,14 +501,20 @@ options:
                     - '3.x'
                     - '7.x'
             system-support-faz:
-                description: no description
+                description:
+                 - Supported FortiAnalyzer versions.
+                 - 6.x - Support version 6.x
+                 - 7.x - Support version 7.x
                 type: list
                 elements: str
                 choices:
                     - '6.x'
                     - '7.x'
             system-support-fis:
-                description: no description
+                description:
+                 - Supported FortiIsolator versions.
+                 - 1.x - Support version 1.x
+                 - 2.x - Support version 2.x
                 type: list
                 elements: str
                 choices:
@@ -567,6 +601,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_fmupdate_fdssetting': {
@@ -649,7 +684,7 @@ def main():
                     'choices': ['4.x', '3.x', '7.x'],
                     'elements': 'str'
                 },
-                'system-support-faz': {'v_range': [['7.0.7', '7.0.11'], ['7.2.2', '']], 'type': 'list', 'choices': ['6.x', '7.x'], 'elements': 'str'},
+                'system-support-faz': {'v_range': [['7.0.7', '7.0.12'], ['7.2.2', '']], 'type': 'list', 'choices': ['6.x', '7.x'], 'elements': 'str'},
                 'system-support-fis': {'v_range': [['7.4.0', '']], 'type': 'list', 'choices': ['1.x', '2.x'], 'elements': 'str'}
             }
 

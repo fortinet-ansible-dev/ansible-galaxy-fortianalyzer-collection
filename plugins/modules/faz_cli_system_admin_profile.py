@@ -44,48 +44,47 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     state:
         description: The directive to create, update or delete an object
         type: str
@@ -95,16 +94,15 @@ options:
             - absent
     cli_system_admin_profile:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             adom-lock:
                 type: str
                 description:
-                 - 'ADOM locking'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - ADOM locking
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -112,10 +110,10 @@ options:
             adom-switch:
                 type: str
                 description:
-                 - 'Administrator domain.'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - Administrator domain.
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -123,27 +121,27 @@ options:
             allow-to-install:
                 type: str
                 description:
-                 - 'Enable/disable the restricted user to install objects to the devices.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable the restricted user to install objects to the devices.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             change-password:
                 type: str
                 description:
-                 - 'Enable/disable the user to change self password.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable the user to change self password.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             datamask:
                 type: str
                 description:
-                 - 'Enable/disable data masking.'
-                 - 'disable - Disable data masking.'
-                 - 'enable - Enable data masking.'
+                 - Enable/disable data masking.
+                 - disable - Disable data masking.
+                 - enable - Enable data masking.
                 choices:
                     - 'disable'
                     - 'enable'
@@ -153,7 +151,13 @@ options:
                 elements: dict
                 suboptions:
                     field-category:
-                        description: no description
+                        description:
+                         - Field categories.
+                         - log - Log.
+                         - fortiview - FortiView.
+                         - alert - Event management.
+                         - ueba - UEBA.
+                         - all - All.
                         type: list
                         elements: str
                         choices:
@@ -164,25 +168,25 @@ options:
                             - 'all'
                     field-name:
                         type: str
-                        description: 'Field name.'
+                        description: Field name.
                     field-status:
                         type: str
                         description:
-                         - 'Field status.'
-                         - 'disable - Disable field.'
-                         - 'enable - Enable field.'
+                         - Field status.
+                         - disable - Disable field.
+                         - enable - Enable field.
                         choices:
                             - 'disable'
                             - 'enable'
                     field-type:
                         type: str
                         description:
-                         - 'Field type.'
-                         - 'string - String.'
-                         - 'ip - IP.'
-                         - 'mac - MAC address.'
-                         - 'email - Email address.'
-                         - 'unknown - Unknown.'
+                         - Field type.
+                         - string - String.
+                         - ip - IP.
+                         - mac - MAC address.
+                         - email - Email address.
+                         - unknown - Unknown.
                         choices:
                             - 'string'
                             - 'ip'
@@ -192,14 +196,24 @@ options:
             datamask-custom-priority:
                 type: str
                 description:
-                 - 'Prioritize custom fields.'
-                 - 'disable - Disable custom field search priority.'
-                 - 'enable - Enable custom field search priority.'
+                 - Prioritize custom fields.
+                 - disable - Disable custom field search priority.
+                 - enable - Enable custom field search priority.
                 choices:
                     - 'disable'
                     - 'enable'
             datamask-fields:
-                description: no description
+                description:
+                 - Data masking fields.
+                 - user - User name.
+                 - srcip - Source IP.
+                 - srcname - Source name.
+                 - srcmac - Source MAC.
+                 - dstip - Destination IP.
+                 - dstname - Dst name.
+                 - email - Email.
+                 - message - Message.
+                 - domain - Domain.
                 type: list
                 elements: str
                 choices:
@@ -213,21 +227,21 @@ options:
                     - 'message'
                     - 'domain'
             datamask-key:
-                description: no description
+                description: Data masking encryption key.
                 type: str
             datamask-unmasked-time:
                 type: int
-                description: 'Time in days without data masking.'
+                description: Time in days without data masking.
             description:
                 type: str
-                description: 'Description.'
+                description: Description.
             device-ap:
                 type: str
                 description:
-                 - 'Manage AP.'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - Manage AP.
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -235,10 +249,10 @@ options:
             device-forticlient:
                 type: str
                 description:
-                 - 'Manage FortiClient.'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - Manage FortiClient.
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -246,10 +260,10 @@ options:
             device-fortiswitch:
                 type: str
                 description:
-                 - 'Manage FortiSwitch.'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - Manage FortiSwitch.
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -257,10 +271,10 @@ options:
             device-manager:
                 type: str
                 description:
-                 - 'Device manager.'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - Device manager.
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -268,10 +282,10 @@ options:
             device-op:
                 type: str
                 description:
-                 - 'Device add/delete/edit.'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - Device add/delete/edit.
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -279,10 +293,10 @@ options:
             device-policy-package-lock:
                 type: str
                 description:
-                 - 'Device/Policy Package locking'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - Device/Policy Package locking
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -290,10 +304,10 @@ options:
             device-wan-link-load-balance:
                 type: str
                 description:
-                 - 'Manage WAN link load balance.'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - Manage WAN link load balance.
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -301,10 +315,10 @@ options:
             event-management:
                 type: str
                 description:
-                 - 'Event management.'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - Event management.
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -312,10 +326,10 @@ options:
             fortirecorder-setting:
                 type: str
                 description:
-                 - 'FortiRecorder settings.'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - FortiRecorder settings.
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -323,24 +337,24 @@ options:
             log-viewer:
                 type: str
                 description:
-                 - 'Log viewer.'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - Log viewer.
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
                     - 'read-write'
             profileid:
                 type: str
-                description: 'Profile ID.'
+                description: Profile ID.
             realtime-monitor:
                 type: str
                 description:
-                 - 'Realtime monitor.'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - Realtime monitor.
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -348,10 +362,10 @@ options:
             report-viewer:
                 type: str
                 description:
-                 - 'Report viewer.'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - Report viewer.
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -359,28 +373,28 @@ options:
             scope:
                 type: str
                 description:
-                 - 'Scope.'
-                 - 'global - Global scope.'
-                 - 'adom - ADOM scope.'
+                 - Scope.
+                 - global - Global scope.
+                 - adom - ADOM scope.
                 choices:
                     - 'global'
                     - 'adom'
             super-user-profile:
                 type: str
                 description:
-                 - 'Enable/disable super user profile'
-                 - 'disable - Disable super user profile'
-                 - 'enable - Enable super user profile'
+                 - Enable/disable super user profile
+                 - disable - Disable super user profile
+                 - enable - Enable super user profile
                 choices:
                     - 'disable'
                     - 'enable'
             system-setting:
                 type: str
                 description:
-                 - 'System setting.'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - System setting.
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -388,10 +402,10 @@ options:
             fabric-viewer:
                 type: str
                 description:
-                 - 'Fabric viewer.'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - Fabric viewer.
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -399,10 +413,10 @@ options:
             execute-playbook:
                 type: str
                 description:
-                 - 'Execute playbook.'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - Execute playbook.
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -410,10 +424,10 @@ options:
             extension-access:
                 type: str
                 description:
-                 - 'Manage extension access.'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - Manage extension access.
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -421,10 +435,10 @@ options:
             run-report:
                 type: str
                 description:
-                 - 'Run reports.'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - Run reports.
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -432,10 +446,10 @@ options:
             script-access:
                 type: str
                 description:
-                 - 'Script access.'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - Script access.
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -443,10 +457,10 @@ options:
             triage-events:
                 type: str
                 description:
-                 - 'Triage events.'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - Triage events.
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -454,10 +468,10 @@ options:
             update-incidents:
                 type: str
                 description:
-                 - 'Create/update incidents.'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - Create/update incidents.
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -465,9 +479,9 @@ options:
             ips-baseline-ovrd:
                 type: str
                 description:
-                 - 'Enable/disable override baseline ips sensor.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable override baseline ips sensor.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
@@ -504,51 +518,51 @@ options:
             rpc-permit:
                 type: str
                 description:
-                 - 'Set none/read/read-write rpc-permission'
-                 - 'read-write - Read-write permission.'
-                 - 'none - No permission.'
-                 - 'read - Read-only permission.'
+                 - Set none/read/read-write rpc-permission
+                 - read-write - Read-write permission.
+                 - none - No permission.
+                 - read - Read-only permission.
                 choices:
                     - 'read-write'
                     - 'none'
                     - 'read'
             trusthost1:
                 type: str
-                description: 'Admin user trusted host IP, default 0.0.0.0 0.0.0.0 for all.'
+                description: Admin user trusted host IP, default 0.0.0.0 0.0.0.0 for all.
             trusthost10:
                 type: str
-                description: 'Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.'
+                description: Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.
             trusthost2:
                 type: str
-                description: 'Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.'
+                description: Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.
             trusthost3:
                 type: str
-                description: 'Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.'
+                description: Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.
             trusthost4:
                 type: str
-                description: 'Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.'
+                description: Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.
             trusthost5:
                 type: str
-                description: 'Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.'
+                description: Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.
             trusthost6:
                 type: str
-                description: 'Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.'
+                description: Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.
             trusthost7:
                 type: str
-                description: 'Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.'
+                description: Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.
             trusthost8:
                 type: str
-                description: 'Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.'
+                description: Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.
             trusthost9:
                 type: str
-                description: 'Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.'
+                description: Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.
             device-fortiextender:
                 type: str
                 description:
-                 - 'Manage FortiExtender.'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - Manage FortiExtender.
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -556,10 +570,10 @@ options:
             ips-lock:
                 type: str
                 description:
-                 - 'IPS locking'
-                 - 'none - No permission.'
-                 - 'read - Read permission.'
-                 - 'read-write - Read-write permission.'
+                 - IPS locking
+                 - none - No permission.
+                 - read - Read permission.
+                 - read-write - Read-write permission.
                 choices:
                     - 'none'
                     - 'read'
@@ -567,19 +581,19 @@ options:
             fgt-gui-proxy:
                 type: str
                 description:
-                 - 'FortiGate GUI proxy.'
-                 - 'disable - No permission.'
-                 - 'enable - With permission.'
+                 - FortiGate GUI proxy.
+                 - disable - No permission.
+                 - enable - With permission.
                 choices:
                     - 'disable'
                     - 'enable'
             write-passwd-access:
                 type: str
                 description:
-                 - 'set all/specify-by-user/specify-by-profile write password access mode.'
-                 - 'all - All except super users.'
-                 - 'specify-by-user - Specify by user.'
-                 - 'specify-by-profile - Specify by profile.'
+                 - set all/specify-by-user/specify-by-profile write password access mode.
+                 - all - All except super users.
+                 - specify-by-user - Specify by user.
+                 - specify-by-profile - Specify by profile.
                 choices:
                     - 'all'
                     - 'specify-by-user'
@@ -591,7 +605,7 @@ options:
                 suboptions:
                     profileid:
                         type: str
-                        description: 'Profile ID.'
+                        description: Profile ID.
             write-passwd-user-list:
                 description: no description
                 type: list
@@ -599,7 +613,7 @@ options:
                 suboptions:
                     userid:
                         type: str
-                        description: 'User ID.'
+                        description: User ID.
 '''
 
 EXAMPLES = '''
@@ -676,7 +690,7 @@ def main():
     ]
 
     url_params = []
-    module_primary_key = None
+    module_primary_key = 'profileid'
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
@@ -684,6 +698,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},
@@ -694,7 +709,7 @@ def main():
                 'adom-lock': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'adom-switch': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'allow-to-install': {'v_range': [['6.2.1', '6.2.1'], ['6.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'change-password': {'choices': ['disable', 'enable'], 'no_log': True, 'type': 'str'},
+                'change-password': {'choices': ['disable', 'enable'], 'no_log': False, 'type': 'str'},
                 'datamask': {'choices': ['disable', 'enable'], 'type': 'str'},
                 'datamask-custom-fields': {
                     'type': 'list',
@@ -723,7 +738,7 @@ def main():
                 'device-policy-package-lock': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'device-wan-link-load-balance': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'event-management': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
-                'fortirecorder-setting': {'v_range': [['6.2.1', '7.2.4']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
+                'fortirecorder-setting': {'v_range': [['6.2.1', '7.2.5']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'log-viewer': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'profileid': {'type': 'str'},
                 'realtime-monitor': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
@@ -760,25 +775,25 @@ def main():
                 'trusthost7': {'v_range': [['7.0.3', '']], 'type': 'str'},
                 'trusthost8': {'v_range': [['7.0.3', '']], 'type': 'str'},
                 'trusthost9': {'v_range': [['7.0.3', '']], 'type': 'str'},
-                'device-fortiextender': {'v_range': [['7.0.4', '7.0.11'], ['7.2.1', '']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
+                'device-fortiextender': {'v_range': [['7.0.4', '7.0.12'], ['7.2.1', '']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'ips-lock': {'v_range': [['7.2.2', '']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'fgt-gui-proxy': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'write-passwd-access': {
                     'v_range': [['7.4.2', '']],
                     'choices': ['all', 'specify-by-user', 'specify-by-profile'],
-                    'no_log': True,
+                    'no_log': False,
                     'type': 'str'
                 },
                 'write-passwd-profiles': {
                     'v_range': [['7.4.2', '']],
-                    'no_log': True,
+                    'no_log': False,
                     'type': 'list',
                     'options': {'profileid': {'v_range': [['7.4.2', '']], 'type': 'str'}},
                     'elements': 'dict'
                 },
                 'write-passwd-user-list': {
                     'v_range': [['7.4.2', '']],
-                    'no_log': True,
+                    'no_log': False,
                     'type': 'list',
                     'options': {'userid': {'v_range': [['7.4.2', '']], 'type': 'str'}},
                     'elements': 'dict'

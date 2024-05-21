@@ -44,77 +44,75 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     cli_system_locallog_setting:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             log-interval-dev-no-logging:
                 type: int
-                description: 'Interval in minute for logging the event of no logs received from a device.'
+                description: Interval in minute for logging the event of no logs received from a device.
             log-interval-disk-full:
                 type: int
-                description: 'Interval in minute for logging the event of disk full.'
+                description: Interval in minute for logging the event of disk full.
             log-interval-gbday-exceeded:
                 type: int
-                description: 'Interval in minute for logging the event of the GB/Day license exceeded.'
+                description: Interval in minute for logging the event of the GB/Day license exceeded.
             log-daemon-crash:
                 type: str
                 description:
-                 - 'Send a logmsg when a daemon crashes. enable/disable'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Send a logmsg when a daemon crashes.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             no-log-detection-threshold:
                 type: int
-                description: 'Time interval in minutes to trigger a local event message if no log data is received.'
+                description: Time interval in minutes to trigger a local event message if no log data is received.
             log-interval-adom-perf-stats:
                 type: int
-                description: 'Interval in minute for logging the event of adom perf stats.'
+                description: Interval in minute for logging the event of adom perf stats.
 '''
 
 EXAMPLES = '''
@@ -197,6 +195,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_system_locallog_setting': {
@@ -207,7 +206,7 @@ def main():
                 'log-interval-disk-full': {'type': 'int'},
                 'log-interval-gbday-exceeded': {'type': 'int'},
                 'log-daemon-crash': {'v_range': [['7.2.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'no-log-detection-threshold': {'v_range': [['7.2.4', '7.2.4'], ['7.4.2', '']], 'type': 'int'},
+                'no-log-detection-threshold': {'v_range': [['7.2.4', '7.2.5'], ['7.4.2', '']], 'type': 'int'},
                 'log-interval-adom-perf-stats': {'v_range': [['7.4.0', '']], 'type': 'int'}
             }
 

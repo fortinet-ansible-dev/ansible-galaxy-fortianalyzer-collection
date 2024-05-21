@@ -44,77 +44,76 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     dvm_cmd_add_devlist:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             add-dev-list:
-                description: no description
+                description: A list of device objects to be added.
                 type: list
                 elements: dict
                 suboptions:
                     adm_pass:
-                        description: no description
+                        description: add real and promote device.
                         type: str
                     adm_usr:
                         type: str
-                        description: '<i>add real and promote device</i>.'
+                        description: add real and promote device.
                     desc:
                         type: str
-                        description: '<i>available for all operations</i>.'
+                        description: available for all operations.
                     device action:
                         type: str
                         description:
                          - 'Specify add device operations, or leave blank to add real device:'
-                         - '"add_model" - add a model device.'
-                         - '"promote_unreg" - promote an unregistered device to be managed by FortiManager using information from database.'
+                         - add_model - add a model device.
+                         - promote_unreg - promote an unregistered device to be managed by FortiManager using information from database.
                     faz.quota:
                         type: int
-                        description: '<i>available for all operations</i>.'
+                        description: available for all operations.
                     ip:
                         type: str
-                        description: '<i>add real device only</i>. Add device will probe with this IP using the log in credential specified.'
+                        description: add real device only.
                     meta fields:
                         type: str
-                        description: '<i>add real and model device</i>.'
+                        description: add real and model device.
                     mgmt_mode:
                         type: str
-                        description: '<i>add real and model device</i>.'
+                        description: add real and model device.
                         choices:
                             - 'unreg'
                             - 'fmg'
@@ -122,13 +121,13 @@ options:
                             - 'fmgfaz'
                     mr:
                         type: int
-                        description: '<i>add model device only</i>.'
+                        description: add model device only.
                     name:
                         type: str
-                        description: '<i>required for all operations</i>. Unique name for the device.'
+                        description: required for all operations.
                     os_type:
                         type: str
-                        description: '<i>add model device only</i>.'
+                        description: add model device only.
                         choices:
                             - 'unknown'
                             - 'fos'
@@ -146,7 +145,7 @@ options:
                             - 'fac'
                     os_ver:
                         type: str
-                        description: '<i>add model device only</i>.'
+                        description: add model device only.
                         choices:
                             - 'unknown'
                             - '0.0'
@@ -160,18 +159,20 @@ options:
                             - '8.0'
                     patch:
                         type: int
-                        description: '<i>add model device only</i>.'
+                        description: add model device only.
                     platform_str:
                         type: str
-                        description: '<i>add model device only</i>. Required for determine the platform for VM platforms.'
+                        description: add model device only.
                     sn:
                         type: str
-                        description: '<i>add model device only</i>. This attribute will be used to determine the device platform, except for VM platforms, w...'
+                        description: add model device only.
             adom:
                 type: str
-                description: 'Name or ID of the ADOM where the command is to be executed on.'
+                description: Name or ID of the ADOM where the command is to be executed on.
             flags:
-                description: no description
+                description:
+                 - create_task - Create a new task in task manager database.
+                 - nonblocking - The API will return immediately in for non-blocking call.
                 type: list
                 elements: str
                 choices:
@@ -266,6 +267,7 @@ def main():
         'enable_log': {'type': 'bool', 'default': False},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'dvm_cmd_add_devlist': {

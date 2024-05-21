@@ -44,86 +44,84 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     cli_system_locallog_fortianalyzer2_setting:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             reliable:
                 type: str
                 description:
-                 - 'Enable/disable reliable realtime logging.'
-                 - 'disable - Disable reliable realtime logging.'
-                 - 'enable - Enable reliable realtime logging.'
+                 - Enable/disable reliable realtime logging.
+                 - disable - Disable reliable realtime logging.
+                 - enable - Enable reliable realtime logging.
                 choices:
                     - 'disable'
                     - 'enable'
             secure-connection:
                 type: str
                 description:
-                 - 'Enable/disable connection secured by TLS/SSL.'
-                 - 'disable - Disable SSL connection.'
-                 - 'enable - Enable SSL connection.'
+                 - Enable/disable connection secured by TLS/SSL.
+                 - disable - Disable SSL connection.
+                 - enable - Enable SSL connection.
                 choices:
                     - 'disable'
                     - 'enable'
             server:
                 type: str
-                description: 'Remote FortiAnalyzer server FQDN, hostname, or IP address'
+                description: Remote FortiAnalyzer server FQDN, hostname, or IP address
             severity:
                 type: str
                 description:
-                 - 'Least severity level to log.'
-                 - 'emergency - Emergency level.'
-                 - 'alert - Alert level.'
-                 - 'critical - Critical level.'
-                 - 'error - Error level.'
-                 - 'warning - Warning level.'
-                 - 'notification - Notification level.'
-                 - 'information - Information level.'
-                 - 'debug - Debug level.'
+                 - Least severity level to log.
+                 - emergency - Emergency level.
+                 - alert - Alert level.
+                 - critical - Critical level.
+                 - error - Error level.
+                 - warning - Warning level.
+                 - notification - Notification level.
+                 - information - Information level.
+                 - debug - Debug level.
                 choices:
                     - 'emergency'
                     - 'alert'
@@ -136,20 +134,20 @@ options:
             status:
                 type: str
                 description:
-                 - 'Log to FortiAnalyzer status.'
-                 - 'disable - Log to FortiAnalyzer disabled.'
-                 - 'realtime - Log to FortiAnalyzer in realtime.'
-                 - 'upload - Log to FortiAnalyzer at schedule time.'
+                 - Log to FortiAnalyzer status.
+                 - disable - Log to FortiAnalyzer disabled.
+                 - realtime - Log to FortiAnalyzer in realtime.
+                 - upload - Log to FortiAnalyzer at schedule time.
                 choices:
                     - 'disable'
                     - 'realtime'
                     - 'upload'
             upload-time:
-                description: no description
+                description: Time to upload local log files
                 type: str
             peer-cert-cn:
                 type: str
-                description: 'Certificate common name of remote fortianalyzer.'
+                description: Certificate common name of remote fortianalyzer.
 '''
 
 EXAMPLES = '''
@@ -235,6 +233,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_system_locallog_fortianalyzer2_setting': {

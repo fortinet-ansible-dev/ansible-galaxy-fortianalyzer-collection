@@ -44,48 +44,47 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     state:
         description: The directive to create, update or delete an object
         type: str
@@ -95,35 +94,34 @@ options:
             - absent
     cli_system_mail:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             auth:
                 type: str
                 description:
-                 - 'Enable authentication.'
-                 - 'disable - Disable authentication.'
-                 - 'enable - Enable authentication.'
+                 - Enable authentication.
+                 - disable - Disable authentication.
+                 - enable - Enable authentication.
                 choices:
                     - 'disable'
                     - 'enable'
             id:
                 type: str
-                description: 'Mail Service ID.'
+                description: Mail Service ID.
             passwd:
-                description: no description
+                description: SMTP account password.
                 type: str
             port:
                 type: int
-                description: 'SMTP server port.'
+                description: SMTP server port.
             secure-option:
                 type: str
                 description:
-                 - 'Communication secure option.'
-                 - 'default - Try STARTTLS, proceed as plain text communication otherwise.'
-                 - 'none - Communication will be in plain text format.'
-                 - 'smtps - Communication will be protected by SMTPS.'
-                 - 'starttls - Communication will be protected by STARTTLS.'
+                 - Communication secure option.
+                 - default - Try STARTTLS, proceed as plain text communication otherwise.
+                 - none - Communication will be in plain text format.
+                 - smtps - Communication will be protected by SMTPS.
+                 - starttls - Communication will be protected by STARTTLS.
                 choices:
                     - 'default'
                     - 'none'
@@ -131,25 +129,25 @@ options:
                     - 'starttls'
             server:
                 type: str
-                description: 'SMTP server.'
+                description: SMTP server.
             user:
                 type: str
-                description: 'SMTP account username.'
+                description: SMTP account username.
             auth-type:
                 type: str
                 description:
-                 - 'SMTP authentication type.'
-                 - 'psk - Use username and password to authenticate.'
-                 - 'certificate - Use local certificate to authenticate.'
+                 - SMTP authentication type.
+                 - psk - Use username and password to authenticate.
+                 - certificate - Use local certificate to authenticate.
                 choices:
                     - 'psk'
                     - 'certificate'
             local-cert:
                 type: str
-                description: 'SMTP local certificate.'
+                description: SMTP local certificate.
             from:
                 type: str
-                description: 'Username for MAIL FROM.'
+                description: Username for MAIL FROM.
 '''
 
 EXAMPLES = '''
@@ -237,6 +235,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},
@@ -253,7 +252,7 @@ def main():
                 'user': {'type': 'str'},
                 'auth-type': {'v_range': [['6.4.6', '']], 'choices': ['psk', 'certificate'], 'type': 'str'},
                 'local-cert': {'v_range': [['6.4.6', '']], 'type': 'str'},
-                'from': {'v_range': [['7.0.7', '7.0.11'], ['7.2.2', '']], 'type': 'str'}
+                'from': {'v_range': [['7.0.7', '7.0.12'], ['7.2.2', '']], 'type': 'str'}
             }
 
         }

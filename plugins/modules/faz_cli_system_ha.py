@@ -44,67 +44,68 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     cli_system_ha:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             group-id:
                 type: int
-                description: 'HA group ID (1 - 255).'
+                description: HA group ID
             group-name:
                 type: str
-                description: 'HA group name.'
+                description: HA group name.
             hb-interface:
                 type: str
-                description: 'Interface for heartbeat.'
+                description: Interface for heartbeat.
             hb-interval:
                 type: int
-                description: 'Heartbeat interval (1 - 20).'
+                description: Heartbeat interval
             healthcheck:
-                description: no description
+                description:
+                 - Healthchecking options.
+                 - DB - Check database is running
+                 - fault-test - temp fault test
                 type: list
                 elements: str
                 choices:
@@ -113,45 +114,45 @@ options:
             initial-sync:
                 type: str
                 description:
-                 - 'Need to sync data from master before up as an HA member.'
-                 - 'false - False.'
-                 - 'true - True.'
+                 - Need to sync data from master before up as an HA member.
+                 - false - False.
+                 - true - True.
                 choices:
                     - 'false'
                     - 'true'
             initial-sync-threads:
                 type: int
-                description: 'Number of threads used for initial sync (1-15).'
+                description: Number of threads used for initial sync
             load-balance:
                 type: str
                 description:
-                 - 'Load balance to slaves.'
-                 - 'disable - Disable load-balance to slaves.'
-                 - 'round-robin - Round-Robin mode.'
+                 - Load balance to slaves.
+                 - disable - Disable load-balance to slaves.
+                 - round-robin - Round-Robin mode.
                 choices:
                     - 'disable'
                     - 'round-robin'
             log-sync:
                 type: str
                 description:
-                 - 'Sync logs to backup FortiAnalyzer.'
-                 - 'disable - Disable.'
-                 - 'enable - Enable.'
+                 - Sync logs to backup FortiAnalyzer.
+                 - disable - Disable.
+                 - enable - Enable.
                 choices:
                     - 'disable'
                     - 'enable'
             mode:
                 type: str
                 description:
-                 - 'Standalone or HA (a-p) mode'
-                 - 'standalone - Standalone mode.'
-                 - 'a-p - Active-Passive mode.'
+                 - Standalone or HA
+                 - standalone - Standalone mode.
+                 - a-p - Active-Passive mode.
                 choices:
                     - 'standalone'
                     - 'a-p'
                     - 'a-a'
             password:
-                description: no description
+                description: HA group password.
                 type: str
             peer:
                 description: no description
@@ -160,31 +161,31 @@ options:
                 suboptions:
                     id:
                         type: int
-                        description: 'Id.'
+                        description: Id.
                     ip:
                         type: str
-                        description: 'IP address of peer for management and data.'
+                        description: IP address of peer for management and data.
                     ip-hb:
                         type: str
-                        description: 'IP address of peers VIP interface for heartbeat, set if different from ip. (needed only when using unicast)'
+                        description: IP address of peers VIP interface for heartbeat, set if different from ip.
                     serial-number:
                         type: str
-                        description: 'Serial number of peer.'
+                        description: Serial number of peer.
                     status:
                         type: str
                         description:
-                         - 'Peer enabled status.'
-                         - 'disable - Disable.'
-                         - 'enable - Enable.'
+                         - Peer enabled status.
+                         - disable - Disable.
+                         - enable - Enable.
                         choices:
                             - 'disable'
                             - 'enable'
             preferred-role:
                 type: str
                 description:
-                 - 'Preferred role, runtime role may be different.'
-                 - 'slave - Prefer slave mode, FAZ can only become master after data-sync is done.'
-                 - 'master - Prefer master mode, FAZ can become master if theres no existing master.'
+                 - Preferred role, runtime role may be different.
+                 - slave - Prefer slave mode, FAZ can only become master after data-sync is done.
+                 - master - Prefer master mode, FAZ can become master if theres no existing master.
                 choices:
                     - 'slave'
                     - 'master'
@@ -192,26 +193,26 @@ options:
                     - 'primary'
             priority:
                 type: int
-                description: 'Set the runtime priority between 80 (lowest) - 120 (highest).'
+                description: Set the runtime priority between 80
             private-clusterid:
                 type: int
-                description: 'Cluster ID range (1 - 64).'
+                description: Cluster ID range
             private-file-quota:
                 type: int
-                description: 'File quota in MB (2048 - 20480).'
+                description: File quota in MB
             private-hb-interval:
                 type: int
-                description: 'Heartbeat interval (1 - 255).'
+                description: Heartbeat interval
             private-hb-lost-threshold:
                 type: int
-                description: 'Heartbeat lost threshold (1 - 255).'
+                description: Heartbeat lost threshold
             private-mode:
                 type: str
                 description:
-                 - 'Mode.'
-                 - 'standalone - Standalone.'
-                 - 'master - Master.'
-                 - 'slave - Slave.'
+                 - Mode.
+                 - standalone - Standalone.
+                 - master - Master.
+                 - slave - Slave.
                 choices:
                     - 'standalone'
                     - 'master'
@@ -219,7 +220,7 @@ options:
                     - 'primary'
                     - 'secondary'
             private-password:
-                description: no description
+                description: Group password.
                 type: str
             private-peer:
                 description: no description
@@ -228,46 +229,46 @@ options:
                 suboptions:
                     id:
                         type: int
-                        description: 'Id.'
+                        description: Id.
                     ip:
                         type: str
-                        description: 'IP address of peer.'
+                        description: IP address of peer.
                     ip6:
                         type: str
-                        description: 'IP address (V6) of peer.'
+                        description: IP address
                     serial-number:
                         type: str
-                        description: 'Serial number of peer.'
+                        description: Serial number of peer.
                     status:
                         type: str
                         description:
-                         - 'Peer admin status.'
-                         - 'disable - Disable.'
-                         - 'enable - Enable.'
+                         - Peer admin status.
+                         - disable - Disable.
+                         - enable - Enable.
                         choices:
                             - 'disable'
                             - 'enable'
             unicast:
                 type: str
                 description:
-                 - 'Use unicast for HA heartbeat.'
-                 - 'disable - HA heartbeat through multicast.'
-                 - 'enable - HA heartbeat through unicast.'
+                 - Use unicast for HA heartbeat.
+                 - disable - HA heartbeat through multicast.
+                 - enable - HA heartbeat through unicast.
                 choices:
                     - 'disable'
                     - 'enable'
             vip:
                 type: str
-                description: 'Virtual IP address for the HA'
+                description: Virtual IP address for the HA
             vip-interface:
                 type: str
-                description: 'Interface for configuring virtual IP address'
+                description: Interface for configuring virtual IP address
             private-local-cert:
                 type: str
-                description: 'set the ha local certificate.'
+                description: set the ha local certificate.
             cfg-sync-hb-interval:
                 type: int
-                description: 'Config sync heartbeat interval (1 - 80).'
+                description: Config sync heartbeat interval
 '''
 
 EXAMPLES = '''
@@ -349,6 +350,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_system_ha': {

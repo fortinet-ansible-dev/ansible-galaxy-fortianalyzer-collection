@@ -44,50 +44,51 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     dvm_cmd_import_devlist:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             adom:
                 type: str
-                description: 'Name or ID of the ADOM where the command is to be executed on.'
+                description: Name or ID of the ADOM where the command is to be executed on.
             flags:
-                description: no description
+                description:
+                 - create_task - Create a new task in task manager database.
+                 - nonblocking - The API will return immediately in for non-blocking call.
                 type: list
                 elements: str
                 choices:
@@ -95,13 +96,13 @@ options:
                     - 'create_task'
                     - 'nonblocking'
             import-adom-members:
-                description: no description
+                description: Associations between devices and ADOMs.
                 type: list
                 elements: dict
                 suboptions:
                     adom:
                         type: str
-                        description: 'Target ADOM to associate device VDOM with.'
+                        description: Target ADOM to associate device VDOM with.
                     dev:
                         type: str
                         description: no description
@@ -109,7 +110,7 @@ options:
                         type: str
                         description: no description
             import-adoms:
-                description: no description
+                description: A list of ADOM and device group objects to be imported.
                 type: list
                 elements: dict
                 suboptions:
@@ -173,8 +174,8 @@ options:
                     mode:
                         type: str
                         description:
-                         - 'ems - (Value no longer used as of 4.3)'
-                         - 'provider - Global database.'
+                         - ems -
+                         - provider - Global database.
                         choices:
                             - 'ems'
                             - 'gms'
@@ -248,7 +249,7 @@ options:
                         type: int
                         description: no description
             import-devices:
-                description: no description
+                description: A list of device objects to be imported.
                 type: list
                 elements: dict
                 suboptions:
@@ -369,32 +370,40 @@ options:
                             - 'override_management_intf'
                     foslic_cpu:
                         type: int
-                        description: 'VM Meter vCPU count.'
+                        description: VM Meter vCPU count.
                     foslic_dr_site:
                         type: str
-                        description: 'VM Meter DR Site status.'
+                        description: VM Meter DR Site status.
                         choices:
                             - 'disable'
                             - 'enable'
                     foslic_inst_time:
                         type: int
-                        description: 'VM Meter first deployment time (in UNIX timestamp).'
+                        description: VM Meter first deployment time
                     foslic_last_sync:
                         type: int
-                        description: 'VM Meter last synchronized time (in UNIX timestamp).'
+                        description: VM Meter last synchronized time
                     foslic_ram:
                         type: int
-                        description: 'VM Meter device RAM size (in MB).'
+                        description: VM Meter device RAM size
                     foslic_type:
                         type: str
-                        description: 'VM Meter license type.'
+                        description: VM Meter license type.
                         choices:
                             - 'temporary'
                             - 'trial'
                             - 'regular'
                             - 'trial_expired'
                     foslic_utm:
-                        description: no description
+                        description:
+                         - VM Meter services
+                         - fw - Firewall
+                         - av - Anti-virus
+                         - ips - IPS
+                         - app - App control
+                         - url - Web filter
+                         - utm - Full UTM
+                         - fwb - FortiWeb
                         type: list
                         elements: str
                         choices:
@@ -416,7 +425,7 @@ options:
                         description: no description
                     ha_mode:
                         type: str
-                        description: 'enabled - Value reserved for non-FOS HA devices.'
+                        description: enabled - Value reserved for non-FOS HA devices.
                         choices:
                             - 'standalone'
                             - 'AP'
@@ -532,7 +541,7 @@ options:
                         description: no description
                     name:
                         type: str
-                        description: 'Unique name for the device.'
+                        description: Unique name for the device.
                     os_type:
                         type: str
                         description: no description
@@ -596,7 +605,7 @@ options:
                         description: no description
                     sn:
                         type: str
-                        description: 'Unique value for each device.'
+                        description: Unique value for each device.
                     vdom:
                         description: no description
                         type: list
@@ -691,19 +700,19 @@ options:
                         type: int
                         description: no description
             import-group-members:
-                description: no description
+                description: Associations between devices and device groups.
                 type: list
                 elements: dict
                 suboptions:
                     adom:
                         type: str
-                        description: 'ADOM where the device group is located. Default is "root" if not specified.'
+                        description: ADOM where the device group is located.
                     dev:
                         type: str
                         description: no description
                     grp:
                         type: str
-                        description: 'Target device group to associate device VDOM with.'
+                        description: Target device group to associate device VDOM with.
                     vdom:
                         type: str
                         description: no description
@@ -789,6 +798,7 @@ def main():
         'enable_log': {'type': 'bool', 'default': False},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'dvm_cmd_import_devlist': {
@@ -904,7 +914,7 @@ def main():
                                 'role': {'choices': ['slave', 'master'], 'type': 'str'},
                                 'sn': {'type': 'str'},
                                 'status': {'type': 'int'},
-                                'conf_status': {'v_range': [['7.0.10', '7.0.11'], ['7.2.1', '']], 'type': 'int'}
+                                'conf_status': {'v_range': [['7.0.10', '7.0.12'], ['7.2.1', '']], 'type': 'int'}
                             },
                             'elements': 'dict'
                         },
@@ -968,15 +978,15 @@ def main():
                         'vm_status': {'type': 'int'},
                         'hyperscale': {'v_range': [['6.2.7', '6.2.12'], ['6.4.3', '']], 'type': 'int'},
                         'private_key': {'v_range': [['6.2.7', '6.2.12'], ['6.4.4', '']], 'no_log': True, 'type': 'str'},
-                        'private_key_status': {'v_range': [['6.2.7', '6.2.12'], ['6.4.4', '']], 'no_log': True, 'type': 'int'},
+                        'private_key_status': {'v_range': [['6.2.7', '6.2.12'], ['6.4.4', '']], 'no_log': False, 'type': 'int'},
                         'prio': {'v_range': [['6.4.1', '']], 'type': 'int'},
                         'role': {'v_range': [['6.4.1', '']], 'choices': ['master', 'ha-slave', 'autoscale-slave'], 'type': 'str'},
                         'nsxt_service_name': {'v_range': [['6.4.4', '']], 'type': 'str'},
-                        'vm_lic_overdue_since': {'v_range': [['6.4.12', '6.4.14'], ['7.0.8', '7.0.11'], ['7.2.3', '']], 'type': 'int'},
-                        'first_tunnel_up': {'v_range': [['7.0.4', '7.0.11'], ['7.2.1', '']], 'type': 'int'},
+                        'vm_lic_overdue_since': {'v_range': [['6.4.12', '6.4.14'], ['7.0.8', '7.0.12'], ['7.2.3', '']], 'type': 'int'},
+                        'first_tunnel_up': {'v_range': [['7.0.4', '7.0.12'], ['7.2.1', '']], 'type': 'int'},
                         'eip': {'v_range': [['7.2.1', '']], 'type': 'str'},
                         'mgmt_uuid': {'v_range': [['7.2.1', '']], 'type': 'str'},
-                        'hw_generation': {'v_range': [['7.2.4', '7.2.4'], ['7.4.1', '']], 'type': 'int'}
+                        'hw_generation': {'v_range': [['7.2.4', '7.2.5'], ['7.4.1', '']], 'type': 'int'}
                     },
                     'elements': 'dict'
                 },

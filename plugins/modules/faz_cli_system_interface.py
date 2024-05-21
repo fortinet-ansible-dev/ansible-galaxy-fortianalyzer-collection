@@ -44,48 +44,47 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     state:
         description: The directive to create, update or delete an object
         type: str
@@ -95,14 +94,22 @@ options:
             - absent
     cli_system_interface:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             alias:
                 type: str
-                description: 'Alias.'
+                description: Alias.
             allowaccess:
-                description: no description
+                description:
+                 - Allow management access to interface.
+                 - ping - PING access.
+                 - https - HTTPS access.
+                 - ssh - SSH access.
+                 - snmp - SNMP access.
+                 - http - HTTP access.
+                 - webservice - Web service access.
+                 - fgfm - FortiManager access.
+                 - https-logging - Logging over HTTPS access.
                 type: list
                 elements: str
                 choices:
@@ -118,20 +125,28 @@ options:
                     - 'fabric'
             description:
                 type: str
-                description: 'Description.'
+                description: Description.
             ip:
                 type: str
-                description: 'IP address of interface.'
+                description: IP address of interface.
             ipv6:
                 description: no description
                 type: dict
-                required: false
                 suboptions:
                     ip6-address:
                         type: str
-                        description: 'IPv6 address/prefix of interface.'
+                        description: IPv6 address/prefix of interface.
                     ip6-allowaccess:
-                        description: no description
+                        description:
+                         - Allow management access to interface.
+                         - ping - PING access.
+                         - https - HTTPS access.
+                         - ssh - SSH access.
+                         - snmp - SNMP access.
+                         - http - HTTP access.
+                         - webservice - Web service access.
+                         - fgfm - FortiManager access.
+                         - https-logging - Logging over HTTPS access.
                         type: list
                         elements: str
                         choices:
@@ -147,29 +162,29 @@ options:
                     ip6-autoconf:
                         type: str
                         description:
-                         - 'Enable/disable address auto config (SLAAC).'
-                         - 'disable - Disable setting.'
-                         - 'enable - Enable setting.'
+                         - Enable/disable address auto config
+                         - disable - Disable setting.
+                         - enable - Enable setting.
                         choices:
                             - 'disable'
                             - 'enable'
             mtu:
                 type: int
-                description: 'Maximum transportation unit(68 - 9000).'
+                description: Maximum transportation unit
             name:
                 type: str
-                description: 'Interface name.'
+                description: Interface name.
             speed:
                 type: str
                 description:
-                 - 'Speed.'
-                 - 'auto - Auto adjust speed.'
-                 - '10full - 10M full-duplex.'
-                 - '10half - 10M half-duplex.'
-                 - '100full - 100M full-duplex.'
-                 - '100half - 100M half-duplex.'
-                 - '1000full - 1000M full-duplex.'
-                 - '10000full - 10000M full-duplex.'
+                 - Speed.
+                 - auto - Auto adjust speed.
+                 - 10full - 10M full-duplex.
+                 - 10half - 10M half-duplex.
+                 - 100full - 100M full-duplex.
+                 - 100half - 100M half-duplex.
+                 - 1000full - 1000M full-duplex.
+                 - 10000full - 10000M full-duplex.
                 choices:
                     - 'auto'
                     - '10full'
@@ -193,9 +208,9 @@ options:
             status:
                 type: str
                 description:
-                 - 'Interface status.'
-                 - 'down - Interface down.'
-                 - 'up - Interface up.'
+                 - Interface status.
+                 - down - Interface down.
+                 - up - Interface up.
                 choices:
                     - 'down'
                     - 'up'
@@ -203,26 +218,26 @@ options:
                     - 'enable'
             aggregate:
                 type: str
-                description: 'Aggregate interface.'
+                description: Aggregate interface.
             lacp-mode:
                 type: str
                 description:
-                 - 'LACP mode.'
-                 - 'active - Actively use LACP to negotiate 802.3ad aggregation.'
+                 - LACP mode.
+                 - active - Actively use LACP to negotiate 802.3ad aggregation.
                 choices:
                     - 'active'
             lacp-speed:
                 type: str
                 description:
-                 - 'How often the interface sends LACP messages.'
-                 - 'slow - Send LACP message every 30 seconds.'
-                 - 'fast - Send LACP message every second.'
+                 - How often the interface sends LACP messages.
+                 - slow - Send LACP message every 30 seconds.
+                 - fast - Send LACP message every second.
                 choices:
                     - 'slow'
                     - 'fast'
             link-up-delay:
                 type: int
-                description: 'Number of milliseconds to wait before considering a link is up.'
+                description: Number of milliseconds to wait before considering a link is up.
             member:
                 description: no description
                 type: list
@@ -230,89 +245,89 @@ options:
                 suboptions:
                     interface-name:
                         type: str
-                        description: 'Physical interface name.'
+                        description: Physical interface name.
             min-links:
                 type: int
-                description: 'Minimum number of aggregated ports that must be up.'
+                description: Minimum number of aggregated ports that must be up.
             min-links-down:
                 type: str
                 description:
-                 - 'Action to take when less than the configured minimum number of links are active.'
-                 - 'operational - Set the aggregate operationally down.'
-                 - 'administrative - Set the aggregate administratively down.'
+                 - Action to take when less than the configured minimum number of links are active.
+                 - operational - Set the aggregate operationally down.
+                 - administrative - Set the aggregate administratively down.
                 choices:
                     - 'operational'
                     - 'administrative'
             type:
                 type: str
                 description:
-                 - 'Set type of interface (physical/aggregate).'
-                 - 'physical - Physical interface.'
-                 - 'aggregate - Aggregate interface.'
+                 - Set type of interface
+                 - physical - Physical interface.
+                 - aggregate - Aggregate interface.
                 choices:
                     - 'physical'
                     - 'aggregate'
                     - 'vlan'
             interface:
                 type: str
-                description: 'Underlying interface name.'
+                description: Underlying interface name.
             vlan-protocol:
                 type: str
                 description:
-                 - 'Ethernet protocol of VLAN.'
-                 - '8021q - IEEE 802.1Q.'
-                 - '8021ad - IEEE 802.1AD.'
+                 - Ethernet protocol of VLAN.
+                 - 8021q - IEEE 802.1Q.
+                 - 8021ad - IEEE 802.1AD.
                 choices:
                     - '8021q'
                     - '8021ad'
             vlanid:
                 type: int
-                description: 'VLAN ID (1 - 4094).'
+                description: VLAN ID
             lldp:
                 type: str
                 description:
-                 - 'Enable/disable LLDP (Link Layer Discovery Protocol).'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable LLDP
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             defaultgw:
                 type: str
                 description:
-                 - 'Enable/disable default gateway.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable default gateway.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             dhcp-client-identifier:
                 type: str
-                description: 'DHCP client identifier.'
+                description: DHCP client identifier.
             dns-server-override:
                 type: str
                 description:
-                 - 'Enable/disable use DNS acquired by DHCP or PPPoE.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable use DNS acquired by DHCP or PPPoE.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             mode:
                 type: str
                 description:
-                 - 'Addressing mode (static, DHCP).'
-                 - 'static - Static setting.'
-                 - 'dhcp - External DHCP client mode.'
+                 - Addressing mode
+                 - static - Static setting.
+                 - dhcp - External DHCP client mode.
                 choices:
                     - 'static'
                     - 'dhcp'
             mtu-override:
                 type: str
                 description:
-                 - 'Enable/disable use MTU acquired by DHCP or PPPoE.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable use MTU acquired by DHCP or PPPoE.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
@@ -433,6 +448,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},

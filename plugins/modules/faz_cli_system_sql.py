@@ -44,59 +44,57 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     cli_system_sql:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             background-rebuild:
                 type: str
                 description:
-                 - 'Disable/Enable rebuild SQL database in the background.'
-                 - 'disable - Rebuild SQL database not in the background.'
-                 - 'enable - Rebuild SQL database in the background.'
+                 - Disable/Enable rebuild SQL database in the background.
+                 - disable - Rebuild SQL database not in the background.
+                 - enable - Rebuild SQL database in the background.
                 choices:
                     - 'disable'
                     - 'enable'
@@ -108,19 +106,19 @@ options:
                     case-sensitive:
                         type: str
                         description:
-                         - 'Disable/Enable case sensitive index.'
-                         - 'disable - Build a case insensitive index.'
-                         - 'enable - Build a case sensitive index.'
+                         - Disable/Enable case sensitive index.
+                         - disable - Build a case insensitive index.
+                         - enable - Build a case sensitive index.
                         choices:
                             - 'disable'
                             - 'enable'
                     device-type:
                         type: str
                         description:
-                         - 'Device type.'
-                         - 'FortiGate - Device type to FortiGate.'
-                         - 'FortiMail - Device type to FortiMail.'
-                         - 'FortiWeb - Device type to FortiWeb.'
+                         - Device type.
+                         - FortiGate - Device type to FortiGate.
+                         - FortiMail - Device type to FortiMail.
+                         - FortiWeb - Device type to FortiWeb.
                         choices:
                             - 'FortiGate'
                             - 'FortiMail'
@@ -134,38 +132,38 @@ options:
                             - 'FortiProxy'
                     id:
                         type: int
-                        description: 'Add or Edit log index fields.'
+                        description: Add or Edit log index fields.
                     index-field:
                         type: str
-                        description: 'Log field name to be indexed.'
+                        description: Log field name to be indexed.
                     log-type:
                         type: str
                         description:
-                         - 'Log type.'
-                         - 'app-ctrl '
-                         - 'attack '
-                         - 'content '
-                         - 'dlp '
-                         - 'emailfilter '
-                         - 'event '
-                         - 'generic '
-                         - 'history '
-                         - 'traffic '
-                         - 'virus '
-                         - 'voip '
-                         - 'webfilter '
-                         - 'netscan '
-                         - 'fct-event '
-                         - 'fct-traffic '
-                         - 'fct-netscan '
-                         - 'waf '
-                         - 'gtp '
-                         - 'dns '
-                         - 'ssh '
-                         - 'ssl '
-                         - 'file-filter '
-                         - 'asset '
-                         - 'protocol '
+                         - Log type.
+                         - app-ctrl
+                         - attack
+                         - content
+                         - dlp
+                         - emailfilter
+                         - event
+                         - generic
+                         - history
+                         - traffic
+                         - virus
+                         - voip
+                         - webfilter
+                         - netscan
+                         - fct-event
+                         - fct-traffic
+                         - fct-netscan
+                         - waf
+                         - gtp
+                         - dns
+                         - ssh
+                         - ssl
+                         - file-filter
+                         - asset
+                         - protocol
                         choices:
                             - 'app-ctrl'
                             - 'attack'
@@ -203,14 +201,14 @@ options:
                     device-type:
                         type: str
                         description:
-                         - 'Device type.'
-                         - 'FortiGate - Set device type to FortiGate.'
-                         - 'FortiManager - Set device type to FortiManager'
-                         - 'FortiClient - Set device type to FortiClient.'
-                         - 'FortiMail - Set device type to FortiMail.'
-                         - 'FortiWeb - Set device type to FortiWeb.'
-                         - 'FortiSandbox - Set device type to FortiSandbox'
-                         - 'FortiProxy - Set device type to FortiProxy'
+                         - Device type.
+                         - FortiGate - Set device type to FortiGate.
+                         - FortiManager - Set device type to FortiManager
+                         - FortiClient - Set device type to FortiClient.
+                         - FortiMail - Set device type to FortiMail.
+                         - FortiWeb - Set device type to FortiWeb.
+                         - FortiSandbox - Set device type to FortiSandbox
+                         - FortiProxy - Set device type to FortiProxy
                         choices:
                             - 'FortiGate'
                             - 'FortiManager'
@@ -221,38 +219,38 @@ options:
                             - 'FortiProxy'
                     id:
                         type: int
-                        description: 'Add or Edit log index fields.'
+                        description: Add or Edit log index fields.
                     index-field:
                         type: str
-                        description: 'Field to be added to skip index.'
+                        description: Field to be added to skip index.
                     log-type:
                         type: str
                         description:
-                         - 'Log type.'
-                         - 'app-ctrl '
-                         - 'attack '
-                         - 'content '
-                         - 'dlp '
-                         - 'emailfilter '
-                         - 'event '
-                         - 'generic '
-                         - 'history '
-                         - 'traffic '
-                         - 'virus '
-                         - 'voip '
-                         - 'webfilter '
-                         - 'netscan '
-                         - 'fct-event '
-                         - 'fct-traffic '
-                         - 'fct-netscan '
-                         - 'waf '
-                         - 'gtp '
-                         - 'dns '
-                         - 'ssh '
-                         - 'ssl '
-                         - 'file-filter '
-                         - 'asset '
-                         - 'protocol '
+                         - Log type.
+                         - app-ctrl
+                         - attack
+                         - content
+                         - dlp
+                         - emailfilter
+                         - event
+                         - generic
+                         - history
+                         - traffic
+                         - virus
+                         - voip
+                         - webfilter
+                         - netscan
+                         - fct-event
+                         - fct-traffic
+                         - fct-netscan
+                         - waf
+                         - gtp
+                         - dns
+                         - ssh
+                         - ssl
+                         - file-filter
+                         - asset
+                         - protocol
                         choices:
                             - 'app-ctrl'
                             - 'attack'
@@ -283,33 +281,59 @@ options:
                             - 'security'
             database-name:
                 type: str
-                description: 'Database name.'
+                description: Database name.
             database-type:
                 type: str
                 description:
-                 - 'Database type.'
-                 - 'mysql - MySQL database.'
-                 - 'postgres - PostgreSQL local database.'
+                 - Database type.
+                 - mysql - MySQL database.
+                 - postgres - PostgreSQL local database.
                 choices:
                     - 'mysql'
                     - 'postgres'
             device-count-high:
                 type: str
                 description:
-                 - 'Must set to enable if the count of registered devices is greater than 8000.'
-                 - 'disable - Set to disable if device count is less than 8000.'
-                 - 'enable - Set to enable if device count is equal to or greater than 8000.'
+                 - Must set to enable if the count of registered devices is greater than 8000.
+                 - disable - Set to disable if device count is less than 8000.
+                 - enable - Set to enable if device count is equal to or greater than 8000.
                 choices:
                     - 'disable'
                     - 'enable'
             event-table-partition-time:
                 type: int
-                description: 'Maximum SQL database table partitioning time range in minute (0 for unlimited) for event logs.'
+                description: Maximum SQL database table partitioning time range in minute
             fct-table-partition-time:
                 type: int
-                description: 'Maximum SQL database table partitioning time range in minute (0 for unlimited) for FortiClient logs.'
+                description: Maximum SQL database table partitioning time range in minute
             logtype:
-                description: no description
+                description:
+                 - Log type.
+                 - none - None.
+                 - app-ctrl
+                 - attack
+                 - content
+                 - dlp
+                 - emailfilter
+                 - event
+                 - generic
+                 - history
+                 - traffic
+                 - virus
+                 - voip
+                 - webfilter
+                 - netscan
+                 - fct-event
+                 - fct-traffic
+                 - fct-netscan
+                 - waf
+                 - gtp
+                 - dns
+                 - ssh
+                 - ssl
+                 - file-filter
+                 - asset
+                 - protocol
                 type: list
                 elements: str
                 choices:
@@ -342,56 +366,56 @@ options:
                     - 'ztna'
                     - 'security'
             password:
-                description: no description
+                description: Password for login remote database.
                 type: str
             prompt-sql-upgrade:
                 type: str
                 description:
-                 - 'Prompt to convert log database into SQL database at start time on GUI.'
-                 - 'disable - Do not prompt to upgrade log database to SQL database at start time on GUI.'
-                 - 'enable - Prompt to upgrade log database to SQL database at start time on GUI.'
+                 - Prompt to convert log database into SQL database at start time on GUI.
+                 - disable - Do not prompt to upgrade log database to SQL database at start time on GUI.
+                 - enable - Prompt to upgrade log database to SQL database at start time on GUI.
                 choices:
                     - 'disable'
                     - 'enable'
             rebuild-event:
                 type: str
                 description:
-                 - 'Disable/Enable rebuild event during SQL database rebuilding.'
-                 - 'disable - Do not rebuild event during SQL database rebuilding.'
-                 - 'enable - Rebuild event during SQL database rebuilding.'
+                 - Disable/Enable rebuild event during SQL database rebuilding.
+                 - disable - Do not rebuild event during SQL database rebuilding.
+                 - enable - Rebuild event during SQL database rebuilding.
                 choices:
                     - 'disable'
                     - 'enable'
             rebuild-event-start-time:
-                description: no description
+                description: 'Rebuild event starting date and time <hh:mm yyyy/mm/dd>.'
                 type: str
             server:
                 type: str
-                description: 'Database IP or hostname.'
+                description: Database IP or hostname.
             start-time:
-                description: no description
+                description: 'Start date and time <hh:mm yyyy/mm/dd>.'
                 type: str
             status:
                 type: str
                 description:
-                 - 'SQL database status.'
-                 - 'disable - Disable SQL database.'
-                 - 'local - Enable local database.'
+                 - SQL database status.
+                 - disable - Disable SQL database.
+                 - local - Enable local database.
                 choices:
                     - 'disable'
                     - 'local'
             text-search-index:
                 type: str
                 description:
-                 - 'Disable/Enable text search index.'
-                 - 'disable - Do not create text search index.'
-                 - 'enable - Create text search index.'
+                 - Disable/Enable text search index.
+                 - disable - Do not create text search index.
+                 - enable - Create text search index.
                 choices:
                     - 'disable'
                     - 'enable'
             traffic-table-partition-time:
                 type: int
-                description: 'Maximum SQL database table partitioning time range in minute (0 for unlimited) for traffic logs.'
+                description: Maximum SQL database table partitioning time range in minute
             ts-index-field:
                 description: no description
                 type: list
@@ -399,19 +423,19 @@ options:
                 suboptions:
                     category:
                         type: str
-                        description: 'Category of text search index fields.'
+                        description: Category of text search index fields.
                     value:
                         type: str
-                        description: 'Fields of text search index.'
+                        description: Fields of text search index.
             username:
                 type: str
-                description: 'User name for login remote database.'
+                description: User name for login remote database.
             utm-table-partition-time:
                 type: int
-                description: 'Maximum SQL database table partitioning time range in minute (0 for unlimited) for UTM logs.'
+                description: Maximum SQL database table partitioning time range in minute
             compress-table-min-age:
                 type: int
-                description: 'Minimum age in days for SQL tables to be compressed.'
+                description: Minimum age in days for SQL tables to be compressed.
 '''
 
 EXAMPLES = '''
@@ -509,6 +533,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_system_sql': {

@@ -44,48 +44,47 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     state:
         description: The directive to create, update or delete an object
         type: str
@@ -95,7 +94,6 @@ options:
             - absent
     cli_system_admin_ldap:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             adom:
@@ -105,86 +103,86 @@ options:
                 suboptions:
                     adom-name:
                         type: str
-                        description: 'Admin domain names.'
+                        description: Admin domain names.
             adom-attr:
                 type: str
-                description: 'Attribute used to retrieve adom'
+                description: Attribute used to retrieve adom
             attributes:
                 type: str
-                description: 'Attributes used for group searching.'
+                description: Attributes used for group searching.
             ca-cert:
                 type: str
-                description: 'CA certificate name.'
+                description: CA certificate name.
             cnid:
                 type: str
-                description: 'Common Name Identifier (default = CN).'
+                description: Common Name Identifier
             connect-timeout:
                 type: int
-                description: 'LDAP connection timeout (msec).'
+                description: LDAP connection timeout
             dn:
                 type: str
-                description: 'Distinguished Name.'
+                description: Distinguished Name.
             filter:
                 type: str
-                description: 'Filter used for group searching.'
+                description: Filter used for group searching.
             group:
                 type: str
-                description: 'Full base DN used for group searching.'
+                description: Full base DN used for group searching.
             memberof-attr:
                 type: str
-                description: 'Attribute used to retrieve memeberof.'
+                description: Attribute used to retrieve memeberof.
             name:
                 type: str
-                description: 'LDAP server entry name.'
+                description: LDAP server entry name.
             password:
-                description: no description
+                description: Password for initial binding.
                 type: str
             port:
                 type: int
-                description: 'Port number of LDAP server (default = 389).'
+                description: Port number of LDAP server
             profile-attr:
                 type: str
-                description: 'Attribute used to retrieve admin profile.'
+                description: Attribute used to retrieve admin profile.
             secondary-server:
                 type: str
-                description: '{<name_str|ip_str>} secondary LDAP server domain name or IP.'
+                description: no description
             secure:
                 type: str
                 description:
-                 - 'SSL connection.'
-                 - 'disable - No SSL.'
-                 - 'starttls - Use StartTLS.'
-                 - 'ldaps - Use LDAPS.'
+                 - SSL connection.
+                 - disable - No SSL.
+                 - starttls - Use StartTLS.
+                 - ldaps - Use LDAPS.
                 choices:
                     - 'disable'
                     - 'starttls'
                     - 'ldaps'
             server:
                 type: str
-                description: '{<name_str|ip_str>} LDAP server domain name or IP.'
+                description: no description
             tertiary-server:
                 type: str
-                description: '{<name_str|ip_str>} tertiary LDAP server domain name or IP.'
+                description: no description
             type:
                 type: str
                 description:
-                 - 'Type of LDAP binding.'
-                 - 'simple - Simple password authentication without search.'
-                 - 'anonymous - Bind using anonymous user search.'
-                 - 'regular - Bind using username/password and then search.'
+                 - Type of LDAP binding.
+                 - simple - Simple password authentication without search.
+                 - anonymous - Bind using anonymous user search.
+                 - regular - Bind using username/password and then search.
                 choices:
                     - 'simple'
                     - 'anonymous'
                     - 'regular'
             username:
                 type: str
-                description: 'Username (full DN) for initial binding.'
+                description: Username
             adom-access:
                 type: str
                 description:
-                 - 'set all or specify adom access type.'
-                 - 'all - All ADOMs access.'
-                 - 'specify - Specify ADOMs access.'
+                 - set all or specify adom access type.
+                 - all - All ADOMs access.
+                 - specify - Specify ADOMs access.
                 choices:
                     - 'all'
                     - 'specify'
@@ -274,6 +272,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},

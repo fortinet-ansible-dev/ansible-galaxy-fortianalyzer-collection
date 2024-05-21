@@ -44,95 +44,93 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     cli_system_csf:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             accept-auth-by-cert:
                 type: str
                 description:
-                 - 'Accept connections with unknown certificates and ask admin for approval.'
-                 - 'disable - Do not accept SSL connections with unknown certificates.'
-                 - 'enable - Accept SSL connections without automatic certificate verification.'
+                 - Accept connections with unknown certificates and ask admin for approval.
+                 - disable - Do not accept SSL connections with unknown certificates.
+                 - enable - Accept SSL connections without automatic certificate verification.
                 choices:
                     - 'disable'
                     - 'enable'
             authorization-request-type:
                 type: str
                 description:
-                 - 'Authorization request type.'
-                 - 'certificate - Request verification by certificate.'
-                 - 'serial - Request verification by serial number.'
+                 - Authorization request type.
+                 - certificate - Request verification by certificate.
+                 - serial - Request verification by serial number.
                 choices:
                     - 'certificate'
                     - 'serial'
             certificate:
                 type: str
-                description: 'Certificate.'
+                description: Certificate.
             configuration-sync:
                 type: str
                 description:
-                 - 'Configuration sync mode.'
-                 - 'default - Synchronize configuration for IPAM, FortiAnalyzer, FortiSandbox, and Central Management to root node.'
-                 - 'local - Do not synchronize configuration with root node.'
+                 - Configuration sync mode.
+                 - default - Synchronize configuration for IPAM, FortiAnalyzer, FortiSandbox, and Central Management to root node.
+                 - local - Do not synchronize configuration with root node.
                 choices:
                     - 'default'
                     - 'local'
             downstream-access:
                 type: str
                 description:
-                 - 'Enable/disable downstream device access to this devices configuration and data.'
-                 - 'disable - Disable downstream device access to this devices configuration and data.'
-                 - 'enable - Enable downstream device access to this devices configuration and data.'
+                 - Enable/disable downstream device access to this devices configuration and data.
+                 - disable - Disable downstream device access to this devices configuration and data.
+                 - enable - Enable downstream device access to this devices configuration and data.
                 choices:
                     - 'disable'
                     - 'enable'
             downstream-accprofile:
                 type: str
-                description: 'Default access profile for requests from downstream devices.'
+                description: Default access profile for requests from downstream devices.
             fabric-connector:
                 description: no description
                 type: list
@@ -140,88 +138,88 @@ options:
                 suboptions:
                     accprofile:
                         type: str
-                        description: 'Override access profile.'
+                        description: Override access profile.
                     configuration-write-access:
                         type: str
                         description:
-                         - 'Enable/disable downstream device write access to configuration.'
-                         - 'disable - Disable downstream device write access to configuration.'
-                         - 'enable - Enable downstream device write access to configuration.'
+                         - Enable/disable downstream device write access to configuration.
+                         - disable - Disable downstream device write access to configuration.
+                         - enable - Enable downstream device write access to configuration.
                         choices:
                             - 'disable'
                             - 'enable'
                     serial:
                         type: str
-                        description: 'Serial.'
+                        description: Serial.
             fabric-object-unification:
                 type: str
                 description:
-                 - 'Fabric CMDB Object Unification.'
-                 - 'local - Global CMDB objects will not be synchronized to and from this device.'
-                 - 'default - Global CMDB objects will be synchronized in Security Fabric.'
+                 - Fabric CMDB Object Unification.
+                 - local - Global CMDB objects will not be synchronized to and from this device.
+                 - default - Global CMDB objects will be synchronized in Security Fabric.
                 choices:
                     - 'local'
                     - 'default'
             fabric-workers:
                 type: int
-                description: 'Number of worker processes for Security Fabric daemon.'
+                description: Number of worker processes for Security Fabric daemon.
             file-mgmt:
                 type: str
                 description:
-                 - 'Enable/disable Security Fabric daemon file management.'
-                 - 'disable - Disable daemon file management.'
-                 - 'enable - Enable daemon file management.'
+                 - Enable/disable Security Fabric daemon file management.
+                 - disable - Disable daemon file management.
+                 - enable - Enable daemon file management.
                 choices:
                     - 'disable'
                     - 'enable'
             file-quota:
                 type: int
-                description: 'Maximum amount of memory that can be used by the daemon files (in bytes).'
+                description: Maximum amount of memory that can be used by the daemon files
             file-quota-warning:
                 type: int
-                description: 'Warn when the set percentage of quota has been used.'
+                description: Warn when the set percentage of quota has been used.
             fixed-key:
-                description: no description
+                description: Auto-generated fixed key used when this device is the root.
                 type: str
             forticloud-account-enforcement:
                 type: str
                 description:
-                 - 'Fabric FortiCloud account unification.'
-                 - 'disable - Disable FortiCloud accound ID matching for Security Fabric.'
-                 - 'enable - Enable FortiCloud account ID matching for Security Fabric.'
+                 - Fabric FortiCloud account unification.
+                 - disable - Disable FortiCloud accound ID matching for Security Fabric.
+                 - enable - Enable FortiCloud account ID matching for Security Fabric.
                 choices:
                     - 'disable'
                     - 'enable'
             group-name:
                 type: str
-                description: 'Security Fabric group name. All FortiGates in a Security Fabric must have the same group name.'
+                description: Security Fabric group name.
             group-password:
-                description: no description
+                description: Security Fabric group password.
                 type: str
             log-unification:
                 type: str
                 description:
-                 - 'Enable/disable broadcast of discovery messages for log unification.'
-                 - 'disable - Disable broadcast of discovery messages for log unification.'
-                 - 'enable - Enable broadcast of discovery messages for log unification.'
+                 - Enable/disable broadcast of discovery messages for log unification.
+                 - disable - Disable broadcast of discovery messages for log unification.
+                 - enable - Enable broadcast of discovery messages for log unification.
                 choices:
                     - 'disable'
                     - 'enable'
             saml-configuration-sync:
                 type: str
                 description:
-                 - 'SAML setting configuration synchronization.'
-                 - 'local - Do not apply SAML configuration generated by root.'
-                 - 'default - SAML setting for fabric members is created by fabric root.'
+                 - SAML setting configuration synchronization.
+                 - local - Do not apply SAML configuration generated by root.
+                 - default - SAML setting for fabric members is created by fabric root.
                 choices:
                     - 'local'
                     - 'default'
             status:
                 type: str
                 description:
-                 - 'Enable/disable Security Fabric.'
-                 - 'disable - Disable Security Fabric.'
-                 - 'enable - Enable Security Fabric.'
+                 - Enable/disable Security Fabric.
+                 - disable - Disable Security Fabric.
+                 - enable - Enable Security Fabric.
                 choices:
                     - 'disable'
                     - 'enable'
@@ -233,51 +231,51 @@ options:
                     action:
                         type: str
                         description:
-                         - 'Security fabric authorization action.'
-                         - 'accept - Accept authorization request.'
-                         - 'deny - Deny authorization request.'
+                         - Security fabric authorization action.
+                         - accept - Accept authorization request.
+                         - deny - Deny authorization request.
                         choices:
                             - 'accept'
                             - 'deny'
                     authorization-type:
                         type: str
                         description:
-                         - 'Authorization type.'
-                         - 'serial - Verify downstream by serial number.'
-                         - 'certificate - Verify downstream by certificate.'
+                         - Authorization type.
+                         - serial - Verify downstream by serial number.
+                         - certificate - Verify downstream by certificate.
                         choices:
                             - 'serial'
                             - 'certificate'
                     certificate:
                         type: str
-                        description: 'Certificate.'
+                        description: Certificate.
                     downstream-authorization:
                         type: str
                         description:
-                         - 'Trust authorizations by this nodes administrator.'
-                         - 'disable - Disable downstream authorization.'
-                         - 'enable - Enable downstream authorization.'
+                         - Trust authorizations by this nodes administrator.
+                         - disable - Disable downstream authorization.
+                         - enable - Enable downstream authorization.
                         choices:
                             - 'disable'
                             - 'enable'
                     ha-members:
                         type: str
-                        description: 'HA members.'
+                        description: HA members.
                     index:
                         type: int
-                        description: 'Index of the downstream in tree.'
+                        description: Index of the downstream in tree.
                     name:
                         type: str
-                        description: 'Name.'
+                        description: Name.
                     serial:
                         type: str
-                        description: 'Serial.'
+                        description: Serial.
             upstream:
                 type: str
-                description: 'IP/FQDN of the FortiGate upstream from this FortiGate in the Security Fabric.'
+                description: IP/FQDN of the FortiGate upstream from this FortiGate in the Security Fabric.
             upstream-port:
                 type: int
-                description: 'The port number to use to communicate with the FortiGate upstream from this FortiGate in the Security Fabric (default = 8013).'
+                description: The port number to use to communicate with the FortiGate upstream from this FortiGate in the Security Fabric
 '''
 
 EXAMPLES = '''
@@ -395,6 +393,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_system_csf': {

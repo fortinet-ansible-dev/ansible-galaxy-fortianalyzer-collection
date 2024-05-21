@@ -44,48 +44,47 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     state:
         description: The directive to create, update or delete an object
         type: str
@@ -95,22 +94,21 @@ options:
             - absent
     cli_system_logfetch_clientprofile:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             client-adom:
                 type: str
-                description: 'Log-fetch client sides adom name.'
+                description: Log-fetch client sides adom name.
             data-range:
                 type: str
                 description:
-                 - 'Data-range for fetched logs.'
-                 - 'custom - Specify some other date and time range.'
+                 - Data-range for fetched logs.
+                 - custom - Specify some other date and time range.
                 choices:
                     - 'custom'
             data-range-value:
                 type: int
-                description: 'Last n days or hours.'
+                description: Last n days or hours.
             device-filter:
                 description: no description
                 type: list
@@ -118,28 +116,28 @@ options:
                 suboptions:
                     adom:
                         type: str
-                        description: 'Adom name.'
+                        description: Adom name.
                     device:
                         type: str
-                        description: 'Device name or Serial number.'
+                        description: Device name or Serial number.
                     id:
                         type: int
-                        description: 'Add or edit a device filter.'
+                        description: Add or edit a device filter.
                     vdom:
                         type: str
-                        description: 'Vdom filters.'
+                        description: Vdom filters.
             end-time:
-                description: no description
+                description: 'End date and time of the data-range <hh:mm yyyy/mm/dd>.'
                 type: str
             id:
                 type: int
-                description: 'Log-fetch client profile ID.'
+                description: Log-fetch client profile ID.
             index-fetch-logs:
                 type: str
                 description:
-                 - 'Enable/Disable indexing logs automatically after fetching logs.'
-                 - 'disable - Disable attribute function.'
-                 - 'enable - Enable attribute function.'
+                 - Enable/Disable indexing logs automatically after fetching logs.
+                 - disable - Disable attribute function.
+                 - enable - Enable attribute function.
                 choices:
                     - 'disable'
                     - 'enable'
@@ -150,19 +148,19 @@ options:
                 suboptions:
                     field:
                         type: str
-                        description: 'Field name.'
+                        description: Field name.
                     id:
                         type: int
-                        description: 'Log filter ID.'
+                        description: Log filter ID.
                     oper:
                         type: str
                         description:
-                         - 'Field filter operator.'
-                         - '&lt; - =Less than or equal to'
-                         - '&gt; - =Greater than or equal to'
-                         - 'contain - Contain'
-                         - 'not-contain - Not contain'
-                         - 'match - Match (expression)'
+                         - Field filter operator.
+                         - no description
+                         - no description
+                         - contain - Contain
+                         - not-contain - Not contain
+                         - match - Match
                         choices:
                             - '='
                             - '!='
@@ -175,64 +173,64 @@ options:
                             - 'match'
                     value:
                         type: str
-                        description: 'Field filter operand or free-text matching expression.'
+                        description: Field filter operand or free-text matching expression.
             log-filter-logic:
                 type: str
                 description:
-                 - 'And/Or logic for log-filters.'
-                 - 'and - Logic And.'
-                 - 'or - Logic Or.'
+                 - And/Or logic for log-filters.
+                 - and - Logic And.
+                 - or - Logic Or.
                 choices:
                     - 'and'
                     - 'or'
             log-filter-status:
                 type: str
                 description:
-                 - 'Enable/Disable log-filter.'
-                 - 'disable - Disable attribute function.'
-                 - 'enable - Enable attribute function.'
+                 - Enable/Disable log-filter.
+                 - disable - Disable attribute function.
+                 - enable - Enable attribute function.
                 choices:
                     - 'disable'
                     - 'enable'
             name:
                 type: str
-                description: 'Name of log-fetch client profile.'
+                description: Name of log-fetch client profile.
             password:
-                description: no description
+                description: Log-fetch server login password.
                 type: str
             secure-connection:
                 type: str
                 description:
-                 - 'Enable/Disable protecting log-fetch connection with TLS/SSL.'
-                 - 'disable - Disable attribute function.'
-                 - 'enable - Enable attribute function.'
+                 - Enable/Disable protecting log-fetch connection with TLS/SSL.
+                 - disable - Disable attribute function.
+                 - enable - Enable attribute function.
                 choices:
                     - 'disable'
                     - 'enable'
             server-adom:
                 type: str
-                description: 'Log-fetch server sides adom name.'
+                description: Log-fetch server sides adom name.
             server-ip:
                 type: str
-                description: 'Log-fetch server IP address.'
+                description: Log-fetch server IP address.
             start-time:
-                description: no description
+                description: 'Start date and time of the data-range <hh:mm yyyy/mm/dd>.'
                 type: str
             sync-adom-config:
                 type: str
                 description:
-                 - 'Enable/Disable sync adom related config.'
-                 - 'disable - Disable attribute function.'
-                 - 'enable - Enable attribute function.'
+                 - Enable/Disable sync adom related config.
+                 - disable - Disable attribute function.
+                 - enable - Enable attribute function.
                 choices:
                     - 'disable'
                     - 'enable'
             user:
                 type: str
-                description: 'Log-fetch server login username.'
+                description: Log-fetch server login username.
             peer-cert-cn:
                 type: str
-                description: 'Certificate common name of log-fetch server.'
+                description: Certificate common name of log-fetch server.
 '''
 
 EXAMPLES = '''
@@ -322,6 +320,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},

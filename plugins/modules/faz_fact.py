@@ -273,7 +273,6 @@ options:
                     - 'logview_logsearch_count'
                     - 'logview_logstats'
                     - 'logview_pcapfile'
-                    - 'report_adom_root_template_language'
                     - 'report_graphfile'
                     - 'report_graphfile_data'
                     - 'report_graphfile_list'
@@ -281,6 +280,7 @@ options:
                     - 'report_reports_state'
                     - 'report_run'
                     - 'report_template_export'
+                    - 'report_template_language'
                     - 'report_template_list'
                     - 'soar_config_connectors'
                     - 'soar_config_playbooks'
@@ -322,10 +322,14 @@ options:
                 type: list
                 elements: dict
             params:
-                description: The specific parameters for each different selector.
+                description:
+                    - The specific parameters for each different selector.
+                    - You can also add any API specified parameters, such as "loadsub", "meta field", "range".
                 type: dict
             extra_params:
-                description: Extra parameters for each different selector.
+                description:
+                    - Extra parameters for each different selector.
+                    - Deprecated. You can add extra parameters directly in "params".
                 type: dict
 '''
 
@@ -497,7 +501,7 @@ def main():
             'urls': [
                 '/cli/global/fmupdate/fwm-setting/upgrade-timeout'
             ],
-            'v_range': [['7.0.5', '7.0.11'], ['7.2.2', '']],
+            'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']],
         },
         'cli_fmupdate_multilayer': {
             'urls': [
@@ -874,7 +878,7 @@ def main():
             'urls': [
                 '/cli/global/system/guiact'
             ],
-            'v_range': [['6.2.1', '7.4.0']],
+            'v_range': [['6.2.1', '7.0.11'], ['7.2.0', '7.2.4'], ['7.4.0', '7.4.0']],
         },
         'cli_system_ha': {
             'urls': [
@@ -1684,12 +1688,6 @@ def main():
             ],
             'v_range': [['7.0.3', '']],
         },
-        'report_adom_root_template_language': {
-            'urls': [
-                '/report/adom/root/template/language'
-            ],
-            'v_range': [['6.2.1', '']],
-        },
         'report_graphfile': {
             'urls': [
                 '/report/adom/{adom}/graph-file'
@@ -1729,6 +1727,12 @@ def main():
         'report_template_export': {
             'urls': [
                 '/report/adom/{adom}/template/export'
+            ],
+            'v_range': [['6.2.1', '']],
+        },
+        'report_template_language': {
+            'urls': [
+                '/report/adom/{adom}/template/language'
             ],
             'v_range': [['6.2.1', '']],
         },
@@ -1842,7 +1846,7 @@ def main():
             'urls': [
                 '/ueba/adom/{adom}/endpoints/vuln'
             ],
-            'v_range': [['7.4.1', '']],
+            'v_range': [['7.4.0', '']],
         },
         'ueba_endusers': {
             'urls': [
@@ -2077,7 +2081,6 @@ def main():
                         'logview_logsearch_count',
                         'logview_logstats',
                         'logview_pcapfile',
-                        'report_adom_root_template_language',
                         'report_graphfile',
                         'report_graphfile_data',
                         'report_graphfile_list',
@@ -2085,6 +2088,7 @@ def main():
                         'report_reports_state',
                         'report_run',
                         'report_template_export',
+                        'report_template_language',
                         'report_template_list',
                         'soar_config_connectors',
                         'soar_config_playbooks',

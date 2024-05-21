@@ -44,70 +44,76 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     cli_system_locallog_disk_setting:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             diskfull:
                 type: str
                 description:
-                 - 'Policy to apply when disk is full.'
-                 - 'overwrite - Overwrite oldest log when disk is full.'
-                 - 'nolog - Stop logging when disk is full.'
+                 - Policy to apply when disk is full.
+                 - overwrite - Overwrite oldest log when disk is full.
+                 - nolog - Stop logging when disk is full.
                 choices:
                     - 'overwrite'
                     - 'nolog'
             log-disk-full-percentage:
                 type: int
-                description: 'Consider log disk as full at this usage percentage.'
+                description: Consider log disk as full at this usage percentage.
             max-log-file-size:
                 type: int
-                description: 'Maximum log file size before rolling.'
+                description: Maximum log file size before rolling.
             roll-day:
-                description: no description
+                description:
+                 - Days of week to roll logs.
+                 - sunday - Sunday.
+                 - monday - Monday.
+                 - tuesday - Tuesday.
+                 - wednesday - Wednesday.
+                 - thursday - Thursday.
+                 - friday - Friday.
+                 - saturday - Saturday.
                 type: list
                 elements: str
                 choices:
@@ -121,24 +127,24 @@ options:
             roll-schedule:
                 type: str
                 description:
-                 - 'Frequency to check log file for rolling.'
-                 - 'none - Not scheduled.'
-                 - 'daily - Every day.'
-                 - 'weekly - Every week.'
+                 - Frequency to check log file for rolling.
+                 - none - Not scheduled.
+                 - daily - Every day.
+                 - weekly - Every week.
                 choices:
                     - 'none'
                     - 'daily'
                     - 'weekly'
             roll-time:
                 type: str
-                description: 'Time to roll logs (hh:mm).'
+                description: Time to roll logs
             server-type:
                 type: str
                 description:
-                 - 'Server type.'
-                 - 'FTP - Upload via FTP.'
-                 - 'SFTP - Upload via SFTP.'
-                 - 'SCP - Upload via SCP.'
+                 - Server type.
+                 - FTP - Upload via FTP.
+                 - SFTP - Upload via SFTP.
+                 - SCP - Upload via SCP.
                 choices:
                     - 'FTP'
                     - 'SFTP'
@@ -146,15 +152,15 @@ options:
             severity:
                 type: str
                 description:
-                 - 'Least severity level to log.'
-                 - 'emergency - Emergency level.'
-                 - 'alert - Alert level.'
-                 - 'critical - Critical level.'
-                 - 'error - Error level.'
-                 - 'warning - Warning level.'
-                 - 'notification - Notification level.'
-                 - 'information - Information level.'
-                 - 'debug - Debug level.'
+                 - Least severity level to log.
+                 - emergency - Emergency level.
+                 - alert - Alert level.
+                 - critical - Critical level.
+                 - error - Error level.
+                 - warning - Warning level.
+                 - notification - Notification level.
+                 - information - Information level.
+                 - debug - Debug level.
                 choices:
                     - 'emergency'
                     - 'alert'
@@ -167,78 +173,80 @@ options:
             status:
                 type: str
                 description:
-                 - 'Enable/disable local disk log.'
-                 - 'disable - Do not log to local disk.'
-                 - 'enable - Log to local disk.'
+                 - Enable/disable local disk log.
+                 - disable - Do not log to local disk.
+                 - enable - Log to local disk.
                 choices:
                     - 'disable'
                     - 'enable'
             upload:
                 type: str
                 description:
-                 - 'Upload log file when rolling.'
-                 - 'disable - Disable uploading when rolling log file.'
-                 - 'enable - Enable uploading when rolling log file.'
+                 - Upload log file when rolling.
+                 - disable - Disable uploading when rolling log file.
+                 - enable - Enable uploading when rolling log file.
                 choices:
                     - 'disable'
                     - 'enable'
             upload-delete-files:
                 type: str
                 description:
-                 - 'Delete log files after uploading (default = enable).'
-                 - 'disable - Do not delete log files after uploading.'
-                 - 'enable - Delete log files after uploading.'
+                 - Delete log files after uploading
+                 - disable - Do not delete log files after uploading.
+                 - enable - Delete log files after uploading.
                 choices:
                     - 'disable'
                     - 'enable'
             upload-time:
                 type: str
-                description: 'Time to upload logs (hh:mm).'
+                description: Time to upload logs
             uploaddir:
                 type: str
-                description: 'Log file upload remote directory.'
+                description: Log file upload remote directory.
             uploadip:
                 type: str
-                description: 'IP address of log uploading server.'
+                description: IP address of log uploading server.
             uploadpass:
-                description: no description
+                description: Password of user account in upload server.
                 type: str
             uploadport:
                 type: int
-                description: 'Server port (0 = default protocol port).'
+                description: Server port
             uploadsched:
                 type: str
                 description:
-                 - 'Scheduled upload (disable = upload when rolling).'
-                 - 'disable - Upload when rolling.'
-                 - 'enable - Scheduled upload.'
+                 - Scheduled upload
+                 - disable - Upload when rolling.
+                 - enable - Scheduled upload.
                 choices:
                     - 'disable'
                     - 'enable'
             uploadtype:
-                description: no description
+                description:
+                 - Types of log files that need to be uploaded.
+                 - event - Upload event log.
                 type: list
                 elements: str
                 choices:
                     - 'event'
             uploaduser:
                 type: str
-                description: 'User account in upload server.'
+                description: User account in upload server.
             uploadzip:
                 type: str
                 description:
-                 - 'Compress upload logs.'
-                 - 'disable - Upload log files as plain text.'
-                 - 'enable - Upload log files compressed.'
+                 - Compress upload logs.
+                 - disable - Upload log files as plain text.
+                 - enable - Upload log files compressed.
                 choices:
                     - 'disable'
                     - 'enable'
             max-log-file-num:
                 type: int
-                description: 'Maximum number of log files before rolling.'
+                description: Maximum number of log files before rolling.
             log-disk-quota:
                 type: int
-                description: 'Quota for controlling local log size.'
+                description: Quota for controlling local log size.
 '''
 
 EXAMPLES = '''
@@ -346,6 +354,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_system_locallog_disk_setting': {

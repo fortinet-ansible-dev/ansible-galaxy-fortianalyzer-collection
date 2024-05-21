@@ -44,96 +44,102 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     cli_system_backup_allsettings:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             cert:
                 type: str
-                description: 'SSH certificate for authentication.'
+                description: SSH certificate for authentication.
             crptpasswd:
-                description: no description
+                description: Optional password to protect backup content.
                 type: str
             directory:
                 type: str
-                description: 'Directory in which file will be stored on backup server.'
+                description: Directory in which file will be stored on backup server.
             passwd:
-                description: no description
+                description: Backup server login user password.
                 type: str
             protocol:
                 type: str
                 description:
-                 - 'Protocol used to backup.'
-                 - 'sftp - SFTP.'
-                 - 'ftp - FTP.'
-                 - 'scp - SCP.'
+                 - Protocol used to backup.
+                 - sftp - SFTP.
+                 - ftp - FTP.
+                 - scp - SCP.
                 choices:
                     - 'sftp'
                     - 'ftp'
                     - 'scp'
             server:
                 type: str
-                description: 'Backup server name/IP.'
+                description: Backup server name/IP.
             status:
                 type: str
                 description:
-                 - 'Enable/disable schedule backup.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable schedule backup.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             time:
                 type: str
-                description: 'Time to backup.'
+                description: Time to backup.
             user:
                 type: str
-                description: 'Backup server login user.'
+                description: Backup server login user.
             week_days:
-                description: no description
+                description:
+                 - Week days to backup.
+                 - monday - Monday.
+                 - tuesday - Tuesday.
+                 - wednesday - Wednesday.
+                 - thursday - Thursday.
+                 - friday - Friday.
+                 - saturday - Saturday.
+                 - sunday - Sunday.
                 type: list
                 elements: str
                 choices:
@@ -232,6 +238,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_system_backup_allsettings': {

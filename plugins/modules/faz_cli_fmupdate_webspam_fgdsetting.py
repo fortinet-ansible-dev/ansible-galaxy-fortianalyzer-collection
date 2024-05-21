@@ -44,63 +44,61 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     cli_fmupdate_webspam_fgdsetting:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             as-cache:
                 type: int
-                description: 'Antispam service maximum memory usage in megabytes (Maximum = Physical memory-1024, 0: no limit, default = 300).'
+                description: Antispam service maximum memory usage in megabytes
             as-log:
                 type: str
                 description:
-                 - 'Antispam log setting (default = nospam).'
-                 - 'disable - Disable spam log.'
-                 - 'nospam - Log non-spam events.'
-                 - 'all - Log all spam lookups.'
+                 - Antispam log setting
+                 - disable - Disable spam log.
+                 - nospam - Log non-spam events.
+                 - all - Log all spam lookups.
                 choices:
                     - 'disable'
                     - 'nospam'
@@ -108,22 +106,22 @@ options:
             as-preload:
                 type: str
                 description:
-                 - 'Enable/disable preloading antispam database to memory (default = disable).'
-                 - 'disable - Disable antispam database preload.'
-                 - 'enable - Enable antispam database preload.'
+                 - Enable/disable preloading antispam database to memory
+                 - disable - Disable antispam database preload.
+                 - enable - Enable antispam database preload.
                 choices:
                     - 'disable'
                     - 'enable'
             av-cache:
                 type: int
-                description: 'Antivirus service maximum memory usage, in megabytes (100 - 500, default = 300).'
+                description: Antivirus service maximum memory usage, in megabytes
             av-log:
                 type: str
                 description:
-                 - 'Antivirus log setting (default = novirus).'
-                 - 'disable - Disable virus log.'
-                 - 'novirus - Log non-virus events.'
-                 - 'all - Log all virus lookups.'
+                 - Antivirus log setting
+                 - disable - Disable virus log.
+                 - novirus - Log non-virus events.
+                 - all - Log all virus lookups.
                 choices:
                     - 'disable'
                     - 'novirus'
@@ -131,22 +129,22 @@ options:
             av-preload:
                 type: str
                 description:
-                 - 'Enable/disable preloading antivirus database to memory (default = disable).'
-                 - 'disable - Disable antivirus database preload.'
-                 - 'enable - Enable antivirus database preload.'
+                 - Enable/disable preloading antivirus database to memory
+                 - disable - Disable antivirus database preload.
+                 - enable - Enable antivirus database preload.
                 choices:
                     - 'disable'
                     - 'enable'
             av2-cache:
                 type: int
-                description: 'Antispam service maximum memory usage in megabytes (Maximum = Physical memory-1024, 0: no limit, default = 800).'
+                description: Antispam service maximum memory usage in megabytes
             av2-log:
                 type: str
                 description:
-                 - 'Outbreak prevention log setting (default = noav2).'
-                 - 'disable - Disable av2 log.'
-                 - 'noav2 - Log non-av2 events.'
-                 - 'all - Log all av2 lookups.'
+                 - Outbreak prevention log setting
+                 - disable - Disable av2 log.
+                 - noav2 - Log non-av2 events.
+                 - all - Log all av2 lookups.
                 choices:
                     - 'disable'
                     - 'noav2'
@@ -154,34 +152,34 @@ options:
             av2-preload:
                 type: str
                 description:
-                 - 'Enable/disable preloading outbreak prevention database to memory (default = disable).'
-                 - 'disable - Disable outbreak prevention database preload.'
-                 - 'enable - Enable outbreak prevention database preload.'
+                 - Enable/disable preloading outbreak prevention database to memory
+                 - disable - Disable outbreak prevention database preload.
+                 - enable - Enable outbreak prevention database preload.
                 choices:
                     - 'disable'
                     - 'enable'
             eventlog-query:
                 type: str
                 description:
-                 - 'Enable/disable record query to event-log besides fgd-log (default = disable).'
-                 - 'disable - Record query to event-log besides fgd-log.'
-                 - 'enable - Do not log to event-log.'
+                 - Enable/disable record query to event-log besides fgd-log
+                 - disable - Record query to event-log besides fgd-log.
+                 - enable - Do not log to event-log.
                 choices:
                     - 'disable'
                     - 'enable'
             fgd-pull-interval:
                 type: int
-                description: 'Fgd pull interval setting, in minutes (1 - 1440, default = 10).'
+                description: Fgd pull interval setting, in minutes
             fq-cache:
                 type: int
-                description: 'File query service maximum memory usage, in megabytes (100 - 500, default = 300).'
+                description: File query service maximum memory usage, in megabytes
             fq-log:
                 type: str
                 description:
-                 - 'File query log setting (default = nofilequery).'
-                 - 'disable - Disable file query log.'
-                 - 'nofilequery - Log non-file query events.'
-                 - 'all - Log all file query events.'
+                 - File query log setting
+                 - disable - Disable file query log.
+                 - nofilequery - Log non-file query events.
+                 - all - Log all file query events.
                 choices:
                     - 'disable'
                     - 'nofilequery'
@@ -189,25 +187,25 @@ options:
             fq-preload:
                 type: str
                 description:
-                 - 'Enable/disable preloading file query database to memory (default = disable).'
-                 - 'disable - Disable file query db preload.'
-                 - 'enable - Enable file query db preload.'
+                 - Enable/disable preloading file query database to memory
+                 - disable - Disable file query db preload.
+                 - enable - Enable file query db preload.
                 choices:
                     - 'disable'
                     - 'enable'
             linkd-log:
                 type: str
                 description:
-                 - 'Linkd log setting (default = debug).'
-                 - 'emergency - The unit is unusable.'
-                 - 'alert - Immediate action is required'
-                 - 'critical - Functionality is affected.'
-                 - 'error - Functionality is probably affected.'
-                 - 'warn - Functionality might be affected.'
-                 - 'notice - Information about normal events.'
-                 - 'info - General information.'
-                 - 'debug - Debug information.'
-                 - 'disable - Linkd logging is disabled.'
+                 - Linkd log setting
+                 - emergency - The unit is unusable.
+                 - alert - Immediate action is required
+                 - critical - Functionality is affected.
+                 - error - Functionality is probably affected.
+                 - warn - Functionality might be affected.
+                 - notice - Information about normal events.
+                 - info - General information.
+                 - debug - Debug information.
+                 - disable - Linkd logging is disabled.
                 choices:
                     - 'emergency'
                     - 'alert'
@@ -220,38 +218,37 @@ options:
                     - 'disable'
             max-client-worker:
                 type: int
-                description: 'max worker for tcp client connection (0~16: 0 means use cpu number up to 4).'
+                description: max worker for tcp client connection
             max-log-quota:
                 type: int
-                description: 'Maximum log quota setting, in megabytes (100 - 20480, default = 6144).'
+                description: Maximum log quota setting, in megabytes
             max-unrated-site:
                 type: int
-                description: 'Maximum number of unrated site in memory, in kilobytes(10 - 5120, default = 500).'
+                description: Maximum number of unrated site in memory, in kilobytes
             restrict-as1-dbver:
                 type: str
-                description: 'Restrict system update to indicated antispam(1) database version (character limit = 127).'
+                description: Restrict system update to indicated antispam
             restrict-as2-dbver:
                 type: str
-                description: 'Restrict system update to indicated antispam(2) database version (character limit = 127).'
+                description: Restrict system update to indicated antispam
             restrict-as4-dbver:
                 type: str
-                description: 'Restrict system update to indicated antispam(4) database version (character limit = 127).'
+                description: Restrict system update to indicated antispam
             restrict-av-dbver:
                 type: str
-                description: 'Restrict system update to indicated antivirus database version (character limit = 127).'
+                description: Restrict system update to indicated antivirus database version
             restrict-av2-dbver:
                 type: str
-                description: 'Restrict system update to indicated outbreak prevention database version (character limit = 127).'
+                description: Restrict system update to indicated outbreak prevention database version
             restrict-fq-dbver:
                 type: str
-                description: 'Restrict system update to indicated file query database version (character limit = 127).'
+                description: Restrict system update to indicated file query database version
             restrict-wf-dbver:
                 type: str
-                description: 'Restrict system update to indicated web filter database version (character limit = 127).'
+                description: Restrict system update to indicated web filter database version
             server-override:
                 description: no description
                 type: dict
-                required: false
                 suboptions:
                     servlist:
                         description: no description
@@ -260,23 +257,23 @@ options:
                         suboptions:
                             id:
                                 type: int
-                                description: 'Override server ID (1 - 10).'
+                                description: Override server ID
                             ip:
                                 type: str
-                                description: 'IPv4 address of the override server.'
+                                description: IPv4 address of the override server.
                             ip6:
                                 type: str
-                                description: 'IPv6 address of the override server.'
+                                description: IPv6 address of the override server.
                             port:
                                 type: int
-                                description: 'Port number to use when contacting FortiGuard (1 - 65535, default = 443).'
+                                description: Port number to use when contacting FortiGuard
                             service-type:
                                 type: str
                                 description:
-                                 - 'Override service type.'
-                                 - 'fgd - Server override config for fgd'
-                                 - 'fgc - Server override config for fgc'
-                                 - 'fsa - Server override config for fsa'
+                                 - Override service type.
+                                 - fgd - Server override config for fgd
+                                 - fgc - Server override config for fgc
+                                 - fsa - Server override config for fsa
                                 choices:
                                     - 'fgd'
                                     - 'fgc'
@@ -287,46 +284,46 @@ options:
                     status:
                         type: str
                         description:
-                         - 'Override status.'
-                         - 'disable - Disable setting.'
-                         - 'enable - Enable setting.'
+                         - Override status.
+                         - disable - Disable setting.
+                         - enable - Enable setting.
                         choices:
                             - 'disable'
                             - 'enable'
             stat-log-interval:
                 type: int
-                description: 'Statistic log interval setting, in minutes (1 - 1440, default = 60).'
+                description: Statistic log interval setting, in minutes
             stat-sync-interval:
                 type: int
-                description: 'Synchronization interval for statistic of unrated site in minutes (1 - 60, default = 60).'
+                description: Synchronization interval for statistic of unrated site in minutes
             update-interval:
                 type: int
-                description: 'FortiGuard database update wait time if not enough delta files, in hours (2 - 24, default = 6).'
+                description: FortiGuard database update wait time if not enough delta files, in hours
             update-log:
                 type: str
                 description:
-                 - 'Enable/disable update log setting (default = enable).'
-                 - 'disable - Disable update log.'
-                 - 'enable - Enable update log.'
+                 - Enable/disable update log setting
+                 - disable - Disable update log.
+                 - enable - Enable update log.
                 choices:
                     - 'disable'
                     - 'enable'
             wf-cache:
                 type: int
-                description: 'Web filter service maximum memory usage, in megabytes (maximum = Physical memory-1024, 0 = no limit, default = 600).'
+                description: Web filter service maximum memory usage, in megabytes
             wf-dn-cache-expire-time:
                 type: int
-                description: 'Web filter DN cache expire time, in minutes (1 - 1440, 0 = never, default = 30).'
+                description: Web filter DN cache expire time, in minutes
             wf-dn-cache-max-number:
                 type: int
-                description: 'Maximum number of Web filter DN cache (0 = disable, default = 10000).'
+                description: Maximum number of Web filter DN cache
             wf-log:
                 type: str
                 description:
-                 - 'Web filter log setting (default = nour1)'
-                 - 'disable - Disable URL log.'
-                 - 'nourl - Log non-URL events.'
-                 - 'all - Log all URL lookups.'
+                 - Web filter log setting
+                 - disable - Disable URL log.
+                 - nourl - Log non-URL events.
+                 - all - Log all URL lookups.
                 choices:
                     - 'disable'
                     - 'nourl'
@@ -334,22 +331,22 @@ options:
             wf-preload:
                 type: str
                 description:
-                 - 'Enable/disable preloading the web filter database into memory (default = disable).'
-                 - 'disable - Disable web filter database preload.'
-                 - 'enable - Enable web filter database preload.'
+                 - Enable/disable preloading the web filter database into memory
+                 - disable - Disable web filter database preload.
+                 - enable - Enable web filter database preload.
                 choices:
                     - 'disable'
                     - 'enable'
             iot-cache:
                 type: int
-                description: 'IoT service maximum memory usage, in megabytes (100 - 500, default = 300).'
+                description: IoT service maximum memory usage, in megabytes
             iot-log:
                 type: str
                 description:
-                 - 'IoT log setting (default = nofilequery).'
-                 - 'disable - Disable IoT log.'
-                 - 'nofilequery - Log non-IoT events.'
-                 - 'all - Log all IoT events.'
+                 - IoT log setting
+                 - disable - Disable IoT log.
+                 - nofilequery - Log non-IoT events.
+                 - all - Log all IoT events.
                 choices:
                     - 'disable'
                     - 'nofilequery'
@@ -357,28 +354,28 @@ options:
             iot-preload:
                 type: str
                 description:
-                 - 'Enable/disable preloading IoT database to memory (default = disable).'
-                 - 'disable - Disable IoT db preload.'
-                 - 'enable - Enable IoT db preload.'
+                 - Enable/disable preloading IoT database to memory
+                 - disable - Disable IoT db preload.
+                 - enable - Enable IoT db preload.
                 choices:
                     - 'disable'
                     - 'enable'
             restrict-iots-dbver:
                 type: str
-                description: 'Restrict system update to indicated file query database version (character limit = 127).'
+                description: Restrict system update to indicated file query database version
             stat-log:
                 type: str
                 description:
-                 - 'stat log setting (default = disable).'
-                 - 'emergency - The unit is unusable(0).'
-                 - 'alert - Immediate action is required(1)'
-                 - 'critical - Functionality is affected(2).'
-                 - 'error - Functionality is probably affected(3).'
-                 - 'warn - Functionality might be affected(4).'
-                 - 'notice - Information about normal events(5).'
-                 - 'info - General information(6).'
-                 - 'debug - Debug information(7).'
-                 - 'disable - Linkd logging is disabled.'
+                 - stat log setting
+                 - emergency - The unit is unusable
+                 - alert - Immediate action is required
+                 - critical - Functionality is affected
+                 - error - Functionality is probably affected
+                 - warn - Functionality might be affected
+                 - notice - Information about normal events
+                 - info - General information
+                 - debug - Debug information
+                 - disable - Linkd logging is disabled.
                 choices:
                     - 'emergency'
                     - 'alert'
@@ -392,9 +389,9 @@ options:
             iotv-preload:
                 type: str
                 description:
-                 - 'Enable/disable preloading IoT-Vulnerability database to memory (default = disable).'
-                 - 'disable - Disable IoT-Vulnerability db preload.'
-                 - 'enable - Enable IoT-Vulnerability db preload.'
+                 - Enable/disable preloading IoT-Vulnerability database to memory
+                 - disable - Disable IoT-Vulnerability db preload.
+                 - enable - Enable IoT-Vulnerability db preload.
                 choices:
                     - 'disable'
                     - 'enable'
@@ -484,6 +481,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_fmupdate_webspam_fgdsetting': {
@@ -546,7 +544,7 @@ def main():
                 'iot-preload': {'v_range': [['6.4.6', '6.4.14'], ['7.0.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'restrict-iots-dbver': {'v_range': [['6.4.6', '6.4.14'], ['7.0.1', '']], 'type': 'str'},
                 'stat-log': {
-                    'v_range': [['7.0.10', '7.0.11'], ['7.4.2', '']],
+                    'v_range': [['7.0.10', '7.0.12'], ['7.2.5', '7.2.5'], ['7.4.2', '']],
                     'choices': ['emergency', 'alert', 'critical', 'error', 'warn', 'notice', 'info', 'debug', 'disable'],
                     'type': 'str'
                 },

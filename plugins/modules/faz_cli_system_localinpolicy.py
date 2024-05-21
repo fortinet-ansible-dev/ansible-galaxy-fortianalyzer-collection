@@ -44,48 +44,47 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     state:
         description: The directive to create, update or delete an object
         type: str
@@ -95,46 +94,45 @@ options:
             - absent
     cli_system_localinpolicy:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             action:
                 type: str
                 description:
-                 - 'Action performed on traffic matching this policy.'
-                 - 'drop - Drop traffic matching this policy (default).'
-                 - 'reject - Reject traffic matching this policy.'
-                 - 'accept - Allow traffic matching this policy.'
+                 - Action performed on traffic matching this policy.
+                 - drop - Drop traffic matching this policy
+                 - reject - Reject traffic matching this policy.
+                 - accept - Allow traffic matching this policy.
                 choices:
                     - 'drop'
                     - 'reject'
                     - 'accept'
             dport:
                 type: int
-                description: 'Destination port number (0 for all).'
+                description: Destination port number
             dst:
                 type: str
-                description: 'Destination IP and mask.'
+                description: Destination IP and mask.
             id:
                 type: int
-                description: 'Entry number.'
+                description: Entry number.
             intf:
                 type: str
-                description: 'Incoming interface name.'
+                description: Incoming interface name.
             protocol:
                 type: str
                 description:
-                 - 'Traffic protocol.'
-                 - 'tcp - TCP only.'
-                 - 'udp - UDP only.'
-                 - 'tcp_udp - Both TCP and UDP.'
+                 - Traffic protocol.
+                 - tcp - TCP only.
+                 - udp - UDP only.
+                 - tcp_udp - Both TCP and UDP.
                 choices:
                     - 'tcp'
                     - 'udp'
                     - 'tcp_udp'
             src:
                 type: str
-                description: 'Source IP and mask.'
+                description: Source IP and mask.
 '''
 
 EXAMPLES = '''
@@ -225,6 +223,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},

@@ -44,129 +44,134 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     cli_system_log_settings:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             FAC-custom-field1:
                 type: str
-                description: 'Name of custom log field to index.'
+                description: Name of custom log field to index.
             FAZ-custom-field1:
                 type: str
-                description: 'Name of custom log field to index.'
+                description: Name of custom log field to index.
             FCH-custom-field1:
                 type: str
-                description: 'Name of custom log field to index.'
+                description: Name of custom log field to index.
             FCT-custom-field1:
                 type: str
-                description: 'Name of custom log field to index.'
+                description: Name of custom log field to index.
             FDD-custom-field1:
                 type: str
-                description: 'Name of custom log field to index.'
+                description: Name of custom log field to index.
             FGT-custom-field1:
                 type: str
-                description: 'Name of custom log field to index.'
+                description: Name of custom log field to index.
             FMG-custom-field1:
                 type: str
-                description: 'Name of custom log field to index.'
+                description: Name of custom log field to index.
             FML-custom-field1:
                 type: str
-                description: 'Name of custom log field to index.'
+                description: Name of custom log field to index.
             FPX-custom-field1:
                 type: str
-                description: 'Name of custom log field to index.'
+                description: Name of custom log field to index.
             FSA-custom-field1:
                 type: str
-                description: 'Name of custom log field to index.'
+                description: Name of custom log field to index.
             FWB-custom-field1:
                 type: str
-                description: 'Name of custom log field to index.'
+                description: Name of custom log field to index.
             browse-max-logfiles:
                 type: int
-                description: 'Maximum number of log files for each log browse attempt for each Adom.'
+                description: Maximum number of log files for each log browse attempt for each Adom.
             dns-resolve-dstip:
                 type: str
                 description:
-                 - 'Enable/Disable resolving destination IP by DNS.'
-                 - 'disable - Disable resolving destination IP by DNS.'
-                 - 'enable - Enable resolving destination IP by DNS.'
+                 - Enable/Disable resolving destination IP by DNS.
+                 - disable - Disable resolving destination IP by DNS.
+                 - enable - Enable resolving destination IP by DNS.
                 choices:
                     - 'disable'
                     - 'enable'
             download-max-logs:
                 type: int
-                description: 'Maximum number of logs for each log download attempt.'
+                description: Maximum number of logs for each log download attempt.
             ha-auto-migrate:
                 type: str
                 description:
-                 - 'Enabled/Disable automatically merging HA members logs to HA cluster.'
-                 - 'disable - Disable automatically merging HA members logs to HA cluster.'
-                 - 'enable - Enable automatically merging HA members logs to HA cluster.'
+                 - Enabled/Disable automatically merging HA members logs to HA cluster.
+                 - disable - Disable automatically merging HA members logs to HA cluster.
+                 - enable - Enable automatically merging HA members logs to HA cluster.
                 choices:
                     - 'disable'
                     - 'enable'
             import-max-logfiles:
                 type: int
-                description: 'Maximum number of log files for each log import attempt.'
+                description: Maximum number of log files for each log import attempt.
             log-file-archive-name:
                 type: str
                 description:
-                 - 'Log file name format for archiving, such as backup, upload or download.'
-                 - 'basic - Basic format for log archive file name, e.g. FGT20C0000000001.tlog.1417797247.log.'
-                 - 'extended - Extended format for log archive file name, e.g. FGT20C0000000001.2014-12-05-08:34:58.tlog.1417797247.log.'
+                 - Log file name format for archiving, such as backup, upload or download.
+                 - basic - Basic format for log archive file name, e.g.
+                 - extended - Extended format for log archive file name, e.g.
                 choices:
                     - 'basic'
                     - 'extended'
             rolling-analyzer:
                 description: no description
                 type: dict
-                required: false
                 suboptions:
                     days:
-                        description: no description
+                        description:
+                         - Log files rolling schedule
+                         - sun - Sunday.
+                         - mon - Monday.
+                         - tue - Tuesday.
+                         - wed - Wednesday.
+                         - thu - Thursday.
+                         - fri - Friday.
+                         - sat - Saturday.
                         type: list
                         elements: str
                         choices:
@@ -180,78 +185,78 @@ options:
                     del-files:
                         type: str
                         description:
-                         - 'Enable/disable log file deletion after uploading.'
-                         - 'disable - Disable log file deletion.'
-                         - 'enable - Enable log file deletion.'
+                         - Enable/disable log file deletion after uploading.
+                         - disable - Disable log file deletion.
+                         - enable - Enable log file deletion.
                         choices:
                             - 'disable'
                             - 'enable'
                     directory:
                         type: str
-                        description: 'Upload server directory, for Unix server, use absolute'
+                        description: Upload server directory, for Unix server, use absolute
                     file-size:
                         type: int
-                        description: 'Roll log files when they reach this size (MB).'
+                        description: Roll log files when they reach this size
                     gzip-format:
                         type: str
                         description:
-                         - 'Enable/disable compression of uploaded log files.'
-                         - 'disable - Disable compression.'
-                         - 'enable - Enable compression.'
+                         - Enable/disable compression of uploaded log files.
+                         - disable - Disable compression.
+                         - enable - Enable compression.
                         choices:
                             - 'disable'
                             - 'enable'
                     hour:
                         type: int
-                        description: 'Log files rolling schedule (hour).'
+                        description: Log files rolling schedule
                     ip:
                         type: str
-                        description: 'Upload server IP address.'
+                        description: Upload server IP address.
                     ip2:
                         type: str
-                        description: 'Upload server IP2 address.'
+                        description: Upload server IP2 address.
                     ip3:
                         type: str
-                        description: 'Upload server IP3 address.'
+                        description: Upload server IP3 address.
                     log-format:
                         type: str
                         description:
-                         - 'Format of uploaded log files.'
-                         - 'native - Native format (text or compact).'
-                         - 'text - Text format (convert if necessary).'
-                         - 'csv - CSV (comma-separated value) format.'
+                         - Format of uploaded log files.
+                         - native - Native format
+                         - text - Text format
+                         - csv - CSV
                         choices:
                             - 'native'
                             - 'text'
                             - 'csv'
                     min:
                         type: int
-                        description: 'Log files rolling schedule (minutes).'
+                        description: Log files rolling schedule
                     password:
-                        description: no description
+                        description: Upload server login password.
                         type: str
                     password2:
-                        description: no description
+                        description: Upload server login password2.
                         type: str
                     password3:
-                        description: no description
+                        description: Upload server login password3.
                         type: str
                     port:
                         type: int
-                        description: 'Upload server IP1 port number.'
+                        description: Upload server IP1 port number.
                     port2:
                         type: int
-                        description: 'Upload server IP2 port number.'
+                        description: Upload server IP2 port number.
                     port3:
                         type: int
-                        description: 'Upload server IP3 port number.'
+                        description: Upload server IP3 port number.
                     server-type:
                         type: str
                         description:
-                         - 'Upload server type.'
-                         - 'ftp - Upload via FTP.'
-                         - 'sftp - Upload via SFTP.'
-                         - 'scp - Upload via SCP.'
+                         - Upload server type.
+                         - ftp - Upload via FTP.
+                         - sftp - Upload via SFTP.
+                         - scp - Upload via SCP.
                         choices:
                             - 'ftp'
                             - 'sftp'
@@ -259,72 +264,79 @@ options:
                     upload:
                         type: str
                         description:
-                         - 'Enable/disable log file uploads.'
-                         - 'disable - Disable log files uploading.'
-                         - 'enable - Enable log files uploading.'
+                         - Enable/disable log file uploads.
+                         - disable - Disable log files uploading.
+                         - enable - Enable log files uploading.
                         choices:
                             - 'disable'
                             - 'enable'
                     upload-hour:
                         type: int
-                        description: 'Log files upload schedule (hour).'
+                        description: Log files upload schedule
                     upload-mode:
                         type: str
                         description:
-                         - 'Upload mode with multiple servers.'
-                         - 'backup - Servers are attempted and used one after the other upon failure to connect.'
-                         - 'mirror - All configured servers are attempted and used.'
+                         - Upload mode with multiple servers.
+                         - backup - Servers are attempted and used one after the other upon failure to connect.
+                         - mirror - All configured servers are attempted and used.
                         choices:
                             - 'backup'
                             - 'mirror'
                     upload-trigger:
                         type: str
                         description:
-                         - 'Event triggering log files upload.'
-                         - 'on-roll - Upload log files after they are rolled.'
-                         - 'on-schedule - Upload log files daily.'
+                         - Event triggering log files upload.
+                         - on-roll - Upload log files after they are rolled.
+                         - on-schedule - Upload log files daily.
                         choices:
                             - 'on-roll'
                             - 'on-schedule'
                     username:
                         type: str
-                        description: 'Upload server login username.'
+                        description: Upload server login username.
                     username2:
                         type: str
-                        description: 'Upload server login username2.'
+                        description: Upload server login username2.
                     username3:
                         type: str
-                        description: 'Upload server login username3.'
+                        description: Upload server login username3.
                     when:
                         type: str
                         description:
-                         - 'Roll log files periodically.'
-                         - 'none - Do not roll log files periodically.'
-                         - 'daily - Roll log files daily.'
-                         - 'weekly - Roll log files on certain days of week.'
+                         - Roll log files periodically.
+                         - none - Do not roll log files periodically.
+                         - daily - Roll log files daily.
+                         - weekly - Roll log files on certain days of week.
                         choices:
                             - 'none'
                             - 'daily'
                             - 'weekly'
                     rolling-upgrade-status:
                         type: int
-                        description: 'rolling upgrade status (1|0).'
+                        description: rolling upgrade status
                     server:
                         type: str
-                        description: 'Upload server FQDN/IP.'
+                        description: Upload server FQDN/IP.
                     server2:
                         type: str
-                        description: 'Upload server2 FQDN/IP.'
+                        description: Upload server2 FQDN/IP.
                     server3:
                         type: str
-                        description: 'Upload server3 FQDN/IP.'
+                        description: Upload server3 FQDN/IP.
             rolling-local:
                 description: no description
                 type: dict
-                required: false
                 suboptions:
                     days:
-                        description: no description
+                        description:
+                         - Log files rolling schedule
+                         - sun - Sunday.
+                         - mon - Monday.
+                         - tue - Tuesday.
+                         - wed - Wednesday.
+                         - thu - Thursday.
+                         - fri - Friday.
+                         - sat - Saturday.
                         type: list
                         elements: str
                         choices:
@@ -338,78 +350,78 @@ options:
                     del-files:
                         type: str
                         description:
-                         - 'Enable/disable log file deletion after uploading.'
-                         - 'disable - Disable log file deletion.'
-                         - 'enable - Enable log file deletion.'
+                         - Enable/disable log file deletion after uploading.
+                         - disable - Disable log file deletion.
+                         - enable - Enable log file deletion.
                         choices:
                             - 'disable'
                             - 'enable'
                     directory:
                         type: str
-                        description: 'Upload server directory, for Unix server, use absolute'
+                        description: Upload server directory, for Unix server, use absolute
                     file-size:
                         type: int
-                        description: 'Roll log files when they reach this size (MB).'
+                        description: Roll log files when they reach this size
                     gzip-format:
                         type: str
                         description:
-                         - 'Enable/disable compression of uploaded log files.'
-                         - 'disable - Disable compression.'
-                         - 'enable - Enable compression.'
+                         - Enable/disable compression of uploaded log files.
+                         - disable - Disable compression.
+                         - enable - Enable compression.
                         choices:
                             - 'disable'
                             - 'enable'
                     hour:
                         type: int
-                        description: 'Log files rolling schedule (hour).'
+                        description: Log files rolling schedule
                     ip:
                         type: str
-                        description: 'Upload server IP address.'
+                        description: Upload server IP address.
                     ip2:
                         type: str
-                        description: 'Upload server IP2 address.'
+                        description: Upload server IP2 address.
                     ip3:
                         type: str
-                        description: 'Upload server IP3 address.'
+                        description: Upload server IP3 address.
                     log-format:
                         type: str
                         description:
-                         - 'Format of uploaded log files.'
-                         - 'native - Native format (text or compact).'
-                         - 'text - Text format (convert if necessary).'
-                         - 'csv - CSV (comma-separated value) format.'
+                         - Format of uploaded log files.
+                         - native - Native format
+                         - text - Text format
+                         - csv - CSV
                         choices:
                             - 'native'
                             - 'text'
                             - 'csv'
                     min:
                         type: int
-                        description: 'Log files rolling schedule (minutes).'
+                        description: Log files rolling schedule
                     password:
-                        description: no description
+                        description: Upload server login password.
                         type: str
                     password2:
-                        description: no description
+                        description: Upload server login password2.
                         type: str
                     password3:
-                        description: no description
+                        description: Upload server login password3.
                         type: str
                     port:
                         type: int
-                        description: 'Upload server IP1 port number.'
+                        description: Upload server IP1 port number.
                     port2:
                         type: int
-                        description: 'Upload server IP2 port number.'
+                        description: Upload server IP2 port number.
                     port3:
                         type: int
-                        description: 'Upload server IP3 port number.'
+                        description: Upload server IP3 port number.
                     server-type:
                         type: str
                         description:
-                         - 'Upload server type.'
-                         - 'ftp - Upload via FTP.'
-                         - 'sftp - Upload via SFTP.'
-                         - 'scp - Upload via SCP.'
+                         - Upload server type.
+                         - ftp - Upload via FTP.
+                         - sftp - Upload via SFTP.
+                         - scp - Upload via SCP.
                         choices:
                             - 'ftp'
                             - 'sftp'
@@ -417,72 +429,79 @@ options:
                     upload:
                         type: str
                         description:
-                         - 'Enable/disable log file uploads.'
-                         - 'disable - Disable log files uploading.'
-                         - 'enable - Enable log files uploading.'
+                         - Enable/disable log file uploads.
+                         - disable - Disable log files uploading.
+                         - enable - Enable log files uploading.
                         choices:
                             - 'disable'
                             - 'enable'
                     upload-hour:
                         type: int
-                        description: 'Log files upload schedule (hour).'
+                        description: Log files upload schedule
                     upload-mode:
                         type: str
                         description:
-                         - 'Upload mode with multiple servers.'
-                         - 'backup - Servers are attempted and used one after the other upon failure to connect.'
-                         - 'mirror - All configured servers are attempted and used.'
+                         - Upload mode with multiple servers.
+                         - backup - Servers are attempted and used one after the other upon failure to connect.
+                         - mirror - All configured servers are attempted and used.
                         choices:
                             - 'backup'
                             - 'mirror'
                     upload-trigger:
                         type: str
                         description:
-                         - 'Event triggering log files upload.'
-                         - 'on-roll - Upload log files after they are rolled.'
-                         - 'on-schedule - Upload log files daily.'
+                         - Event triggering log files upload.
+                         - on-roll - Upload log files after they are rolled.
+                         - on-schedule - Upload log files daily.
                         choices:
                             - 'on-roll'
                             - 'on-schedule'
                     username:
                         type: str
-                        description: 'Upload server login username.'
+                        description: Upload server login username.
                     username2:
                         type: str
-                        description: 'Upload server login username2.'
+                        description: Upload server login username2.
                     username3:
                         type: str
-                        description: 'Upload server login username3.'
+                        description: Upload server login username3.
                     when:
                         type: str
                         description:
-                         - 'Roll log files periodically.'
-                         - 'none - Do not roll log files periodically.'
-                         - 'daily - Roll log files daily.'
-                         - 'weekly - Roll log files on certain days of week.'
+                         - Roll log files periodically.
+                         - none - Do not roll log files periodically.
+                         - daily - Roll log files daily.
+                         - weekly - Roll log files on certain days of week.
                         choices:
                             - 'none'
                             - 'daily'
                             - 'weekly'
                     rolling-upgrade-status:
                         type: int
-                        description: 'rolling upgrade status (1|0).'
+                        description: rolling upgrade status
                     server:
                         type: str
-                        description: 'Upload server FQDN/IP.'
+                        description: Upload server FQDN/IP.
                     server2:
                         type: str
-                        description: 'Upload server2 FQDN/IP.'
+                        description: Upload server2 FQDN/IP.
                     server3:
                         type: str
-                        description: 'Upload server3 FQDN/IP.'
+                        description: Upload server3 FQDN/IP.
             rolling-regular:
                 description: no description
                 type: dict
-                required: false
                 suboptions:
                     days:
-                        description: no description
+                        description:
+                         - Log files rolling schedule
+                         - sun - Sunday.
+                         - mon - Monday.
+                         - tue - Tuesday.
+                         - wed - Wednesday.
+                         - thu - Thursday.
+                         - fri - Friday.
+                         - sat - Saturday.
                         type: list
                         elements: str
                         choices:
@@ -496,78 +515,78 @@ options:
                     del-files:
                         type: str
                         description:
-                         - 'Enable/disable log file deletion after uploading.'
-                         - 'disable - Disable log file deletion.'
-                         - 'enable - Enable log file deletion.'
+                         - Enable/disable log file deletion after uploading.
+                         - disable - Disable log file deletion.
+                         - enable - Enable log file deletion.
                         choices:
                             - 'disable'
                             - 'enable'
                     directory:
                         type: str
-                        description: 'Upload server directory, for Unix server, use absolute'
+                        description: Upload server directory, for Unix server, use absolute
                     file-size:
                         type: int
-                        description: 'Roll log files when they reach this size (MB).'
+                        description: Roll log files when they reach this size
                     gzip-format:
                         type: str
                         description:
-                         - 'Enable/disable compression of uploaded log files.'
-                         - 'disable - Disable compression.'
-                         - 'enable - Enable compression.'
+                         - Enable/disable compression of uploaded log files.
+                         - disable - Disable compression.
+                         - enable - Enable compression.
                         choices:
                             - 'disable'
                             - 'enable'
                     hour:
                         type: int
-                        description: 'Log files rolling schedule (hour).'
+                        description: Log files rolling schedule
                     ip:
                         type: str
-                        description: 'Upload server IP address.'
+                        description: Upload server IP address.
                     ip2:
                         type: str
-                        description: 'Upload server IP2 address.'
+                        description: Upload server IP2 address.
                     ip3:
                         type: str
-                        description: 'Upload server IP3 address.'
+                        description: Upload server IP3 address.
                     log-format:
                         type: str
                         description:
-                         - 'Format of uploaded log files.'
-                         - 'native - Native format (text or compact).'
-                         - 'text - Text format (convert if necessary).'
-                         - 'csv - CSV (comma-separated value) format.'
+                         - Format of uploaded log files.
+                         - native - Native format
+                         - text - Text format
+                         - csv - CSV
                         choices:
                             - 'native'
                             - 'text'
                             - 'csv'
                     min:
                         type: int
-                        description: 'Log files rolling schedule (minutes).'
+                        description: Log files rolling schedule
                     password:
-                        description: no description
+                        description: Upload server login password.
                         type: str
                     password2:
-                        description: no description
+                        description: Upload server login password2.
                         type: str
                     password3:
-                        description: no description
+                        description: Upload server login password3.
                         type: str
                     port:
                         type: int
-                        description: 'Upload server IP1 port number.'
+                        description: Upload server IP1 port number.
                     port2:
                         type: int
-                        description: 'Upload server IP2 port number.'
+                        description: Upload server IP2 port number.
                     port3:
                         type: int
-                        description: 'Upload server IP3 port number.'
+                        description: Upload server IP3 port number.
                     server-type:
                         type: str
                         description:
-                         - 'Upload server type.'
-                         - 'ftp - Upload via FTP.'
-                         - 'sftp - Upload via SFTP.'
-                         - 'scp - Upload via SCP.'
+                         - Upload server type.
+                         - ftp - Upload via FTP.
+                         - sftp - Upload via SFTP.
+                         - scp - Upload via SCP.
                         choices:
                             - 'ftp'
                             - 'sftp'
@@ -575,101 +594,101 @@ options:
                     upload:
                         type: str
                         description:
-                         - 'Enable/disable log file uploads.'
-                         - 'disable - Disable log files uploading.'
-                         - 'enable - Enable log files uploading.'
+                         - Enable/disable log file uploads.
+                         - disable - Disable log files uploading.
+                         - enable - Enable log files uploading.
                         choices:
                             - 'disable'
                             - 'enable'
                     upload-hour:
                         type: int
-                        description: 'Log files upload schedule (hour).'
+                        description: Log files upload schedule
                     upload-mode:
                         type: str
                         description:
-                         - 'Upload mode with multiple servers.'
-                         - 'backup - Servers are attempted and used one after the other upon failure to connect.'
-                         - 'mirror - All configured servers are attempted and used.'
+                         - Upload mode with multiple servers.
+                         - backup - Servers are attempted and used one after the other upon failure to connect.
+                         - mirror - All configured servers are attempted and used.
                         choices:
                             - 'backup'
                             - 'mirror'
                     upload-trigger:
                         type: str
                         description:
-                         - 'Event triggering log files upload.'
-                         - 'on-roll - Upload log files after they are rolled.'
-                         - 'on-schedule - Upload log files daily.'
+                         - Event triggering log files upload.
+                         - on-roll - Upload log files after they are rolled.
+                         - on-schedule - Upload log files daily.
                         choices:
                             - 'on-roll'
                             - 'on-schedule'
                     username:
                         type: str
-                        description: 'Upload server login username.'
+                        description: Upload server login username.
                     username2:
                         type: str
-                        description: 'Upload server login username2.'
+                        description: Upload server login username2.
                     username3:
                         type: str
-                        description: 'Upload server login username3.'
+                        description: Upload server login username3.
                     when:
                         type: str
                         description:
-                         - 'Roll log files periodically.'
-                         - 'none - Do not roll log files periodically.'
-                         - 'daily - Roll log files daily.'
-                         - 'weekly - Roll log files on certain days of week.'
+                         - Roll log files periodically.
+                         - none - Do not roll log files periodically.
+                         - daily - Roll log files daily.
+                         - weekly - Roll log files on certain days of week.
                         choices:
                             - 'none'
                             - 'daily'
                             - 'weekly'
                     rolling-upgrade-status:
                         type: int
-                        description: 'rolling upgrade status (1|0).'
+                        description: rolling upgrade status
                     server:
                         type: str
-                        description: 'Upload server FQDN/IP.'
+                        description: Upload server FQDN/IP.
                     server2:
                         type: str
-                        description: 'Upload server2 FQDN/IP.'
+                        description: Upload server2 FQDN/IP.
                     server3:
                         type: str
-                        description: 'Upload server3 FQDN/IP.'
+                        description: Upload server3 FQDN/IP.
             sync-search-timeout:
                 type: int
-                description: 'Maximum number of seconds for running a log search session in synchronous mode.'
+                description: Maximum number of seconds for running a log search session in synchronous mode.
             keep-dev-logs:
                 type: str
                 description:
-                 - 'Enable/Disable keeping the dev logs after the device has been deleted.'
-                 - 'disable - Disable keeping the dev logs after the device has been deleted.'
-                 - 'enable - Enable keeping the dev logs after the device has been deleted.'
+                 - Enable/Disable keeping the dev logs after the device has been deleted.
+                 - disable - Disable keeping the dev logs after the device has been deleted.
+                 - enable - Enable keeping the dev logs after the device has been deleted.
                 choices:
                     - 'disable'
                     - 'enable'
             device-auto-detect:
                 type: str
                 description:
-                 - 'Enable/Disable looking up device ID in syslog received with no encryption.'
-                 - 'disable - Disable looking up device ID in syslog received with no encryption.'
-                 - 'enable - Enable looking up device ID in syslog received with no encryption.'
+                 - Enable/Disable looking up device ID in syslog received with no encryption.
+                 - disable - Disable looking up device ID in syslog received with no encryption.
+                 - enable - Enable looking up device ID in syslog received with no encryption.
                 choices:
                     - 'disable'
                     - 'enable'
             unencrypted-logging:
                 type: str
                 description:
-                 - 'Enable/Disable receiving syslog through UDP(514) or TCP(514) un-encrypted.'
-                 - 'disable - Disable receiving syslog through UDP(514) or TCP(514) un-encrypted.'
-                 - 'enable - Enable receiving syslog through UDP(514) or TCP(514) un-encrypted.'
+                 - Enable/Disable receiving syslog through UDP
+                 - disable - Disable receiving syslog through UDP
+                 - enable - Enable receiving syslog through UDP
                 choices:
                     - 'disable'
                     - 'enable'
             log-interval-dev-no-logging:
                 type: int
-                description: 'Interval in minute of no log received from a device when considering the device down.'
+                description: Interval in minute of no log received from a device when considering the device down.
             log-upload-interval-dev-no-logging:
                 type: int
-                description: 'Interval in minute of no log uploaded from a device when considering the device down.'
+                description: Interval in minute of no log uploaded from a device when considering the device down.
 '''
 
 EXAMPLES = '''
@@ -754,6 +773,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_system_log_settings': {
@@ -786,9 +806,9 @@ def main():
                         'file-size': {'type': 'int'},
                         'gzip-format': {'choices': ['disable', 'enable'], 'type': 'str'},
                         'hour': {'type': 'int'},
-                        'ip': {'v_range': [['6.2.1', '7.0.11']], 'type': 'str'},
-                        'ip2': {'v_range': [['6.2.1', '7.0.11']], 'type': 'str'},
-                        'ip3': {'v_range': [['6.2.1', '7.0.11']], 'type': 'str'},
+                        'ip': {'v_range': [['6.2.1', '7.0.12']], 'type': 'str'},
+                        'ip2': {'v_range': [['6.2.1', '7.0.12']], 'type': 'str'},
+                        'ip3': {'v_range': [['6.2.1', '7.0.12']], 'type': 'str'},
                         'log-format': {'choices': ['native', 'text', 'csv'], 'type': 'str'},
                         'min': {'type': 'int'},
                         'password': {'no_log': True, 'type': 'str'},
@@ -821,9 +841,9 @@ def main():
                         'file-size': {'type': 'int'},
                         'gzip-format': {'choices': ['disable', 'enable'], 'type': 'str'},
                         'hour': {'type': 'int'},
-                        'ip': {'v_range': [['6.2.1', '7.0.11']], 'type': 'str'},
-                        'ip2': {'v_range': [['6.2.1', '7.0.11']], 'type': 'str'},
-                        'ip3': {'v_range': [['6.2.1', '7.0.11']], 'type': 'str'},
+                        'ip': {'v_range': [['6.2.1', '7.0.12']], 'type': 'str'},
+                        'ip2': {'v_range': [['6.2.1', '7.0.12']], 'type': 'str'},
+                        'ip3': {'v_range': [['6.2.1', '7.0.12']], 'type': 'str'},
                         'log-format': {'choices': ['native', 'text', 'csv'], 'type': 'str'},
                         'min': {'type': 'int'},
                         'password': {'no_log': True, 'type': 'str'},
@@ -856,9 +876,9 @@ def main():
                         'file-size': {'type': 'int'},
                         'gzip-format': {'choices': ['disable', 'enable'], 'type': 'str'},
                         'hour': {'type': 'int'},
-                        'ip': {'v_range': [['6.2.1', '7.0.11']], 'type': 'str'},
-                        'ip2': {'v_range': [['6.2.1', '7.0.11']], 'type': 'str'},
-                        'ip3': {'v_range': [['6.2.1', '7.0.11']], 'type': 'str'},
+                        'ip': {'v_range': [['6.2.1', '7.0.12']], 'type': 'str'},
+                        'ip2': {'v_range': [['6.2.1', '7.0.12']], 'type': 'str'},
+                        'ip3': {'v_range': [['6.2.1', '7.0.12']], 'type': 'str'},
                         'log-format': {'choices': ['native', 'text', 'csv'], 'type': 'str'},
                         'min': {'type': 'int'},
                         'password': {'no_log': True, 'type': 'str'},
@@ -885,17 +905,17 @@ def main():
                 'sync-search-timeout': {'type': 'int'},
                 'keep-dev-logs': {'v_range': [['6.4.7', '6.4.14'], ['7.0.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'device-auto-detect': {
-                    'v_range': [['7.0.10', '7.0.11'], ['7.2.4', '7.2.4'], ['7.4.1', '']],
+                    'v_range': [['7.0.10', '7.0.12'], ['7.2.4', '7.2.5'], ['7.4.1', '']],
                     'choices': ['disable', 'enable'],
                     'type': 'str'
                 },
                 'unencrypted-logging': {
-                    'v_range': [['7.0.10', '7.0.11'], ['7.2.4', '7.2.4'], ['7.4.1', '']],
+                    'v_range': [['7.0.10', '7.0.12'], ['7.2.4', '7.2.5'], ['7.4.1', '']],
                     'choices': ['disable', 'enable'],
                     'type': 'str'
                 },
-                'log-interval-dev-no-logging': {'v_range': [['7.4.2', '']], 'type': 'int'},
-                'log-upload-interval-dev-no-logging': {'v_range': [['7.4.2', '']], 'type': 'int'}
+                'log-interval-dev-no-logging': {'v_range': [['7.2.5', '7.2.5'], ['7.4.2', '']], 'type': 'int'},
+                'log-upload-interval-dev-no-logging': {'v_range': [['7.2.5', '7.2.5'], ['7.4.2', '']], 'type': 'int'}
             }
 
         }

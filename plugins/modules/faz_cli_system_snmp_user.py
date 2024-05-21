@@ -44,48 +44,47 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     state:
         description: The directive to create, update or delete an object
         type: str
@@ -95,23 +94,34 @@ options:
             - absent
     cli_system_snmp_user:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             auth-proto:
                 type: str
                 description:
-                 - 'Authentication protocol.'
-                 - 'md5 - HMAC-MD5-96 authentication protocol.'
-                 - 'sha - HMAC-SHA-96 authentication protocol.'
+                 - Authentication protocol.
+                 - md5 - HMAC-MD5-96 authentication protocol.
+                 - sha - HMAC-SHA-96 authentication protocol.
                 choices:
                     - 'md5'
                     - 'sha'
             auth-pwd:
-                description: no description
+                description: Password for authentication protocol.
                 type: str
             events:
-                description: no description
+                description:
+                 - SNMP notifications
+                 - disk_low - Disk usage too high.
+                 - intf_ip_chg - Interface IP address changed.
+                 - sys_reboot - System reboot.
+                 - cpu_high - CPU usage too high.
+                 - mem_low - Available memory is low.
+                 - log-alert - Log base alert message.
+                 - log-rate - High incoming log rate detected.
+                 - log-data-rate - High incoming log data rate detected.
+                 - lic-gbday - High licensed log GB/day detected.
+                 - lic-dev-quota - High licensed device quota detected.
+                 - cpu-high-exclude-nice - CPU usage exclude NICE threshold.
                 type: list
                 elements: str
                 choices:
@@ -128,44 +138,44 @@ options:
                     - 'cpu-high-exclude-nice'
             name:
                 type: str
-                description: 'SNMP user name.'
+                description: SNMP user name.
             notify-hosts:
                 type: str
-                description: 'Hosts to send notifications (traps) to.'
+                description: Hosts to send notifications
             notify-hosts6:
                 type: str
-                description: 'IPv6 hosts to send notifications (traps) to.'
+                description: IPv6 hosts to send notifications
             priv-proto:
                 type: str
                 description:
-                 - 'Privacy (encryption) protocol.'
-                 - 'aes - CFB128-AES-128 symmetric encryption protocol.'
-                 - 'des - CBC-DES symmetric encryption protocol.'
+                 - Privacy
+                 - aes - CFB128-AES-128 symmetric encryption protocol.
+                 - des - CBC-DES symmetric encryption protocol.
                 choices:
                     - 'aes'
                     - 'des'
             priv-pwd:
-                description: no description
+                description: Password for privacy
                 type: str
             queries:
                 type: str
                 description:
-                 - 'Enable/disable queries for this user.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable queries for this user.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             query-port:
                 type: int
-                description: 'SNMPv3 query port.'
+                description: SNMPv3 query port.
             security-level:
                 type: str
                 description:
-                 - 'Security level for message authentication and encryption.'
-                 - 'no-auth-no-priv - Message with no authentication and no privacy (encryption).'
-                 - 'auth-no-priv - Message with authentication but no privacy (encryption).'
-                 - 'auth-priv - Message with authentication and privacy (encryption).'
+                 - Security level for message authentication and encryption.
+                 - no-auth-no-priv - Message with no authentication and no privacy
+                 - auth-no-priv - Message with authentication but no privacy
+                 - auth-priv - Message with authentication and privacy
                 choices:
                     - 'no-auth-no-priv'
                     - 'auth-no-priv'
@@ -296,6 +306,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},
@@ -304,7 +315,7 @@ def main():
             'v_range': [['6.2.1', '']],
             'options': {
                 'auth-proto': {'choices': ['md5', 'sha'], 'type': 'str'},
-                'auth-pwd': {'type': 'str'},
+                'auth-pwd': {'no_log': True, 'type': 'str'},
                 'events': {
                     'type': 'list',
                     'choices': [
@@ -317,7 +328,7 @@ def main():
                 'notify-hosts': {'type': 'str'},
                 'notify-hosts6': {'type': 'str'},
                 'priv-proto': {'choices': ['aes', 'des'], 'type': 'str'},
-                'priv-pwd': {'type': 'str'},
+                'priv-pwd': {'no_log': True, 'type': 'str'},
                 'queries': {'choices': ['disable', 'enable'], 'type': 'str'},
                 'query-port': {'type': 'int'},
                 'security-level': {'choices': ['no-auth-no-priv', 'auth-no-priv', 'auth-priv'], 'type': 'str'}

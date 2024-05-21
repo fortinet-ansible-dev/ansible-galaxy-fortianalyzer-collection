@@ -44,48 +44,47 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     state:
         description: The directive to create, update or delete an object
         type: str
@@ -95,11 +94,19 @@ options:
             - absent
     cli_system_logforward:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             agg-archive-types:
-                description: no description
+                description:
+                 - Archive types.
+                 - Web_Archive
+                 - Secure_Web_Archive
+                 - Email_Archive
+                 - File_Transfer_Archive
+                 - IM_Archive
+                 - MMS_Archive
+                 - AV_Quarantine
+                 - IPS_Packets
                 type: list
                 elements: str
                 choices:
@@ -113,7 +120,33 @@ options:
                     - 'IPS_Packets'
                     - 'CDR_Archive'
             agg-logtypes:
-                description: no description
+                description:
+                 - Log types.
+                 - none - none
+                 - app-ctrl
+                 - attack
+                 - content
+                 - dlp
+                 - emailfilter
+                 - event
+                 - generic
+                 - history
+                 - traffic
+                 - virus
+                 - webfilter
+                 - netscan
+                 - fct-event
+                 - fct-traffic
+                 - fct-netscan
+                 - waf
+                 - gtp
+                 - dns
+                 - ssh
+                 - ssl
+                 - file-filter
+                 - asset
+                 - protocol
+                 - siem
                 type: list
                 elements: str
                 choices:
@@ -145,14 +178,14 @@ options:
                     - 'ztna'
                     - 'security'
             agg-password:
-                description: no description
+                description: Log aggregation access password for server.
                 type: str
             agg-time:
                 type: int
-                description: 'Daily at.'
+                description: Daily at.
             agg-user:
                 type: str
-                description: 'Log aggregation access user name for server.'
+                description: Log aggregation access user name for server.
             device-filter:
                 description: no description
                 type: list
@@ -161,11 +194,11 @@ options:
                     action:
                         type: str
                         description:
-                         - 'Include or exclude the specified device.'
-                         - 'include - Include specified device.'
-                         - 'exclude - Exclude specified device.'
-                         - 'include-like - Include specified device matching the given wildcard expression.'
-                         - 'exclude-like - Exclude specified device matching the given wildcard expression.'
+                         - Include or exclude the specified device.
+                         - include - Include specified device.
+                         - exclude - Exclude specified device.
+                         - include-like - Include specified device matching the given wildcard expression.
+                         - exclude-like - Exclude specified device matching the given wildcard expression.
                         choices:
                             - 'include'
                             - 'exclude'
@@ -173,15 +206,24 @@ options:
                             - 'exclude-like'
                     device:
                         type: str
-                        description: 'Device ID of log client device, or a wildcard expression matching log client device(s) if action is a like action.'
+                        description: Device ID of log client device, or a wildcard expression matching log client device
                     id:
                         type: int
-                        description: 'Device filter ID.'
+                        description: Device filter ID.
                     adom:
                         type: str
-                        description: 'Adom name or (null) for all adoms, or a wildcard expression matching adom(s) if action is a like action.'
+                        description: Adom name or
             fwd-archive-types:
-                description: no description
+                description:
+                 - forwarding archive types.
+                 - Web_Archive
+                 - Email_Archive
+                 - IM_Archive
+                 - File_Transfer_Archive
+                 - MMS_Archive
+                 - AV_Quarantine
+                 - IPS_Packets
+                 - EDISC_Archive
                 type: list
                 elements: str
                 choices:
@@ -197,40 +239,40 @@ options:
             fwd-archives:
                 type: str
                 description:
-                 - 'Enable/disable forwarding archives.'
-                 - 'disable - Disable forwarding archives.'
-                 - 'enable - Enable forwarding archives.'
+                 - Enable/disable forwarding archives.
+                 - disable - Disable forwarding archives.
+                 - enable - Enable forwarding archives.
                 choices:
                     - 'disable'
                     - 'enable'
             fwd-facility:
                 type: str
                 description:
-                 - 'Facility for remote syslog.'
-                 - 'kernel - kernel messages'
-                 - 'user - random user level messages'
-                 - 'mail - Mail system.'
-                 - 'daemon - System daemons.'
-                 - 'auth - Security/authorization messages.'
-                 - 'syslog - Messages generated internally by syslog daemon.'
-                 - 'lpr - Line printer subsystem.'
-                 - 'news - Network news subsystem.'
-                 - 'uucp - Network news subsystem.'
-                 - 'clock - Clock daemon.'
-                 - 'authpriv - Security/authorization messages (private).'
-                 - 'ftp - FTP daemon.'
-                 - 'ntp - NTP daemon.'
-                 - 'audit - Log audit.'
-                 - 'alert - Log alert.'
-                 - 'cron - Clock daemon.'
-                 - 'local0 - Reserved for local use.'
-                 - 'local1 - Reserved for local use.'
-                 - 'local2 - Reserved for local use.'
-                 - 'local3 - Reserved for local use.'
-                 - 'local4 - Reserved for local use.'
-                 - 'local5 - Reserved for local use.'
-                 - 'local6 - Reserved for local use.'
-                 - 'local7 - Reserved for local use.'
+                 - Facility for remote syslog.
+                 - kernel - kernel messages
+                 - user - random user level messages
+                 - mail - Mail system.
+                 - daemon - System daemons.
+                 - auth - Security/authorization messages.
+                 - syslog - Messages generated internally by syslog daemon.
+                 - lpr - Line printer subsystem.
+                 - news - Network news subsystem.
+                 - uucp - Network news subsystem.
+                 - clock - Clock daemon.
+                 - authpriv - Security/authorization messages
+                 - ftp - FTP daemon.
+                 - ntp - NTP daemon.
+                 - audit - Log audit.
+                 - alert - Log alert.
+                 - cron - Clock daemon.
+                 - local0 - Reserved for local use.
+                 - local1 - Reserved for local use.
+                 - local2 - Reserved for local use.
+                 - local3 - Reserved for local use.
+                 - local4 - Reserved for local use.
+                 - local5 - Reserved for local use.
+                 - local6 - Reserved for local use.
+                 - local7 - Reserved for local use.
                 choices:
                     - 'kernel'
                     - 'user'
@@ -259,19 +301,19 @@ options:
             fwd-log-source-ip:
                 type: str
                 description:
-                 - 'Logs source IP address (no effect for reliable forwarding).'
-                 - 'local_ip - Use FAZVM64 local ip.'
-                 - 'original_ip - Use original source ip.'
+                 - Logs source IP address
+                 - local_ip - Use FAZVM64 local ip.
+                 - original_ip - Use original source ip.
                 choices:
                     - 'local_ip'
                     - 'original_ip'
             fwd-max-delay:
                 type: str
                 description:
-                 - 'Max delay for near realtime log forwarding.'
-                 - 'realtime - Realtime forwarding, no delay.'
-                 - '1min - Near realtime forwarding with up to one miniute delay.'
-                 - '5min - Near realtime forwarding with up to five miniutes delay.'
+                 - Max delay for near realtime log forwarding.
+                 - realtime - Realtime forwarding, no delay.
+                 - 1min - Near realtime forwarding with up to one miniute delay.
+                 - 5min - Near realtime forwarding with up to five miniutes delay.
                 choices:
                     - 'realtime'
                     - '1min'
@@ -279,28 +321,28 @@ options:
             fwd-reliable:
                 type: str
                 description:
-                 - 'Enable/disable reliable logging.'
-                 - 'disable - Disable reliable logging.'
-                 - 'enable - Enable reliable logging.'
+                 - Enable/disable reliable logging.
+                 - disable - Disable reliable logging.
+                 - enable - Enable reliable logging.
                 choices:
                     - 'disable'
                     - 'enable'
             fwd-secure:
                 type: str
                 description:
-                 - 'Enable/disable TLS/SSL secured reliable logging.'
-                 - 'disable - Disable TLS/SSL secured reliable logging.'
-                 - 'enable - Enable TLS/SSL secured reliable logging.'
+                 - Enable/disable TLS/SSL secured reliable logging.
+                 - disable - Disable TLS/SSL secured reliable logging.
+                 - enable - Enable TLS/SSL secured reliable logging.
                 choices:
                     - 'disable'
                     - 'enable'
             fwd-server-type:
                 type: str
                 description:
-                 - 'Forwarding all logs to syslog server or FortiAnalyzer.'
-                 - 'syslog - Forward logs to generic syslog server.'
-                 - 'fortianalyzer - Forward logs to FortiAnalyzer.'
-                 - 'cef - Forward logs to a CEF (Common Event Format) server.'
+                 - Forwarding all logs to syslog server or FortiAnalyzer.
+                 - syslog - Forward logs to generic syslog server.
+                 - fortianalyzer - Forward logs to FortiAnalyzer.
+                 - cef - Forward logs to a CEF
                 choices:
                     - 'syslog'
                     - 'fortianalyzer'
@@ -310,7 +352,7 @@ options:
                     - 'elite-service'
             id:
                 type: int
-                description: 'Log forwarding ID.'
+                description: Log forwarding ID.
             log-field-exclusion:
                 description: no description
                 type: list
@@ -319,18 +361,18 @@ options:
                     dev-type:
                         type: str
                         description:
-                         - 'Device type.'
-                         - 'FortiGate - FortiGate Device'
-                         - 'FortiManager - FortiManager Device'
-                         - 'Syslog - Syslog Device'
-                         - 'FortiMail - FortiMail Device'
-                         - 'FortiWeb - FortiWeb Device'
-                         - 'FortiCache - FortiCache Device'
-                         - 'FortiAnalyzer - FortiAnalyzer Device'
-                         - 'FortiSandbox - FortiSandbox Device'
-                         - 'FortiDDoS - FortiDDoS Device'
-                         - 'FortiNAC - FortiNAC Device'
-                         - 'FortiDeceptor - FortiDeceptor Device'
+                         - Device type.
+                         - FortiGate - FortiGate Device
+                         - FortiManager - FortiManager Device
+                         - Syslog - Syslog Device
+                         - FortiMail - FortiMail Device
+                         - FortiWeb - FortiWeb Device
+                         - FortiCache - FortiCache Device
+                         - FortiAnalyzer - FortiAnalyzer Device
+                         - FortiSandbox - FortiSandbox Device
+                         - FortiDDoS - FortiDDoS Device
+                         - FortiNAC - FortiNAC Device
+                         - FortiDeceptor - FortiDeceptor Device
                         choices:
                             - 'FortiGate'
                             - 'FortiManager'
@@ -355,37 +397,37 @@ options:
                             - 'FortiToken'
                     field-list:
                         type: str
-                        description: 'List of fields to be excluded.'
+                        description: List of fields to be excluded.
                     id:
                         type: int
-                        description: 'Log field exclusion ID.'
+                        description: Log field exclusion ID.
                     log-type:
                         type: str
                         description:
-                         - 'Log type.'
-                         - 'app-ctrl - Application Control'
-                         - 'appevent - APPEVENT'
-                         - 'attack - Attack'
-                         - 'content - DLP Archive'
-                         - 'dlp - Data Leak Prevention'
-                         - 'emailfilter - Email Filter'
-                         - 'event - Event'
-                         - 'generic - Generic'
-                         - 'history - Mail Statistics'
-                         - 'traffic - Traffic'
-                         - 'virus - Virus'
-                         - 'voip - VoIP'
-                         - 'webfilter - Web Filter'
-                         - 'netscan - Network Scan'
-                         - 'waf - WAF'
-                         - 'gtp - GTP'
-                         - 'dns - Domain Name System'
-                         - 'ssh - SSH'
-                         - 'ssl - SSL'
-                         - 'file-filter - FFLT'
-                         - 'Asset - Asset'
-                         - 'protocol - PROTOCOL'
-                         - 'ANY-TYPE - Any log type'
+                         - Log type.
+                         - app-ctrl - Application Control
+                         - appevent - APPEVENT
+                         - attack - Attack
+                         - content - DLP Archive
+                         - dlp - Data Leak Prevention
+                         - emailfilter - Email Filter
+                         - event - Event
+                         - generic - Generic
+                         - history - Mail Statistics
+                         - traffic - Traffic
+                         - virus - Virus
+                         - voip - VoIP
+                         - webfilter - Web Filter
+                         - netscan - Network Scan
+                         - waf - WAF
+                         - gtp - GTP
+                         - dns - Domain Name System
+                         - ssh - SSH
+                         - ssl - SSL
+                         - file-filter - FFLT
+                         - Asset - Asset
+                         - protocol - PROTOCOL
+                         - ANY-TYPE - Any log type
                         choices:
                             - 'app-ctrl'
                             - 'appevent'
@@ -418,9 +460,9 @@ options:
             log-field-exclusion-status:
                 type: str
                 description:
-                 - 'Enable or disable log field exclusion.'
-                 - 'disable - Disable log field exclusion.'
-                 - 'enable - Enable log field exclusion.'
+                 - Enable or disable log field exclusion.
+                 - disable - Disable log field exclusion.
+                 - enable - Enable log field exclusion.
                 choices:
                     - 'disable'
                     - 'enable'
@@ -432,20 +474,20 @@ options:
                     field:
                         type: str
                         description:
-                         - 'Field name.'
-                         - 'type - Log type'
-                         - 'logid - Log ID'
-                         - 'level - Level'
-                         - 'devid - Device ID'
-                         - 'vd - Vdom ID'
-                         - 'srcip - Source IP'
-                         - 'srcintf - Source Interface'
-                         - 'dstip - Destination IP'
-                         - 'dstintf - Destination Interface'
-                         - 'dstport - Destination Port'
-                         - 'user - User'
-                         - 'group - Group'
-                         - 'free-text - General free-text filter'
+                         - Field name.
+                         - type - Log type
+                         - logid - Log ID
+                         - level - Level
+                         - devid - Device ID
+                         - vd - Vdom ID
+                         - srcip - Source IP
+                         - srcintf - Source Interface
+                         - dstip - Destination IP
+                         - dstintf - Destination Interface
+                         - dstport - Destination Port
+                         - user - User
+                         - group - Group
+                         - free-text - General free-text filter
                         choices:
                             - 'type'
                             - 'logid'
@@ -462,16 +504,16 @@ options:
                             - 'free-text'
                     id:
                         type: int
-                        description: 'Log filter ID.'
+                        description: Log filter ID.
                     oper:
                         type: str
                         description:
-                         - 'Field filter operator.'
-                         - '&lt; - =Less than or equal to'
-                         - '&gt; - =Greater than or equal to'
-                         - 'contain - Contain'
-                         - 'not-contain - Not contain'
-                         - 'match - Match (expression)'
+                         - Field filter operator.
+                         - no description
+                         - no description
+                         - contain - Contain
+                         - not-contain - Not contain
+                         - match - Match
                         choices:
                             - '='
                             - '!='
@@ -484,32 +526,32 @@ options:
                             - 'match'
                     value:
                         type: str
-                        description: 'Field filter operand or free-text matching expression.'
+                        description: Field filter operand or free-text matching expression.
             log-filter-logic:
                 type: str
                 description:
-                 - 'Logic operator used to connect filters.'
-                 - 'and - Conjunctive filters.'
-                 - 'or - Disjunctive filters.'
+                 - Logic operator used to connect filters.
+                 - and - Conjunctive filters.
+                 - or - Disjunctive filters.
                 choices:
                     - 'and'
                     - 'or'
             log-filter-status:
                 type: str
                 description:
-                 - 'Enable or disable log filtering.'
-                 - 'disable - Disable log filtering.'
-                 - 'enable - Enable log filtering.'
+                 - Enable or disable log filtering.
+                 - disable - Disable log filtering.
+                 - enable - Enable log filtering.
                 choices:
                     - 'disable'
                     - 'enable'
             mode:
                 type: str
                 description:
-                 - 'Log forwarding mode.'
-                 - 'forwarding - Realtime or near realtime forwarding logs to servers.'
-                 - 'aggregation - Aggregate logs and archives to Analyzer.'
-                 - 'disable - Do not forward or aggregate logs.'
+                 - Log forwarding mode.
+                 - forwarding - Realtime or near realtime forwarding logs to servers.
+                 - aggregation - Aggregate logs and archives to Analyzer.
+                 - disable - Do not forward or aggregate logs.
                 choices:
                     - 'forwarding'
                     - 'aggregation'
@@ -517,32 +559,37 @@ options:
             proxy-service:
                 type: str
                 description:
-                 - 'Enable/disable proxy service under collector mode.'
-                 - 'disable - Disable proxy service.'
-                 - 'enable - Enable proxy service.'
+                 - Enable/disable proxy service under collector mode.
+                 - disable - Disable proxy service.
+                 - enable - Enable proxy service.
                 choices:
                     - 'disable'
                     - 'enable'
             proxy-service-priority:
                 type: int
-                description: 'Proxy service priority from 1 (lowest) to 20 (highest).'
+                description: Proxy service priority from 1
             server-device:
                 type: str
-                description: 'Log forwarding server device ID.'
+                description: Log forwarding server device ID.
             server-ip:
                 type: str
-                description: 'Remote server IP address.'
+                description: Remote server IP address.
             server-name:
                 type: str
-                description: 'Log forwarding server name.'
+                description: Log forwarding server name.
             server-port:
                 type: int
-                description: 'Server listen port (1 - 65535).'
+                description: Server listen port
             signature:
                 type: int
-                description: 'Aggregation cfg hash token.'
+                description: Aggregation cfg hash token.
             sync-metadata:
-                description: no description
+                description:
+                 - Synchronizing meta data types.
+                 - sf-topology - Security Fabric topology
+                 - interface-role - Interface Role
+                 - device - Device information
+                 - endusr-avatar - End-user avatar
                 type: list
                 elements: str
                 choices:
@@ -555,30 +602,30 @@ options:
             fwd-syslog-format:
                 type: str
                 description:
-                 - 'Forwarding format for syslog.'
-                 - 'fgt - fgt syslog format'
-                 - 'rfc-5424 - rfc-5424 syslog format'
+                 - Forwarding format for syslog.
+                 - fgt - fgt syslog format
+                 - rfc-5424 - rfc-5424 syslog format
                 choices:
                     - 'fgt'
                     - 'rfc-5424'
             fwd-ha-bind-vip:
                 type: str
                 description:
-                 - 'When HA is enabled, always use vip as forwarding port'
-                 - 'disable - Disable bind forwarding to vip interface.'
-                 - 'enable - Enable bind forwarding to vip interface.'
+                 - When HA is enabled, always use vip as forwarding port
+                 - disable - Disable bind forwarding to vip interface.
+                 - enable - Enable bind forwarding to vip interface.
                 choices:
                     - 'disable'
                     - 'enable'
             server-addr:
                 type: str
-                description: 'Remote server address.'
+                description: Remote server address.
             fwd-compression:
                 type: str
                 description:
-                 - 'Enable/disable compression for better bandwidth efficiency.'
-                 - 'disable - Disable compression of messages.'
-                 - 'enable - Enable compression of messages.'
+                 - Enable/disable compression for better bandwidth efficiency.
+                 - disable - Disable compression of messages.
+                 - enable - Enable compression of messages.
                 choices:
                     - 'disable'
                     - 'enable'
@@ -589,16 +636,16 @@ options:
                 suboptions:
                     field-name:
                         type: str
-                        description: 'Field name.'
+                        description: Field name.
                     field-type:
                         type: str
                         description:
-                         - 'Field type.'
-                         - 'string - String.'
-                         - 'ip - IP.'
-                         - 'mac - MAC address.'
-                         - 'email - Email address.'
-                         - 'unknown - Unknown.'
+                         - Field type.
+                         - string - String.
+                         - ip - IP.
+                         - mac - MAC address.
+                         - email - Email address.
+                         - unknown - Unknown.
                         choices:
                             - 'string'
                             - 'ip'
@@ -607,19 +654,29 @@ options:
                             - 'unknown'
                     id:
                         type: int
-                        description: 'Field masking id.'
+                        description: Field masking id.
             log-masking-custom-priority:
                 type: str
                 description:
-                 - 'Prioritize custom fields.'
-                 - 'disable - Disable custom field search priority.'
-                 - ' - Prioritize custom fields.'
+                 - Prioritize custom fields.
+                 - disable - Disable custom field search priority.
+                 - no description
                 choices:
                     - 'disable'
                     - ''
                     - 'enable'
             log-masking-fields:
-                description: no description
+                description:
+                 - Log field masking fields.
+                 - user - User name.
+                 - srcip - Source IP.
+                 - srcname - Source name.
+                 - srcmac - Source MAC.
+                 - dstip - Destination IP.
+                 - dstname - Dst name.
+                 - email - Email.
+                 - message - Message.
+                 - domain - Domain.
                 type: list
                 elements: str
                 choices:
@@ -633,50 +690,50 @@ options:
                     - 'message'
                     - 'domain'
             log-masking-key:
-                description: no description
+                description: Log field masking key.
                 type: str
             log-masking-status:
                 type: str
                 description:
-                 - 'Enable or disable log field masking.'
-                 - 'disable - Disable log field masking.'
-                 - 'enable - Enable log field masking.'
+                 - Enable or disable log field masking.
+                 - disable - Disable log field masking.
+                 - enable - Enable log field masking.
                 choices:
                     - 'disable'
                     - 'enable'
             agg-data-end-time:
-                description: no description
+                description: 'End date and time of the data-range <hh:mm yyyy/mm/dd>.'
                 type: str
             agg-data-start-time:
-                description: no description
+                description: 'Start date and time of the data-range <hh:mm yyyy/mm/dd>.'
                 type: str
             agg-schedule:
                 type: str
                 description:
-                 - 'Schedule log aggregation mode.'
-                 - 'daily - Run daily log aggregation'
-                 - 'on-demand - Run log aggregation on demand'
+                 - Schedule log aggregation mode.
+                 - daily - Run daily log aggregation
+                 - on-demand - Run log aggregation on demand
                 choices:
                     - 'daily'
                     - 'on-demand'
             pcapurl-domain-ip:
                 type: str
-                description: 'The domain name or ip for forming a pcapurl. This pcapurl will be appended to applicable forwarded logs for downloading a pcap...'
+                description: The domain name or ip for forming a pcapurl.
             pcapurl-enrich:
                 type: str
                 description:
-                 - 'Enable/disable enriching pcapurl.'
-                 - 'disable - Disable enriching pcapurl.'
-                 - 'enable - Enable enriching pcapurl. It will append a pcapurl field to the forwarded syslogs.'
+                 - Enable/disable enriching pcapurl.
+                 - disable - Disable enriching pcapurl.
+                 - enable - Enable enriching pcapurl.
                 choices:
                     - 'disable'
                     - 'enable'
             peer-cert-cn:
                 type: str
-                description: 'Certificate common name of log-forward server.'
+                description: Certificate common name of log-forward server.
             fwd-output-plugin-id:
                 type: str
-                description: 'Name of the output plugin profile'
+                description: Name of the output plugin profile
 '''
 
 EXAMPLES = '''
@@ -771,6 +828,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},

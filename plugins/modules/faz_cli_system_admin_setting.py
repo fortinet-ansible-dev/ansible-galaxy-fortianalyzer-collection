@@ -44,109 +44,107 @@ notes:
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
-        required: false
         type: str
     bypass_validation:
-        description: only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
-        required: false
+        description: Only set to True when module schema diffs with FortiAnalyzer API structure, module continues to execute without validating parameters
         type: bool
         default: false
     enable_log:
         description: Enable/Disable logging for task
-        required: false
         type: bool
         default: false
     forticloud_access_token:
         description: Authenticate Ansible client with forticloud API access token.
-        required: false
         type: str
     log_path:
         description:
             - The path to save log. Used if enable_log is true.
             - Please use absolute path instead of relative path.
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
-        required: false
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
     proposed_method:
         description: The overridden method for the underlying Json RPC request
         type: str
-        required: false
         choices:
             - set
             - update
             - add
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
-        required: false
         elements: int
     rc_failed:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-        required: false
     cli_system_admin_setting:
         description: The top level parameters set.
-        required: false
         type: dict
         suboptions:
             access-banner:
                 type: str
                 description:
-                 - 'Enable/disable access banner.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable access banner.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             admin-https-redirect:
                 type: str
                 description:
-                 - 'Enable/disable redirection of HTTP admin traffic to HTTPS.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable redirection of HTTP admin traffic to HTTPS.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             admin-login-max:
                 type: int
-                description: 'Maximum number admin users logged in at one time (1 - 256).'
+                description: Maximum number admin users logged in at one time
             admin_server_cert:
                 type: str
-                description: 'HTTPS & Web Service server certificate.'
+                description: HTTPS & Web Service server certificate.
             banner-message:
                 type: str
-                description: 'Banner message.'
+                description: Banner message.
             gui-theme:
                 type: str
                 description:
-                 - 'Color scheme to use for the administration GUI.'
-                 - 'blue - Blueberry'
-                 - 'green - Kiwi'
-                 - 'red - Cherry'
-                 - 'melongene - Plum'
-                 - 'spring - Spring'
-                 - 'summer - Summer'
-                 - 'autumn - Autumn'
-                 - 'winter - Winter'
-                 - 'space - Space'
-                 - 'calla-lily - Calla Lily'
-                 - 'binary-tunnel - Binary Tunnel'
-                 - 'diving - Diving'
-                 - 'dreamy - Dreamy'
-                 - 'technology - Technology'
-                 - 'landscape - Landscape'
-                 - 'twilight - Twilight'
-                 - 'canyon - Canyon'
-                 - 'northern-light - Northern Light'
-                 - 'astronomy - Astronomy'
-                 - 'fish - Fish'
-                 - 'penguin - Penguin'
-                 - 'panda - Panda'
-                 - 'polar-bear - Polar Bear'
-                 - 'parrot - Parrot'
-                 - 'cave - Cave'
+                 - Color scheme to use for the administration GUI.
+                 - blue - Blueberry
+                 - green - Kiwi
+                 - red - Cherry
+                 - melongene - Plum
+                 - spring - Spring
+                 - summer - Summer
+                 - autumn - Autumn
+                 - winter - Winter
+                 - space - Space
+                 - calla-lily - Calla Lily
+                 - binary-tunnel - Binary Tunnel
+                 - diving - Diving
+                 - dreamy - Dreamy
+                 - technology - Technology
+                 - landscape - Landscape
+                 - twilight - Twilight
+                 - canyon - Canyon
+                 - northern-light - Northern Light
+                 - astronomy - Astronomy
+                 - fish - Fish
+                 - penguin - Penguin
+                 - panda - Panda
+                 - polar-bear - Polar Bear
+                 - parrot - Parrot
+                 - cave - Cave
                 choices:
                     - 'blue'
                     - 'green'
@@ -188,95 +186,95 @@ options:
                     - 'graphite'
             http_port:
                 type: int
-                description: 'HTTP port.'
+                description: HTTP port.
             https_port:
                 type: int
-                description: 'HTTPS port.'
+                description: HTTPS port.
             idle_timeout:
                 type: int
-                description: 'Idle timeout (1 - 480 min).'
+                description: Idle timeout
             objects-force-deletion:
                 type: str
                 description:
-                 - 'Enable/disable used objects force deletion.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable used objects force deletion.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             shell-access:
                 type: str
                 description:
-                 - 'Enable/disable shell access.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable shell access.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             shell-password:
-                description: no description
+                description: Password for shell access.
                 type: str
             show-add-multiple:
                 type: str
                 description:
-                 - 'Show add multiple button.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Show add multiple button.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             show-checkbox-in-table:
                 type: str
                 description:
-                 - 'Show checkboxs in tables on GUI.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Show checkboxs in tables on GUI.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             show-device-import-export:
                 type: str
                 description:
-                 - 'Enable/disable import/export of ADOM, device, and group lists.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable import/export of ADOM, device, and group lists.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             show-fct-manager:
                 type: str
                 description:
-                 - 'Enable/disable FCT manager.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable FCT manager.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             show-hostname:
                 type: str
                 description:
-                 - 'Enable/disable hostname display in the GUI login page.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable hostname display in the GUI login page.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             show-log-forwarding:
                 type: str
                 description:
-                 - 'Show log forwarding tab in regular mode.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Show log forwarding tab in regular mode.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             unreg_dev_opt:
                 type: str
                 description:
-                 - 'Action to take when unregistered device connects to FortiAnalyzer.'
-                 - 'add_no_service - Add unregistered devices but deny service requests.'
-                 - 'ignore - Ignore unregistered devices.'
-                 - 'add_allow_service - Add unregistered devices and allow service requests.'
+                 - Action to take when unregistered device connects to FortiAnalyzer.
+                 - add_no_service - Add unregistered devices but deny service requests.
+                 - ignore - Ignore unregistered devices.
+                 - add_allow_service - Add unregistered devices and allow service requests.
                 choices:
                     - 'add_no_service'
                     - 'ignore'
@@ -284,14 +282,14 @@ options:
             webadmin_language:
                 type: str
                 description:
-                 - 'Web admin language.'
-                 - 'auto_detect - Automatically detect language.'
-                 - 'english - English.'
-                 - 'simplified_chinese - Simplified Chinese.'
-                 - 'traditional_chinese - Traditional Chinese.'
-                 - 'japanese - Japanese.'
-                 - 'korean - Korean.'
-                 - 'spanish - Spanish.'
+                 - Web admin language.
+                 - auto_detect - Automatically detect language.
+                 - english - English.
+                 - simplified_chinese - Simplified Chinese.
+                 - traditional_chinese - Traditional Chinese.
+                 - japanese - Japanese.
+                 - korean - Korean.
+                 - spanish - Spanish.
                 choices:
                     - 'auto_detect'
                     - 'english'
@@ -303,52 +301,52 @@ options:
                     - 'french'
             idle_timeout_api:
                 type: int
-                description: 'Idle timeout for API sessions (1 - 28800 sec).'
+                description: Idle timeout for API sessions
             idle_timeout_gui:
                 type: int
-                description: 'Idle timeout for GUI sessions (60 - 28800 sec).'
+                description: Idle timeout for GUI sessions
             auth-addr:
                 type: str
-                description: 'IP which is used by FGT to authorize FAZ.'
+                description: IP which is used by FGT to authorize FAZ.
             auth-port:
                 type: int
-                description: 'Port which is used by FGT to authorize FAZ.'
+                description: Port which is used by FGT to authorize FAZ.
             preferred-fgfm-intf:
                 type: str
-                description: 'Preferred interface for FGFM connection.'
+                description: Preferred interface for FGFM connection.
             idle_timeout_sso:
                 type: int
-                description: 'Idle timeout for SSO sessions (60 - 28800 sec).'
+                description: Idle timeout for SSO sessions
             fsw-ignore-platform-check:
                 type: str
                 description:
-                 - 'Enable/disable FortiSwitch Manager switch platform support check.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable FortiSwitch Manager switch platform support check.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             firmware-upgrade-check:
                 type: str
                 description:
-                 - 'Enable/disable firmware upgrade check.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable firmware upgrade check.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             fgt-gui-proxy:
                 type: str
                 description:
-                 - 'Enable/disable FortiGate GUI proxy.'
-                 - 'disable - Disable setting.'
-                 - 'enable - Enable setting.'
+                 - Enable/disable FortiGate GUI proxy.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
                 choices:
                     - 'disable'
                     - 'enable'
             fgt-gui-proxy-port:
                 type: int
-                description: 'FortiGate GUI proxy port.'
+                description: FortiGate GUI proxy port.
 '''
 
 EXAMPLES = '''
@@ -438,6 +436,7 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_system_admin_setting': {
@@ -481,7 +480,7 @@ def main():
                 'auth-port': {'v_range': [['7.0.1', '']], 'type': 'int'},
                 'preferred-fgfm-intf': {'v_range': [['7.0.2', '']], 'type': 'str'},
                 'idle_timeout_sso': {'v_range': [['7.0.3', '']], 'type': 'int'},
-                'fsw-ignore-platform-check': {'v_range': [['7.0.7', '7.0.11'], ['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'fsw-ignore-platform-check': {'v_range': [['7.0.7', '7.0.12'], ['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'firmware-upgrade-check': {'v_range': [['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'fgt-gui-proxy': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'fgt-gui-proxy-port': {'v_range': [['7.4.2', '']], 'type': 'int'}
