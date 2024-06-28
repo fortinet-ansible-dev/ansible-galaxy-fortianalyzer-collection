@@ -269,6 +269,9 @@ options:
             cfg-sync-hb-interval:
                 type: int
                 description: Config sync heartbeat interval
+            local-cert:
+                type: str
+                description: set the ha local certificate.
 '''
 
 EXAMPLES = '''
@@ -282,6 +285,7 @@ EXAMPLES = '''
           log_sync: disable
           mode: standalone
   vars:
+    ansible_network_os: fortinet.fortianalyzer.fortianalyzer
     ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
@@ -402,7 +406,8 @@ def main():
                 'vip': {'type': 'str'},
                 'vip-interface': {'v_range': [['6.2.1', '7.0.4']], 'type': 'str'},
                 'private-local-cert': {'v_range': [['6.2.7', '6.2.12']], 'type': 'str'},
-                'cfg-sync-hb-interval': {'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']], 'type': 'int'}
+                'cfg-sync-hb-interval': {'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']], 'type': 'int'},
+                'local-cert': {'v_range': [['7.4.3', '']], 'type': 'str'}
             }
 
         }
@@ -414,10 +419,6 @@ def main():
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    connection.set_option('access_token', module.params['access_token'])
-    connection.set_option('enable_log', module.params['enable_log'])
-    connection.set_option('forticloud_access_token', module.params['forticloud_access_token'])
-    connection.set_option('log_path', module.params['log_path'])
     faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
                       metadata=module_arg_spec, task_type='partial crud')
     faz.process()

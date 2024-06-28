@@ -205,6 +205,8 @@ options:
                     - '56g/full'
                     - '100g/full'
                     - '1g/half'
+                    - '200g/full'
+                    - '400g/full'
             status:
                 type: str
                 description:
@@ -352,6 +354,7 @@ EXAMPLES = '''
         interface: fooaggregate
         state: present
   vars:
+    ansible_network_os: fortinet.fortianalyzer.fortianalyzer
     ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
@@ -380,6 +383,7 @@ EXAMPLES = '''
           # type: physical
         state: present
   vars:
+    ansible_network_os: fortinet.fortianalyzer.fortianalyzer
     ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
@@ -481,7 +485,7 @@ def main():
                 'speed': {
                     'choices': [
                         'auto', '10full', '10half', '100full', '100half', '1000full', '10000full', '1g/full', '2.5g/full', '5g/full', '10g/full',
-                        '14g/full', '20g/full', '25g/full', '40g/full', '50g/full', '56g/full', '100g/full', '1g/half'
+                        '14g/full', '20g/full', '25g/full', '40g/full', '50g/full', '56g/full', '100g/full', '1g/half', '200g/full', '400g/full'
                     ],
                     'type': 'str'
                 },
@@ -519,10 +523,6 @@ def main():
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    connection.set_option('access_token', module.params['access_token'])
-    connection.set_option('enable_log', module.params['enable_log'])
-    connection.set_option('forticloud_access_token', module.params['forticloud_access_token'])
-    connection.set_option('log_path', module.params['log_path'])
     faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
                       metadata=module_arg_spec, task_type='full crud')
     faz.process()

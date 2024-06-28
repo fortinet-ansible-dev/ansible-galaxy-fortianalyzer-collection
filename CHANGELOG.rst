@@ -5,6 +5,31 @@ Fortinet.Fortianalyzer Release Notes
 .. contents:: Topics
 
 
+v1.6.0
+======
+
+Release Summary
+---------------
+
+Release fortinet.fortianalyzer 1.6.0
+
+Minor Changes
+-------------
+
+- Supported FortiAnalyzer 7.4.3 API schemas. 1 new module.
+- Supported ansible-core 2.17
+
+Bugfixes
+--------
+
+- Added more report selectors in faz_fact.
+- Changed type of "schedule_valid_end" and "schedule_valid_start" in module faz_report_config_schedule from list of dict to string.
+
+New Modules
+-----------
+
+- fortinet.fortianalyzer.faz_cli_system_log_ueba - UEBAsettings.
+
 v1.5.0
 ======
 
@@ -16,6 +41,7 @@ Release fortinet.fortianalyzer 1.5.0
 Minor Changes
 -------------
 
+- Added parameter version_check. If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer.
 - Added report serial modules.
 - Supported FortiAnalyzer 7.0.12, 7.2.5.
 

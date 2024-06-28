@@ -141,6 +141,7 @@ class NAPIManager(object):
         self.conn = conn
         self.module_name = self.module._name
         self.module_level2_name = self.module_name.split('.')[-1][4:]
+        self._set_connection_options()
         self.system_status = self.get_system_status()
         self.version_check_warnings = list()
         self.task_type = task_type
@@ -163,6 +164,11 @@ class NAPIManager(object):
             self.process_request_without_data_wrapper('delete')
         else:
             raise AssertionError('Wrong task type')
+
+    def _set_connection_options(self):
+        for key in ['access_token', 'enable_log', 'log_path', 'forticloud_access_token']:
+            if key in self.module.params:
+                self.conn.set_customer_option(key, self.module.params[key])
 
     def get_propose_method(self, default_method):
         if 'proposed_method' in self.module.params and self.module.params['proposed_method']:
@@ -341,6 +347,10 @@ class NAPIManager(object):
     def is_same_subnet(self, object_remote, object_present):
         if isinstance(object_remote, list) and len(object_remote) != 2:
             return False
+        # ["1.2.3.4", "255.255.255.0"] and "1.2.3.4 255.255.255.0"
+        if " ".join(object_remote) == object_present:
+            return True
+        # ["1.2.3.4", "255.255.255.0"] and "1.2.3.4/24"
         tokens = object_present.split('/')
         if len(tokens) != 2:
             return False
@@ -448,7 +458,8 @@ class NAPIManager(object):
         return default_rc
 
     def process_generic(self, method, param, jsonrpc=''):
-        response = self.conn.send_request(method, param, jsonrpc == '2.0')
+        jsonrpc2 = (jsonrpc == '2.0')
+        response = self.conn.send_request(method, param, jsonrpc2=jsonrpc2)
         self.do_exit(response)
 
     def process_request_without_data_wrapper(self, request_method):

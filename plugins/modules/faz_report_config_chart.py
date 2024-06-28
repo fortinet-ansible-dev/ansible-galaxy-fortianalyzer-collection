@@ -417,6 +417,9 @@ options:
             tags:
                 type: str
                 description: no description
+            chart-style:
+                type: str
+                description: no description
 '''
 
 EXAMPLES = '''
@@ -424,9 +427,10 @@ EXAMPLES = '''
   hosts: fortianalyzers
   connection: httpapi
   vars:
+    ansible_network_os: fortinet.fortianalyzer.fortianalyzer
+    ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
-    ansible_httpapi_port: 443
   tasks:
     - name: Config chart.
       fortinet.fortianalyzer.faz_report_config_chart:
@@ -441,8 +445,7 @@ EXAMPLES = '''
           dev_type: <value in [FortiSandbox, FortiWeb, Fabric, ...]>
           disp_name: <value of string>
           drill_down_table:
-            -
-              chart: <value of string>
+            - chart: <value of string>
               flag: <value in [enable, disable]>
               table_id: <value of integer>
               chart_group: <value of string>
@@ -450,8 +453,7 @@ EXAMPLES = '''
               show_title: <value in [enable, disable]>
           name: <value of string>
           table_columns:
-            -
-              data_type: <value in [aggregate, raw, drilldown]>
+            - data_type: <value in [aggregate, raw, drilldown]>
               header: <value of string>
               id: <value of integer>
               column_attr: <value in [app-id, email-recver, timespan, ...]>
@@ -463,8 +465,7 @@ EXAMPLES = '''
               data_top: <value of integer>
               legend: <value of string>
           variable_template:
-            -
-              not: <value in [enable, disable]>
+            - not: <value in [enable, disable]>
               var: <value of string>
               var_value: <value of string>
               description: <value of string>
@@ -501,6 +502,7 @@ EXAMPLES = '''
           y2_axis_data_binding: <value of string>
           y2_axis_label: <value of string>
           tags: <value of string>
+          chart_style: <value of string>
 '''
 
 RETURN = '''
@@ -576,36 +578,37 @@ def main():
             'v_range': [['6.2.1', '']],
             'options': {
                 'category': {'type': 'str'},
-                'description': {'type': 'str'},
+                'description': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
                 'dev-type': {
+                    'v_range': [['6.2.1', '7.4.2']],
                     'choices': [
                         'FortiSandbox', 'FortiWeb', 'Fabric', 'Syslog', 'FortiCache', 'FortiAuthenticator', 'FortiMail', 'FortiProxy', 'FortiManager',
                         'FortiNAC', 'FortiAnalyzer', 'FortiClient', 'FortiDDoS', 'FortiGate', 'FortiFirewall'
                     ],
                     'type': 'str'
                 },
-                'disp-name': {'type': 'str'},
+                'disp-name': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
                 'drill-down-table': {
                     'type': 'list',
                     'options': {
                         'chart': {'type': 'str'},
                         'flag': {'choices': ['enable', 'disable'], 'type': 'str'},
-                        'table-id': {'type': 'int'},
-                        'chart-group': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
+                        'table-id': {'v_range': [['6.2.1', '7.4.2']], 'type': 'int'},
+                        'chart-group': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'},
                         'page-break-after': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
                         'show-title': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'}
                     },
                     'elements': 'dict'
                 },
-                'name': {'type': 'str'},
+                'name': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
                 'table-columns': {
                     'type': 'list',
                     'options': {
-                        'data-type': {'choices': ['aggregate', 'raw', 'drilldown'], 'type': 'str'},
-                        'header': {'type': 'str'},
-                        'id': {'type': 'int'},
+                        'data-type': {'v_range': [['6.2.1', '7.4.2']], 'choices': ['aggregate', 'raw', 'drilldown'], 'type': 'str'},
+                        'header': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
+                        'id': {'v_range': [['6.2.1', '7.4.2']], 'type': 'int'},
                         'column-attr': {
-                            'v_range': [['6.2.2', '6.2.12']],
+                            'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']],
                             'choices': [
                                 'app-id', 'email-recver', 'timespan', 'obf-url', 'cal-percent', 'vuln', 'bandwidth', 'dev-type', 'severity', 'percent',
                                 'trend', 'attack', 'html', 'ipsec-tunnel', 'web-cat', 'ip-country', 'email-sender', 'search', 'virus', 'user',
@@ -626,11 +629,11 @@ def main():
                 'variable-template': {
                     'type': 'list',
                     'options': {
-                        'not': {'choices': ['enable', 'disable'], 'type': 'str'},
-                        'var': {'type': 'str'},
-                        'var-value': {'type': 'str'},
-                        'description': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                        'drilldown-flag': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                        'not': {'v_range': [['6.2.1', '7.4.2']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                        'var': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
+                        'var-value': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
+                        'description': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'},
+                        'drilldown-flag': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'choices': ['enable', 'disable'], 'type': 'str'},
                         'status': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
                         'var-expression': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
                         'var-type': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['ip', 'integer', 'string', 'datetime'], 'type': 'str'},
@@ -639,7 +642,7 @@ def main():
                     'elements': 'dict'
                 },
                 'chart-type': {
-                    'v_range': [['6.2.2', '6.2.12']],
+                    'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']],
                     'choices': ['map', 'none', 'chord', 'bar', 'area', 'pie', 'donut', 'radar', 'table', 'line'],
                     'type': 'str'
                 },
@@ -669,7 +672,8 @@ def main():
                 'y-axis-label': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
                 'y2-axis-data-binding': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
                 'y2-axis-label': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'tags': {'v_range': [['6.4.3', '']], 'type': 'str'}
+                'tags': {'v_range': [['6.4.3', '7.4.2']], 'type': 'str'},
+                'chart-style': {'v_range': [['7.4.3', '']], 'type': 'str'}
             }
 
         }
@@ -681,10 +685,6 @@ def main():
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    connection.set_option('access_token', module.params['access_token'])
-    connection.set_option('enable_log', module.params['enable_log'])
-    connection.set_option('forticloud_access_token', module.params['forticloud_access_token'])
-    connection.set_option('log_path', module.params['log_path'])
     faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
                       metadata=module_arg_spec, task_type='full crud')
     faz.process()

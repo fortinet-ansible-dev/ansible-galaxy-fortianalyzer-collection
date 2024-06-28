@@ -630,6 +630,7 @@ EXAMPLES = '''
           profileid: 1
         state: present
   vars:
+    ansible_network_os: fortinet.fortianalyzer.fortianalyzer
     ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
@@ -731,7 +732,7 @@ def main():
                 'datamask-unmasked-time': {'type': 'int'},
                 'description': {'type': 'str'},
                 'device-ap': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
-                'device-forticlient': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
+                'device-forticlient': {'v_range': [['6.2.1', '7.4.2']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'device-fortiswitch': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'device-manager': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'device-op': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
@@ -741,7 +742,7 @@ def main():
                 'fortirecorder-setting': {'v_range': [['6.2.1', '7.2.5']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'log-viewer': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'profileid': {'type': 'str'},
-                'realtime-monitor': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
+                'realtime-monitor': {'v_range': [['6.2.1', '7.4.2']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'report-viewer': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'scope': {'choices': ['global', 'adom'], 'type': 'str'},
                 'super-user-profile': {'choices': ['disable', 'enable'], 'type': 'str'},
@@ -809,10 +810,6 @@ def main():
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    connection.set_option('access_token', module.params['access_token'])
-    connection.set_option('enable_log', module.params['enable_log'])
-    connection.set_option('forticloud_access_token', module.params['forticloud_access_token'])
-    connection.set_option('log_path', module.params['log_path'])
     faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
                       metadata=module_arg_spec, task_type='full crud')
     faz.process()

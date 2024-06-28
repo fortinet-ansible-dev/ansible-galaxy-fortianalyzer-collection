@@ -182,9 +182,10 @@ EXAMPLES = '''
   hosts: fortianalyzers
   connection: httpapi
   vars:
+    ansible_network_os: fortinet.fortianalyzer.fortianalyzer
+    ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
-    ansible_httpapi_port: 443
   tasks:
     - name: Config table-columns.
       fortinet.fortianalyzer.faz_report_config_chart_tablecolumns:
@@ -281,11 +282,11 @@ def main():
             'type': 'dict',
             'v_range': [['6.2.1', '']],
             'options': {
-                'data-type': {'choices': ['aggregate', 'raw', 'drilldown'], 'type': 'str'},
-                'header': {'type': 'str'},
-                'id': {'type': 'int'},
+                'data-type': {'v_range': [['6.2.1', '7.4.2']], 'choices': ['aggregate', 'raw', 'drilldown'], 'type': 'str'},
+                'header': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
+                'id': {'v_range': [['6.2.1', '7.4.2']], 'type': 'int'},
                 'column-attr': {
-                    'v_range': [['6.2.2', '6.2.12']],
+                    'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']],
                     'choices': [
                         'app-id', 'email-recver', 'timespan', 'obf-url', 'cal-percent', 'vuln', 'bandwidth', 'dev-type', 'severity', 'percent', 'trend',
                         'attack', 'html', 'ipsec-tunnel', 'web-cat', 'ip-country', 'email-sender', 'search', 'virus', 'user', 'state-icon', 'count',
@@ -311,10 +312,6 @@ def main():
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    connection.set_option('access_token', module.params['access_token'])
-    connection.set_option('enable_log', module.params['enable_log'])
-    connection.set_option('forticloud_access_token', module.params['forticloud_access_token'])
-    connection.set_option('log_path', module.params['log_path'])
     faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
                       metadata=module_arg_spec, task_type='full crud')
     faz.process()

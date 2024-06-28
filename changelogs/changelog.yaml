@@ -140,9 +140,10 @@ releases:
         - Improved documentation, added description for all "no description" modules.
         - Improved faz_fact, it can support selectors start with "report".
       minor_changes:
+        - Added parameter version_check. If set to True, it will check whether the parameters
+          used are supported by the corresponding version of FortiAnazlyer.
         - Added report serial modules.
         - Supported FortiAnalyzer 7.0.12, 7.2.5.
-        - Added parameter version_check. If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer.
       release_summary: Release fortinet.fortianalyzer 1.5.0
     fragments:
       - 1.5.0.yml
@@ -235,3 +236,20 @@ releases:
         name: faz_report_template_install
         namespace: ""
     release_date: "2024-05-21"
+  1.6.0:
+    changes:
+      bugfixes:
+        - Added more report selectors in faz_fact.
+        - Changed type of "schedule_valid_end" and "schedule_valid_start" in module
+          faz_report_config_schedule from list of dict to string.
+      minor_changes:
+        - Supported FortiAnalyzer 7.4.3 API schemas. 1 new module.
+        - Supported ansible-core 2.17
+      release_summary: Release fortinet.fortianalyzer 1.6.0
+    fragments:
+      - 1.6.0.yml
+    modules:
+      - description: UEBAsettings.
+        name: faz_cli_system_log_ueba
+        namespace: ""
+    release_date: "2024-06-28"

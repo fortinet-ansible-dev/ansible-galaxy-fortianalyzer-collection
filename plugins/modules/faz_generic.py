@@ -197,10 +197,6 @@ def main():
     if not module._socket_path:
         module.fail_json(msg='Only Httpapi plugin is supported in this module.')
     connection = Connection(module._socket_path)
-    connection.set_option('access_token', module.params['access_token'])
-    connection.set_option('enable_log', module.params['enable_log'])
-    connection.set_option('forticloud_access_token', module.params['forticloud_access_token'])
-    connection.set_option('log_path', module.params['log_path'])
     fmgr = NAPIManager(None, None, None, None, module, connection)
     method = None
     params = None

@@ -54,18 +54,18 @@ class HttpApi(HttpApiBase):
         self._forticloud_access_token = None
         self._access_token = None
         self._login_method = 'Not set'
+        self.customer_options = {}
+
+    def set_customer_option(self, key, value):
+        self.customer_options[key] = value
 
     def log(self, msg):
-        log_enabled = False
-        try:
-            log_enabled = self.connection.get_option("enable_log")
-        except Exception:
-            return
+        log_enabled = self.customer_options.get("enable_log", False)
         if not log_enabled:
             return
         if not self._log:
             try:
-                log_path = self.connection.get_option("log_path")
+                log_path = self.customer_options.get("log_path", "/tmp/fortianalyzer.ansible.log")
                 self._log = open(log_path, "a")
             except Exception:
                 self._log = open("/tmp/fortianalyzer.ansible.log", "a")
@@ -91,18 +91,12 @@ class HttpApi(HttpApiBase):
         return None
 
     def get_forticloud_access_token(self):
-        try:
-            token = self.connection.get_option("forticloud_access_token")
-            return token
-        except Exception:
-            return None
+        token = self.customer_options.get("forticloud_access_token", None)
+        return token
 
     def get_access_token(self):
-        try:
-            token = self.connection.get_option("access_token")
-            return token
-        except Exception:
-            return None
+        token = self.customer_options.get("access_token", None)
+        return token
 
     def forticloud_login(self):
         login_data = '{"access_token": "%s"}' % (self._forticloud_access_token)

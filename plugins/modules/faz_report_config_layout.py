@@ -581,9 +581,10 @@ EXAMPLES = '''
   hosts: fortianalyzers
   connection: httpapi
   vars:
+    ansible_network_os: fortinet.fortianalyzer.fortianalyzer
+    ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
-    ansible_httpapi_port: 443
   tasks:
     - name: Config layout.
       fortinet.fortianalyzer.faz_report_config_layout:
@@ -595,12 +596,10 @@ EXAMPLES = '''
         report_config_layout:
           body: <value of string>
           component:
-            -
-              component_id: <value of integer>
+            - component_id: <value of integer>
               type: <value in [graphic, column-break, macro, ...]>
               variable:
-                -
-                  not: <value in [enable, disable]>
+                - not: <value in [enable, disable]>
                   var: <value of string>
                   var_value: <value of string>
                   description: <value of string>
@@ -648,14 +647,12 @@ EXAMPLES = '''
               width: <value of integer>
           description: <value of string>
           footer:
-            -
-              footer_id: <value of integer>
+            - footer_id: <value of integer>
               type: <value in [text, graphic, minicover]>
               graphic: <value of string>
               text: <value of string>
           header:
-            -
-              header_id: <value of integer>
+            - header_id: <value of integer>
               type: <value in [text, graphic, minicover]>
               graphic: <value of string>
               text: <value of string>
@@ -698,8 +695,7 @@ EXAMPLES = '''
           report_tag: <value of string>
           right_margin: <value of integer>
           folders:
-            -
-              folder_id: <value of integer>
+            - folder_id: <value of integer>
 '''
 
 RETURN = '''
@@ -774,23 +770,24 @@ def main():
             'type': 'dict',
             'v_range': [['6.2.1', '']],
             'options': {
-                'body': {'type': 'str'},
+                'body': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
                 'component': {
                     'type': 'list',
                     'options': {
-                        'component-id': {'type': 'int'},
+                        'component-id': {'v_range': [['6.2.1', '7.4.2']], 'type': 'int'},
                         'type': {
+                            'v_range': [['6.2.1', '7.4.2']],
                             'choices': ['graphic', 'column-break', 'macro', 'section', 'chart', 'heading2', 'heading3', 'heading1', 'page-break', 'text'],
                             'type': 'str'
                         },
                         'variable': {
                             'type': 'list',
                             'options': {
-                                'not': {'choices': ['enable', 'disable'], 'type': 'str'},
-                                'var': {'type': 'str'},
-                                'var-value': {'type': 'str'},
-                                'description': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                                'drilldown-flag': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                                'not': {'v_range': [['6.2.1', '7.4.2']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                                'var': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
+                                'var-value': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
+                                'description': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'},
+                                'drilldown-flag': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'choices': ['enable', 'disable'], 'type': 'str'},
                                 'status': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
                                 'var-expression': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
                                 'var-type': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['ip', 'integer', 'string', 'datetime'], 'type': 'str'},
@@ -798,11 +795,11 @@ def main():
                             },
                             'elements': 'dict'
                         },
-                        'alignment': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                        'bg-color': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                        'category': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                        'chart': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                        'chart-option': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['calc-average', 'none'], 'type': 'str'},
+                        'alignment': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'int'},
+                        'bg-color': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'},
+                        'category': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'},
+                        'chart': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'},
+                        'chart-option': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'choices': ['calc-average', 'none'], 'type': 'str'},
                         'column': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['1', '2'], 'type': 'str'},
                         'customized': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
                         'device-mode': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['variable', 'specify'], 'type': 'str'},
@@ -850,14 +847,14 @@ def main():
                     },
                     'elements': 'dict'
                 },
-                'description': {'type': 'str'},
+                'description': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
                 'footer': {
                     'type': 'list',
                     'options': {
                         'footer-id': {'type': 'int'},
                         'type': {'choices': ['text', 'graphic', 'minicover'], 'type': 'str'},
-                        'graphic': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                        'text': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'}
+                        'graphic': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'},
+                        'text': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'}
                     },
                     'elements': 'dict'
                 },
@@ -866,16 +863,16 @@ def main():
                     'options': {
                         'header-id': {'type': 'int'},
                         'type': {'choices': ['text', 'graphic', 'minicover'], 'type': 'str'},
-                        'graphic': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                        'text': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'}
+                        'graphic': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'},
+                        'text': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'}
                     },
                     'elements': 'dict'
                 },
-                'language': {'type': 'str'},
-                'layout-id': {'type': 'int'},
-                'subtitle': {'type': 'str'},
-                'title': {'type': 'str'},
-                'alignment': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['right', 'center', 'left'], 'type': 'str'},
+                'language': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
+                'layout-id': {'v_range': [['6.2.1', '7.4.2']], 'type': 'int'},
+                'subtitle': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
+                'title': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
+                'alignment': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'choices': ['right', 'center', 'left'], 'type': 'str'},
                 'bg-color': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
                 'category': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
                 'chart-heading-level': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
@@ -933,10 +930,6 @@ def main():
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    connection.set_option('access_token', module.params['access_token'])
-    connection.set_option('enable_log', module.params['enable_log'])
-    connection.set_option('forticloud_access_token', module.params['forticloud_access_token'])
-    connection.set_option('log_path', module.params['log_path'])
     faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
                       metadata=module_arg_spec, task_type='full crud')
     faz.process()

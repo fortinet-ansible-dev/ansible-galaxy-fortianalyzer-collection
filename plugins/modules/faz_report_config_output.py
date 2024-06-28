@@ -191,9 +191,10 @@ EXAMPLES = '''
   hosts: fortianalyzers
   connection: httpapi
   vars:
+    ansible_network_os: fortinet.fortianalyzer.fortianalyzer
+    ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
-    ansible_httpapi_port: 443
   tasks:
     - name: Config output.
       fortinet.fortianalyzer.faz_report_config_output:
@@ -205,8 +206,7 @@ EXAMPLES = '''
         report_config_output:
           description: <value of string>
           email_recipients:
-            -
-              address: <value of string>
+            - address: <value of string>
               email_from: <value of string>
               email_server: <value of string>
           name: <value of string>
@@ -303,9 +303,13 @@ def main():
                     'options': {'address': {'type': 'str'}, 'email-from': {'type': 'str'}, 'email-server': {'type': 'str'}},
                     'elements': 'dict'
                 },
-                'name': {'type': 'str'},
-                'output-format': {'choices': ['xml', 'rtf', 'connectwise', 'html', 'pdf', 'mht', 'txt', 'csv'], 'type': 'str'},
-                'email': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'name': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
+                'output-format': {
+                    'v_range': [['6.2.1', '7.4.2']],
+                    'choices': ['xml', 'rtf', 'connectwise', 'html', 'pdf', 'mht', 'txt', 'csv'],
+                    'type': 'str'
+                },
+                'email': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'choices': ['enable', 'disable'], 'type': 'str'},
                 'email-attachment-compress': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
                 'email-attachment-name': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
                 'email-body': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
@@ -328,10 +332,6 @@ def main():
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    connection.set_option('access_token', module.params['access_token'])
-    connection.set_option('enable_log', module.params['enable_log'])
-    connection.set_option('forticloud_access_token', module.params['forticloud_access_token'])
-    connection.set_option('log_path', module.params['log_path'])
     faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
                       metadata=module_arg_spec, task_type='full crud')
     faz.process()

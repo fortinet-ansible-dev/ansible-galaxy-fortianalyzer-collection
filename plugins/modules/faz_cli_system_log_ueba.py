@@ -23,13 +23,13 @@ ANSIBLE_METADATA = {'status': ['preview'],
 
 DOCUMENTATION = '''
 ---
-module: faz_report_config_macro
-short_description: Config macro.
+module: faz_cli_system_log_ueba
+short_description: UEBAsettings.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
 
-version_added: "1.5.0"
+version_added: "1.6.0"
 author:
     - Xinwei Du (@dux-fortinet)
     - Link Zheng (@chillancezen)
@@ -76,7 +76,7 @@ options:
             - A warning will be returned in version_check_warning if there is a mismatch.
             - This warning is only a suggestion and may not be accurate.
         type: bool
-        default: false
+        default: true
     rc_succeeded:
         description: the rc codes list with which the conditions to succeed will be overriden
         type: list
@@ -85,73 +85,28 @@ options:
         description: the rc codes list with which the conditions to fail will be overriden
         type: list
         elements: int
-    state:
-        description: The directive to create, update or delete an object
-        type: str
-        required: true
-        choices:
-            - present
-            - absent
-    adom:
-        description: The parameter (adom) in requested url.
-        type: str
-        required: true
-    report_config_macro:
+    cli_system_log_ueba:
         description: The top level parameters set.
         type: dict
         suboptions:
-            description:
+            ip-only-ep:
                 type: str
-                description: no description
-            dev-type:
-                type: str
-                description: no description
+                description:
+                 - Disable/Enable IP-only endpoint identification.
+                 - disable - Disable IP-only endpoint identification.
+                 - enable - Enable IP-only endpoint identification.
                 choices:
-                    - 'FortiSandbox'
-                    - 'FortiWeb'
-                    - 'Fabric'
-                    - 'Syslog'
-                    - 'FortiCache'
-                    - 'FortiAuthenticator'
-                    - 'FortiMail'
-                    - 'FortiProxy'
-                    - 'FortiManager'
-                    - 'FortiNAC'
-                    - 'FortiAnalyzer'
-                    - 'FortiClient'
-                    - 'FortiDDoS'
-                    - 'FortiGate'
-                    - 'FortiFirewall'
-            disp-name:
-                type: str
-                description: no description
-            name:
-                type: str
-                description: no description
-            data-attr:
-                type: str
-                description: no description
-                choices:
-                    - 'count'
-                    - 'none'
-                    - 'percent'
-                    - 'bandwidth'
-                    - 'timespan'
-            data-binding:
-                type: str
-                description: no description
-            dataset:
-                type: str
-                description: no description
-            protected:
-                type: str
-                description: no description
-                choices:
-                    - 'enable'
                     - 'disable'
-            chart-style:
+                    - 'enable'
+            ip-unique-scope:
                 type: str
-                description: no description
+                description:
+                 - set ip-unique-scope.
+                 - adom - set ip-unique-scope to adom.
+                 - vdom - set ip-unique-scope to vdom.
+                choices:
+                    - 'adom'
+                    - 'vdom'
 '''
 
 EXAMPLES = '''
@@ -164,23 +119,14 @@ EXAMPLES = '''
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
   tasks:
-    - name: Config macro.
-      fortinet.fortianalyzer.faz_report_config_macro:
+    - name: UEBAsettings.
+      fortinet.fortianalyzer.faz_cli_system_log_ueba:
         # bypass_validation: false
         # rc_succeeded: [0, -2, -3, ...]
         # rc_failed: [-2, -3, ...]
-        adom: <your own value>
-        state: <value in [present, absent]>
-        report_config_macro:
-          description: <value of string>
-          dev_type: <value in [FortiSandbox, FortiWeb, Fabric, ...]>
-          disp_name: <value of string>
-          name: <value of string>
-          data_attr: <value in [count, none, percent, ...]>
-          data_binding: <value of string>
-          dataset: <value of string>
-          protected: <value in [enable, disable]>
-          chart_style: <value of string>
+        cli_system_log_ueba:
+          ip_only_ep: <value in [disable, enable]>
+          ip_unique_scope: <value in [adom, vdom]>
 '''
 
 RETURN = '''
@@ -230,15 +176,15 @@ from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import
 
 def main():
     jrpc_urls = [
-        '/report/adom/{adom}/config/macro'
+        '/cli/global/system/log/ueba'
     ]
 
     perobject_jrpc_urls = [
-        '/report/adom/{adom}/config/macro/{macro}'
+        '/cli/global/system/log/ueba/{ueba}'
     ]
 
-    url_params = ['adom']
-    module_primary_key = 'name'
+    url_params = []
+    module_primary_key = None
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
@@ -246,48 +192,28 @@ def main():
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
-        'version_check': {'type': 'bool', 'default': 'false'},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
-        'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},
-        'adom': {'required': True, 'type': 'str'},
-        'report_config_macro': {
+        'cli_system_log_ueba': {
             'type': 'dict',
-            'v_range': [['6.2.1', '']],
+            'v_range': [['7.4.3', '']],
             'options': {
-                'description': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
-                'dev-type': {
-                    'v_range': [['6.2.1', '7.4.2']],
-                    'choices': [
-                        'FortiSandbox', 'FortiWeb', 'Fabric', 'Syslog', 'FortiCache', 'FortiAuthenticator', 'FortiMail', 'FortiProxy', 'FortiManager',
-                        'FortiNAC', 'FortiAnalyzer', 'FortiClient', 'FortiDDoS', 'FortiGate', 'FortiFirewall'
-                    ],
-                    'type': 'str'
-                },
-                'disp-name': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
-                'name': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
-                'data-attr': {
-                    'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']],
-                    'choices': ['count', 'none', 'percent', 'bandwidth', 'timespan'],
-                    'type': 'str'
-                },
-                'data-binding': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'dataset': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'protected': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'chart-style': {'v_range': [['7.4.3', '']], 'type': 'str'}
+                'ip-only-ep': {'v_range': [['7.4.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'ip-unique-scope': {'v_range': [['7.4.3', '']], 'choices': ['adom', 'vdom'], 'type': 'str'}
             }
 
         }
     }
 
-    module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'report_config_macro'),
+    module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_log_ueba'),
                            supports_check_mode=False)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
     faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='full crud')
+                      metadata=module_arg_spec, task_type='partial crud')
     faz.process()
     module.exit_json(meta=module.params)
 

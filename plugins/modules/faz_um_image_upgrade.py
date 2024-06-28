@@ -134,9 +134,10 @@ EXAMPLES = '''
   hosts: fortianalyzers
   connection: httpapi
   vars:
+    ansible_network_os: fortinet.fortianalyzer.fortianalyzer
+    ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
-    ansible_httpapi_port: 443
   tasks:
     - name: The older API for updating the firmware of specific device.
       fortinet.fortianalyzer.faz_um_image_upgrade:
@@ -147,8 +148,7 @@ EXAMPLES = '''
           adom: <value of string>
           create_task: <value of string>
           device:
-            -
-              name: <value of string>
+            - name: <value of string>
               vdom: <value of string>
           flags: <value in [f_boot_alt_partition, f_skip_retrieve, f_skip_multi_steps, ...]>
           image:
@@ -263,10 +263,6 @@ def main():
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    connection.set_option('access_token', module.params['access_token'])
-    connection.set_option('enable_log', module.params['enable_log'])
-    connection.set_option('forticloud_access_token', module.params['forticloud_access_token'])
-    connection.set_option('log_path', module.params['log_path'])
     faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
                       metadata=module_arg_spec, task_type='exec')
     faz.process()

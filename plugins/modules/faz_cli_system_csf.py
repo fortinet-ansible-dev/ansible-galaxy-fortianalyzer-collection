@@ -283,9 +283,10 @@ EXAMPLES = '''
   hosts: fortianalyzers
   connection: httpapi
   vars:
+    ansible_network_os: fortinet.fortianalyzer.fortianalyzer
+    ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
-    ansible_httpapi_port: 443
   tasks:
     - name: Add this device to a Security Fabric or set up a new Security Fabric on this device.
       fortinet.fortianalyzer.faz_cli_system_csf:
@@ -300,8 +301,7 @@ EXAMPLES = '''
           downstream_access: <value in [disable, enable]>
           downstream_accprofile: <value of string>
           fabric_connector:
-            -
-              accprofile: <value of string>
+            - accprofile: <value of string>
               configuration_write_access: <value in [disable, enable]>
               serial: <value of string>
           fabric_object_unification: <value in [local, default]>
@@ -317,8 +317,7 @@ EXAMPLES = '''
           saml_configuration_sync: <value in [local, default]>
           status: <value in [disable, enable]>
           trusted_list:
-            -
-              action: <value in [accept, deny]>
+            - action: <value in [accept, deny]>
               authorization_type: <value in [serial, certificate]>
               certificate: <value of string>
               downstream_authorization: <value in [disable, enable]>
@@ -456,10 +455,6 @@ def main():
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    connection.set_option('access_token', module.params['access_token'])
-    connection.set_option('enable_log', module.params['enable_log'])
-    connection.set_option('forticloud_access_token', module.params['forticloud_access_token'])
-    connection.set_option('log_path', module.params['log_path'])
     faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
                       metadata=module_arg_spec, task_type='partial crud')
     faz.process()

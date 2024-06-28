@@ -1,6 +1,6 @@
 ![Fortinet logo|](https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Fortinet_logo.svg/320px-Fortinet_logo.svg.png)
 
-# Ansible Collection - fortinet.fortianalyzer:1.5.0
+# Ansible Collection - fortinet.fortianalyzer:1.6.0
 
 FortiAnalyzer Ansible Collection includes the modules that are able to configure FortiAnalyzer.
 
@@ -14,7 +14,7 @@ FortiAnalyzer Ansible Collection includes the modules that are able to configure
 This collection is distributed via [ansible-galaxy](https://galaxy.ansible.com/fortinet/fortianalyzer), the installation steps are as follows:
 
 1. Install or upgrade to Ansible >= 2.15.0
-2. Download this collection from galaxy: `ansible-galaxy collection install fortinet.fortianalyzer:1.5.0`
+2. Download this collection from galaxy: `ansible-galaxy collection install fortinet.fortianalyzer:1.6.0`
 
 ## Modules
 The collection provides the following modules:
@@ -134,6 +134,7 @@ The collection provides the following modules:
 * `faz_cli_system_log_settings_rollinglocal`  Log rolling policy for local logs.
 * `faz_cli_system_log_settings_rollingregular`  Log rolling policy for device logs.
 * `faz_cli_system_log_topology`  Logging topology settings.
+* `faz_cli_system_log_ueba`  UEBAsettings.
 * `faz_cli_system_logfetch_clientprofile`  Log-fetch client profile settings.
 * `faz_cli_system_logfetch_clientprofile_devicefilter`  List of device filter.
 * `faz_cli_system_logfetch_clientprofile_logfilter`  Log content filters.

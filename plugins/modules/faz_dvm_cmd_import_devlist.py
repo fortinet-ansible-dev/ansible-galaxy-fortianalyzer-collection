@@ -248,6 +248,36 @@ options:
                     lock_override:
                         type: int
                         description: no description
+                    primary_dns_ip4:
+                        type: str
+                        description: no description
+                    primary_dns_ip6_1:
+                        type: int
+                        description: no description
+                    primary_dns_ip6_2:
+                        type: int
+                        description: no description
+                    primary_dns_ip6_3:
+                        type: int
+                        description: no description
+                    primary_dns_ip6_4:
+                        type: int
+                        description: no description
+                    secondary_dns_ip4:
+                        type: str
+                        description: no description
+                    secondary_dns_ip6_1:
+                        type: int
+                        description: no description
+                    secondary_dns_ip6_2:
+                        type: int
+                        description: no description
+                    secondary_dns_ip6_3:
+                        type: int
+                        description: no description
+                    secondary_dns_ip6_4:
+                        type: int
+                        description: no description
             import-devices:
                 description: A list of device objects to be imported.
                 type: list
@@ -699,6 +729,9 @@ options:
                     hw_generation:
                         type: int
                         description: no description
+                    relver_info:
+                        type: str
+                        description: no description
             import-group-members:
                 description: Associations between devices and device groups.
                 type: list
@@ -731,6 +764,7 @@ EXAMPLES = '''
             - create_task
             - nonblocking
   vars:
+    ansible_network_os: fortinet.fortianalyzer.fortianalyzer
     ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
@@ -849,7 +883,17 @@ def main():
                         'create_time': {'v_range': [['6.4.1', '']], 'type': 'int'},
                         'workspace_mode': {'v_range': [['6.4.3', '']], 'type': 'int'},
                         'tz': {'v_range': [['7.4.0', '']], 'type': 'int'},
-                        'lock_override': {'v_range': [['7.4.1', '']], 'type': 'int'}
+                        'lock_override': {'v_range': [['7.4.1', '']], 'type': 'int'},
+                        'primary_dns_ip4': {'v_range': [['7.4.3', '']], 'type': 'str'},
+                        'primary_dns_ip6_1': {'v_range': [['7.4.3', '']], 'type': 'int'},
+                        'primary_dns_ip6_2': {'v_range': [['7.4.3', '']], 'type': 'int'},
+                        'primary_dns_ip6_3': {'v_range': [['7.4.3', '']], 'type': 'int'},
+                        'primary_dns_ip6_4': {'v_range': [['7.4.3', '']], 'type': 'int'},
+                        'secondary_dns_ip4': {'v_range': [['7.4.3', '']], 'type': 'str'},
+                        'secondary_dns_ip6_1': {'v_range': [['7.4.3', '']], 'type': 'int'},
+                        'secondary_dns_ip6_2': {'v_range': [['7.4.3', '']], 'type': 'int'},
+                        'secondary_dns_ip6_3': {'v_range': [['7.4.3', '']], 'type': 'int'},
+                        'secondary_dns_ip6_4': {'v_range': [['7.4.3', '']], 'type': 'int'}
                     },
                     'elements': 'dict'
                 },
@@ -986,7 +1030,8 @@ def main():
                         'first_tunnel_up': {'v_range': [['7.0.4', '7.0.12'], ['7.2.1', '']], 'type': 'int'},
                         'eip': {'v_range': [['7.2.1', '']], 'type': 'str'},
                         'mgmt_uuid': {'v_range': [['7.2.1', '']], 'type': 'str'},
-                        'hw_generation': {'v_range': [['7.2.4', '7.2.5'], ['7.4.1', '']], 'type': 'int'}
+                        'hw_generation': {'v_range': [['7.2.4', '7.2.5'], ['7.4.1', '']], 'type': 'int'},
+                        'relver_info': {'v_range': [['7.4.3', '']], 'type': 'str'}
                     },
                     'elements': 'dict'
                 },
@@ -1006,10 +1051,6 @@ def main():
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    connection.set_option('access_token', module.params['access_token'])
-    connection.set_option('enable_log', module.params['enable_log'])
-    connection.set_option('forticloud_access_token', module.params['forticloud_access_token'])
-    connection.set_option('log_path', module.params['log_path'])
     faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
                       metadata=module_arg_spec, task_type='exec')
     faz.process()

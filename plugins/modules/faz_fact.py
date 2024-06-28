@@ -189,6 +189,7 @@ options:
                     - 'cli_system_log_settings_rollinglocal'
                     - 'cli_system_log_settings_rollingregular'
                     - 'cli_system_log_topology'
+                    - 'cli_system_log_ueba'
                     - 'cli_system_logfetch_clientprofile'
                     - 'cli_system_logfetch_clientprofile_devicefilter'
                     - 'cli_system_logfetch_clientprofile_logfilter'
@@ -273,6 +274,26 @@ options:
                     - 'logview_logsearch_count'
                     - 'logview_logstats'
                     - 'logview_pcapfile'
+                    - 'report_config_chart'
+                    - 'report_config_chart_drilldowntable'
+                    - 'report_config_chart_tablecolumns'
+                    - 'report_config_chart_variabletemplate'
+                    - 'report_config_dataset'
+                    - 'report_config_dataset_variable'
+                    - 'report_config_layout'
+                    - 'report_config_layout_component'
+                    - 'report_config_layout_component_variable'
+                    - 'report_config_layout_footer'
+                    - 'report_config_layout_header'
+                    - 'report_config_layoutfolder'
+                    - 'report_config_macro'
+                    - 'report_config_output'
+                    - 'report_config_output_emailrecipients'
+                    - 'report_config_schedule'
+                    - 'report_config_schedule_addressfilter'
+                    - 'report_config_schedule_devices'
+                    - 'report_config_schedule_filter'
+                    - 'report_config_schedule_reportlayout'
                     - 'report_graphfile'
                     - 'report_graphfile_data'
                     - 'report_graphfile_list'
@@ -1137,6 +1158,12 @@ def main():
             ],
             'v_range': [['6.4.7', '6.4.14'], ['7.0.2', '']],
         },
+        'cli_system_log_ueba': {
+            'urls': [
+                '/cli/global/system/log/ueba'
+            ],
+            'v_range': [['7.4.3', '']],
+        },
         'cli_system_logfetch_clientprofile': {
             'urls': [
                 '/cli/global/system/log-fetch/client-profile',
@@ -1688,6 +1715,126 @@ def main():
             ],
             'v_range': [['7.0.3', '']],
         },
+        'report_config_chart': {
+            'urls': [
+                '/report/adom/{adom}/config/chart'
+            ],
+            'v_range': [['6.2.1', '']],
+        },
+        'report_config_chart_drilldowntable': {
+            'urls': [
+                '/report/adom/{adom}/config/chart/{chart_name}/drill-down-table'
+            ],
+            'v_range': [['6.2.1', '']],
+        },
+        'report_config_chart_tablecolumns': {
+            'urls': [
+                '/report/adom/{adom}/config/chart/{chart_name}/table-columns'
+            ],
+            'v_range': [['6.2.1', '']],
+        },
+        'report_config_chart_variabletemplate': {
+            'urls': [
+                '/report/adom/{adom}/config/chart/{chart_name}/variable-template'
+            ],
+            'v_range': [['6.2.1', '']],
+        },
+        'report_config_dataset': {
+            'urls': [
+                '/report/adom/{adom}/config/dataset'
+            ],
+            'v_range': [['6.2.1', '']],
+        },
+        'report_config_dataset_variable': {
+            'urls': [
+                '/report/adom/{adom}/config/dataset/{dataset_name}/variable'
+            ],
+            'v_range': [['6.2.1', '']],
+        },
+        'report_config_layout': {
+            'urls': [
+                '/report/adom/{adom}/config/layout'
+            ],
+            'v_range': [['6.2.1', '']],
+        },
+        'report_config_layout_component': {
+            'urls': [
+                '/report/adom/{adom}/config/layout/{layout-id}/component'
+            ],
+            'v_range': [['6.2.1', '']],
+        },
+        'report_config_layout_component_variable': {
+            'urls': [
+                '/report/adom/{adom}/config/layout/{layout-id}/component/{component-id}/variable'
+            ],
+            'v_range': [['6.2.1', '']],
+        },
+        'report_config_layout_footer': {
+            'urls': [
+                '/report/adom/{adom}/config/layout/{layout-id}/footer'
+            ],
+            'v_range': [['6.2.1', '']],
+        },
+        'report_config_layout_header': {
+            'urls': [
+                '/report/adom/{adom}/config/layout/{layout-id}/header'
+            ],
+            'v_range': [['6.2.1', '']],
+        },
+        'report_config_layoutfolder': {
+            'urls': [
+                '/report/adom/{adom}/config/layout-folder'
+            ],
+            'v_range': [['6.2.1', '']],
+        },
+        'report_config_macro': {
+            'urls': [
+                '/report/adom/{adom}/config/macro'
+            ],
+            'v_range': [['6.2.1', '']],
+        },
+        'report_config_output': {
+            'urls': [
+                '/report/adom/{adom}/config/output'
+            ],
+            'v_range': [['6.2.1', '']],
+        },
+        'report_config_output_emailrecipients': {
+            'urls': [
+                '/report/adom/{adom}/config/output/{output-name}/email-recipients'
+            ],
+            'v_range': [['6.2.1', '']],
+        },
+        'report_config_schedule': {
+            'urls': [
+                '/report/adom/{adom}/config/schedule'
+            ],
+            'v_range': [['6.2.1', '']],
+        },
+        'report_config_schedule_addressfilter': {
+            'urls': [
+                '/report/adom/{adom}/config/schedule/{schedule_name}/address-filter'
+            ],
+            'v_range': [['6.4.3', '']],
+        },
+        'report_config_schedule_devices': {
+            'urls': [
+                '/report/adom/{adom}/config/schedule/{schedule_name}/devices'
+            ],
+            'v_range': [['6.2.1', '']],
+        },
+        'report_config_schedule_filter': {
+            'urls': [
+                '/report/adom/{adom}/config/schedule/{schedule_name}/filter'
+            ],
+            'v_range': [['6.2.1', '']],
+        },
+        'report_config_schedule_reportlayout': {
+            'urls': [
+                '/report/adom/{adom}/config/schedule/{schedule_name}/report-layout'
+            ],
+            'v_range': [['6.2.1', '']],
+        },
         'report_graphfile': {
             'urls': [
                 '/report/adom/{adom}/graph-file'
@@ -1997,6 +2144,7 @@ def main():
                         'cli_system_log_settings_rollinglocal',
                         'cli_system_log_settings_rollingregular',
                         'cli_system_log_topology',
+                        'cli_system_log_ueba',
                         'cli_system_logfetch_clientprofile',
                         'cli_system_logfetch_clientprofile_devicefilter',
                         'cli_system_logfetch_clientprofile_logfilter',
@@ -2081,6 +2229,26 @@ def main():
                         'logview_logsearch_count',
                         'logview_logstats',
                         'logview_pcapfile',
+                        'report_config_chart',
+                        'report_config_chart_drilldowntable',
+                        'report_config_chart_tablecolumns',
+                        'report_config_chart_variabletemplate',
+                        'report_config_dataset',
+                        'report_config_dataset_variable',
+                        'report_config_layout',
+                        'report_config_layout_component',
+                        'report_config_layout_component_variable',
+                        'report_config_layout_footer',
+                        'report_config_layout_header',
+                        'report_config_layoutfolder',
+                        'report_config_macro',
+                        'report_config_output',
+                        'report_config_output_emailrecipients',
+                        'report_config_schedule',
+                        'report_config_schedule_addressfilter',
+                        'report_config_schedule_devices',
+                        'report_config_schedule_filter',
+                        'report_config_schedule_reportlayout',
                         'report_graphfile',
                         'report_graphfile_data',
                         'report_graphfile_list',
@@ -2125,10 +2293,6 @@ def main():
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    connection.set_option('access_token', module.params['access_token'])
-    connection.set_option('enable_log', module.params['enable_log'])
-    connection.set_option('forticloud_access_token', module.params['forticloud_access_token'])
-    connection.set_option('log_path', module.params['log_path'])
     faz = NAPIManager(None, None, None, None, module, connection, metadata=facts_metadata, task_type='fact')
     faz.process()
     module.exit_json(meta=module.params)

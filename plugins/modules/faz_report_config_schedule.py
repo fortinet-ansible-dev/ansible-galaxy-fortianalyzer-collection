@@ -347,13 +347,11 @@ options:
                     - 'on-demand'
                     - 'every-n-weeks'
             schedule-valid-end:
+                type: str
                 description: no description
-                type: list
-                elements: dict
             schedule-valid-start:
+                type: str
                 description: no description
-                type: list
-                elements: dict
             time-period:
                 type: str
                 description: no description
@@ -397,6 +395,9 @@ options:
                     include-option:
                         type: str
                         description: no description
+                    address-type:
+                        type: str
+                        description: no description
             soc-cust-filters:
                 description: 'reference: /sql-report/schedule/soc-cust-filters'
                 type: list
@@ -412,9 +413,10 @@ EXAMPLES = '''
   hosts: fortianalyzers
   connection: httpapi
   vars:
+    ansible_network_os: fortinet.fortianalyzer.fortianalyzer
+    ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
-    ansible_httpapi_port: 443
   tasks:
     - name: Config schedule.
       fortinet.fortianalyzer.faz_report_config_schedule:
@@ -426,22 +428,18 @@ EXAMPLES = '''
         report_config_schedule:
           description: <value of string>
           devices:
-            -
-              devices_name: <value of string>
+            - devices_name: <value of string>
               interfaces:
-                -
-                  name: <value of string>
+                - name: <value of string>
           filter:
-            -
-              description: <value of string>
+            - description: <value of string>
               name: <value of string>
               opcode: <value in [not_equal, equal]>
               status: <value of integer>
               value: <value of string>
           name: <value of string>
           report_layout:
-            -
-              layout_id: <value of integer>
+            - layout_id: <value of integer>
               is_global: <value of integer>
           status: <value in [enable, disable]>
           admin_user: <value of string>
@@ -475,17 +473,16 @@ EXAMPLES = '''
           schedule_color: <value of string>
           schedule_frequency: <value of integer>
           schedule_type: <value in [every-n-days, every-n-months, every-n-hours, ...]>
-          schedule_valid_end: <value of dict>
-          schedule_valid_start: <value of dict>
+          schedule_valid_end: <value of string>
+          schedule_valid_start: <value of string>
           time_period: <value in [last-n-weeks, last-month, last-7-days, ...]>
           week_start: <value in [wed, sun, fri, ...]>
           address_filter:
-            -
-              id: <value of integer>
+            - id: <value of integer>
               include_option: <value of string>
+              address_type: <value of string>
           soc_cust_filters:
-            -
-              name: <value of string>
+            - name: <value of string>
 '''
 
 RETURN = '''
@@ -560,7 +557,7 @@ def main():
             'type': 'dict',
             'v_range': [['6.2.1', '']],
             'options': {
-                'description': {'type': 'str'},
+                'description': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
                 'devices': {
                     'type': 'list',
                     'options': {
@@ -585,15 +582,15 @@ def main():
                     },
                     'elements': 'dict'
                 },
-                'name': {'type': 'str'},
+                'name': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
                 'report-layout': {
                     'type': 'list',
-                    'options': {'layout-id': {'type': 'int'}, 'is-global': {'v_range': [['7.4.2', '']], 'type': 'int'}},
+                    'options': {'layout-id': {'v_range': [['6.2.1', '7.4.2']], 'type': 'int'}, 'is-global': {'v_range': [['7.4.2', '']], 'type': 'int'}},
                     'elements': 'dict'
                 },
-                'status': {'choices': ['enable', 'disable'], 'type': 'str'},
-                'admin-user': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'auto-hcache': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'status': {'v_range': [['6.2.1', '7.4.2']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'admin-user': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'},
+                'auto-hcache': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'choices': ['enable', 'disable'], 'type': 'str'},
                 'date-format': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
                 'dev-type': {
                     'v_range': [['6.2.2', '6.2.12']],
@@ -638,8 +635,8 @@ def main():
                     'choices': ['every-n-days', 'every-n-months', 'every-n-hours', 'on-demand', 'every-n-weeks'],
                     'type': 'str'
                 },
-                'schedule-valid-end': {'v_range': [['6.2.2', '6.2.12']], 'type': 'list', 'elements': 'dict'},
-                'schedule-valid-start': {'v_range': [['6.2.2', '6.2.12']], 'type': 'list', 'elements': 'dict'},
+                'schedule-valid-end': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
+                'schedule-valid-start': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
                 'time-period': {
                     'v_range': [['6.2.2', '6.2.12']],
                     'choices': [
@@ -652,7 +649,11 @@ def main():
                 'address-filter': {
                     'v_range': [['6.4.3', '']],
                     'type': 'list',
-                    'options': {'id': {'v_range': [['6.4.3', '']], 'type': 'int'}, 'include-option': {'v_range': [['6.4.3', '']], 'type': 'str'}},
+                    'options': {
+                        'id': {'v_range': [['6.4.3', '7.4.2']], 'type': 'int'},
+                        'include-option': {'v_range': [['6.4.3', '7.4.2']], 'type': 'str'},
+                        'address-type': {'v_range': [['7.4.3', '']], 'type': 'str'}
+                    },
                     'elements': 'dict'
                 },
                 'soc-cust-filters': {
@@ -672,10 +673,6 @@ def main():
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    connection.set_option('access_token', module.params['access_token'])
-    connection.set_option('enable_log', module.params['enable_log'])
-    connection.set_option('forticloud_access_token', module.params['forticloud_access_token'])
-    connection.set_option('log_path', module.params['log_path'])
     faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
                       metadata=module_arg_spec, task_type='full crud')
     faz.process()
