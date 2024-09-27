@@ -28,7 +28,7 @@ short_description: workflow approval matrix.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode and diff mode.
 version_added: "1.0.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,13 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - To create or update an object, set the state argument to present. To delete an object, set the state argument to absent.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -96,7 +99,7 @@ options:
         description: The top level parameters set.
         type: dict
         suboptions:
-            adom-name:
+            adom_name:
                 type: str
                 description: Adom Name
             approver:
@@ -110,7 +113,7 @@ options:
                     seq_num:
                         type: int
                         description: Entry number.
-            mail-server:
+            mail_server:
                 type: str
                 description: Notify mail server id.
             notify:
@@ -181,17 +184,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/cli/global/system/workflow/approval-matrix'
-    ]
-
-    perobject_jrpc_urls = [
-        '/cli/global/system/workflow/approval-matrix/{approval-matrix}'
     ]
 
     url_params = []
@@ -209,33 +208,32 @@ def main():
         'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},
         'cli_system_workflow_approvalmatrix': {
             'type': 'dict',
-            'v_range': [['6.2.1', '6.2.9'], ['6.4.1', '6.4.7'], ['7.0.0', '7.0.2']],
+            'v_range': [['6.2.1', '6.2.9'], ['6.4.1', '6.4.7'], ['7.0.0', '7.0.2'], ['7.6.0', '']],
             'options': {
-                'adom-name': {'v_range': [['6.2.1', '6.2.9'], ['6.4.1', '6.4.7'], ['7.0.0', '7.0.2']], 'type': 'str'},
+                'adom-name': {'v_range': [['6.2.1', '6.2.9'], ['6.4.1', '6.4.7'], ['7.0.0', '7.0.2'], ['7.6.0', '']], 'type': 'str'},
                 'approver': {
-                    'v_range': [['6.2.1', '6.2.9'], ['6.4.1', '6.4.7'], ['7.0.0', '7.0.2']],
+                    'v_range': [['6.2.1', '6.2.9'], ['6.4.1', '6.4.7'], ['7.0.0', '7.0.2'], ['7.6.0', '']],
                     'type': 'list',
                     'options': {
-                        'member': {'v_range': [['6.2.1', '6.2.9'], ['6.4.1', '6.4.7'], ['7.0.0', '7.0.2']], 'type': 'str'},
-                        'seq_num': {'v_range': [['6.2.1', '6.2.9'], ['6.4.1', '6.4.7'], ['7.0.0', '7.0.2']], 'type': 'int'}
+                        'member': {'v_range': [['6.2.1', '6.2.9'], ['6.4.1', '6.4.7'], ['7.0.0', '7.0.2'], ['7.6.0', '']], 'type': 'str'},
+                        'seq_num': {'v_range': [['6.2.1', '6.2.9'], ['6.4.1', '6.4.7'], ['7.0.0', '7.0.2'], ['7.6.0', '']], 'type': 'int'}
                     },
                     'elements': 'dict'
                 },
-                'mail-server': {'v_range': [['6.2.1', '6.2.9'], ['6.4.1', '6.4.7'], ['7.0.0', '7.0.2']], 'type': 'str'},
-                'notify': {'v_range': [['6.2.1', '6.2.9'], ['6.4.1', '6.4.7'], ['7.0.0', '7.0.2']], 'type': 'str'}
+                'mail-server': {'v_range': [['6.2.1', '6.2.9'], ['6.4.1', '6.4.7'], ['7.0.0', '7.0.2'], ['7.6.0', '']], 'type': 'str'},
+                'notify': {'v_range': [['6.2.1', '6.2.9'], ['6.4.1', '6.4.7'], ['7.0.0', '7.0.2'], ['7.6.0', '']], 'type': 'str'}
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_workflow_approvalmatrix'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='full crud')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='full crud')
     faz.process()
     module.exit_json(meta=module.params)
 

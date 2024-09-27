@@ -28,7 +28,7 @@ short_description: Settings for local disk logging.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode and diff mode.
 version_added: "1.0.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,12 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -98,13 +100,13 @@ options:
                 choices:
                     - 'overwrite'
                     - 'nolog'
-            log-disk-full-percentage:
+            log_disk_full_percentage:
                 type: int
                 description: Consider log disk as full at this usage percentage.
-            max-log-file-size:
+            max_log_file_size:
                 type: int
                 description: Maximum log file size before rolling.
-            roll-day:
+            roll_day:
                 description:
                  - Days of week to roll logs.
                  - sunday - Sunday.
@@ -124,7 +126,7 @@ options:
                     - 'thursday'
                     - 'friday'
                     - 'saturday'
-            roll-schedule:
+            roll_schedule:
                 type: str
                 description:
                  - Frequency to check log file for rolling.
@@ -135,10 +137,10 @@ options:
                     - 'none'
                     - 'daily'
                     - 'weekly'
-            roll-time:
+            roll_time:
                 type: str
                 description: Time to roll logs
-            server-type:
+            server_type:
                 type: str
                 description:
                  - Server type.
@@ -188,7 +190,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            upload-delete-files:
+            upload_delete_files:
                 type: str
                 description:
                  - Delete log files after uploading
@@ -197,7 +199,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            upload-time:
+            upload_time:
                 type: str
                 description: Time to upload logs
             uploaddir:
@@ -241,10 +243,10 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            max-log-file-num:
+            max_log_file_num:
                 type: int
                 description: Maximum number of log files before rolling.
-            log-disk-quota:
+            log_disk_quota:
                 type: int
                 description: Quota for controlling local log size.
 '''
@@ -333,17 +335,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/cli/global/system/locallog/disk/setting'
-    ]
-
-    perobject_jrpc_urls = [
-        '/cli/global/system/locallog/disk/setting/{setting}'
     ]
 
     url_params = []
@@ -385,18 +383,17 @@ def main():
                 'max-log-file-num': {'v_range': [['6.4.8', '6.4.14'], ['7.0.2', '']], 'type': 'int'},
                 'log-disk-quota': {'v_range': [['7.0.3', '']], 'type': 'int'}
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_locallog_disk_setting'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='partial crud')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='partial crud')
     faz.process()
     module.exit_json(meta=module.params)
 

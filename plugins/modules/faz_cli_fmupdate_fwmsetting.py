@@ -28,7 +28,7 @@ short_description: Configure firmware management settings.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode and diff mode.
 version_added: "1.0.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,12 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -89,7 +91,7 @@ options:
         description: The top level parameters set.
         type: dict
         suboptions:
-            auto-scan-fgt-disk:
+            auto_scan_fgt_disk:
                 type: str
                 description:
                  - auto scan fgt disk if needed.
@@ -98,7 +100,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            check-fgt-disk:
+            check_fgt_disk:
                 type: str
                 description:
                  - check fgt disk before upgrade image.
@@ -107,7 +109,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            fds-failover-fmg:
+            fds_failover_fmg:
                 type: str
                 description:
                  - using fmg local image file is download from fds fails.
@@ -116,16 +118,16 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            fds-image-timeout:
+            fds_image_timeout:
                 type: int
                 description: timer for fgt download image from fortiguard
-            multiple-steps-interval:
+            multiple_steps_interval:
                 type: int
                 description: waiting time between multiple steps upgrade
-            max-fds-retry:
+            max_fds_retry:
                 type: int
                 description: The retries when fgt download from fds fail
-            skip-disk-check:
+            skip_disk_check:
                 type: str
                 description:
                  - skip disk check when upgrade image.
@@ -134,7 +136,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            immx-source:
+            immx_source:
                 type: str
                 description:
                  - Configure which of IMMX file to be used for choosing upgrade pach.
@@ -156,59 +158,62 @@ options:
                     - 'fwm'
                     - 'fwm_dm'
                     - 'fwm_dm_json'
-            upgrade-timeout:
+            upgrade_timeout:
                 description: no description
                 type: dict
                 suboptions:
-                    check-status-timeout:
+                    check_status_timeout:
                         type: int
                         description: timeout for checking status after tunnnel is up.
-                    ctrl-check-status-timeout:
+                    ctrl_check_status_timeout:
                         type: int
                         description: timeout for checking fap/fsw/fext status after request upgrade.
-                    ctrl-put-image-by-fds-timeout:
+                    ctrl_put_image_by_fds_timeout:
                         type: int
                         description: timeout for waiting device get fap/fsw/fext image from fortiguard.
-                    ha-sync-timeout:
+                    ha_sync_timeout:
                         type: int
                         description: timeout for waiting HA sync.
-                    license-check-timeout:
+                    license_check_timeout:
                         type: int
                         description: timeout for waiting fortigate check license.
-                    prepare-image-timeout:
+                    prepare_image_timeout:
                         type: int
                         description: timeout for preparing image.
-                    put-image-by-fds-timeout:
+                    put_image_by_fds_timeout:
                         type: int
                         description: timeout for waiting device get image from fortiguard.
-                    put-image-timeout:
+                    put_image_timeout:
                         type: int
                         description: timeout for waiting send image over tunnel.
-                    reboot-of-fsck-timeout:
+                    reboot_of_fsck_timeout:
                         type: int
                         description: timeout for waiting fortigate reboot.
-                    reboot-of-upgrade-timeout:
+                    reboot_of_upgrade_timeout:
                         type: int
                         description: timeout for waiting fortigate reboot after image upgrade.
-                    retrieve-timeout:
+                    retrieve_timeout:
                         type: int
                         description: timeout for waiting retrieve.
-                    rpc-timeout:
+                    rpc_timeout:
                         type: int
                         description: timeout for waiting fortigate rpc response.
-                    total-timeout:
+                    total_timeout:
                         type: int
                         description: timeout for the whole fortigate upgrade
-                    health-check-timeout:
+                    health_check_timeout:
                         type: int
                         description: timeout for waiting retrieve.
-            retry-interval:
+            retry_interval:
                 type: int
                 description: waiting time for resending request to device
-            retry-max:
+            retry_max:
                 type: int
                 description: max retry times
-            health-check:
+            send_image_retry:
+                type: int
+                description: retry send image when failed
+            health_check:
                 type: str
                 description:
                  - do health check after upgrade
@@ -217,10 +222,10 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            max-device-history:
+            max_device_history:
                 type: int
                 description: max number of device upgrade report
-            max-profile-history:
+            max_profile_history:
                 type: int
                 description: max number of profile upgrade report
             retrieve:
@@ -232,7 +237,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            revision-diff:
+            revision_diff:
                 type: str
                 description:
                  - calculate diff script after upgrade
@@ -307,17 +312,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/cli/global/fmupdate/fwm-setting'
-    ]
-
-    perobject_jrpc_urls = [
-        '/cli/global/fmupdate/fwm-setting/{fwm-setting}'
     ]
 
     url_params = []
@@ -365,26 +366,26 @@ def main():
                         'health-check-timeout': {'v_range': [['7.4.2', '']], 'type': 'int'}
                     }
                 },
-                'retry-interval': {'v_range': [['7.0.10', '7.0.12'], ['7.2.5', '7.2.5'], ['7.4.2', '']], 'type': 'int'},
-                'retry-max': {'v_range': [['7.0.10', '7.0.12'], ['7.2.5', '7.2.5'], ['7.4.2', '']], 'type': 'int'},
+                'retry-interval': {'v_range': [['7.0.10', '7.0.12'], ['7.2.5', '7.2.7'], ['7.4.2', '']], 'type': 'int'},
+                'retry-max': {'v_range': [['7.0.10', '7.0.12'], ['7.2.5', '7.2.7'], ['7.4.2', '']], 'type': 'int'},
+                'send-image-retry': {'v_range': [['7.2.6', '7.2.7']], 'type': 'int'},
                 'health-check': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'max-device-history': {'v_range': [['7.4.2', '']], 'type': 'int'},
                 'max-profile-history': {'v_range': [['7.4.2', '']], 'type': 'int'},
                 'retrieve': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'revision-diff': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_fmupdate_fwmsetting'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='partial crud')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='partial crud')
     faz.process()
     module.exit_json(meta=module.params)
 

@@ -28,7 +28,7 @@ short_description: Config chart.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode and diff mode.
 version_added: "1.5.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,13 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - To create or update an object, set the state argument to present. To delete an object, set the state argument to absent.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -106,7 +109,7 @@ options:
             description:
                 type: str
                 description: no description
-            dev-type:
+            dev_type:
                 type: str
                 description: no description
                 choices:
@@ -125,10 +128,10 @@ options:
                     - 'FortiDDoS'
                     - 'FortiGate'
                     - 'FortiFirewall'
-            disp-name:
+            disp_name:
                 type: str
                 description: no description
-            drill-down-table:
+            drill_down_table:
                 description: 'reference: /report/adom/<adom-name>/config/chart/<chart_name>/drill-down-table'
                 type: list
                 elements: dict
@@ -142,19 +145,19 @@ options:
                         choices:
                             - 'enable'
                             - 'disable'
-                    table-id:
+                    table_id:
                         type: int
                         description: no description
-                    chart-group:
+                    chart_group:
                         type: str
                         description: no description
-                    page-break-after:
+                    page_break_after:
                         type: str
                         description: no description
                         choices:
                             - 'enable'
                             - 'disable'
-                    show-title:
+                    show_title:
                         type: str
                         description: no description
                         choices:
@@ -163,12 +166,12 @@ options:
             name:
                 type: str
                 description: no description
-            table-columns:
+            table_columns:
                 description: 'reference: /report/adom/<adom-name>/config/chart/<chart_name>/table-columns'
                 type: list
                 elements: dict
                 suboptions:
-                    data-type:
+                    data_type:
                         type: str
                         description: no description
                         choices:
@@ -181,7 +184,7 @@ options:
                     id:
                         type: int
                         description: no description
-                    column-attr:
+                    column_attr:
                         type: str
                         description: no description
                         choices:
@@ -213,7 +216,7 @@ options:
                             - 'appcat'
                             - 'time'
                             - 'kbps'
-                    column-graph-type:
+                    column_graph_type:
                         type: str
                         description: no description
                         choices:
@@ -221,25 +224,25 @@ options:
                             - 'bar'
                             - 'line-down'
                             - 'line-up'
-                    column-num:
+                    column_num:
                         type: int
                         description: no description
-                    column-span:
+                    column_span:
                         type: int
                         description: no description
-                    column-width:
+                    column_width:
                         type: int
                         description: no description
-                    data-binding:
+                    data_binding:
                         type: str
                         description: no description
-                    data-top:
+                    data_top:
                         type: int
                         description: no description
                     legend:
                         type: str
                         description: no description
-            variable-template:
+            variable_template:
                 description: 'reference: /report/adom/<adom-name>/config/chart/<chart_name>/variable-template'
                 type: list
                 elements: dict
@@ -253,13 +256,13 @@ options:
                     var:
                         type: str
                         description: no description
-                    var-value:
+                    var_value:
                         type: str
                         description: no description
                     description:
                         type: str
                         description: no description
-                    drilldown-flag:
+                    drilldown_flag:
                         type: str
                         description: no description
                         choices:
@@ -271,10 +274,10 @@ options:
                         choices:
                             - 'enable'
                             - 'disable'
-                    var-expression:
+                    var_expression:
                         type: str
                         description: no description
-                    var-type:
+                    var_type:
                         type: str
                         description: no description
                         choices:
@@ -285,7 +288,7 @@ options:
                     view_mask:
                         type: int
                         description: no description
-            chart-type:
+            chart_type:
                 type: str
                 description: no description
                 choices:
@@ -302,16 +305,16 @@ options:
             dataset:
                 type: str
                 description: no description
-            drill-down-agg:
+            drill_down_agg:
                 type: str
                 description: no description
                 choices:
                     - 'enable'
                     - 'disable'
-            drill-down-desc:
+            drill_down_desc:
                 type: str
                 description: no description
-            drill-down-title:
+            drill_down_title:
                 type: str
                 description: no description
             favorite:
@@ -326,23 +329,23 @@ options:
                 choices:
                     - 'enable'
                     - 'disable'
-            include-other:
+            include_other:
                 type: str
                 description: no description
                 choices:
                     - 'enable'
                     - 'disable'
-            line-subtype:
+            line_subtype:
                 type: str
                 description: no description
                 choices:
                     - 'back-to-back'
                     - 'stacked'
                     - 'basic'
-            order-by:
+            order_by:
                 type: str
                 description: no description
-            order-desc:
+            order_desc:
                 type: str
                 description: no description
                 choices:
@@ -354,13 +357,13 @@ options:
                 choices:
                     - 'enable'
                     - 'disable'
-            resolve-hostname:
+            resolve_hostname:
                 type: str
                 description: no description
                 choices:
                     - 'enable'
                     - 'disable'
-            resolve-hostname-mode:
+            resolve_hostname_mode:
                 type: str
                 description: no description
                 choices:
@@ -369,55 +372,55 @@ options:
             scale:
                 type: int
                 description: no description
-            show-table:
+            show_table:
                 type: str
                 description: no description
                 choices:
                     - 'enable'
                     - 'disable'
-            x-axis-data-binding:
+            x_axis_data_binding:
                 type: str
                 description: no description
-            x-axis-data-top:
+            x_axis_data_top:
                 type: int
                 description: no description
-            x-axis-include-other:
+            x_axis_include_other:
                 type: str
                 description: no description
                 choices:
                     - 'enable'
                     - 'disable'
-            x-axis-label:
+            x_axis_label:
                 type: str
                 description: no description
-            y-axis-data-binding:
+            y_axis_data_binding:
                 type: str
                 description: no description
-            y-axis-group:
+            y_axis_group:
                 type: str
                 description: no description
                 choices:
                     - 'enable'
                     - 'disable'
-            y-axis-group-by:
+            y_axis_group_by:
                 type: str
                 description: no description
-            y-axis-group-top:
+            y_axis_group_top:
                 type: int
                 description: no description
-            y-axis-label:
+            y_axis_label:
                 type: str
                 description: no description
-            y2-axis-data-binding:
+            y2_axis_data_binding:
                 type: str
                 description: no description
-            y2-axis-label:
+            y2_axis_label:
                 type: str
                 description: no description
             tags:
                 type: str
                 description: no description
-            chart-style:
+            chart_style:
                 type: str
                 description: no description
 '''
@@ -546,17 +549,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/report/adom/{adom}/config/chart'
-    ]
-
-    perobject_jrpc_urls = [
-        '/report/adom/{adom}/config/chart/{chart}'
     ]
 
     url_params = ['adom']
@@ -675,18 +674,17 @@ def main():
                 'tags': {'v_range': [['6.4.3', '7.4.2']], 'type': 'str'},
                 'chart-style': {'v_range': [['7.4.3', '']], 'type': 'str'}
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'report_config_chart'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='full crud')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='full crud')
     faz.process()
     module.exit_json(meta=module.params)
 

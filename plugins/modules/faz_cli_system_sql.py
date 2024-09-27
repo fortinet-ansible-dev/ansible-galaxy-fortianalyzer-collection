@@ -28,7 +28,7 @@ short_description: SQL settings.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode and diff mode.
 version_added: "1.0.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,12 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -89,7 +91,7 @@ options:
         description: The top level parameters set.
         type: dict
         suboptions:
-            background-rebuild:
+            background_rebuild:
                 type: str
                 description:
                  - Disable/Enable rebuild SQL database in the background.
@@ -98,12 +100,12 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            custom-index:
+            custom_index:
                 description: no description
                 type: list
                 elements: dict
                 suboptions:
-                    case-sensitive:
+                    case_sensitive:
                         type: str
                         description:
                          - Disable/Enable case sensitive index.
@@ -112,7 +114,7 @@ options:
                         choices:
                             - 'disable'
                             - 'enable'
-                    device-type:
+                    device_type:
                         type: str
                         description:
                          - Device type.
@@ -133,10 +135,10 @@ options:
                     id:
                         type: int
                         description: Add or Edit log index fields.
-                    index-field:
+                    index_field:
                         type: str
                         description: Log field name to be indexed.
-                    log-type:
+                    log_type:
                         type: str
                         description:
                          - Log type.
@@ -193,12 +195,12 @@ options:
                             - 'siem'
                             - 'ztna'
                             - 'security'
-            custom-skipidx:
+            custom_skipidx:
                 description: no description
                 type: list
                 elements: dict
                 suboptions:
-                    device-type:
+                    device_type:
                         type: str
                         description:
                          - Device type.
@@ -220,10 +222,10 @@ options:
                     id:
                         type: int
                         description: Add or Edit log index fields.
-                    index-field:
+                    index_field:
                         type: str
                         description: Field to be added to skip index.
-                    log-type:
+                    log_type:
                         type: str
                         description:
                          - Log type.
@@ -279,10 +281,10 @@ options:
                             - 'siem'
                             - 'ztna'
                             - 'security'
-            database-name:
+            database_name:
                 type: str
                 description: Database name.
-            database-type:
+            database_type:
                 type: str
                 description:
                  - Database type.
@@ -291,7 +293,7 @@ options:
                 choices:
                     - 'mysql'
                     - 'postgres'
-            device-count-high:
+            device_count_high:
                 type: str
                 description:
                  - Must set to enable if the count of registered devices is greater than 8000.
@@ -300,10 +302,10 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            event-table-partition-time:
+            event_table_partition_time:
                 type: int
                 description: Maximum SQL database table partitioning time range in minute
-            fct-table-partition-time:
+            fct_table_partition_time:
                 type: int
                 description: Maximum SQL database table partitioning time range in minute
             logtype:
@@ -368,7 +370,7 @@ options:
             password:
                 description: Password for login remote database.
                 type: str
-            prompt-sql-upgrade:
+            prompt_sql_upgrade:
                 type: str
                 description:
                  - Prompt to convert log database into SQL database at start time on GUI.
@@ -377,7 +379,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            rebuild-event:
+            rebuild_event:
                 type: str
                 description:
                  - Disable/Enable rebuild event during SQL database rebuilding.
@@ -386,13 +388,13 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            rebuild-event-start-time:
+            rebuild_event_start_time:
                 description: 'Rebuild event starting date and time <hh:mm yyyy/mm/dd>.'
                 type: str
             server:
                 type: str
                 description: Database IP or hostname.
-            start-time:
+            start_time:
                 description: 'Start date and time <hh:mm yyyy/mm/dd>.'
                 type: str
             status:
@@ -404,7 +406,7 @@ options:
                 choices:
                     - 'disable'
                     - 'local'
-            text-search-index:
+            text_search_index:
                 type: str
                 description:
                  - Disable/Enable text search index.
@@ -413,10 +415,10 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            traffic-table-partition-time:
+            traffic_table_partition_time:
                 type: int
                 description: Maximum SQL database table partitioning time range in minute
-            ts-index-field:
+            ts_index_field:
                 description: no description
                 type: list
                 elements: dict
@@ -430,10 +432,10 @@ options:
             username:
                 type: str
                 description: User name for login remote database.
-            utm-table-partition-time:
+            utm_table_partition_time:
                 type: int
                 description: Maximum SQL database table partitioning time range in minute
-            compress-table-min-age:
+            compress_table_min_age:
                 type: int
                 description: Minimum age in days for SQL tables to be compressed.
 '''
@@ -512,17 +514,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/cli/global/system/sql'
-    ]
-
-    perobject_jrpc_urls = [
-        '/cli/global/system/sql/{sql}'
     ]
 
     url_params = []
@@ -617,18 +615,17 @@ def main():
                 'utm-table-partition-time': {'type': 'int'},
                 'compress-table-min-age': {'v_range': [['6.4.3', '']], 'type': 'int'}
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_sql'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='partial crud')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='partial crud')
     faz.process()
     module.exit_json(meta=module.params)
 

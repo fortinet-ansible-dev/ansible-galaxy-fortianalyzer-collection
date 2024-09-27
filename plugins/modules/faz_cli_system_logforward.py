@@ -28,7 +28,7 @@ short_description: Log forwarding.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode and diff mode.
 version_added: "1.0.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,13 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - To create or update an object, set the state argument to present. To delete an object, set the state argument to absent.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -96,7 +99,7 @@ options:
         description: The top level parameters set.
         type: dict
         suboptions:
-            agg-archive-types:
+            agg_archive_types:
                 description:
                  - Archive types.
                  - Web_Archive
@@ -119,7 +122,7 @@ options:
                     - 'AV_Quarantine'
                     - 'IPS_Packets'
                     - 'CDR_Archive'
-            agg-logtypes:
+            agg_logtypes:
                 description:
                  - Log types.
                  - none - none
@@ -177,16 +180,16 @@ options:
                     - 'siem'
                     - 'ztna'
                     - 'security'
-            agg-password:
+            agg_password:
                 description: Log aggregation access password for server.
                 type: str
-            agg-time:
+            agg_time:
                 type: int
                 description: Daily at.
-            agg-user:
+            agg_user:
                 type: str
                 description: Log aggregation access user name for server.
-            device-filter:
+            device_filter:
                 description: no description
                 type: list
                 elements: dict
@@ -213,7 +216,7 @@ options:
                     adom:
                         type: str
                         description: Adom name or
-            fwd-archive-types:
+            fwd_archive_types:
                 description:
                  - forwarding archive types.
                  - Web_Archive
@@ -236,7 +239,7 @@ options:
                     - 'IPS_Packets'
                     - 'EDISC_Archive'
                     - 'CDR_Archive'
-            fwd-archives:
+            fwd_archives:
                 type: str
                 description:
                  - Enable/disable forwarding archives.
@@ -245,7 +248,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            fwd-facility:
+            fwd_facility:
                 type: str
                 description:
                  - Facility for remote syslog.
@@ -298,7 +301,7 @@ options:
                     - 'local5'
                     - 'local6'
                     - 'local7'
-            fwd-log-source-ip:
+            fwd_log_source_ip:
                 type: str
                 description:
                  - Logs source IP address
@@ -307,7 +310,7 @@ options:
                 choices:
                     - 'local_ip'
                     - 'original_ip'
-            fwd-max-delay:
+            fwd_max_delay:
                 type: str
                 description:
                  - Max delay for near realtime log forwarding.
@@ -318,7 +321,7 @@ options:
                     - 'realtime'
                     - '1min'
                     - '5min'
-            fwd-reliable:
+            fwd_reliable:
                 type: str
                 description:
                  - Enable/disable reliable logging.
@@ -327,7 +330,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            fwd-secure:
+            fwd_secure:
                 type: str
                 description:
                  - Enable/disable TLS/SSL secured reliable logging.
@@ -336,7 +339,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            fwd-server-type:
+            fwd_server_type:
                 type: str
                 description:
                  - Forwarding all logs to syslog server or FortiAnalyzer.
@@ -353,12 +356,12 @@ options:
             id:
                 type: int
                 description: Log forwarding ID.
-            log-field-exclusion:
+            log_field_exclusion:
                 description: no description
                 type: list
                 elements: dict
                 suboptions:
-                    dev-type:
+                    dev_type:
                         type: str
                         description:
                          - Device type.
@@ -395,13 +398,13 @@ options:
                             - 'FortiPAM'
                             - 'FortiCASB'
                             - 'FortiToken'
-                    field-list:
+                    field_list:
                         type: str
                         description: List of fields to be excluded.
                     id:
                         type: int
                         description: Log field exclusion ID.
-                    log-type:
+                    log_type:
                         type: str
                         description:
                          - Log type.
@@ -457,7 +460,7 @@ options:
                             - 'fct-netscan'
                             - 'ztna'
                             - 'security'
-            log-field-exclusion-status:
+            log_field_exclusion_status:
                 type: str
                 description:
                  - Enable or disable log field exclusion.
@@ -466,7 +469,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            log-filter:
+            log_filter:
                 description: no description
                 type: list
                 elements: dict
@@ -527,7 +530,7 @@ options:
                     value:
                         type: str
                         description: Field filter operand or free-text matching expression.
-            log-filter-logic:
+            log_filter_logic:
                 type: str
                 description:
                  - Logic operator used to connect filters.
@@ -536,7 +539,7 @@ options:
                 choices:
                     - 'and'
                     - 'or'
-            log-filter-status:
+            log_filter_status:
                 type: str
                 description:
                  - Enable or disable log filtering.
@@ -556,7 +559,7 @@ options:
                     - 'forwarding'
                     - 'aggregation'
                     - 'disable'
-            proxy-service:
+            proxy_service:
                 type: str
                 description:
                  - Enable/disable proxy service under collector mode.
@@ -565,25 +568,25 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            proxy-service-priority:
+            proxy_service_priority:
                 type: int
                 description: Proxy service priority from 1
-            server-device:
+            server_device:
                 type: str
                 description: Log forwarding server device ID.
-            server-ip:
+            server_ip:
                 type: str
                 description: Remote server IP address.
-            server-name:
+            server_name:
                 type: str
                 description: Log forwarding server name.
-            server-port:
+            server_port:
                 type: int
                 description: Server listen port
             signature:
                 type: int
                 description: Aggregation cfg hash token.
-            sync-metadata:
+            sync_metadata:
                 description:
                  - Synchronizing meta data types.
                  - sf-topology - Security Fabric topology
@@ -599,7 +602,7 @@ options:
                     - 'endusr-avatar'
                     - 'fgt-policy'
                     - 'interface-info'
-            fwd-syslog-format:
+            fwd_syslog_format:
                 type: str
                 description:
                  - Forwarding format for syslog.
@@ -608,7 +611,7 @@ options:
                 choices:
                     - 'fgt'
                     - 'rfc-5424'
-            fwd-ha-bind-vip:
+            fwd_ha_bind_vip:
                 type: str
                 description:
                  - When HA is enabled, always use vip as forwarding port
@@ -617,10 +620,10 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            server-addr:
+            server_addr:
                 type: str
                 description: Remote server address.
-            fwd-compression:
+            fwd_compression:
                 type: str
                 description:
                  - Enable/disable compression for better bandwidth efficiency.
@@ -629,15 +632,15 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            log-masking-custom:
+            log_masking_custom:
                 description: no description
                 type: list
                 elements: dict
                 suboptions:
-                    field-name:
+                    field_name:
                         type: str
                         description: Field name.
-                    field-type:
+                    field_type:
                         type: str
                         description:
                          - Field type.
@@ -655,7 +658,7 @@ options:
                     id:
                         type: int
                         description: Field masking id.
-            log-masking-custom-priority:
+            log_masking_custom_priority:
                 type: str
                 description:
                  - Prioritize custom fields.
@@ -665,7 +668,7 @@ options:
                     - 'disable'
                     - ''
                     - 'enable'
-            log-masking-fields:
+            log_masking_fields:
                 description:
                  - Log field masking fields.
                  - user - User name.
@@ -689,10 +692,10 @@ options:
                     - 'email'
                     - 'message'
                     - 'domain'
-            log-masking-key:
+            log_masking_key:
                 description: Log field masking key.
                 type: str
-            log-masking-status:
+            log_masking_status:
                 type: str
                 description:
                  - Enable or disable log field masking.
@@ -701,13 +704,13 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            agg-data-end-time:
+            agg_data_end_time:
                 description: 'End date and time of the data-range <hh:mm yyyy/mm/dd>.'
                 type: str
-            agg-data-start-time:
+            agg_data_start_time:
                 description: 'Start date and time of the data-range <hh:mm yyyy/mm/dd>.'
                 type: str
-            agg-schedule:
+            agg_schedule:
                 type: str
                 description:
                  - Schedule log aggregation mode.
@@ -716,10 +719,10 @@ options:
                 choices:
                     - 'daily'
                     - 'on-demand'
-            pcapurl-domain-ip:
+            pcapurl_domain_ip:
                 type: str
                 description: The domain name or ip for forming a pcapurl.
-            pcapurl-enrich:
+            pcapurl_enrich:
                 type: str
                 description:
                  - Enable/disable enriching pcapurl.
@@ -728,13 +731,13 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            peer-cert-cn:
+            peer_cert_cn:
                 type: str
                 description: Certificate common name of log-forward server.
-            fwd-output-plugin-id:
+            fwd_output_plugin_id:
                 type: str
                 description: Name of the output plugin profile
-            fwd-syslog-transparent:
+            fwd_syslog_transparent:
                 type: str
                 description:
                  - Enable/disable transparently forwarding logs from syslog devices to syslog server.
@@ -818,17 +821,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/cli/global/system/log-forward'
-    ]
-
-    perobject_jrpc_urls = [
-        '/cli/global/system/log-forward/{log-forward}'
     ]
 
     url_params = []
@@ -987,18 +986,17 @@ def main():
                 'fwd-output-plugin-id': {'v_range': [['7.4.0', '']], 'type': 'str'},
                 'fwd-syslog-transparent': {'v_range': [['7.4.3', '']], 'choices': ['disable', 'enable', 'faz-enrich'], 'type': 'str'}
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_logforward'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='full crud')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='full crud')
     faz.process()
     module.exit_json(meta=module.params)
 

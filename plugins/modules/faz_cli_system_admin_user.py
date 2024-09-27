@@ -28,7 +28,7 @@ short_description: Admin user.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode and diff mode.
 version_added: "1.0.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,13 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - To create or update an object, set the state argument to present. To delete an object, set the state argument to absent.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -101,15 +104,15 @@ options:
                 type: list
                 elements: dict
                 suboptions:
-                    adom-name:
+                    adom_name:
                         type: str
                         description: Admin domain names.
-            adom-exclude:
+            adom_exclude:
                 description: no description
                 type: list
                 elements: dict
                 suboptions:
-                    adom-name:
+                    adom_name:
                         type: str
                         description: Admin domain names.
             avatar:
@@ -118,7 +121,7 @@ options:
             ca:
                 type: str
                 description: PKI user certificate CA
-            change-password:
+            change_password:
                 type: str
                 description:
                  - Enable/disable restricted user to change self password.
@@ -135,7 +138,7 @@ options:
                     column:
                         type: int
                         description: Widgets column ID.
-                    diskio-content-type:
+                    diskio_content_type:
                         type: str
                         description:
                          - Disk I/O Monitor widgets chart type.
@@ -146,7 +149,7 @@ options:
                             - 'util'
                             - 'iops'
                             - 'blks'
-                    diskio-period:
+                    diskio_period:
                         type: str
                         description:
                          - Disk I/O Monitor widgets data period.
@@ -157,7 +160,7 @@ options:
                             - '1hour'
                             - '8hour'
                             - '24hour'
-                    log-rate-period:
+                    log_rate_period:
                         type: str
                         description:
                          - Log receive monitor widgets data period.
@@ -168,7 +171,7 @@ options:
                             - '2min '
                             - '1hour'
                             - '6hours'
-                    log-rate-topn:
+                    log_rate_topn:
                         type: str
                         description:
                          - Log receive monitor widgets number of top items to display.
@@ -183,7 +186,7 @@ options:
                             - '3'
                             - '4'
                             - '5'
-                    log-rate-type:
+                    log_rate_type:
                         type: str
                         description:
                          - Log receive monitor widgets statistics breakdown options.
@@ -198,13 +201,13 @@ options:
                     name:
                         type: str
                         description: Widget name.
-                    num-entries:
+                    num_entries:
                         type: int
                         description: Number of entries.
-                    refresh-interval:
+                    refresh_interval:
                         type: int
                         description: Widgets refresh interval.
-                    res-cpu-display:
+                    res_cpu_display:
                         type: str
                         description:
                          - Widgets CPU display type.
@@ -213,7 +216,7 @@ options:
                         choices:
                             - 'average '
                             - 'each'
-                    res-period:
+                    res_period:
                         type: str
                         description:
                          - Widgets data period.
@@ -224,7 +227,7 @@ options:
                             - '10min '
                             - 'hour'
                             - 'day'
-                    res-view-type:
+                    res_view_type:
                         type: str
                         description:
                          - Widgets data view type.
@@ -245,7 +248,7 @@ options:
                     tabid:
                         type: int
                         description: ID of tab where widget is displayed.
-                    time-period:
+                    time_period:
                         type: str
                         description:
                          - Log Database Monitor widgets data period.
@@ -256,7 +259,7 @@ options:
                             - '1hour'
                             - '8hour'
                             - '24hour'
-                    widget-type:
+                    widget_type:
                         type: str
                         description:
                          - Widget type.
@@ -293,7 +296,7 @@ options:
                             - 'logdb-lag'
                             - 'disk-io'
                             - 'log-rcvd-fwd'
-            dashboard-tabs:
+            dashboard_tabs:
                 description: no description
                 type: list
                 elements: dict
@@ -307,13 +310,13 @@ options:
             description:
                 type: str
                 description: Description.
-            dev-group:
+            dev_group:
                 type: str
                 description: device group.
-            email-address:
+            email_address:
                 type: str
                 description: Email address.
-            ext-auth-accprofile-override:
+            ext_auth_accprofile_override:
                 type: str
                 description:
                  - Allow to use the access profile provided by the remote authentication server.
@@ -322,7 +325,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            ext-auth-adom-override:
+            ext_auth_adom_override:
                 type: str
                 description:
                  - Allow to use the ADOM provided by the remote authentication server.
@@ -331,13 +334,13 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            ext-auth-group-match:
+            ext_auth_group_match:
                 type: str
                 description: Only administrators belonging to this group can login.
-            first-name:
+            first_name:
                 type: str
                 description: First name.
-            force-password-change:
+            force_password_change:
                 type: str
                 description:
                  - Enable/disable force password change on next login.
@@ -382,13 +385,13 @@ options:
             ipv6_trusthost9:
                 type: str
                 description: 'Admin user trusted host IPv6, default ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff/128 for none.'
-            last-name:
+            last_name:
                 type: str
                 description: Last name.
-            ldap-server:
+            ldap_server:
                 type: str
                 description: LDAP server name.
-            meta-data:
+            meta_data:
                 description: no description
                 type: list
                 elements: dict
@@ -420,27 +423,27 @@ options:
                         choices:
                             - 'disabled'
                             - 'enabled'
-            mobile-number:
+            mobile_number:
                 type: str
                 description: Mobile number.
-            pager-number:
+            pager_number:
                 type: str
                 description: Pager number.
             password:
                 description: Password.
                 type: str
-            password-expire:
+            password_expire:
                 type: str
                 description: Password expire time in GMT.
-            phone-number:
+            phone_number:
                 type: str
                 description: Phone number.
-            policy-package:
+            policy_package:
                 description: no description
                 type: list
                 elements: dict
                 suboptions:
-                    policy-package-name:
+                    policy_package_name:
                         type: str
                         description: Policy package names.
             profileid:
@@ -449,7 +452,7 @@ options:
             radius_server:
                 type: str
                 description: RADIUS server name.
-            restrict-access:
+            restrict_access:
                 type: str
                 description:
                  - Enable/disable restricted access to development VDOM.
@@ -458,15 +461,15 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            restrict-dev-vdom:
+            restrict_dev_vdom:
                 description: no description
                 type: list
                 elements: dict
                 suboptions:
-                    dev-vdom:
+                    dev_vdom:
                         type: str
                         description: Device or device VDOM.
-            rpc-permit:
+            rpc_permit:
                 type: str
                 description:
                  - set none/read/read-write rpc-permission.
@@ -478,19 +481,19 @@ options:
                     - 'none'
                     - 'read'
                     - 'from-profile'
-            ssh-public-key1:
+            ssh_public_key1:
                 description: SSH public key 1.
                 type: str
-            ssh-public-key2:
+            ssh_public_key2:
                 description: SSH public key 2.
                 type: str
-            ssh-public-key3:
+            ssh_public_key3:
                 description: SSH public key 3.
                 type: str
             subject:
                 type: str
                 description: PKI user certificate name constraints.
-            tacacs-plus-server:
+            tacacs_plus_server:
                 type: str
                 description: TACACS+ server name.
             trusthost1:
@@ -523,7 +526,7 @@ options:
             trusthost9:
                 type: str
                 description: Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.
-            two-factor-auth:
+            two_factor_auth:
                 type: str
                 description:
                  - Enable 2-factor authentication
@@ -568,13 +571,13 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            login-max:
+            login_max:
                 type: int
                 description: Max login session for this user.
             fingerprint:
                 type: str
                 description: PKI user certificate fingerprint
-            use-global-theme:
+            use_global_theme:
                 type: str
                 description:
                  - Enable/disble global theme for administration GUI.
@@ -583,7 +586,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            user-theme:
+            user_theme:
                 type: str
                 description:
                  - Color scheme to use for the admin user GUI.
@@ -649,7 +652,7 @@ options:
                     - 'forest'
                     - 'cat'
                     - 'graphite'
-            adom-access:
+            adom_access:
                 type: str
                 description:
                  - set all/specify/exclude adom access mode.
@@ -661,15 +664,32 @@ options:
                     - 'specify'
                     - 'exclude'
                     - 'per-adom-profile'
-            th-from-profile:
+            th_from_profile:
                 type: int
                 description: 'Internal use only: trusthostX from-profile flag'
-            th6-from-profile:
+            th6_from_profile:
                 type: int
                 description: 'Internal use only: ipv6_trusthostX from-profile flag'
-            cors-allow-origin:
+            cors_allow_origin:
                 type: str
                 description: Access-Control-Allow-Origin.
+            fortiai:
+                type: str
+                description:
+                 - Enable/disble FortiAI.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
+                choices:
+                    - 'disable'
+                    - 'enable'
+            policy_block:
+                description: no description
+                type: list
+                elements: dict
+                suboptions:
+                    policy_block_name:
+                        type: str
+                        description: Policy block names.
 '''
 
 EXAMPLES = '''
@@ -737,17 +757,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/cli/global/system/admin/user'
-    ]
-
-    perobject_jrpc_urls = [
-        '/cli/global/system/admin/user/{user}'
     ]
 
     url_params = []
@@ -891,20 +907,26 @@ def main():
                 'adom-access': {'v_range': [['7.0.3', '']], 'choices': ['all', 'specify', 'exclude', 'per-adom-profile'], 'type': 'str'},
                 'th-from-profile': {'v_range': [['7.0.3', '']], 'type': 'int'},
                 'th6-from-profile': {'v_range': [['7.0.3', '']], 'type': 'int'},
-                'cors-allow-origin': {'v_range': [['7.2.2', '']], 'type': 'str'}
+                'cors-allow-origin': {'v_range': [['7.2.2', '']], 'type': 'str'},
+                'fortiai': {'v_range': [['7.6.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'policy-block': {
+                    'v_range': [['7.6.0', '']],
+                    'type': 'list',
+                    'options': {'policy-block-name': {'v_range': [['7.6.0', '']], 'type': 'str'}},
+                    'elements': 'dict'
+                }
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_admin_user'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='full crud')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='full crud')
     faz.process()
     module.exit_json(meta=module.params)
 

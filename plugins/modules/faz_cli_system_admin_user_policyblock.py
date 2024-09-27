@@ -23,13 +23,13 @@ ANSIBLE_METADATA = {'status': ['preview'],
 
 DOCUMENTATION = '''
 ---
-module: faz_cli_system_log_ratelimit_device
-short_description: Device log rate limit.
+module: faz_cli_system_admin_user_policyblock
+short_description: Policy block write access.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
     - This module supports check mode and diff mode.
-version_added: "1.0.0"
+version_added: "1.7.0"
 author:
     - Xinwei Du (@dux-fortinet)
     - Link Zheng (@chillancezen)
@@ -95,46 +95,38 @@ options:
         choices:
             - present
             - absent
-    cli_system_log_ratelimit_device:
+    user:
+        description: The parameter (user) in requested url.
+        type: str
+        required: true
+    cli_system_admin_user_policyblock:
         description: The top level parameters set.
         type: dict
         suboptions:
-            device:
+            policy_block_name:
                 type: str
-                description: Device
-            filter_type:
-                type: str
-                description:
-                 - Device filter type.
-                 - devid - Device ID.
-                choices:
-                    - 'devid'
-            id:
-                type: int
-                description: Device filter ID.
-            ratelimit:
-                type: int
-                description: Maximum device log rate limit.
+                description: Policy block names.
 '''
 
 EXAMPLES = '''
 - name: Example playbook
-  connection: httpapi
   hosts: fortianalyzers
-  tasks:
-    - name: Device log rate limit.
-      fortinet.fortianalyzer.faz_cli_system_log_ratelimit_device:
-        cli_system_log_ratelimit_device:
-          device: port1
-          filter_type: devid
-          id: 1
-          ratelimit: 0
-        state: present
+  connection: httpapi
   vars:
     ansible_network_os: fortinet.fortianalyzer.fortianalyzer
     ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
+  tasks:
+    - name: Policy block write access.
+      fortinet.fortianalyzer.faz_cli_system_admin_user_policyblock:
+        # bypass_validation: false
+        # rc_succeeded: [0, -2, -3, ...]
+        # rc_failed: [-2, -3, ...]
+        user: <your own value>
+        state: <value in [present, absent]>
+        cli_system_admin_user_policyblock:
+          policy_block_name: <value of string>
 '''
 
 RETURN = '''
@@ -184,11 +176,11 @@ from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import
 
 def main():
     urls_list = [
-        '/cli/global/system/log/ratelimit/device'
+        '/cli/global/system/admin/user/{user}/policy-block'
     ]
 
-    url_params = []
-    module_primary_key = 'id'
+    url_params = ['user']
+    module_primary_key = 'policy_block_name'
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
@@ -200,19 +192,15 @@ def main():
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},
-        'cli_system_log_ratelimit_device': {
+        'user': {'required': True, 'type': 'str'},
+        'cli_system_admin_user_policyblock': {
             'type': 'dict',
-            'v_range': [['6.4.8', '7.0.2']],
-            'options': {
-                'device': {'v_range': [['6.4.8', '7.0.2']], 'type': 'str'},
-                'filter-type': {'v_range': [['6.4.8', '7.0.2']], 'choices': ['devid'], 'type': 'str'},
-                'id': {'v_range': [['6.4.8', '7.0.2']], 'type': 'int'},
-                'ratelimit': {'v_range': [['6.4.8', '7.0.2']], 'type': 'int'}
-            }
+            'v_range': [['7.6.0', '']],
+            'options': {'policy-block-name': {'v_range': [['7.6.0', '']], 'type': 'str'}}
         }
     }
 
-    module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_log_ratelimit_device'),
+    module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_admin_user_policyblock'),
                            supports_check_mode=True)
 
     if not module._socket_path:

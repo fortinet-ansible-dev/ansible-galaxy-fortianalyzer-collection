@@ -28,7 +28,7 @@ short_description: Config output.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode and diff mode.
 version_added: "1.5.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,13 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - To create or update an object, set the state argument to present. To delete an object, set the state argument to absent.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -103,7 +106,7 @@ options:
             description:
                 type: str
                 description: no description
-            email-recipients:
+            email_recipients:
                 description: 'reference: /report/adom/<adom-name>/config/output/<output-name>/email-recipients'
                 type: list
                 elements: dict
@@ -111,16 +114,16 @@ options:
                     address:
                         type: str
                         description: no description
-                    email-from:
+                    email_from:
                         type: str
                         description: no description
-                    email-server:
+                    email_server:
                         type: str
                         description: no description
             name:
                 type: str
                 description: no description
-            output-format:
+            output_format:
                 type: str
                 description: no description
                 choices:
@@ -138,19 +141,19 @@ options:
                 choices:
                     - 'enable'
                     - 'disable'
-            email-attachment-compress:
+            email_attachment_compress:
                 type: str
                 description: no description
                 choices:
                     - 'enable'
                     - 'disable'
-            email-attachment-name:
+            email_attachment_name:
                 type: str
                 description: no description
-            email-body:
+            email_body:
                 type: str
                 description: no description
-            email-subject:
+            email_subject:
                 type: str
                 description: no description
             upload:
@@ -159,29 +162,29 @@ options:
                 choices:
                     - 'enable'
                     - 'disable'
-            upload-delete:
+            upload_delete:
                 type: str
                 description: no description
                 choices:
                     - 'enable'
                     - 'disable'
-            upload-dir:
+            upload_dir:
                 type: str
                 description: no description
-            upload-pass:
+            upload_pass:
                 type: str
                 description: no description
-            upload-server:
+            upload_server:
                 type: str
                 description: no description
-            upload-server-type:
+            upload_server_type:
                 type: str
                 description: no description
                 choices:
                     - 'ftp'
                     - 'scp'
                     - 'sftp'
-            upload-user:
+            upload_user:
                 type: str
                 description: no description
 '''
@@ -266,17 +269,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/report/adom/{adom}/config/output'
-    ]
-
-    perobject_jrpc_urls = [
-        '/report/adom/{adom}/config/output/{output}'
     ]
 
     url_params = ['adom']
@@ -322,18 +321,17 @@ def main():
                 'upload-server-type': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['ftp', 'scp', 'sftp'], 'type': 'str'},
                 'upload-user': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'}
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'report_config_output'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='full crud')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='full crud')
     faz.process()
     module.exit_json(meta=module.params)
 

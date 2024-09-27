@@ -1,20 +1,78 @@
 ![Fortinet logo|](https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Fortinet_logo.svg/320px-Fortinet_logo.svg.png)
 
-# Ansible Collection - fortinet.fortianalyzer:1.6.0
+# fortinet.fortianalyzer:1.7.0 - configuring FortiAnalyzer
+
+## Description
 
 FortiAnalyzer Ansible Collection includes the modules that are able to configure FortiAnalyzer.
 
 [Documentation](https://ansible-galaxy-fortianalyzer-docs.readthedocs.io/en/latest) for the collection.
 
 ## Requirements
-* Ansible 2.15.0 or newer is required to support the newer Ansible Collections format
-* Python 3 is prefered when running Ansible with `fortinet.fortianalyzer` collection.
+
+- Ansible 2.15.0 or above
+- Python 3.9 or above
 
 ## Installation
-This collection is distributed via [ansible-galaxy](https://galaxy.ansible.com/fortinet/fortianalyzer), the installation steps are as follows:
 
-1. Install or upgrade to Ansible >= 2.15.0
-2. Download this collection from galaxy: `ansible-galaxy collection install fortinet.fortianalyzer:1.6.0`
+This collection is distributed via [ansible-galaxy](https://galaxy.ansible.com/fortinet/fortianalyzer).
+
+
+Before using this collection, you need to install it with the Ansible Galaxy command-line tool:
+
+```
+ansible-galaxy collection install fortinet.fortianalyzer
+```
+
+You can also include it in a requirements.yml file and install it with ansible-galaxy collection install -r requirements.yml, using the format:
+
+
+```yaml
+collections:
+  - name: fortinet.fortianalyzer
+```
+
+Note that if you install any collections from Ansible Galaxy, they will not be upgraded automatically when you upgrade the Ansible package.
+To upgrade the collection to the latest available version, run the following command:
+
+```
+ansible-galaxy collection install fortinet.fortianalyzer --upgrade
+```
+
+You can also install a specific version of the collection, for example, if you need to downgrade when something is broken in the latest version (please report an issue in this repository). Use the following syntax to install version 1.0.0:
+
+```
+ansible-galaxy collection install fortinet.fortianalyzer:==1.0.0
+```
+
+See [using Ansible collections](https://docs.ansible.com/ansible/devel/user_guide/collections_using.html) for more details.
+
+
+## Use Cases
+
+See [example here](https://ansible-galaxy-fortianalyzer-docs.readthedocs.io/en/latest/playbook.html) to run your first playbook.
+
+
+## Testing
+
+Testing is done by the Fortinet team. Before each new FMG Ansible release, it is tested with the latest patches from all FMG minor releases.
+
+
+## Support
+
+For any questions regarding FortiAnalyzer Ansible, please create a [github issue](https://github.com/fortinet-ansible-dev/ansible-galaxy-fortianalyzer-collection/issues).
+
+
+## Release Notes and Roadmap
+
+Please check [release note here](CHANGELOG.rst).
+
+FortiAnalyzer Ansible is expected to be updated every two months.
+
+
+## Related Information
+
+[Documentation](https://ansible-galaxy-fortianalyzer-docs.readthedocs.io/en/latest) for the collection.
 
 ## Modules
 The collection provides the following modules:
@@ -63,6 +121,7 @@ The collection provides the following modules:
 * `faz_cli_system_admin_user_dashboard`  Custom dashboard widgets.
 * `faz_cli_system_admin_user_dashboardtabs`  Custom dashboard.
 * `faz_cli_system_admin_user_metadata`  Configure meta data.
+* `faz_cli_system_admin_user_policyblock`  Policy block write access.
 * `faz_cli_system_admin_user_policypackage`  Policy package access.
 * `faz_cli_system_admin_user_restrictdevvdom`  Restricted to these devices/VDOMs.
 * `faz_cli_system_alertconsole`  Alert console.
@@ -232,4 +291,4 @@ The collection provides the following modules:
 
 ## License
 
-FortiManager Ansible Collection follows [GNU General Public License v3.0](LICENSE).
+FortiAnalyzer Ansible Collection follows [GNU General Public License v3.0](LICENSE).

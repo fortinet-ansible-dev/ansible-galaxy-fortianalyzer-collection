@@ -28,7 +28,7 @@ short_description: HA configuration.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode and diff mode.
 version_added: "1.0.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,12 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -89,16 +91,16 @@ options:
         description: The top level parameters set.
         type: dict
         suboptions:
-            group-id:
+            group_id:
                 type: int
                 description: HA group ID
-            group-name:
+            group_name:
                 type: str
                 description: HA group name.
-            hb-interface:
+            hb_interface:
                 type: str
                 description: Interface for heartbeat.
-            hb-interval:
+            hb_interval:
                 type: int
                 description: Heartbeat interval
             healthcheck:
@@ -111,7 +113,7 @@ options:
                 choices:
                     - 'DB'
                     - 'fault-test'
-            initial-sync:
+            initial_sync:
                 type: str
                 description:
                  - Need to sync data from master before up as an HA member.
@@ -120,10 +122,10 @@ options:
                 choices:
                     - 'false'
                     - 'true'
-            initial-sync-threads:
+            initial_sync_threads:
                 type: int
                 description: Number of threads used for initial sync
-            load-balance:
+            load_balance:
                 type: str
                 description:
                  - Load balance to slaves.
@@ -132,7 +134,7 @@ options:
                 choices:
                     - 'disable'
                     - 'round-robin'
-            log-sync:
+            log_sync:
                 type: str
                 description:
                  - Sync logs to backup FortiAnalyzer.
@@ -165,10 +167,10 @@ options:
                     ip:
                         type: str
                         description: IP address of peer for management and data.
-                    ip-hb:
+                    ip_hb:
                         type: str
                         description: IP address of peers VIP interface for heartbeat, set if different from ip.
-                    serial-number:
+                    serial_number:
                         type: str
                         description: Serial number of peer.
                     status:
@@ -180,7 +182,13 @@ options:
                         choices:
                             - 'disable'
                             - 'enable'
-            preferred-role:
+                    addr:
+                        type: str
+                        description: Address of peer for management and data.
+                    addr_hb:
+                        type: str
+                        description: Address of peers interface for heartbeat, set if different from ip.
+            preferred_role:
                 type: str
                 description:
                  - Preferred role, runtime role may be different.
@@ -194,19 +202,19 @@ options:
             priority:
                 type: int
                 description: Set the runtime priority between 80
-            private-clusterid:
+            private_clusterid:
                 type: int
                 description: Cluster ID range
-            private-file-quota:
+            private_file_quota:
                 type: int
                 description: File quota in MB
-            private-hb-interval:
+            private_hb_interval:
                 type: int
                 description: Heartbeat interval
-            private-hb-lost-threshold:
+            private_hb_lost_threshold:
                 type: int
                 description: Heartbeat lost threshold
-            private-mode:
+            private_mode:
                 type: str
                 description:
                  - Mode.
@@ -219,10 +227,10 @@ options:
                     - 'slave'
                     - 'primary'
                     - 'secondary'
-            private-password:
+            private_password:
                 description: Group password.
                 type: str
-            private-peer:
+            private_peer:
                 description: no description
                 type: list
                 elements: dict
@@ -236,7 +244,7 @@ options:
                     ip6:
                         type: str
                         description: IP address
-                    serial-number:
+                    serial_number:
                         type: str
                         description: Serial number of peer.
                     status:
@@ -260,16 +268,16 @@ options:
             vip:
                 type: str
                 description: Virtual IP address for the HA
-            vip-interface:
+            vip_interface:
                 type: str
                 description: Interface for configuring virtual IP address
-            private-local-cert:
+            private_local_cert:
                 type: str
                 description: set the ha local certificate.
-            cfg-sync-hb-interval:
+            cfg_sync_hb_interval:
                 type: int
                 description: Config sync heartbeat interval
-            local-cert:
+            local_cert:
                 type: str
                 description: set the ha local certificate.
 '''
@@ -332,17 +340,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/cli/global/system/ha'
-    ]
-
-    perobject_jrpc_urls = [
-        '/cli/global/system/ha/{ha}'
     ]
 
     url_params = []
@@ -376,10 +380,12 @@ def main():
                     'type': 'list',
                     'options': {
                         'id': {'type': 'int'},
-                        'ip': {'type': 'str'},
-                        'ip-hb': {'type': 'str'},
+                        'ip': {'v_range': [['6.2.1', '7.4.3']], 'type': 'str'},
+                        'ip-hb': {'v_range': [['6.2.1', '7.4.3']], 'type': 'str'},
                         'serial-number': {'type': 'str'},
-                        'status': {'choices': ['disable', 'enable'], 'type': 'str'}
+                        'status': {'choices': ['disable', 'enable'], 'type': 'str'},
+                        'addr': {'v_range': [['7.6.0', '']], 'type': 'str'},
+                        'addr-hb': {'v_range': [['7.6.0', '']], 'type': 'str'}
                     },
                     'elements': 'dict'
                 },
@@ -409,18 +415,17 @@ def main():
                 'cfg-sync-hb-interval': {'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']], 'type': 'int'},
                 'local-cert': {'v_range': [['7.4.3', '']], 'type': 'str'}
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_ha'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='partial crud')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='partial crud')
     faz.process()
     module.exit_json(meta=module.params)
 

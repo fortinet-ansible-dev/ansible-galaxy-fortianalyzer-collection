@@ -28,7 +28,7 @@ short_description: Global settings for SAML authentication.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode and diff mode.
 version_added: "1.0.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,12 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -89,39 +91,39 @@ options:
         description: The top level parameters set.
         type: dict
         suboptions:
-            acs-url:
+            acs_url:
                 type: str
                 description: SP ACS
             cert:
                 type: str
                 description: Certificate name.
-            default-profile:
+            default_profile:
                 type: str
                 description: Default Profile Name.
-            entity-id:
+            entity_id:
                 type: str
                 description: SP entity ID.
-            fabric-idp:
+            fabric_idp:
                 description: no description
                 type: list
                 elements: dict
                 suboptions:
-                    dev-id:
+                    dev_id:
                         type: str
                         description: IDP Device ID.
-                    idp-cert:
+                    idp_cert:
                         type: str
                         description: IDP Certificate name.
-                    idp-entity-id:
+                    idp_entity_id:
                         type: str
                         description: IDP entity ID.
-                    idp-single-logout-url:
+                    idp_single_logout_url:
                         type: str
                         description: IDP single logout url.
-                    idp-single-sign-on-url:
+                    idp_single_sign_on_url:
                         type: str
                         description: IDP single sign-on URL.
-                    idp-status:
+                    idp_status:
                         type: str
                         description:
                          - Enable/disable SAML authentication
@@ -130,19 +132,19 @@ options:
                         choices:
                             - 'disable'
                             - 'enable'
-            idp-cert:
+            idp_cert:
                 type: str
                 description: IDP Certificate name.
-            idp-entity-id:
+            idp_entity_id:
                 type: str
                 description: IDP entity ID.
-            idp-single-logout-url:
+            idp_single_logout_url:
                 type: str
                 description: IDP single logout url.
-            idp-single-sign-on-url:
+            idp_single_sign_on_url:
                 type: str
                 description: IDP single sign-on URL.
-            login-auto-redirect:
+            login_auto_redirect:
                 type: str
                 description:
                  - Enable/Disable auto redirect to IDP login page.
@@ -162,21 +164,21 @@ options:
                     - 'IDP'
                     - 'SP'
                     - 'FAB-SP'
-            server-address:
+            server_address:
                 type: str
                 description: server address.
-            service-providers:
+            service_providers:
                 description: no description
                 type: list
                 elements: dict
                 suboptions:
-                    idp-entity-id:
+                    idp_entity_id:
                         type: str
                         description: IDP Entity ID.
-                    idp-single-logout-url:
+                    idp_single_logout_url:
                         type: str
                         description: IDP single logout url.
-                    idp-single-sign-on-url:
+                    idp_single_sign_on_url:
                         type: str
                         description: IDP single sign-on URL.
                     name:
@@ -185,25 +187,25 @@ options:
                     prefix:
                         type: str
                         description: Prefix.
-                    sp-cert:
+                    sp_cert:
                         type: str
                         description: SP certificate name.
-                    sp-entity-id:
+                    sp_entity_id:
                         type: str
                         description: SP Entity ID.
-                    sp-single-logout-url:
+                    sp_single_logout_url:
                         type: str
                         description: SP single logout URL.
-                    sp-single-sign-on-url:
+                    sp_single_sign_on_url:
                         type: str
                         description: SP single sign-on URL.
-                    sp-adom:
+                    sp_adom:
                         type: str
                         description: SP adom name.
-                    sp-profile:
+                    sp_profile:
                         type: str
                         description: SP profile name.
-            sls-url:
+            sls_url:
                 type: str
                 description: SP SLS
             status:
@@ -215,7 +217,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            forticloud-sso:
+            forticloud_sso:
                 type: str
                 description:
                  - Enable/disable FortiCloud SSO
@@ -224,7 +226,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            user-auto-create:
+            user_auto_create:
                 type: str
                 description:
                  - Enable/disable user auto creation
@@ -233,7 +235,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            auth-request-signed:
+            auth_request_signed:
                 type: str
                 description:
                  - Enable/Disable auth request signed.
@@ -242,7 +244,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            want-assertions-signed:
+            want_assertions_signed:
                 type: str
                 description:
                  - Enable/Disable want assertions signed.
@@ -312,17 +314,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/cli/global/system/saml'
-    ]
-
-    perobject_jrpc_urls = [
-        '/cli/global/system/saml/{saml}'
     ]
 
     url_params = []
@@ -389,18 +387,17 @@ def main():
                 'auth-request-signed': {'v_range': [['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'want-assertions-signed': {'v_range': [['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_saml'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='partial crud')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='partial crud')
     faz.process()
     module.exit_json(meta=module.params)
 

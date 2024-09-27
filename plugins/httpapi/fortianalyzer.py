@@ -53,7 +53,8 @@ class HttpApi(HttpApiBase):
         self._log = None
         self._forticloud_access_token = None
         self._access_token = None
-        self._login_method = 'Not set'
+        self._login_method = "Not set"
+        self._status = {}
         self.customer_options = {}
 
     def set_customer_option(self, key, value):
@@ -121,12 +122,12 @@ class HttpApi(HttpApiBase):
         self._access_token = self.get_access_token()
         self._forticloud_access_token = self.get_forticloud_access_token()
         if self._access_token:
-            self._login_method = 'access_token'
+            self._login_method = "access_token"
         elif self._forticloud_access_token:
-            self._login_method = 'forticloud'
+            self._login_method = "forticloud"
             self.forticloud_login()
         else:
-            self._login_method = 'username_password'
+            self._login_method = "username_password"
             self.send_request("exec", self._tools.format_request("exec", "sys/login/user", passwd=password, user=username))
         self.log("Login method: %s, Target: %s" % (self._login_method, to_text(self.connection._url)))
         if (self.sid or self._access_token) and self.connection._url is not None:
@@ -182,7 +183,7 @@ class HttpApi(HttpApiBase):
         if request_url.startswith("/report/") or jsonrpc2:
             json_request["jsonrpc"] = "2.0"
             json_request["params"][0]["apiver"] = 3
-        data = json.dumps(json_request, ensure_ascii=False).replace('\\\\', '\\')
+        data = json.dumps(json_request, ensure_ascii=False).replace("\\\\", "\\")
 
         # Log debug data, don't log sensitive information
         if request_url == "sys/login/user" and "data" in params[0] and "passwd" in params[0]["data"]:
@@ -192,18 +193,18 @@ class HttpApi(HttpApiBase):
         self.log("request: %s" % (log_data))
 
         # Sending URL and Data in Unicode, per Ansible Specifications for Connection Plugins
-        access_token_str = ''
+        access_token_str = ""
         header_data = BASE_HEADERS
         if self._login_method == "access_token":
-            access_token_str = '?access_token=' + self._access_token
+            access_token_str = "?access_token=" + self._access_token
             header_data["Authorization"] = "Bearer " + self._access_token
         rc, response_data = self.connection.send(path=to_text(self._url) + access_token_str, data=to_text(data), headers=header_data)
         header_data["Authorization"] = "******"
-        self.log('header: %s' % (str(header_data)))
+        self.log("header: %s" % (str(header_data)))
 
         # Get Unicode Response - Must convert from StringIO to unicode first so we can do a replace function below
         result = json.loads(to_text(response_data.getvalue()))
-        self.log('response: %s' % (str(self._jsonize(result))))
+        self.log("response: %s" % (str(self._jsonize(result))))
         return self._handle_response(result, request_url)
 
     def _jsonize(self, data):
@@ -240,8 +241,12 @@ class HttpApi(HttpApiBase):
         Returns the system status page from the FortiAnalyzer, for logging and other uses.
         return: status
         """
-        rc, status = self.send_request("get", self._tools.format_request("get", "sys/status"))
-        return rc, status
+        if not self.connection._connected:
+            self.connection._connect()
+        if self._status:
+            return 0, self._status
+        rc, self._status = self.send_request("get", self._tools.format_request("get", "/cli/global/system/status"))
+        return rc, self._status
 
     @property
     def req_id(self):

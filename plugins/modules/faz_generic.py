@@ -41,11 +41,11 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - two parameters schemes are supported, either in raw json format or in
+    - Two parameters schemes are supported, either in raw json format or in
       ansible recognnizable top-level parameters format.
     - json is defined as string, user is response for make it json-formatted
     - method and params should be specified by users if 'json' is not present
-    - if all three parameters are provided, the 'json' is preferred.
+    - If all three parameters are provided, the 'json' is preferred.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -174,7 +174,7 @@ version_check_warning:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 import json
 
 
@@ -197,7 +197,7 @@ def main():
     if not module._socket_path:
         module.fail_json(msg='Only Httpapi plugin is supported in this module.')
     connection = Connection(module._socket_path)
-    fmgr = NAPIManager(None, None, None, None, module, connection)
+    fmgr = FortiAnalyzerAnsible(None, None, None, module, connection)
     method = None
     params = None
 

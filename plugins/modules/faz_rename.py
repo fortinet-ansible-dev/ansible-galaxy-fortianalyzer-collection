@@ -36,8 +36,8 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -56,6 +56,13 @@ options:
             - If the log_path setting is incorrect, the log will be saved in /tmp/fortianalyzer.ansible.log
         type: str
         default: '/tmp/fortianalyzer.ansible.log'
+    version_check:
+        description:
+            - If set to True, it will check whether the parameters used are supported by the corresponding version of FortiAnazlyer locally based on FNDN data.
+            - A warning will be returned in version_check_warning if there is a mismatch.
+            - This warning is only a suggestion and may not be accurate.
+        type: bool
+        default: true
     rc_succeeded:
         description: The rc codes list with which the conditions to succeed will be overriden.
         type: list
@@ -94,6 +101,7 @@ options:
                     - 'cli_system_admin_user_dashboard'
                     - 'cli_system_admin_user_dashboardtabs'
                     - 'cli_system_admin_user_metadata'
+                    - 'cli_system_admin_user_policyblock'
                     - 'cli_system_admin_user_policypackage'
                     - 'cli_system_admin_user_restrictdevvdom'
                     - 'cli_system_alertevent'
@@ -145,6 +153,7 @@ options:
                     - 'cli_system_sslciphersuites'
                     - 'cli_system_syslog'
                     - 'cli_system_workflow_approvalmatrix'
+                    - 'cli_system_workflow_approvalmatrix_approver'
                     - 'dvmdb_adom'
                     - 'dvmdb_device_vdom'
                     - 'dvmdb_folder'
@@ -154,6 +163,7 @@ options:
                     - 'report_config_chart_tablecolumns'
                     - 'report_config_chart_variabletemplate'
                     - 'report_config_dataset'
+                    - 'report_config_dataset_variable'
                     - 'report_config_layout'
                     - 'report_config_layout_component'
                     - 'report_config_layout_component_variable'
@@ -263,7 +273,7 @@ version_check_warning:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 
 
 def main():
@@ -407,6 +417,13 @@ def main():
             ],
             'v_range': [['6.2.1', '']],
             'mkey': 'fieldname'
+        },
+        'cli_system_admin_user_policyblock': {
+            'urls': [
+                '/cli/global/system/admin/user/{user}/policy-block/{policy-block}'
+            ],
+            'v_range': [['7.6.0', '']],
+            'mkey': 'policy_block_name'
         },
         'cli_system_admin_user_policypackage': {
             'urls': [
@@ -762,8 +779,15 @@ def main():
             'urls': [
                 '/cli/global/system/workflow/approval-matrix/{approval-matrix}'
             ],
-            'v_range': [['6.2.1', '6.2.9'], ['6.4.1', '6.4.7'], ['7.0.0', '7.0.2']],
+            'v_range': [['6.2.1', '6.2.9'], ['6.4.1', '6.4.7'], ['7.0.0', '7.0.2'], ['7.6.0', '']],
             'mkey': 'adom-name'
+        },
+        'cli_system_workflow_approvalmatrix_approver': {
+            'urls': [
+                '/cli/global/system/workflow/approval-matrix/{approval-matrix}/approver/{approver}'
+            ],
+            'v_range': [['6.2.1', '6.2.9'], ['6.4.1', '6.4.7'], ['7.0.0', '7.0.2'], ['7.6.0', '']],
+            'mkey': 'seq_num'
         },
         'dvmdb_adom': {
             'urls': [
@@ -830,6 +854,13 @@ def main():
             ],
             'v_range': [['6.2.1', '']],
             'mkey': 'name'
+        },
+        'report_config_dataset_variable': {
+            'urls': [
+                '/report/adom/{adom}/config/dataset/{dataset_name}/variable/{variable}'
+            ],
+            'v_range': [['6.2.1', '']],
+            'mkey': 'var'
         },
         'report_config_layout': {
             'urls': [
@@ -936,6 +967,7 @@ def main():
         'enable_log': {'type': 'bool', 'default': False},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
+        'version_check': {'type': 'bool', 'default': 'true'},
         'rc_succeeded': {'type': 'list', 'elements': 'int'},
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'rename': {
@@ -966,6 +998,7 @@ def main():
                         'cli_system_admin_user_dashboard',
                         'cli_system_admin_user_dashboardtabs',
                         'cli_system_admin_user_metadata',
+                        'cli_system_admin_user_policyblock',
                         'cli_system_admin_user_policypackage',
                         'cli_system_admin_user_restrictdevvdom',
                         'cli_system_alertevent',
@@ -1017,6 +1050,7 @@ def main():
                         'cli_system_sslciphersuites',
                         'cli_system_syslog',
                         'cli_system_workflow_approvalmatrix',
+                        'cli_system_workflow_approvalmatrix_approver',
                         'dvmdb_adom',
                         'dvmdb_device_vdom',
                         'dvmdb_folder',
@@ -1026,6 +1060,7 @@ def main():
                         'report_config_chart_tablecolumns',
                         'report_config_chart_variabletemplate',
                         'report_config_dataset',
+                        'report_config_dataset_variable',
                         'report_config_layout',
                         'report_config_layout_component',
                         'report_config_layout_component_variable',
@@ -1047,11 +1082,11 @@ def main():
             }
         }
     }
-    module = AnsibleModule(argument_spec=module_arg_spec, supports_check_mode=False)
+    module = AnsibleModule(argument_spec=module_arg_spec, supports_check_mode=True)
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(None, None, None, None, module, connection, metadata=rename_metadata, task_type='rename')
+    faz = FortiAnalyzerAnsible(None, None, None, module, connection, metadata=rename_metadata, task_type='rename')
     faz.process()
     module.exit_json(meta=module.params)
 

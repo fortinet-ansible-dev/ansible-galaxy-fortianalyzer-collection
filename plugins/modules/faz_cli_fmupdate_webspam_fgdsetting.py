@@ -28,7 +28,7 @@ short_description: Configure the FortiGuard run parameters.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode and diff mode.
 version_added: "1.0.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,12 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -89,10 +91,10 @@ options:
         description: The top level parameters set.
         type: dict
         suboptions:
-            as-cache:
+            as_cache:
                 type: int
                 description: Antispam service maximum memory usage in megabytes
-            as-log:
+            as_log:
                 type: str
                 description:
                  - Antispam log setting
@@ -103,7 +105,7 @@ options:
                     - 'disable'
                     - 'nospam'
                     - 'all'
-            as-preload:
+            as_preload:
                 type: str
                 description:
                  - Enable/disable preloading antispam database to memory
@@ -112,10 +114,10 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            av-cache:
+            av_cache:
                 type: int
                 description: Antivirus service maximum memory usage, in megabytes
-            av-log:
+            av_log:
                 type: str
                 description:
                  - Antivirus log setting
@@ -126,7 +128,7 @@ options:
                     - 'disable'
                     - 'novirus'
                     - 'all'
-            av-preload:
+            av_preload:
                 type: str
                 description:
                  - Enable/disable preloading antivirus database to memory
@@ -135,10 +137,10 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            av2-cache:
+            av2_cache:
                 type: int
                 description: Antispam service maximum memory usage in megabytes
-            av2-log:
+            av2_log:
                 type: str
                 description:
                  - Outbreak prevention log setting
@@ -149,7 +151,7 @@ options:
                     - 'disable'
                     - 'noav2'
                     - 'all'
-            av2-preload:
+            av2_preload:
                 type: str
                 description:
                  - Enable/disable preloading outbreak prevention database to memory
@@ -158,7 +160,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            eventlog-query:
+            eventlog_query:
                 type: str
                 description:
                  - Enable/disable record query to event-log besides fgd-log
@@ -167,13 +169,13 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            fgd-pull-interval:
+            fgd_pull_interval:
                 type: int
                 description: Fgd pull interval setting, in minutes
-            fq-cache:
+            fq_cache:
                 type: int
                 description: File query service maximum memory usage, in megabytes
-            fq-log:
+            fq_log:
                 type: str
                 description:
                  - File query log setting
@@ -184,7 +186,7 @@ options:
                     - 'disable'
                     - 'nofilequery'
                     - 'all'
-            fq-preload:
+            fq_preload:
                 type: str
                 description:
                  - Enable/disable preloading file query database to memory
@@ -193,7 +195,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            linkd-log:
+            linkd_log:
                 type: str
                 description:
                  - Linkd log setting
@@ -216,37 +218,37 @@ options:
                     - 'info'
                     - 'debug'
                     - 'disable'
-            max-client-worker:
+            max_client_worker:
                 type: int
                 description: max worker for tcp client connection
-            max-log-quota:
+            max_log_quota:
                 type: int
                 description: Maximum log quota setting, in megabytes
-            max-unrated-site:
+            max_unrated_site:
                 type: int
                 description: Maximum number of unrated site in memory, in kilobytes
-            restrict-as1-dbver:
+            restrict_as1_dbver:
                 type: str
                 description: Restrict system update to indicated antispam
-            restrict-as2-dbver:
+            restrict_as2_dbver:
                 type: str
                 description: Restrict system update to indicated antispam
-            restrict-as4-dbver:
+            restrict_as4_dbver:
                 type: str
                 description: Restrict system update to indicated antispam
-            restrict-av-dbver:
+            restrict_av_dbver:
                 type: str
                 description: Restrict system update to indicated antivirus database version
-            restrict-av2-dbver:
+            restrict_av2_dbver:
                 type: str
                 description: Restrict system update to indicated outbreak prevention database version
-            restrict-fq-dbver:
+            restrict_fq_dbver:
                 type: str
                 description: Restrict system update to indicated file query database version
-            restrict-wf-dbver:
+            restrict_wf_dbver:
                 type: str
                 description: Restrict system update to indicated web filter database version
-            server-override:
+            server_override:
                 description: no description
                 type: dict
                 suboptions:
@@ -267,7 +269,7 @@ options:
                             port:
                                 type: int
                                 description: Port number to use when contacting FortiGuard
-                            service-type:
+                            service_type:
                                 type: str
                                 description:
                                  - Override service type.
@@ -290,16 +292,16 @@ options:
                         choices:
                             - 'disable'
                             - 'enable'
-            stat-log-interval:
+            stat_log_interval:
                 type: int
                 description: Statistic log interval setting, in minutes
-            stat-sync-interval:
+            stat_sync_interval:
                 type: int
                 description: Synchronization interval for statistic of unrated site in minutes
-            update-interval:
+            update_interval:
                 type: int
                 description: FortiGuard database update wait time if not enough delta files, in hours
-            update-log:
+            update_log:
                 type: str
                 description:
                  - Enable/disable update log setting
@@ -308,16 +310,16 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            wf-cache:
+            wf_cache:
                 type: int
                 description: Web filter service maximum memory usage, in megabytes
-            wf-dn-cache-expire-time:
+            wf_dn_cache_expire_time:
                 type: int
                 description: Web filter DN cache expire time, in minutes
-            wf-dn-cache-max-number:
+            wf_dn_cache_max_number:
                 type: int
                 description: Maximum number of Web filter DN cache
-            wf-log:
+            wf_log:
                 type: str
                 description:
                  - Web filter log setting
@@ -328,7 +330,7 @@ options:
                     - 'disable'
                     - 'nourl'
                     - 'all'
-            wf-preload:
+            wf_preload:
                 type: str
                 description:
                  - Enable/disable preloading the web filter database into memory
@@ -337,10 +339,10 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            iot-cache:
+            iot_cache:
                 type: int
                 description: IoT service maximum memory usage, in megabytes
-            iot-log:
+            iot_log:
                 type: str
                 description:
                  - IoT log setting
@@ -351,7 +353,8 @@ options:
                     - 'disable'
                     - 'nofilequery'
                     - 'all'
-            iot-preload:
+                    - 'noiot'
+            iot_preload:
                 type: str
                 description:
                  - Enable/disable preloading IoT database to memory
@@ -360,10 +363,10 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            restrict-iots-dbver:
+            restrict_iots_dbver:
                 type: str
                 description: Restrict system update to indicated file query database version
-            stat-log:
+            stat_log:
                 type: str
                 description:
                  - stat log setting
@@ -386,7 +389,7 @@ options:
                     - 'info'
                     - 'debug'
                     - 'disable'
-            iotv-preload:
+            iotv_preload:
                 type: str
                 description:
                  - Enable/disable preloading IoT-Vulnerability database to memory
@@ -460,17 +463,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/cli/global/fmupdate/web-spam/fgd-setting'
-    ]
-
-    perobject_jrpc_urls = [
-        '/cli/global/fmupdate/web-spam/fgd-setting/{fgd-setting}'
     ]
 
     url_params = []
@@ -541,28 +540,27 @@ def main():
                 'wf-log': {'choices': ['disable', 'nourl', 'all'], 'type': 'str'},
                 'wf-preload': {'choices': ['disable', 'enable'], 'type': 'str'},
                 'iot-cache': {'v_range': [['6.4.6', '6.4.14'], ['7.0.1', '']], 'type': 'int'},
-                'iot-log': {'v_range': [['6.4.6', '6.4.14'], ['7.0.1', '']], 'choices': ['disable', 'nofilequery', 'all'], 'type': 'str'},
+                'iot-log': {'v_range': [['6.4.6', '6.4.14'], ['7.0.1', '']], 'choices': ['disable', 'nofilequery', 'all', 'noiot'], 'type': 'str'},
                 'iot-preload': {'v_range': [['6.4.6', '6.4.14'], ['7.0.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'restrict-iots-dbver': {'v_range': [['6.4.6', '6.4.14'], ['7.0.1', '']], 'type': 'str'},
                 'stat-log': {
-                    'v_range': [['7.0.10', '7.0.12'], ['7.2.5', '7.2.5'], ['7.4.2', '']],
+                    'v_range': [['7.0.10', '7.0.12'], ['7.2.5', '7.2.7'], ['7.4.2', '']],
                     'choices': ['emergency', 'alert', 'critical', 'error', 'warn', 'notice', 'info', 'debug', 'disable'],
                     'type': 'str'
                 },
                 'iotv-preload': {'v_range': [['7.2.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_fmupdate_webspam_fgdsetting'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='partial crud')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='partial crud')
     faz.process()
     module.exit_json(meta=module.params)
 

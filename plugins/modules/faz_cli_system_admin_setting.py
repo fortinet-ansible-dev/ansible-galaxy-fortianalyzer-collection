@@ -28,7 +28,7 @@ short_description: Admin setting.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode and diff mode.
 version_added: "1.0.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,12 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -89,7 +91,7 @@ options:
         description: The top level parameters set.
         type: dict
         suboptions:
-            access-banner:
+            access_banner:
                 type: str
                 description:
                  - Enable/disable access banner.
@@ -98,7 +100,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            admin-https-redirect:
+            admin_https_redirect:
                 type: str
                 description:
                  - Enable/disable redirection of HTTP admin traffic to HTTPS.
@@ -107,16 +109,16 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            admin-login-max:
+            admin_login_max:
                 type: int
                 description: Maximum number admin users logged in at one time
             admin_server_cert:
                 type: str
                 description: HTTPS & Web Service server certificate.
-            banner-message:
+            banner_message:
                 type: str
                 description: Banner message.
-            gui-theme:
+            gui_theme:
                 type: str
                 description:
                  - Color scheme to use for the administration GUI.
@@ -193,7 +195,7 @@ options:
             idle_timeout:
                 type: int
                 description: Idle timeout
-            objects-force-deletion:
+            objects_force_deletion:
                 type: str
                 description:
                  - Enable/disable used objects force deletion.
@@ -202,7 +204,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            shell-access:
+            shell_access:
                 type: str
                 description:
                  - Enable/disable shell access.
@@ -211,10 +213,10 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            shell-password:
+            shell_password:
                 description: Password for shell access.
                 type: str
-            show-add-multiple:
+            show_add_multiple:
                 type: str
                 description:
                  - Show add multiple button.
@@ -223,7 +225,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            show-checkbox-in-table:
+            show_checkbox_in_table:
                 type: str
                 description:
                  - Show checkboxs in tables on GUI.
@@ -232,7 +234,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            show-device-import-export:
+            show_device_import_export:
                 type: str
                 description:
                  - Enable/disable import/export of ADOM, device, and group lists.
@@ -241,7 +243,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            show-fct-manager:
+            show_fct_manager:
                 type: str
                 description:
                  - Enable/disable FCT manager.
@@ -250,7 +252,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            show-hostname:
+            show_hostname:
                 type: str
                 description:
                  - Enable/disable hostname display in the GUI login page.
@@ -259,7 +261,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            show-log-forwarding:
+            show_log_forwarding:
                 type: str
                 description:
                  - Show log forwarding tab in regular mode.
@@ -305,19 +307,19 @@ options:
             idle_timeout_gui:
                 type: int
                 description: Idle timeout for GUI sessions
-            auth-addr:
+            auth_addr:
                 type: str
                 description: IP which is used by FGT to authorize FAZ.
-            auth-port:
+            auth_port:
                 type: int
                 description: Port which is used by FGT to authorize FAZ.
-            preferred-fgfm-intf:
+            preferred_fgfm_intf:
                 type: str
                 description: Preferred interface for FGFM connection.
             idle_timeout_sso:
                 type: int
                 description: Idle timeout for SSO sessions
-            fsw-ignore-platform-check:
+            fsw_ignore_platform_check:
                 type: str
                 description:
                  - Enable/disable FortiSwitch Manager switch platform support check.
@@ -326,7 +328,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            firmware-upgrade-check:
+            firmware_upgrade_check:
                 type: str
                 description:
                  - Enable/disable firmware upgrade check.
@@ -335,7 +337,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            fgt-gui-proxy:
+            fgt_gui_proxy:
                 type: str
                 description:
                  - Enable/disable FortiGate GUI proxy.
@@ -344,7 +346,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            fgt-gui-proxy-port:
+            fgt_gui_proxy_port:
                 type: int
                 description: FortiGate GUI proxy port.
 '''
@@ -415,17 +417,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/cli/global/system/admin/setting'
-    ]
-
-    perobject_jrpc_urls = [
-        '/cli/global/system/admin/setting/{setting}'
     ]
 
     url_params = []
@@ -462,8 +460,8 @@ def main():
                 'https_port': {'type': 'int'},
                 'idle_timeout': {'type': 'int'},
                 'objects-force-deletion': {'choices': ['disable', 'enable'], 'type': 'str'},
-                'shell-access': {'choices': ['disable', 'enable'], 'type': 'str'},
-                'shell-password': {'no_log': True, 'type': 'str'},
+                'shell-access': {'v_range': [['6.2.1', '7.2.5'], ['7.4.0', '7.4.3']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'shell-password': {'v_range': [['6.2.1', '7.2.5'], ['7.4.0', '7.4.3']], 'no_log': True, 'type': 'str'},
                 'show-add-multiple': {'choices': ['disable', 'enable'], 'type': 'str'},
                 'show-checkbox-in-table': {'choices': ['disable', 'enable'], 'type': 'str'},
                 'show-device-import-export': {'choices': ['disable', 'enable'], 'type': 'str'},
@@ -486,18 +484,17 @@ def main():
                 'fgt-gui-proxy': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'fgt-gui-proxy-port': {'v_range': [['7.4.2', '']], 'type': 'int'}
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_admin_setting'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='partial crud')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='partial crud')
     faz.process()
     module.exit_json(meta=module.params)
 

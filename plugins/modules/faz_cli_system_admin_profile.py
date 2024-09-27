@@ -28,7 +28,7 @@ short_description: Admin profile.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode and diff mode.
 version_added: "1.0.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,13 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - To create or update an object, set the state argument to present. To delete an object, set the state argument to absent.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -96,7 +99,7 @@ options:
         description: The top level parameters set.
         type: dict
         suboptions:
-            adom-lock:
+            adom_lock:
                 type: str
                 description:
                  - ADOM locking
@@ -107,7 +110,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            adom-switch:
+            adom_switch:
                 type: str
                 description:
                  - Administrator domain.
@@ -118,7 +121,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            allow-to-install:
+            allow_to_install:
                 type: str
                 description:
                  - Enable/disable the restricted user to install objects to the devices.
@@ -127,7 +130,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            change-password:
+            change_password:
                 type: str
                 description:
                  - Enable/disable the user to change self password.
@@ -145,12 +148,12 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            datamask-custom-fields:
+            datamask_custom_fields:
                 description: no description
                 type: list
                 elements: dict
                 suboptions:
-                    field-category:
+                    field_category:
                         description:
                          - Field categories.
                          - log - Log.
@@ -166,10 +169,10 @@ options:
                             - 'alert'
                             - 'ueba'
                             - 'all'
-                    field-name:
+                    field_name:
                         type: str
                         description: Field name.
-                    field-status:
+                    field_status:
                         type: str
                         description:
                          - Field status.
@@ -178,7 +181,7 @@ options:
                         choices:
                             - 'disable'
                             - 'enable'
-                    field-type:
+                    field_type:
                         type: str
                         description:
                          - Field type.
@@ -193,7 +196,7 @@ options:
                             - 'mac'
                             - 'email'
                             - 'unknown'
-            datamask-custom-priority:
+            datamask_custom_priority:
                 type: str
                 description:
                  - Prioritize custom fields.
@@ -202,7 +205,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            datamask-fields:
+            datamask_fields:
                 description:
                  - Data masking fields.
                  - user - User name.
@@ -226,16 +229,16 @@ options:
                     - 'email'
                     - 'message'
                     - 'domain'
-            datamask-key:
+            datamask_key:
                 description: Data masking encryption key.
                 type: str
-            datamask-unmasked-time:
+            datamask_unmasked_time:
                 type: int
                 description: Time in days without data masking.
             description:
                 type: str
                 description: Description.
-            device-ap:
+            device_ap:
                 type: str
                 description:
                  - Manage AP.
@@ -246,7 +249,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            device-forticlient:
+            device_forticlient:
                 type: str
                 description:
                  - Manage FortiClient.
@@ -257,7 +260,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            device-fortiswitch:
+            device_fortiswitch:
                 type: str
                 description:
                  - Manage FortiSwitch.
@@ -268,7 +271,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            device-manager:
+            device_manager:
                 type: str
                 description:
                  - Device manager.
@@ -279,7 +282,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            device-op:
+            device_op:
                 type: str
                 description:
                  - Device add/delete/edit.
@@ -290,7 +293,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            device-policy-package-lock:
+            device_policy_package_lock:
                 type: str
                 description:
                  - Device/Policy Package locking
@@ -301,7 +304,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            device-wan-link-load-balance:
+            device_wan_link_load_balance:
                 type: str
                 description:
                  - Manage WAN link load balance.
@@ -312,7 +315,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            event-management:
+            event_management:
                 type: str
                 description:
                  - Event management.
@@ -323,7 +326,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            fortirecorder-setting:
+            fortirecorder_setting:
                 type: str
                 description:
                  - FortiRecorder settings.
@@ -334,7 +337,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            log-viewer:
+            log_viewer:
                 type: str
                 description:
                  - Log viewer.
@@ -348,7 +351,7 @@ options:
             profileid:
                 type: str
                 description: Profile ID.
-            realtime-monitor:
+            realtime_monitor:
                 type: str
                 description:
                  - Realtime monitor.
@@ -359,7 +362,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            report-viewer:
+            report_viewer:
                 type: str
                 description:
                  - Report viewer.
@@ -379,7 +382,7 @@ options:
                 choices:
                     - 'global'
                     - 'adom'
-            super-user-profile:
+            super_user_profile:
                 type: str
                 description:
                  - Enable/disable super user profile
@@ -388,7 +391,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            system-setting:
+            system_setting:
                 type: str
                 description:
                  - System setting.
@@ -399,7 +402,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            fabric-viewer:
+            fabric_viewer:
                 type: str
                 description:
                  - Fabric viewer.
@@ -410,7 +413,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            execute-playbook:
+            execute_playbook:
                 type: str
                 description:
                  - Execute playbook.
@@ -421,7 +424,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            extension-access:
+            extension_access:
                 type: str
                 description:
                  - Manage extension access.
@@ -432,7 +435,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            run-report:
+            run_report:
                 type: str
                 description:
                  - Run reports.
@@ -443,7 +446,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            script-access:
+            script_access:
                 type: str
                 description:
                  - Script access.
@@ -454,7 +457,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            triage-events:
+            triage_events:
                 type: str
                 description:
                  - Triage events.
@@ -465,7 +468,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            update-incidents:
+            update_incidents:
                 type: str
                 description:
                  - Create/update incidents.
@@ -476,7 +479,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            ips-baseline-ovrd:
+            ips_baseline_ovrd:
                 type: str
                 description:
                  - Enable/disable override baseline ips sensor.
@@ -515,7 +518,7 @@ options:
             ipv6_trusthost9:
                 type: str
                 description: 'Admin user trusted host IPv6, default ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff/128 for none.'
-            rpc-permit:
+            rpc_permit:
                 type: str
                 description:
                  - Set none/read/read-write rpc-permission
@@ -556,7 +559,7 @@ options:
             trusthost9:
                 type: str
                 description: Admin user trusted host IP, default 255.255.255.255 255.255.255.255 for none.
-            device-fortiextender:
+            device_fortiextender:
                 type: str
                 description:
                  - Manage FortiExtender.
@@ -567,7 +570,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            ips-lock:
+            ips_lock:
                 type: str
                 description:
                  - IPS locking
@@ -578,7 +581,7 @@ options:
                     - 'none'
                     - 'read'
                     - 'read-write'
-            fgt-gui-proxy:
+            fgt_gui_proxy:
                 type: str
                 description:
                  - FortiGate GUI proxy.
@@ -587,7 +590,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            write-passwd-access:
+            write_passwd_access:
                 type: str
                 description:
                  - set all/specify-by-user/specify-by-profile write password access mode.
@@ -598,7 +601,7 @@ options:
                     - 'all'
                     - 'specify-by-user'
                     - 'specify-by-profile'
-            write-passwd-profiles:
+            write_passwd_profiles:
                 description: no description
                 type: list
                 elements: dict
@@ -606,7 +609,7 @@ options:
                     profileid:
                         type: str
                         description: Profile ID.
-            write-passwd-user-list:
+            write_passwd_user_list:
                 description: no description
                 type: list
                 elements: dict
@@ -614,6 +617,15 @@ options:
                     userid:
                         type: str
                         description: User ID.
+            adom_admin:
+                type: str
+                description:
+                 - Enable Adom Admin.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
+                choices:
+                    - 'disable'
+                    - 'enable'
 '''
 
 EXAMPLES = '''
@@ -677,17 +689,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/cli/global/system/admin/profile'
-    ]
-
-    perobject_jrpc_urls = [
-        '/cli/global/system/admin/profile/{profile}'
     ]
 
     url_params = []
@@ -739,7 +747,7 @@ def main():
                 'device-policy-package-lock': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'device-wan-link-load-balance': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'event-management': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
-                'fortirecorder-setting': {'v_range': [['6.2.1', '7.2.5']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
+                'fortirecorder-setting': {'v_range': [['6.2.1', '7.2.7']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'log-viewer': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'profileid': {'type': 'str'},
                 'realtime-monitor': {'v_range': [['6.2.1', '7.4.2']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
@@ -798,20 +806,20 @@ def main():
                     'type': 'list',
                     'options': {'userid': {'v_range': [['7.4.2', '']], 'type': 'str'}},
                     'elements': 'dict'
-                }
+                },
+                'adom-admin': {'v_range': [['7.6.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_admin_profile'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='full crud')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='full crud')
     faz.process()
     module.exit_json(meta=module.params)
 

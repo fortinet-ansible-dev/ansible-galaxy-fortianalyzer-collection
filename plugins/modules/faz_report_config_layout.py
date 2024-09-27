@@ -28,7 +28,7 @@ short_description: Config layout.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode and diff mode.
 version_added: "1.5.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,13 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - To create or update an object, set the state argument to present. To delete an object, set the state argument to absent.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -108,7 +111,7 @@ options:
                 type: list
                 elements: dict
                 suboptions:
-                    component-id:
+                    component_id:
                         type: int
                         description: no description
                     type:
@@ -139,13 +142,13 @@ options:
                             var:
                                 type: str
                                 description: no description
-                            var-value:
+                            var_value:
                                 type: str
                                 description: no description
                             description:
                                 type: str
                                 description: no description
-                            drilldown-flag:
+                            drilldown_flag:
                                 type: str
                                 description: no description
                                 choices:
@@ -157,10 +160,10 @@ options:
                                 choices:
                                     - 'enable'
                                     - 'disable'
-                            var-expression:
+                            var_expression:
                                 type: str
                                 description: no description
-                            var-type:
+                            var_type:
                                 type: str
                                 description: no description
                                 choices:
@@ -174,7 +177,7 @@ options:
                     alignment:
                         type: int
                         description: no description
-                    bg-color:
+                    bg_color:
                         type: str
                         description: no description
                     category:
@@ -183,7 +186,7 @@ options:
                     chart:
                         type: str
                         description: no description
-                    chart-option:
+                    chart_option:
                         type: str
                         description: no description
                         choices:
@@ -198,7 +201,7 @@ options:
                     customized:
                         type: int
                         description: no description
-                    device-mode:
+                    device_mode:
                         type: str
                         description: no description
                         choices:
@@ -207,34 +210,34 @@ options:
                     devices:
                         type: str
                         description: no description
-                    drill-down-report:
+                    drill_down_report:
                         type: str
                         description: no description
                         choices:
                             - 'enable'
                             - 'disable'
-                    filter-logic:
+                    filter_logic:
                         type: str
                         description: no description
                         choices:
                             - 'all'
                             - 'any'
-                    filter-mode:
+                    filter_mode:
                         type: str
                         description: no description
                         choices:
                             - 'override'
                             - 'inherit'
-                    font-color:
+                    font_color:
                         type: str
                         description: no description
-                    font-family:
+                    font_family:
                         type: str
                         description: no description
-                    font-size:
+                    font_size:
                         type: int
                         description: no description
-                    font-type:
+                    font_type:
                         type: str
                         description: no description
                         choices:
@@ -246,68 +249,68 @@ options:
                     graphic:
                         type: str
                         description: no description
-                    include-other:
+                    include_other:
                         type: str
                         description: no description
                         choices:
                             - 'enable'
                             - 'disable'
-                    ldap-query:
+                    ldap_query:
                         type: str
                         description: no description
                         choices:
                             - 'auto'
                             - 'enable'
                             - 'disable'
-                    ldap-server:
+                    ldap_server:
                         type: str
                         description: no description
-                    ldap-user-case-change:
+                    ldap_user_case_change:
                         type: str
                         description: no description
                         choices:
                             - 'upper'
                             - 'lower'
                             - 'disable'
-                    left-margin:
+                    left_margin:
                         type: int
                         description: no description
                     macro:
                         type: str
                         description: no description
-                    not-vdom:
+                    not_vdom:
                         type: str
                         description: no description
                         choices:
                             - 'enable'
                             - 'disable'
-                    period-end:
+                    period_end:
                         description: no description
                         type: list
                         elements: dict
-                    period-last-n:
+                    period_last_n:
                         type: int
                         description: no description
-                    period-mode:
+                    period_mode:
                         type: str
                         description: no description
                         choices:
                             - 'variable'
                             - 'specify'
-                    period-opt:
+                    period_opt:
                         type: str
                         description: no description
                         choices:
                             - 'faz'
                             - 'dev'
-                    period-start:
+                    period_start:
                         description: no description
                         type: list
                         elements: dict
-                    right-margin:
+                    right_margin:
                         type: int
                         description: no description
-                    table-color:
+                    table_color:
                         type: str
                         description: no description
                         choices:
@@ -318,7 +321,7 @@ options:
                     text:
                         type: str
                         description: no description
-                    time-period:
+                    time_period:
                         type: str
                         description: no description
                         choices:
@@ -345,7 +348,7 @@ options:
                     vdom:
                         type: str
                         description: no description
-                    week-start:
+                    week_start:
                         type: str
                         description: no description
                         choices:
@@ -367,7 +370,7 @@ options:
                 type: list
                 elements: dict
                 suboptions:
-                    footer-id:
+                    footer_id:
                         type: int
                         description: no description
                     type:
@@ -388,7 +391,7 @@ options:
                 type: list
                 elements: dict
                 suboptions:
-                    header-id:
+                    header_id:
                         type: int
                         description: no description
                     type:
@@ -407,7 +410,7 @@ options:
             language:
                 type: str
                 description: no description
-            layout-id:
+            layout_id:
                 type: int
                 description: no description
             subtitle:
@@ -423,71 +426,71 @@ options:
                     - 'right'
                     - 'center'
                     - 'left'
-            bg-color:
+            bg_color:
                 type: str
                 description: no description
             category:
                 type: str
                 description: no description
-            chart-heading-level:
+            chart_heading_level:
                 type: int
                 description: no description
-            chart-info-display:
+            chart_info_display:
                 type: str
                 description: no description
                 choices:
                     - 'enable'
                     - 'disable'
-            coverpage-background-image:
+            coverpage_background_image:
                 type: str
                 description: no description
-            coverpage-bottom-image:
+            coverpage_bottom_image:
                 type: str
                 description: no description
-            coverpage-custom-text1:
+            coverpage_custom_text1:
                 type: str
                 description: no description
-            coverpage-custom-text2:
+            coverpage_custom_text2:
                 type: str
                 description: no description
-            coverpage-enable-create-time:
-                type: str
-                description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
-            coverpage-enable-time-period:
+            coverpage_enable_create_time:
                 type: str
                 description: no description
                 choices:
                     - 'enable'
                     - 'disable'
-            coverpage-footer-bgcolor:
+            coverpage_enable_time_period:
                 type: str
                 description: no description
-            coverpage-footer-left:
+                choices:
+                    - 'enable'
+                    - 'disable'
+            coverpage_footer_bgcolor:
                 type: str
                 description: no description
-            coverpage-footer-right:
+            coverpage_footer_left:
                 type: str
                 description: no description
-            coverpage-text-color:
+            coverpage_footer_right:
                 type: str
                 description: no description
-            coverpage-title:
+            coverpage_text_color:
                 type: str
                 description: no description
-            coverpage-top-image:
+            coverpage_title:
                 type: str
                 description: no description
-            coverpage-top-image-position:
+            coverpage_top_image:
+                type: str
+                description: no description
+            coverpage_top_image_position:
                 type: str
                 description: no description
                 choices:
                     - 'right'
                     - 'center'
                     - 'left'
-            dev-type:
+            dev_type:
                 type: str
                 description: no description
                 choices:
@@ -506,19 +509,19 @@ options:
                     - 'FortiDDoS'
                     - 'FortiGate'
                     - 'FortiFirewall'
-            folder-id:
+            folder_id:
                 type: int
                 description: no description
-            font-color:
+            font_color:
                 type: str
                 description: no description
-            font-family:
+            font_family:
                 type: str
                 description: no description
-            font-size:
+            font_size:
                 type: int
                 description: no description
-            font-type:
+            font_type:
                 type: str
                 description: no description
                 choices:
@@ -527,31 +530,31 @@ options:
                     - 'undefined'
                     - 'italic'
                     - 'normal'
-            footer-bgcolor:
+            footer_bgcolor:
                 type: str
                 description: no description
-            header-bgcolor:
+            header_bgcolor:
                 type: str
                 description: no description
-            hide-report-title:
+            hide_report_title:
                 type: int
                 description: no description
-            hide-rowid:
+            hide_rowid:
                 type: int
                 description: no description
-            include-empty-charts:
+            include_empty_charts:
                 type: str
                 description: no description
                 choices:
                     - 'enable'
                     - 'disable'
-            is-template:
+            is_template:
                 type: str
                 description: no description
                 choices:
                     - 'enable'
                     - 'disable'
-            left-margin:
+            left_margin:
                 type: int
                 description: no description
             protected:
@@ -560,10 +563,10 @@ options:
                 choices:
                     - 'enable'
                     - 'disable'
-            report-tag:
+            report_tag:
                 type: str
                 description: no description
-            right-margin:
+            right_margin:
                 type: int
                 description: no description
             folders:
@@ -571,7 +574,7 @@ options:
                 type: list
                 elements: dict
                 suboptions:
-                    folder-id:
+                    folder_id:
                         type: int
                         description: no description
 '''
@@ -739,17 +742,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/report/adom/{adom}/config/layout'
-    ]
-
-    perobject_jrpc_urls = [
-        '/report/adom/{adom}/config/layout/{layout}'
     ]
 
     url_params = ['adom']
@@ -920,18 +919,17 @@ def main():
                     'elements': 'dict'
                 }
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'report_config_layout'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='full crud')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='full crud')
     faz.process()
     module.exit_json(meta=module.params)
 

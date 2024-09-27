@@ -28,7 +28,7 @@ short_description: Import a list of ADOMs and devices.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode.
 version_added: "1.0.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,12 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -95,7 +97,7 @@ options:
                     - 'none'
                     - 'create_task'
                     - 'nonblocking'
-            import-adom-members:
+            import_adom_members:
                 description: Associations between devices and ADOMs.
                 type: list
                 elements: dict
@@ -109,7 +111,7 @@ options:
                     vdom:
                         type: str
                         description: no description
-            import-adoms:
+            import_adoms:
                 description: A list of ADOM and device group objects to be imported.
                 type: list
                 elements: dict
@@ -150,7 +152,7 @@ options:
                     log_file_retention_hours:
                         type: int
                         description: no description
-                    meta fields:
+                    meta_fields:
                         description: no description
                         type: dict
                     mig_mr:
@@ -278,7 +280,7 @@ options:
                     secondary_dns_ip6_4:
                         type: int
                         description: no description
-            import-devices:
+            import_devices:
                 description: A list of device objects to be imported.
                 type: list
                 elements: dict
@@ -360,16 +362,16 @@ options:
                     fap_cnt:
                         type: int
                         description: no description
-                    faz.full_act:
+                    faz_full_act:
                         type: int
                         description: no description
-                    faz.perm:
+                    faz_perm:
                         type: int
                         description: no description
-                    faz.quota:
+                    faz_quota:
                         type: int
                         description: no description
-                    faz.used:
+                    faz_used:
                         type: int
                         description: no description
                     fex_cnt:
@@ -398,6 +400,8 @@ options:
                             - 'cnf_mode'
                             - 'sase_managed'
                             - 'override_management_intf'
+                            - 'sdwan_management'
+                            - 'deny_api_access'
                     foslic_cpu:
                         type: int
                         description: VM Meter vCPU count.
@@ -543,7 +547,7 @@ options:
                     maxvdom:
                         type: int
                         description: no description
-                    meta fields:
+                    meta_fields:
                         description: no description
                         type: dict
                     mgmt_id:
@@ -606,6 +610,7 @@ options:
                             - 'fpa'
                             - 'fca'
                             - 'ftc'
+                            - 'fss'
                     os_ver:
                         type: str
                         description: no description
@@ -662,7 +667,7 @@ options:
                             vpn_id:
                                 type: int
                                 description: no description
-                            meta fields:
+                            meta_fields:
                                 description: no description
                                 type: dict
                             vdom_type:
@@ -729,10 +734,19 @@ options:
                     hw_generation:
                         type: int
                         description: no description
+                    ha_vsn:
+                        type: str
+                        description: no description
                     relver_info:
                         type: str
                         description: no description
-            import-group-members:
+                    cluster_worker:
+                        type: str
+                        description: no description
+                    ha_upgrade_mode:
+                        type: int
+                        description: no description
+            import_group_members:
                 description: Associations between devices and device groups.
                 type: list
                 elements: dict
@@ -811,17 +825,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/dvm/cmd/import/dev-list'
-    ]
-
-    perobject_jrpc_urls = [
-        '/dvm/cmd/import/dev-list/{dev-list}'
     ]
 
     url_params = []
@@ -931,7 +941,7 @@ def main():
                             'choices': [
                                 'has_hdd', 'vdom_enabled', 'discover', 'reload', 'interim_build', 'offline_mode', 'is_model', 'fips_mode',
                                 'linked_to_model', 'ip-conflict', 'faz-autosync', 'need_reset', 'backup_mode', 'azure_vwan_nva', 'fgsp_configured',
-                                'cnf_mode', 'sase_managed', 'override_management_intf'
+                                'cnf_mode', 'sase_managed', 'override_management_intf', 'sdwan_management', 'deny_api_access'
                             ],
                             'elements': 'str'
                         },
@@ -989,7 +999,7 @@ def main():
                         'os_type': {
                             'choices': [
                                 'unknown', 'fos', 'fsw', 'foc', 'fml', 'faz', 'fwb', 'fch', 'fct', 'log', 'fmg', 'fsa', 'fdd', 'fac', 'fpx', 'fna',
-                                'fdc', 'ffw', 'fsr', 'fad', 'fts', 'fap', 'fxt', 'fai', 'fwc', 'fis', 'fed', 'fpa', 'fca', 'ftc'
+                                'fdc', 'ffw', 'fsr', 'fad', 'fts', 'fap', 'fxt', 'fai', 'fwc', 'fis', 'fed', 'fpa', 'fca', 'ftc', 'fss'
                             ],
                             'type': 'str'
                         },
@@ -1030,8 +1040,11 @@ def main():
                         'first_tunnel_up': {'v_range': [['7.0.4', '7.0.12'], ['7.2.1', '']], 'type': 'int'},
                         'eip': {'v_range': [['7.2.1', '']], 'type': 'str'},
                         'mgmt_uuid': {'v_range': [['7.2.1', '']], 'type': 'str'},
-                        'hw_generation': {'v_range': [['7.2.4', '7.2.5'], ['7.4.1', '']], 'type': 'int'},
-                        'relver_info': {'v_range': [['7.4.3', '']], 'type': 'str'}
+                        'hw_generation': {'v_range': [['7.2.4', '7.2.7'], ['7.4.1', '']], 'type': 'int'},
+                        'ha.vsn': {'v_range': [['7.2.6', '7.2.7'], ['7.6.0', '']], 'type': 'str'},
+                        'relver_info': {'v_range': [['7.4.3', '']], 'type': 'str'},
+                        'cluster_worker': {'v_range': [['7.6.0', '']], 'type': 'str'},
+                        'ha_upgrade_mode': {'v_range': [['7.6.0', '']], 'type': 'int'}
                     },
                     'elements': 'dict'
                 },
@@ -1041,18 +1054,17 @@ def main():
                     'elements': 'dict'
                 }
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'dvm_cmd_import_devlist'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='exec')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='exec')
     faz.process()
     module.exit_json(meta=module.params)
 

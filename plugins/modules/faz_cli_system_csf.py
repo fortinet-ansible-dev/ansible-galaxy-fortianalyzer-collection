@@ -28,7 +28,7 @@ short_description: Add this device to a Security Fabric or set up a new Security
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode and diff mode.
 version_added: "1.3.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,12 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -89,7 +91,7 @@ options:
         description: The top level parameters set.
         type: dict
         suboptions:
-            accept-auth-by-cert:
+            accept_auth_by_cert:
                 type: str
                 description:
                  - Accept connections with unknown certificates and ask admin for approval.
@@ -98,7 +100,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            authorization-request-type:
+            authorization_request_type:
                 type: str
                 description:
                  - Authorization request type.
@@ -110,7 +112,7 @@ options:
             certificate:
                 type: str
                 description: Certificate.
-            configuration-sync:
+            configuration_sync:
                 type: str
                 description:
                  - Configuration sync mode.
@@ -119,7 +121,7 @@ options:
                 choices:
                     - 'default'
                     - 'local'
-            downstream-access:
+            downstream_access:
                 type: str
                 description:
                  - Enable/disable downstream device access to this devices configuration and data.
@@ -128,10 +130,10 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            downstream-accprofile:
+            downstream_accprofile:
                 type: str
                 description: Default access profile for requests from downstream devices.
-            fabric-connector:
+            fabric_connector:
                 description: no description
                 type: list
                 elements: dict
@@ -139,7 +141,7 @@ options:
                     accprofile:
                         type: str
                         description: Override access profile.
-                    configuration-write-access:
+                    configuration_write_access:
                         type: str
                         description:
                          - Enable/disable downstream device write access to configuration.
@@ -151,7 +153,7 @@ options:
                     serial:
                         type: str
                         description: Serial.
-            fabric-object-unification:
+            fabric_object_unification:
                 type: str
                 description:
                  - Fabric CMDB Object Unification.
@@ -160,10 +162,10 @@ options:
                 choices:
                     - 'local'
                     - 'default'
-            fabric-workers:
+            fabric_workers:
                 type: int
                 description: Number of worker processes for Security Fabric daemon.
-            file-mgmt:
+            file_mgmt:
                 type: str
                 description:
                  - Enable/disable Security Fabric daemon file management.
@@ -172,16 +174,16 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            file-quota:
+            file_quota:
                 type: int
                 description: Maximum amount of memory that can be used by the daemon files
-            file-quota-warning:
+            file_quota_warning:
                 type: int
                 description: Warn when the set percentage of quota has been used.
-            fixed-key:
+            fixed_key:
                 description: Auto-generated fixed key used when this device is the root.
                 type: str
-            forticloud-account-enforcement:
+            forticloud_account_enforcement:
                 type: str
                 description:
                  - Fabric FortiCloud account unification.
@@ -190,13 +192,13 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            group-name:
+            group_name:
                 type: str
                 description: Security Fabric group name.
-            group-password:
+            group_password:
                 description: Security Fabric group password.
                 type: str
-            log-unification:
+            log_unification:
                 type: str
                 description:
                  - Enable/disable broadcast of discovery messages for log unification.
@@ -205,7 +207,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            saml-configuration-sync:
+            saml_configuration_sync:
                 type: str
                 description:
                  - SAML setting configuration synchronization.
@@ -223,7 +225,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            trusted-list:
+            trusted_list:
                 description: no description
                 type: list
                 elements: dict
@@ -237,7 +239,7 @@ options:
                         choices:
                             - 'accept'
                             - 'deny'
-                    authorization-type:
+                    authorization_type:
                         type: str
                         description:
                          - Authorization type.
@@ -249,7 +251,7 @@ options:
                     certificate:
                         type: str
                         description: Certificate.
-                    downstream-authorization:
+                    downstream_authorization:
                         type: str
                         description:
                          - Trust authorizations by this nodes administrator.
@@ -258,7 +260,7 @@ options:
                         choices:
                             - 'disable'
                             - 'enable'
-                    ha-members:
+                    ha_members:
                         type: str
                         description: HA members.
                     index:
@@ -273,9 +275,18 @@ options:
             upstream:
                 type: str
                 description: IP/FQDN of the FortiGate upstream from this FortiGate in the Security Fabric.
-            upstream-port:
+            upstream_port:
                 type: int
                 description: The port number to use to communicate with the FortiGate upstream from this FortiGate in the Security Fabric
+            upstream_confirm:
+                type: str
+                description:
+                 - Upstream authorization confirm.
+                 - discover - Discover upstream devices info.
+                 - confirm - Confirm upstream devices access.
+                choices:
+                    - 'discover'
+                    - 'confirm'
 '''
 
 EXAMPLES = '''
@@ -327,6 +338,7 @@ EXAMPLES = '''
               serial: <value of string>
           upstream: <value of string>
           upstream_port: <value of integer>
+          upstream_confirm: <value in [discover, confirm]>
 '''
 
 RETURN = '''
@@ -370,17 +382,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/cli/global/system/csf'
-    ]
-
-    perobject_jrpc_urls = [
-        '/cli/global/system/csf/{csf}'
     ]
 
     url_params = []
@@ -402,7 +410,7 @@ def main():
                 'accept-auth-by-cert': {'v_range': [['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'authorization-request-type': {'v_range': [['7.4.1', '']], 'choices': ['certificate', 'serial'], 'type': 'str'},
                 'certificate': {'v_range': [['7.4.1', '']], 'type': 'str'},
-                'configuration-sync': {'v_range': [['7.4.1', '']], 'choices': ['default', 'local'], 'type': 'str'},
+                'configuration-sync': {'v_range': [['7.4.1', '7.4.3']], 'choices': ['default', 'local'], 'type': 'str'},
                 'downstream-access': {'v_range': [['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'downstream-accprofile': {'v_range': [['7.4.1', '']], 'type': 'str'},
                 'fabric-connector': {
@@ -415,17 +423,17 @@ def main():
                     },
                     'elements': 'dict'
                 },
-                'fabric-object-unification': {'v_range': [['7.4.1', '']], 'choices': ['local', 'default'], 'type': 'str'},
+                'fabric-object-unification': {'v_range': [['7.4.1', '7.4.3']], 'choices': ['local', 'default'], 'type': 'str'},
                 'fabric-workers': {'v_range': [['7.4.1', '']], 'type': 'int'},
-                'file-mgmt': {'v_range': [['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'file-quota': {'v_range': [['7.4.1', '']], 'type': 'int'},
-                'file-quota-warning': {'v_range': [['7.4.1', '']], 'type': 'int'},
+                'file-mgmt': {'v_range': [['7.4.1', '7.4.3']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'file-quota': {'v_range': [['7.4.1', '7.4.3']], 'type': 'int'},
+                'file-quota-warning': {'v_range': [['7.4.1', '7.4.3']], 'type': 'int'},
                 'fixed-key': {'v_range': [['7.4.1', '']], 'no_log': True, 'type': 'str'},
                 'forticloud-account-enforcement': {'v_range': [['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'group-name': {'v_range': [['7.4.1', '']], 'type': 'str'},
                 'group-password': {'v_range': [['7.4.1', '']], 'no_log': True, 'type': 'str'},
                 'log-unification': {'v_range': [['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'saml-configuration-sync': {'v_range': [['7.4.1', '']], 'choices': ['local', 'default'], 'type': 'str'},
+                'saml-configuration-sync': {'v_range': [['7.4.1', '7.4.3']], 'choices': ['local', 'default'], 'type': 'str'},
                 'status': {'v_range': [['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'trusted-list': {
                     'v_range': [['7.4.1', '']],
@@ -443,20 +451,20 @@ def main():
                     'elements': 'dict'
                 },
                 'upstream': {'v_range': [['7.4.1', '']], 'type': 'str'},
-                'upstream-port': {'v_range': [['7.4.1', '']], 'type': 'int'}
+                'upstream-port': {'v_range': [['7.4.1', '']], 'type': 'int'},
+                'upstream-confirm': {'v_range': [['7.6.0', '']], 'choices': ['discover', 'confirm'], 'type': 'str'}
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_csf'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='partial crud')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='partial crud')
     faz.process()
     module.exit_json(meta=module.params)
 

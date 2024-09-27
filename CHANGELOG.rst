@@ -5,6 +5,33 @@ Fortinet.Fortianalyzer Release Notes
 .. contents:: Topics
 
 
+v1.7.0
+======
+
+Release Summary
+---------------
+
+Release fortinet.fortianalyzer 1.7.0
+
+Minor Changes
+-------------
+
+- Supported FortiAnalyzer 7.2.6, 7.2.7, 7.6.0 API schemas.
+- Supported check mode for all modules except "faz_generic".
+- Supported diff mode for some modules.
+
+Bugfixes
+--------
+
+- Improved code logic, reduced redundant requests for system information.
+- Improved faz_fact document.
+- Improved readme document.
+
+New Modules
+-----------
+
+- fortinet.fortianalyzer.faz_cli_system_admin_user_policyblock - Policy block write access.
+
 v1.6.0
 ======
 

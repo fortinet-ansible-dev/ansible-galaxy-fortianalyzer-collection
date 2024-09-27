@@ -28,7 +28,7 @@ short_description: Global range attributes.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode and diff mode.
 version_added: "1.0.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,12 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -89,13 +91,13 @@ options:
         description: The top level parameters set.
         type: dict
         suboptions:
-            admin-lockout-duration:
+            admin_lockout_duration:
                 type: int
                 description: Lockout duration
-            admin-lockout-threshold:
+            admin_lockout_threshold:
                 type: int
                 description: Lockout threshold for administration.
-            adom-mode:
+            adom_mode:
                 type: str
                 description:
                  - ADOM mode.
@@ -104,7 +106,7 @@ options:
                 choices:
                     - 'normal'
                     - 'advanced'
-            adom-select:
+            adom_select:
                 type: str
                 description:
                  - Enable/disable select ADOM after login.
@@ -113,7 +115,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            adom-status:
+            adom_status:
                 type: str
                 description:
                  - ADOM status.
@@ -122,7 +124,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            backup-compression:
+            backup_compression:
                 type: str
                 description:
                  - Compression level.
@@ -135,7 +137,7 @@ options:
                     - 'low'
                     - 'normal'
                     - 'high'
-            backup-to-subfolders:
+            backup_to_subfolders:
                 type: str
                 description:
                  - Enable/disable creation of subfolders on server for backup storage.
@@ -144,7 +146,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            clone-name-option:
+            clone_name_option:
                 type: str
                 description:
                  - set the clone object names option.
@@ -153,7 +155,7 @@ options:
                 choices:
                     - 'default'
                     - 'keep'
-            clt-cert-req:
+            clt_cert_req:
                 type: str
                 description:
                  - Require client certificate for GUI login.
@@ -164,7 +166,7 @@ options:
                     - 'disable'
                     - 'enable'
                     - 'optional'
-            console-output:
+            console_output:
                 type: str
                 description:
                  - Console output mode.
@@ -173,7 +175,7 @@ options:
                 choices:
                     - 'standard'
                     - 'more'
-            country-flag:
+            country_flag:
                 type: str
                 description:
                  - Country flag Status.
@@ -182,7 +184,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            create-revision:
+            create_revision:
                 type: str
                 description:
                  - Enable/disable create revision by default.
@@ -200,7 +202,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            default-logview-auto-completion:
+            default_logview_auto_completion:
                 type: str
                 description:
                  - Enable/disable log view filter auto-completion.
@@ -209,7 +211,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            default-search-mode:
+            default_search_mode:
                 type: str
                 description:
                  - Set the default search mode of log view.
@@ -218,7 +220,7 @@ options:
                 choices:
                     - 'filter-based'
                     - 'advanced'
-            detect-unregistered-log-device:
+            detect_unregistered_log_device:
                 type: str
                 description:
                  - Detect unregistered logging device from log message.
@@ -227,7 +229,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            device-view-mode:
+            device_view_mode:
                 type: str
                 description:
                  - Set devices/groups view mode.
@@ -236,7 +238,7 @@ options:
                 choices:
                     - 'regular'
                     - 'tree'
-            dh-params:
+            dh_params:
                 type: str
                 description:
                  - Minimum size of Diffie-Hellman prime for SSH/HTTPS
@@ -255,7 +257,7 @@ options:
                     - '4096'
                     - '6144'
                     - '8192'
-            disable-module:
+            disable_module:
                 description:
                  - Disable module list.
                  - fortiview-noc - FortiView/NOC-SOC module.
@@ -273,7 +275,7 @@ options:
                     - 'fortirecorder'
                     - 'ai'
                     - 'ot-view'
-            enc-algorithm:
+            enc_algorithm:
                 type: str
                 description:
                  - SSL communication encryption algorithms.
@@ -285,13 +287,13 @@ options:
                     - 'medium'
                     - 'high'
                     - 'custom'
-            fgfm-ca-cert:
+            fgfm_ca_cert:
                 type: str
                 description: set the extra fgfm CA certificates.
-            fgfm-local-cert:
+            fgfm_local_cert:
                 type: str
                 description: set the fgfm local certificate.
-            fgfm-ssl-protocol:
+            fgfm_ssl_protocol:
                 type: str
                 description:
                  - set the lowest SSL protocols for fgfmsd.
@@ -306,7 +308,7 @@ options:
                     - 'tlsv1.1'
                     - 'tlsv1.2'
                     - 'tlsv1.3'
-            ha-member-auto-grouping:
+            ha_member_auto_grouping:
                 type: str
                 description:
                  - Enable/disable automatically group HA members feature
@@ -344,13 +346,13 @@ options:
             latitude:
                 type: str
                 description: fmg location latitude
-            ldap-cache-timeout:
+            ldap_cache_timeout:
                 type: int
                 description: LDAP browser cache timeout
             ldapconntimeout:
                 type: int
                 description: LDAP connection timeout
-            lock-preempt:
+            lock_preempt:
                 type: str
                 description:
                  - Enable/disable ADOM lock override.
@@ -359,7 +361,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            log-checksum:
+            log_checksum:
                 type: str
                 description:
                  - Record log file hash value, timestamp, and authentication code at transmission or rolling.
@@ -370,10 +372,10 @@ options:
                     - 'none'
                     - 'md5'
                     - 'md5-auth'
-            log-forward-cache-size:
+            log_forward_cache_size:
                 type: int
                 description: Log forwarding disk cache size
-            log-mode:
+            log_mode:
                 type: str
                 description:
                  - Log system operation mode.
@@ -385,16 +387,16 @@ options:
             longitude:
                 type: str
                 description: fmg location longitude
-            max-aggregation-tasks:
+            max_aggregation_tasks:
                 type: int
                 description: Maximum number of concurrent tasks of a log aggregation session.
-            max-log-forward:
+            max_log_forward:
                 type: int
                 description: Maximum number of log-forward and aggregation settings.
-            max-running-reports:
+            max_running_reports:
                 type: int
                 description: Maximum number of reports generating at one time.
-            oftp-ssl-protocol:
+            oftp_ssl_protocol:
                 type: str
                 description:
                  - set the lowest SSL protocols for oftpd.
@@ -409,7 +411,7 @@ options:
                     - 'tlsv1.1'
                     - 'tlsv1.2'
                     - 'tlsv1.3'
-            policy-hit-count:
+            policy_hit_count:
                 type: str
                 description:
                  - show policy hit count.
@@ -418,7 +420,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            policy-object-icon:
+            policy_object_icon:
                 type: str
                 description:
                  - show icons of policy objects.
@@ -427,7 +429,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            policy-object-in-dual-pane:
+            policy_object_in_dual_pane:
                 type: str
                 description:
                  - show policies and objects in dual pane.
@@ -436,7 +438,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            pre-login-banner:
+            pre_login_banner:
                 type: str
                 description:
                  - Enable/disable pre-login banner.
@@ -445,10 +447,10 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            pre-login-banner-message:
+            pre_login_banner_message:
                 type: str
                 description: Pre-login banner message.
-            private-data-encryption:
+            private_data_encryption:
                 type: str
                 description:
                  - Enable/disable private data encryption using an AES 128-bit key.
@@ -460,7 +462,7 @@ options:
             remoteauthtimeout:
                 type: int
                 description: Remote authentication
-            search-all-adoms:
+            search_all_adoms:
                 type: str
                 description:
                  - Enable/Disable Search all ADOMs for where-used query.
@@ -469,7 +471,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            ssl-low-encryption:
+            ssl_low_encryption:
                 type: str
                 description:
                  - SSL low-grade encryption.
@@ -478,7 +480,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            ssl-protocol:
+            ssl_protocol:
                 description:
                  - SSL protocols.
                  - tlsv1.3 - Enable TLSv1.3.
@@ -494,7 +496,7 @@ options:
                     - 'tlsv1.1'
                     - 'tlsv1.0'
                     - 'sslv3'
-            ssl-static-key-ciphers:
+            ssl_static_key_ciphers:
                 type: str
                 description:
                  - Enable/disable SSL static key ciphers.
@@ -503,7 +505,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            task-list-size:
+            task_list_size:
                 type: int
                 description: Maximum number of completed tasks to keep.
             tftp:
@@ -704,7 +706,7 @@ options:
                     - '89'
                     - '90'
                     - '91'
-            tunnel-mtu:
+            tunnel_mtu:
                 type: int
                 description: Maximum transportation unit
             usg:
@@ -716,7 +718,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            webservice-proto:
+            webservice_proto:
                 description:
                  - Web Service connection support SSL protocols.
                  - tlsv1.3 - Web Service connection using TLSv1.3 protocol.
@@ -734,10 +736,10 @@ options:
                     - 'tlsv1.0'
                     - 'sslv3'
                     - 'sslv2'
-            workflow-max-sessions:
+            workflow_max_sessions:
                 type: int
                 description: Maximum number of workflow sessions per ADOM
-            multiple-steps-upgrade-in-autolink:
+            multiple_steps_upgrade_in_autolink:
                 type: str
                 description:
                  - Enable/disable multiple steps upgade in autolink process
@@ -746,7 +748,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            normalized-intf-zone-only:
+            normalized_intf_zone_only:
                 type: str
                 description:
                  - allow normalized interface to be zone only.
@@ -755,7 +757,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            ssl-cipher-suites:
+            ssl_cipher_suites:
                 description: no description
                 type: list
                 elements: dict
@@ -775,13 +777,13 @@ options:
                         choices:
                             - 'tls1.2-or-below'
                             - 'tls1.3'
-            gui-curl-timeout:
+            gui_curl_timeout:
                 type: int
                 description: GUI curl timeout in seconds
-            object-revision-db-max:
+            object_revision_db_max:
                 type: int
                 description: Maximum revisions for a single database
-            object-revision-mandatory-note:
+            object_revision_mandatory_note:
                 type: str
                 description:
                  - Enable/disable mandatory note when create revision.
@@ -790,10 +792,10 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            object-revision-object-max:
+            object_revision_object_max:
                 type: int
                 description: Maximum revisions for a single object
-            object-revision-status:
+            object_revision_status:
                 type: str
                 description:
                  - Enable/disable create revision when modify objects.
@@ -802,7 +804,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            table-entry-blink:
+            table_entry_blink:
                 type: str
                 description:
                  - Enable/disable table entry blink in GUI
@@ -811,7 +813,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            contentpack-fgt-install:
+            contentpack_fgt_install:
                 type: str
                 description:
                  - Enable/disable outbreak alert auto install for FGT ADOMS .
@@ -820,10 +822,10 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            gui-polling-interval:
+            gui_polling_interval:
                 type: int
                 description: GUI polling interval in seconds
-            no-copy-permission-check:
+            no_copy_permission_check:
                 type: str
                 description:
                  - Do not perform permission check to block object changes in different adom during copy and install.
@@ -832,7 +834,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            ssh-enc-algo:
+            ssh_enc_algo:
                 description:
                  - Select one or more SSH ciphers.
                  - chacha20-poly1305@openssh.com
@@ -870,7 +872,7 @@ options:
                     - 'rijndael-cbc@lysator.liu.se'
                     - 'aes128-gcm@openssh.com'
                     - 'aes256-gcm@openssh.com'
-            ssh-hostkey-algo:
+            ssh_hostkey_algo:
                 description:
                  - Select one or more SSH hostkey algorithms.
                  - ssh-rsa
@@ -886,7 +888,7 @@ options:
                     - 'rsa-sha2-256'
                     - 'rsa-sha2-512'
                     - 'ssh-ed25519'
-            ssh-kex-algo:
+            ssh_kex_algo:
                 description:
                  - Select one or more SSH kex algorithms.
                  - diffie-hellman-group1-sha1
@@ -914,7 +916,7 @@ options:
                     - 'ecdh-sha2-nistp256'
                     - 'ecdh-sha2-nistp384'
                     - 'ecdh-sha2-nistp521'
-            ssh-mac-algo:
+            ssh_mac_algo:
                 description:
                  - Select one or more SSH MAC algorithms.
                  - hmac-md5
@@ -954,7 +956,7 @@ options:
                     - 'umac-128@openssh.com'
                     - 'umac-64-etm@openssh.com'
                     - 'umac-128-etm@openssh.com'
-            ssh-strong-crypto:
+            ssh_strong_crypto:
                 type: str
                 description:
                  - Only allow strong ciphers for SSH when enabled.
@@ -963,7 +965,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            fgfm-cert-exclusive:
+            fgfm_cert_exclusive:
                 type: str
                 description:
                  - set if the local or CA certificates should be used exclusively.
@@ -972,7 +974,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            admin-lockout-method:
+            admin_lockout_method:
                 type: str
                 description:
                  - Lockout method for administration.
@@ -981,10 +983,10 @@ options:
                 choices:
                     - 'ip'
                     - 'user'
-            event-correlation-cache-size:
+            event_correlation_cache_size:
                 type: int
                 description: Maimum event correlation cache size
-            log-checksum-upload:
+            log_checksum_upload:
                 type: str
                 description:
                  - Enable/disable upload log checksum with log files.
@@ -993,7 +995,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            apache-mode:
+            apache_mode:
                 type: str
                 description:
                  - Set apache mode.
@@ -1002,7 +1004,7 @@ options:
                 choices:
                     - 'event'
                     - 'prefork'
-            no-vip-value-check:
+            no_vip_value_check:
                 type: str
                 description:
                  - Enable/disable skipping policy instead of throwing error when vip has no default or dynamic mapping during policy copy
@@ -1011,19 +1013,31 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            log-forward-plugin-workers:
+            admin_ssh_grace_time:
+                type: int
+                description: Maximum time in seconds permitted between making an SSH connection to the FortiManager unit and authenticating
+            fcp_cfg_service:
+                type: str
+                description:
+                 - Enable/disable FCP service processing configuration requests
+                 - disable - FCP service doesnt process configuration requests from web
+                 - enable - FCP service processes configuration requests from web.
+                choices:
+                    - 'disable'
+                    - 'enable'
+            log_forward_plugin_workers:
                 type: int
                 description: Maximum workers for running log forward output plugins, the valid range is 2 to 20
-            fortiservice-port:
+            fortiservice_port:
                 type: int
                 description: FortiService port
-            management-ip:
+            management_ip:
                 type: str
                 description: Management IP address of this FortiGate.
-            management-port:
+            management_port:
                 type: int
                 description: Overriding port for management connection
-            api-ip-binding:
+            api_ip_binding:
                 type: str
                 description:
                  - Enable/disable source IP check for JSON API request.
@@ -1032,6 +1046,28 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
+            admin_host:
+                type: str
+                description: Administrative host for HTTP and HTTPs.
+            fabric_storage_pool_quota:
+                type: int
+                description: Disk quota for Fabric
+            fabric_storage_pool_size:
+                type: int
+                description: Max storage pooll size
+            jsonapi_log:
+                type: str
+                description:
+                 - enable jsonapi log.
+                 - disable - disable jsonapi log.
+                 - request - logging jsonapi request.
+                 - response - logging jsonapi response.
+                 - all - logging both jsonapi request &amp; response.
+                choices:
+                    - 'disable'
+                    - 'request'
+                    - 'response'
+                    - 'all'
 '''
 
 EXAMPLES = '''
@@ -1091,17 +1127,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/cli/global/system/global'
-    ]
-
-    perobject_jrpc_urls = [
-        '/cli/global/system/global/{global}'
     ]
 
     url_params = []
@@ -1213,7 +1245,7 @@ def main():
                 'gui-polling-interval': {'v_range': [['7.0.5', '7.0.12'], ['7.2.1', '']], 'type': 'int'},
                 'no-copy-permission-check': {'v_range': [['7.0.8', '7.0.12'], ['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'ssh-enc-algo': {
-                    'v_range': [['7.0.11', '7.0.12'], ['7.2.5', '7.2.5'], ['7.4.2', '']],
+                    'v_range': [['7.0.11', '7.0.12'], ['7.2.5', '7.2.7'], ['7.4.2', '']],
                     'type': 'list',
                     'choices': [
                         'chacha20-poly1305@openssh.com', 'aes128-ctr', 'aes192-ctr', 'aes256-ctr', 'arcfour256', 'arcfour128', 'aes128-cbc', '3des-cbc',
@@ -1223,14 +1255,14 @@ def main():
                     'elements': 'str'
                 },
                 'ssh-hostkey-algo': {
-                    'v_range': [['7.0.11', '7.0.12'], ['7.2.5', '7.2.5'], ['7.4.2', '']],
+                    'v_range': [['7.0.11', '7.0.12'], ['7.2.5', '7.2.7'], ['7.4.2', '']],
                     'no_log': False,
                     'type': 'list',
                     'choices': ['ssh-rsa', 'ecdsa-sha2-nistp521', 'rsa-sha2-256', 'rsa-sha2-512', 'ssh-ed25519'],
                     'elements': 'str'
                 },
                 'ssh-kex-algo': {
-                    'v_range': [['7.0.11', '7.0.12'], ['7.2.5', '7.2.5'], ['7.4.2', '']],
+                    'v_range': [['7.0.11', '7.0.12'], ['7.2.5', '7.2.7'], ['7.4.2', '']],
                     'type': 'list',
                     'choices': [
                         'diffie-hellman-group1-sha1', 'diffie-hellman-group14-sha1', 'diffie-hellman-group14-sha256', 'diffie-hellman-group16-sha512',
@@ -1240,7 +1272,7 @@ def main():
                     'elements': 'str'
                 },
                 'ssh-mac-algo': {
-                    'v_range': [['7.0.11', '7.0.12'], ['7.2.5', '7.2.5'], ['7.4.2', '']],
+                    'v_range': [['7.0.11', '7.0.12'], ['7.2.5', '7.2.7'], ['7.4.2', '']],
                     'type': 'list',
                     'choices': [
                         'hmac-md5', 'hmac-md5-etm@openssh.com', 'hmac-md5-96', 'hmac-md5-96-etm@openssh.com', 'hmac-sha1', 'hmac-sha1-etm@openssh.com',
@@ -1251,7 +1283,7 @@ def main():
                     'elements': 'str'
                 },
                 'ssh-strong-crypto': {
-                    'v_range': [['7.0.11', '7.0.12'], ['7.2.5', '7.2.5'], ['7.4.2', '']],
+                    'v_range': [['7.0.11', '7.0.12'], ['7.2.5', '7.2.7'], ['7.4.2', '']],
                     'choices': ['disable', 'enable'],
                     'type': 'str'
                 },
@@ -1259,26 +1291,31 @@ def main():
                 'admin-lockout-method': {'v_range': [['7.2.2', '']], 'choices': ['ip', 'user'], 'type': 'str'},
                 'event-correlation-cache-size': {'v_range': [['7.2.2', '']], 'type': 'int'},
                 'log-checksum-upload': {'v_range': [['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'apache-mode': {'v_range': [['7.2.4', '7.2.5'], ['7.4.1', '']], 'choices': ['event', 'prefork'], 'type': 'str'},
-                'no-vip-value-check': {'v_range': [['7.2.4', '7.2.5'], ['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'apache-mode': {'v_range': [['7.2.4', '7.2.7'], ['7.4.1', '']], 'choices': ['event', 'prefork'], 'type': 'str'},
+                'no-vip-value-check': {'v_range': [['7.2.4', '7.2.7'], ['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'admin-ssh-grace-time': {'v_range': [['7.2.6', '7.2.7'], ['7.6.0', '']], 'type': 'int'},
+                'fcp-cfg-service': {'v_range': [['7.2.6', '7.2.7'], ['7.6.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'log-forward-plugin-workers': {'v_range': [['7.4.0', '']], 'type': 'int'},
                 'fortiservice-port': {'v_range': [['7.4.1', '']], 'type': 'int'},
                 'management-ip': {'v_range': [['7.4.1', '']], 'type': 'str'},
                 'management-port': {'v_range': [['7.4.1', '']], 'type': 'int'},
-                'api-ip-binding': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
+                'api-ip-binding': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'admin-host': {'v_range': [['7.6.0', '']], 'type': 'str'},
+                'fabric-storage-pool-quota': {'v_range': [['7.6.0', '']], 'type': 'int'},
+                'fabric-storage-pool-size': {'v_range': [['7.6.0', '']], 'type': 'int'},
+                'jsonapi-log': {'v_range': [['7.6.0', '']], 'choices': ['disable', 'request', 'response', 'all'], 'type': 'str'}
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_global'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='partial crud')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='partial crud')
     faz.process()
     module.exit_json(meta=module.params)
 

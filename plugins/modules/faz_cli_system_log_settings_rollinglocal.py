@@ -28,7 +28,7 @@ short_description: Log rolling policy for local logs.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode and diff mode.
 version_added: "1.0.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,12 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -109,7 +111,7 @@ options:
                     - 'thu'
                     - 'fri'
                     - 'sat'
-            del-files:
+            del_files:
                 type: str
                 description:
                  - Enable/disable log file deletion after uploading.
@@ -121,10 +123,10 @@ options:
             directory:
                 type: str
                 description: Upload server directory, for Unix server, use absolute
-            file-size:
+            file_size:
                 type: int
                 description: Roll log files when they reach this size
-            gzip-format:
+            gzip_format:
                 type: str
                 description:
                  - Enable/disable compression of uploaded log files.
@@ -145,7 +147,7 @@ options:
             ip3:
                 type: str
                 description: Upload server IP3 address.
-            log-format:
+            log_format:
                 type: str
                 description:
                  - Format of uploaded log files.
@@ -177,7 +179,7 @@ options:
             port3:
                 type: int
                 description: Upload server IP3 port number.
-            server-type:
+            server_type:
                 type: str
                 description:
                  - Upload server type.
@@ -197,10 +199,10 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            upload-hour:
+            upload_hour:
                 type: int
                 description: Log files upload schedule
-            upload-mode:
+            upload_mode:
                 type: str
                 description:
                  - Upload mode with multiple servers.
@@ -209,7 +211,7 @@ options:
                 choices:
                     - 'backup'
                     - 'mirror'
-            upload-trigger:
+            upload_trigger:
                 type: str
                 description:
                  - Event triggering log files upload.
@@ -238,7 +240,7 @@ options:
                     - 'none'
                     - 'daily'
                     - 'weekly'
-            rolling-upgrade-status:
+            rolling_upgrade_status:
                 type: int
                 description: rolling upgrade status
             server:
@@ -319,17 +321,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/cli/global/system/log/settings/rolling-local'
-    ]
-
-    perobject_jrpc_urls = [
-        '/cli/global/system/log/settings/rolling-local/{rolling-local}'
     ]
 
     url_params = []
@@ -379,18 +377,17 @@ def main():
                 'server2': {'v_range': [['7.2.0', '']], 'type': 'str'},
                 'server3': {'v_range': [['7.2.0', '']], 'type': 'str'}
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_log_settings_rollinglocal'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='partial crud')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='partial crud')
     faz.process()
     module.exit_json(meta=module.params)
 

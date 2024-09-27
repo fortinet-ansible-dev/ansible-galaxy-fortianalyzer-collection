@@ -28,7 +28,7 @@ short_description: Configure FortiGuard settings.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode and diff mode.
 version_added: "1.0.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,12 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -89,10 +91,10 @@ options:
         description: The top level parameters set.
         type: dict
         suboptions:
-            User-Agent:
+            User_Agent:
                 type: str
                 description: Configure the user agent string.
-            fds-clt-ssl-protocol:
+            fds_clt_ssl_protocol:
                 type: str
                 description:
                  - The SSL protocols version for connecting fds server
@@ -107,7 +109,7 @@ options:
                     - 'tlsv1.1'
                     - 'tlsv1.2'
                     - 'tlsv1.3'
-            fds-ssl-protocol:
+            fds_ssl_protocol:
                 type: str
                 description:
                  - The SSL protocols version for receiving fgt connection
@@ -122,7 +124,7 @@ options:
                     - 'tlsv1.1'
                     - 'tlsv1.2'
                     - 'tlsv1.3'
-            fmtr-log:
+            fmtr_log:
                 type: str
                 description:
                  - fmtr log level
@@ -145,7 +147,7 @@ options:
                     - 'info'
                     - 'debug'
                     - 'disable'
-            fortiguard-anycast:
+            fortiguard_anycast:
                 type: str
                 description:
                  - Enable/disable use of FortiGuards anycast network
@@ -154,7 +156,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            fortiguard-anycast-source:
+            fortiguard_anycast_source:
                 type: str
                 description:
                  - Configure which of Fortinets servers to provide FortiGuard services in FortiGuards anycast network.
@@ -163,7 +165,7 @@ options:
                 choices:
                     - 'fortinet'
                     - 'aws'
-            linkd-log:
+            linkd_log:
                 type: str
                 description:
                  - The linkd log level
@@ -186,13 +188,13 @@ options:
                     - 'info'
                     - 'debug'
                     - 'disable'
-            max-av-ips-version:
+            max_av_ips_version:
                 type: int
                 description: The maximum number of downloadable, full version AV/IPS packages
-            max-work:
+            max_work:
                 type: int
                 description: The maximum number of worker processing download requests
-            push-override:
+            push_override:
                 description: no description
                 type: dict
                 suboptions:
@@ -211,11 +213,11 @@ options:
                         choices:
                             - 'disable'
                             - 'enable'
-            push-override-to-client:
+            push_override_to_client:
                 description: no description
                 type: dict
                 suboptions:
-                    announce-ip:
+                    announce_ip:
                         description: no description
                         type: list
                         elements: dict
@@ -256,7 +258,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            server-override:
+            server_override:
                 description: no description
                 type: dict
                 suboptions:
@@ -277,7 +279,7 @@ options:
                             port:
                                 type: int
                                 description: Port number to use when contacting FortiGuard
-                            service-type:
+                            service_type:
                                 type: str
                                 description:
                                  - Override service type.
@@ -286,6 +288,7 @@ options:
                                 choices:
                                     - 'fct'
                                     - 'fds'
+                                    - 'fai'
                     status:
                         type: str
                         description:
@@ -295,7 +298,7 @@ options:
                         choices:
                             - 'disable'
                             - 'enable'
-            system-support-fct:
+            system_support_fct:
                 description:
                  - Supported FortiClient versions.
                  - 4.x - Support version 4.x
@@ -318,7 +321,7 @@ options:
                     - '6.4'
                     - '7.0'
                     - '7.2'
-            system-support-fgt:
+            system_support_fgt:
                 description:
                  - Supported FortiOS versions.
                  - 5.4 - Support version 5.4
@@ -337,7 +340,8 @@ options:
                     - '7.0'
                     - '7.2'
                     - '7.4'
-            system-support-fml:
+                    - '7.6'
+            system_support_fml:
                 description:
                  - Supported FortiMail versions.
                  - 4.x - Support version 4.x
@@ -355,7 +359,7 @@ options:
                     - '7.0'
                     - '7.2'
                     - '7.x'
-            system-support-fsa:
+            system_support_fsa:
                 description:
                  - Supported FortiSandbox versions.
                  - 1.x - Support version 1.x
@@ -371,7 +375,7 @@ options:
                     - '3.1'
                     - '3.2'
                     - '4.x'
-            system-support-fsw:
+            system_support_fsw:
                 description:
                  - Supported FortiSwitch versions.
                  - 4.x - Support version 4.x
@@ -392,7 +396,7 @@ options:
                     - '6.0'
                     - '6.2'
                     - '6.4'
-            umsvc-log:
+            umsvc_log:
                 type: str
                 description:
                  - The um_service log level
@@ -415,7 +419,7 @@ options:
                     - 'info'
                     - 'debug'
                     - 'disable'
-            unreg-dev-option:
+            unreg_dev_option:
                 type: str
                 description:
                  - set the option for unregister devices
@@ -426,7 +430,7 @@ options:
                     - 'ignore'
                     - 'svc-only'
                     - 'add-service'
-            update-schedule:
+            update_schedule:
                 description: no description
                 type: dict
                 suboptions:
@@ -472,7 +476,7 @@ options:
                     time:
                         description: Time interval between updates, or the hour and minute when the update occurs
                         type: str
-            wanip-query-mode:
+            wanip_query_mode:
                 type: str
                 description:
                  - public ip query mode
@@ -481,7 +485,7 @@ options:
                 choices:
                     - 'disable'
                     - 'ipify'
-            system-support-fdc:
+            system_support_fdc:
                 description:
                  - Supported FortiDeceptor versions.
                  - 3.x - Support version 3.x
@@ -490,7 +494,7 @@ options:
                 choices:
                     - '3.x'
                     - '4.x'
-            system-support-fts:
+            system_support_fts:
                 description:
                  - Supported FortiTester versions.
                  - 4.x - Support version 4.x
@@ -500,7 +504,7 @@ options:
                     - '4.x'
                     - '3.x'
                     - '7.x'
-            system-support-faz:
+            system_support_faz:
                 description:
                  - Supported FortiAnalyzer versions.
                  - 6.x - Support version 6.x
@@ -510,7 +514,7 @@ options:
                 choices:
                     - '6.x'
                     - '7.x'
-            system-support-fis:
+            system_support_fis:
                 description:
                  - Supported FortiIsolator versions.
                  - 1.x - Support version 1.x
@@ -520,6 +524,14 @@ options:
                 choices:
                     - '1.x'
                     - '2.x'
+            system_support_fai:
+                description:
+                 - Supported FortiNDR versions.
+                 - 7.x - Support version 7.x
+                type: list
+                elements: str
+                choices:
+                    - '7.x'
 '''
 
 EXAMPLES = '''
@@ -580,17 +592,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/cli/global/fmupdate/fds-setting'
-    ]
-
-    perobject_jrpc_urls = [
-        '/cli/global/fmupdate/fds-setting/{fds-setting}'
     ]
 
     url_params = []
@@ -645,7 +653,7 @@ def main():
                                 'ip': {'type': 'str'},
                                 'ip6': {'type': 'str'},
                                 'port': {'type': 'int'},
-                                'service-type': {'choices': ['fct', 'fds'], 'type': 'str'}
+                                'service-type': {'choices': ['fct', 'fds', 'fai'], 'type': 'str'}
                             },
                             'elements': 'dict'
                         },
@@ -657,7 +665,7 @@ def main():
                     'choices': ['4.x', '5.0', '5.2', '5.4', '5.6', '6.0', '6.2', '6.4', '7.0', '7.2'],
                     'elements': 'str'
                 },
-                'system-support-fgt': {'type': 'list', 'choices': ['5.4', '5.6', '6.0', '6.2', '6.4', '7.0', '7.2', '7.4'], 'elements': 'str'},
+                'system-support-fgt': {'type': 'list', 'choices': ['5.4', '5.6', '6.0', '6.2', '6.4', '7.0', '7.2', '7.4', '7.6'], 'elements': 'str'},
                 'system-support-fml': {'type': 'list', 'choices': ['4.x', '5.x', '6.x', '6.0', '6.2', '6.4', '7.0', '7.2', '7.x'], 'elements': 'str'},
                 'system-support-fsa': {'type': 'list', 'choices': ['1.x', '2.x', '3.x', '3.0', '3.1', '3.2', '4.x'], 'elements': 'str'},
                 'system-support-fsw': {
@@ -686,20 +694,20 @@ def main():
                     'elements': 'str'
                 },
                 'system-support-faz': {'v_range': [['7.0.7', '7.0.12'], ['7.2.2', '']], 'type': 'list', 'choices': ['6.x', '7.x'], 'elements': 'str'},
-                'system-support-fis': {'v_range': [['7.4.0', '']], 'type': 'list', 'choices': ['1.x', '2.x'], 'elements': 'str'}
+                'system-support-fis': {'v_range': [['7.4.0', '']], 'type': 'list', 'choices': ['1.x', '2.x'], 'elements': 'str'},
+                'system-support-fai': {'v_range': [['7.6.0', '']], 'type': 'list', 'choices': ['7.x'], 'elements': 'str'}
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_fmupdate_fdssetting'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='partial crud')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='partial crud')
     faz.process()
     module.exit_json(meta=module.params)
 

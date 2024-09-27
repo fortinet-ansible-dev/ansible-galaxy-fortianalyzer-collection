@@ -28,7 +28,7 @@ short_description: Config schedule.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode and diff mode.
 version_added: "1.5.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,13 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - To create or update an object, set the state argument to present. To delete an object, set the state argument to absent.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -108,7 +111,7 @@ options:
                 type: list
                 elements: dict
                 suboptions:
-                    devices-name:
+                    devices_name:
                         type: str
                         description: no description
                     interfaces:
@@ -145,15 +148,15 @@ options:
             name:
                 type: str
                 description: no description
-            report-layout:
+            report_layout:
                 description: 'reference: /report/adom/<adom-name>/config/schedule/<schedule_name>/report-layout'
                 type: list
                 elements: dict
                 suboptions:
-                    layout-id:
+                    layout_id:
                         type: int
                         description: no description
-                    is-global:
+                    is_global:
                         type: int
                         description: no description
             status:
@@ -162,19 +165,19 @@ options:
                 choices:
                     - 'enable'
                     - 'disable'
-            admin-user:
+            admin_user:
                 type: str
                 description: no description
-            auto-hcache:
+            auto_hcache:
                 type: str
                 description: no description
                 choices:
                     - 'enable'
                     - 'disable'
-            date-format:
+            date_format:
                 type: str
                 description: no description
-            dev-type:
+            dev_type:
                 type: str
                 description: no description
                 choices:
@@ -193,7 +196,7 @@ options:
                     - 'FortiDDoS'
                     - 'FortiGate'
                     - 'FortiFirewall'
-            device-list-type:
+            device_list_type:
                 type: str
                 description: no description
                 choices:
@@ -201,31 +204,31 @@ options:
                     - 'count'
                     - 'detailed'
                     - 'none'
-            display-device-by:
+            display_device_by:
                 type: str
                 description: no description
                 choices:
                     - 'device-id'
                     - 'device-name'
-            display-table-contents:
+            display_table_contents:
                 type: str
                 description: no description
                 choices:
                     - 'enable'
                     - 'disable'
-            email-report-per-device:
+            email_report_per_device:
                 type: str
                 description: no description
                 choices:
                     - 'enable'
                     - 'disable'
-            filter-logic:
+            filter_logic:
                 type: str
                 description: no description
                 choices:
                     - 'all'
                     - 'any'
-            filter-type:
+            filter_type:
                 type: str
                 description: no description
                 choices:
@@ -234,13 +237,13 @@ options:
                     - 'hostname'
                     - 'group'
                     - 'user'
-            include-coverpage:
+            include_coverpage:
                 type: str
                 description: no description
                 choices:
                     - 'enable'
                     - 'disable'
-            include-other:
+            include_other:
                 type: str
                 description: no description
                 choices:
@@ -250,26 +253,26 @@ options:
             language:
                 type: str
                 description: no description
-            ldap-query:
+            ldap_query:
                 type: str
                 description: no description
                 choices:
                     - 'enable'
                     - 'disable'
-            ldap-server:
+            ldap_server:
                 type: str
                 description: no description
-            ldap-user-case-change:
+            ldap_user_case_change:
                 type: str
                 description: no description
                 choices:
                     - 'upper'
                     - 'lower'
                     - 'disable'
-            max-reports:
+            max_reports:
                 type: int
                 description: no description
-            obfuscate-user:
+            obfuscate_user:
                 type: str
                 description: no description
                 choices:
@@ -281,7 +284,7 @@ options:
                 choices:
                     - 'portrait'
                     - 'landscape'
-            output-format:
+            output_format:
                 type: str
                 description: no description
                 choices:
@@ -293,51 +296,51 @@ options:
                     - 'mht'
                     - 'txt'
                     - 'csv'
-            output-profile:
+            output_profile:
                 type: str
                 description: no description
-            period-end:
+            period_end:
                 description: no description
                 type: list
                 elements: dict
-            period-last-n:
+            period_last_n:
                 type: int
                 description: no description
-            period-opt:
+            period_opt:
                 type: str
                 description: no description
                 choices:
                     - 'faz'
                     - 'dev'
-            period-start:
+            period_start:
                 description: no description
                 type: list
                 elements: dict
-            print-report-filters:
+            print_report_filters:
                 type: str
                 description: no description
                 choices:
                     - 'enable'
                     - 'disable'
-            report-per-device:
+            report_per_device:
                 type: str
                 description: no description
                 choices:
                     - 'enable'
                     - 'disable'
-            resolve-hostname:
+            resolve_hostname:
                 type: str
                 description: no description
                 choices:
                     - 'enable'
                     - 'disable'
-            schedule-color:
+            schedule_color:
                 type: str
                 description: no description
-            schedule-frequency:
+            schedule_frequency:
                 type: int
                 description: no description
-            schedule-type:
+            schedule_type:
                 type: str
                 description: no description
                 choices:
@@ -346,13 +349,13 @@ options:
                     - 'every-n-hours'
                     - 'on-demand'
                     - 'every-n-weeks'
-            schedule-valid-end:
+            schedule_valid_end:
                 type: str
                 description: no description
-            schedule-valid-start:
+            schedule_valid_start:
                 type: str
                 description: no description
-            time-period:
+            time_period:
                 type: str
                 description: no description
                 choices:
@@ -373,7 +376,7 @@ options:
                     - 'other'
                     - 'today'
                     - 'last-n-hours'
-            week-start:
+            week_start:
                 type: str
                 description: no description
                 choices:
@@ -384,7 +387,7 @@ options:
                     - 'mon'
                     - 'tue'
                     - 'sat'
-            address-filter:
+            address_filter:
                 description: 'reference: /report/adom/<adom-name>/config/schedule/<schedule_name>/address-filter'
                 type: list
                 elements: dict
@@ -392,13 +395,13 @@ options:
                     id:
                         type: int
                         description: no description
-                    include-option:
+                    include_option:
                         type: str
                         description: no description
-                    address-type:
+                    address_type:
                         type: str
                         description: no description
-            soc-cust-filters:
+            soc_cust_filters:
                 description: 'reference: /sql-report/schedule/soc-cust-filters'
                 type: list
                 elements: dict
@@ -526,17 +529,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/report/adom/{adom}/config/schedule'
-    ]
-
-    perobject_jrpc_urls = [
-        '/report/adom/{adom}/config/schedule/{schedule}'
     ]
 
     url_params = ['adom']
@@ -663,18 +662,17 @@ def main():
                     'elements': 'dict'
                 }
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'report_config_schedule'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='full crud')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='full crud')
     faz.process()
     module.exit_json(meta=module.params)
 

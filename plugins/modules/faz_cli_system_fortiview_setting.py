@@ -28,7 +28,7 @@ short_description: FortiView settings.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode and diff mode.
 version_added: "1.0.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,12 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -89,7 +91,7 @@ options:
         description: The top level parameters set.
         type: dict
         suboptions:
-            not-scanned-apps:
+            not_scanned_apps:
                 type: str
                 description:
                  - Include/Exclude Not.Scanned applications in FortiView.
@@ -98,7 +100,7 @@ options:
                 choices:
                     - 'exclude'
                     - 'include'
-            resolve-ip:
+            resolve_ip:
                 type: str
                 description:
                  - Enable or disable resolving IP address to hostname in FortiView.
@@ -107,7 +109,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            data-source:
+            data_source:
                 type: str
                 description:
                  - Data soure of the fortiview query.
@@ -178,17 +180,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/cli/global/system/fortiview/setting'
-    ]
-
-    perobject_jrpc_urls = [
-        '/cli/global/system/fortiview/setting/{setting}'
     ]
 
     url_params = []
@@ -211,18 +209,17 @@ def main():
                 'resolve-ip': {'choices': ['disable', 'enable'], 'type': 'str'},
                 'data-source': {'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']], 'choices': ['auto', 'cache-only', 'log-and-cache'], 'type': 'str'}
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_fortiview_setting'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='partial crud')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='partial crud')
     faz.process()
     module.exit_json(meta=module.params)
 

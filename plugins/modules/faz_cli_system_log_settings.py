@@ -28,7 +28,7 @@ short_description: Log settings.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
-
+    - This module supports check mode and diff mode.
 version_added: "1.0.0"
 author:
     - Xinwei Du (@dux-fortinet)
@@ -37,10 +37,12 @@ author:
     - Frank Shen (@fshen01)
     - Hongbin Lu (@fgtdev-hblu)
 notes:
-    - To create or update an object, use state present directive.
-    - To delete an object, use state absent directive.
-    - Normally, running one module can fail when a non-zero rc is returned. you can also override
-      the conditions to fail or succeed with parameters rc_failed and rc_succeeded
+    - Beginning with version 2.0.0, all input arguments must adhere to the underscore naming convention (snake_case).
+      Please convert any arguments from "var-name", "var.name" or "var name" to "var_name".
+      While legacy argument names will continue to function, they will trigger deprecation warnings.
+      These warnings can be suppressed by setting deprecation_warnings=False in ansible.cfg.
+    - Normally, running one module can fail when a non-zero rc is returned.
+      However, you can override the conditions to fail or succeed with parameters rc_failed and rc_succeeded.
 options:
     access_token:
         description: The token to access FortiManager without using username and password.
@@ -89,43 +91,43 @@ options:
         description: The top level parameters set.
         type: dict
         suboptions:
-            FAC-custom-field1:
+            FAC_custom_field1:
                 type: str
                 description: Name of custom log field to index.
-            FAZ-custom-field1:
+            FAZ_custom_field1:
                 type: str
                 description: Name of custom log field to index.
-            FCH-custom-field1:
+            FCH_custom_field1:
                 type: str
                 description: Name of custom log field to index.
-            FCT-custom-field1:
+            FCT_custom_field1:
                 type: str
                 description: Name of custom log field to index.
-            FDD-custom-field1:
+            FDD_custom_field1:
                 type: str
                 description: Name of custom log field to index.
-            FGT-custom-field1:
+            FGT_custom_field1:
                 type: str
                 description: Name of custom log field to index.
-            FMG-custom-field1:
+            FMG_custom_field1:
                 type: str
                 description: Name of custom log field to index.
-            FML-custom-field1:
+            FML_custom_field1:
                 type: str
                 description: Name of custom log field to index.
-            FPX-custom-field1:
+            FPX_custom_field1:
                 type: str
                 description: Name of custom log field to index.
-            FSA-custom-field1:
+            FSA_custom_field1:
                 type: str
                 description: Name of custom log field to index.
-            FWB-custom-field1:
+            FWB_custom_field1:
                 type: str
                 description: Name of custom log field to index.
-            browse-max-logfiles:
+            browse_max_logfiles:
                 type: int
                 description: Maximum number of log files for each log browse attempt for each Adom.
-            dns-resolve-dstip:
+            dns_resolve_dstip:
                 type: str
                 description:
                  - Enable/Disable resolving destination IP by DNS.
@@ -134,10 +136,10 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            download-max-logs:
+            download_max_logs:
                 type: int
                 description: Maximum number of logs for each log download attempt.
-            ha-auto-migrate:
+            ha_auto_migrate:
                 type: str
                 description:
                  - Enabled/Disable automatically merging HA members logs to HA cluster.
@@ -146,10 +148,10 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            import-max-logfiles:
+            import_max_logfiles:
                 type: int
                 description: Maximum number of log files for each log import attempt.
-            log-file-archive-name:
+            log_file_archive_name:
                 type: str
                 description:
                  - Log file name format for archiving, such as backup, upload or download.
@@ -158,7 +160,7 @@ options:
                 choices:
                     - 'basic'
                     - 'extended'
-            rolling-analyzer:
+            rolling_analyzer:
                 description: no description
                 type: dict
                 suboptions:
@@ -182,7 +184,7 @@ options:
                             - 'thu'
                             - 'fri'
                             - 'sat'
-                    del-files:
+                    del_files:
                         type: str
                         description:
                          - Enable/disable log file deletion after uploading.
@@ -194,10 +196,10 @@ options:
                     directory:
                         type: str
                         description: Upload server directory, for Unix server, use absolute
-                    file-size:
+                    file_size:
                         type: int
                         description: Roll log files when they reach this size
-                    gzip-format:
+                    gzip_format:
                         type: str
                         description:
                          - Enable/disable compression of uploaded log files.
@@ -218,7 +220,7 @@ options:
                     ip3:
                         type: str
                         description: Upload server IP3 address.
-                    log-format:
+                    log_format:
                         type: str
                         description:
                          - Format of uploaded log files.
@@ -250,7 +252,7 @@ options:
                     port3:
                         type: int
                         description: Upload server IP3 port number.
-                    server-type:
+                    server_type:
                         type: str
                         description:
                          - Upload server type.
@@ -270,10 +272,10 @@ options:
                         choices:
                             - 'disable'
                             - 'enable'
-                    upload-hour:
+                    upload_hour:
                         type: int
                         description: Log files upload schedule
-                    upload-mode:
+                    upload_mode:
                         type: str
                         description:
                          - Upload mode with multiple servers.
@@ -282,7 +284,7 @@ options:
                         choices:
                             - 'backup'
                             - 'mirror'
-                    upload-trigger:
+                    upload_trigger:
                         type: str
                         description:
                          - Event triggering log files upload.
@@ -311,7 +313,7 @@ options:
                             - 'none'
                             - 'daily'
                             - 'weekly'
-                    rolling-upgrade-status:
+                    rolling_upgrade_status:
                         type: int
                         description: rolling upgrade status
                     server:
@@ -323,7 +325,7 @@ options:
                     server3:
                         type: str
                         description: Upload server3 FQDN/IP.
-            rolling-local:
+            rolling_local:
                 description: no description
                 type: dict
                 suboptions:
@@ -347,7 +349,7 @@ options:
                             - 'thu'
                             - 'fri'
                             - 'sat'
-                    del-files:
+                    del_files:
                         type: str
                         description:
                          - Enable/disable log file deletion after uploading.
@@ -359,10 +361,10 @@ options:
                     directory:
                         type: str
                         description: Upload server directory, for Unix server, use absolute
-                    file-size:
+                    file_size:
                         type: int
                         description: Roll log files when they reach this size
-                    gzip-format:
+                    gzip_format:
                         type: str
                         description:
                          - Enable/disable compression of uploaded log files.
@@ -383,7 +385,7 @@ options:
                     ip3:
                         type: str
                         description: Upload server IP3 address.
-                    log-format:
+                    log_format:
                         type: str
                         description:
                          - Format of uploaded log files.
@@ -415,7 +417,7 @@ options:
                     port3:
                         type: int
                         description: Upload server IP3 port number.
-                    server-type:
+                    server_type:
                         type: str
                         description:
                          - Upload server type.
@@ -435,10 +437,10 @@ options:
                         choices:
                             - 'disable'
                             - 'enable'
-                    upload-hour:
+                    upload_hour:
                         type: int
                         description: Log files upload schedule
-                    upload-mode:
+                    upload_mode:
                         type: str
                         description:
                          - Upload mode with multiple servers.
@@ -447,7 +449,7 @@ options:
                         choices:
                             - 'backup'
                             - 'mirror'
-                    upload-trigger:
+                    upload_trigger:
                         type: str
                         description:
                          - Event triggering log files upload.
@@ -476,7 +478,7 @@ options:
                             - 'none'
                             - 'daily'
                             - 'weekly'
-                    rolling-upgrade-status:
+                    rolling_upgrade_status:
                         type: int
                         description: rolling upgrade status
                     server:
@@ -488,7 +490,7 @@ options:
                     server3:
                         type: str
                         description: Upload server3 FQDN/IP.
-            rolling-regular:
+            rolling_regular:
                 description: no description
                 type: dict
                 suboptions:
@@ -512,7 +514,7 @@ options:
                             - 'thu'
                             - 'fri'
                             - 'sat'
-                    del-files:
+                    del_files:
                         type: str
                         description:
                          - Enable/disable log file deletion after uploading.
@@ -524,10 +526,10 @@ options:
                     directory:
                         type: str
                         description: Upload server directory, for Unix server, use absolute
-                    file-size:
+                    file_size:
                         type: int
                         description: Roll log files when they reach this size
-                    gzip-format:
+                    gzip_format:
                         type: str
                         description:
                          - Enable/disable compression of uploaded log files.
@@ -548,7 +550,7 @@ options:
                     ip3:
                         type: str
                         description: Upload server IP3 address.
-                    log-format:
+                    log_format:
                         type: str
                         description:
                          - Format of uploaded log files.
@@ -580,7 +582,7 @@ options:
                     port3:
                         type: int
                         description: Upload server IP3 port number.
-                    server-type:
+                    server_type:
                         type: str
                         description:
                          - Upload server type.
@@ -600,10 +602,10 @@ options:
                         choices:
                             - 'disable'
                             - 'enable'
-                    upload-hour:
+                    upload_hour:
                         type: int
                         description: Log files upload schedule
-                    upload-mode:
+                    upload_mode:
                         type: str
                         description:
                          - Upload mode with multiple servers.
@@ -612,7 +614,7 @@ options:
                         choices:
                             - 'backup'
                             - 'mirror'
-                    upload-trigger:
+                    upload_trigger:
                         type: str
                         description:
                          - Event triggering log files upload.
@@ -641,7 +643,7 @@ options:
                             - 'none'
                             - 'daily'
                             - 'weekly'
-                    rolling-upgrade-status:
+                    rolling_upgrade_status:
                         type: int
                         description: rolling upgrade status
                     server:
@@ -653,10 +655,10 @@ options:
                     server3:
                         type: str
                         description: Upload server3 FQDN/IP.
-            sync-search-timeout:
+            sync_search_timeout:
                 type: int
                 description: Maximum number of seconds for running a log search session in synchronous mode.
-            keep-dev-logs:
+            keep_dev_logs:
                 type: str
                 description:
                  - Enable/Disable keeping the dev logs after the device has been deleted.
@@ -665,7 +667,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            device-auto-detect:
+            device_auto_detect:
                 type: str
                 description:
                  - Enable/Disable looking up device ID in syslog received with no encryption.
@@ -674,7 +676,7 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            unencrypted-logging:
+            unencrypted_logging:
                 type: str
                 description:
                  - Enable/Disable receiving syslog through UDP
@@ -683,10 +685,10 @@ options:
                 choices:
                     - 'disable'
                     - 'enable'
-            log-interval-dev-no-logging:
+            log_interval_dev_no_logging:
                 type: int
                 description: Interval in minute of no log received from a device when considering the device down.
-            log-upload-interval-dev-no-logging:
+            log_upload_interval_dev_no_logging:
                 type: int
                 description: Interval in minute of no log uploaded from a device when considering the device down.
 '''
@@ -752,17 +754,13 @@ version_check_warning:
 '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
-from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import NAPIManager
+from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
 
 
 def main():
-    jrpc_urls = [
+    urls_list = [
         '/cli/global/system/log/settings'
-    ]
-
-    perobject_jrpc_urls = [
-        '/cli/global/system/log/settings/{settings}'
     ]
 
     url_params = []
@@ -906,30 +904,29 @@ def main():
                 'sync-search-timeout': {'type': 'int'},
                 'keep-dev-logs': {'v_range': [['6.4.7', '6.4.14'], ['7.0.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'device-auto-detect': {
-                    'v_range': [['7.0.10', '7.0.12'], ['7.2.4', '7.2.5'], ['7.4.1', '']],
+                    'v_range': [['7.0.10', '7.0.12'], ['7.2.4', '7.2.7'], ['7.4.1', '']],
                     'choices': ['disable', 'enable'],
                     'type': 'str'
                 },
                 'unencrypted-logging': {
-                    'v_range': [['7.0.10', '7.0.12'], ['7.2.4', '7.2.5'], ['7.4.1', '']],
+                    'v_range': [['7.0.10', '7.0.12'], ['7.2.4', '7.2.7'], ['7.4.1', '']],
                     'choices': ['disable', 'enable'],
                     'type': 'str'
                 },
-                'log-interval-dev-no-logging': {'v_range': [['7.2.5', '7.2.5'], ['7.4.2', '']], 'type': 'int'},
-                'log-upload-interval-dev-no-logging': {'v_range': [['7.2.5', '7.2.5'], ['7.4.2', '']], 'type': 'int'}
+                'log-interval-dev-no-logging': {'v_range': [['7.2.5', '7.2.7'], ['7.4.2', '']], 'type': 'int'},
+                'log-upload-interval-dev-no-logging': {'v_range': [['7.2.5', '7.2.7'], ['7.4.2', '']], 'type': 'int'}
             }
-
         }
     }
 
     module = AnsibleModule(argument_spec=modify_argument_spec(module_arg_spec, 'cli_system_log_settings'),
-                           supports_check_mode=False)
+                           supports_check_mode=True)
 
     if not module._socket_path:
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
-    faz = NAPIManager(jrpc_urls, perobject_jrpc_urls, module_primary_key, url_params, module, connection,
-                      metadata=module_arg_spec, task_type='partial crud')
+    faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
+                               metadata=module_arg_spec, task_type='partial crud')
     faz.process()
     module.exit_json(meta=module.params)
 
