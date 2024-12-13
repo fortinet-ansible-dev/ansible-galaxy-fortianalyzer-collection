@@ -136,6 +136,7 @@ options:
                 type: int
                 description: no description
             meta_fields:
+                aliases: ['meta fields']
                 description: no description
                 type: dict
             mig_mr:
@@ -144,27 +145,13 @@ options:
             mig_os_ver:
                 type: str
                 description: no description
-                choices:
-                    - 'unknown'
-                    - '0.0'
-                    - '1.0'
-                    - '2.0'
-                    - '3.0'
-                    - '4.0'
-                    - '5.0'
-                    - '6.0'
-                    - '7.0'
-                    - '8.0'
-                    - '9.0'
+                choices: ['unknown', '0.0', '1.0', '2.0', '3.0', '4.0', '5.0', '6.0', '7.0', '8.0', '9.0']
             mode:
                 type: str
                 description:
                  - ems -
                  - provider - Global database.
-                choices:
-                    - 'ems'
-                    - 'gms'
-                    - 'provider'
+                choices: ['ems', 'gms', 'provider']
             mr:
                 type: int
                 description: no description
@@ -174,18 +161,7 @@ options:
             os_ver:
                 type: str
                 description: no description
-                choices:
-                    - 'unknown'
-                    - '0.0'
-                    - '1.0'
-                    - '2.0'
-                    - '3.0'
-                    - '4.0'
-                    - '5.0'
-                    - '6.0'
-                    - '7.0'
-                    - '8.0'
-                    - '9.0'
+                choices: ['unknown', '0.0', '1.0', '2.0', '3.0', '4.0', '5.0', '6.0', '7.0', '8.0', '9.0']
             restricted_prds:
                 description: no description
                 type: list

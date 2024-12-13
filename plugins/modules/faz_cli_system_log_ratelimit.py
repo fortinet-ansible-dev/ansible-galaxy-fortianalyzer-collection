@@ -100,12 +100,12 @@ options:
                         type: str
                         description: Device
                     filter_type:
+                        aliases: ['filter-type']
                         type: str
                         description:
                          - Device filter type.
                          - devid - Device ID.
-                        choices:
-                            - 'devid'
+                        choices: ['devid']
                     id:
                         type: int
                         description: Device filter ID.
@@ -113,6 +113,7 @@ options:
                         type: int
                         description: Maximum device log rate limit.
             device_ratelimit_default:
+                aliases: ['device-ratelimit-default']
                 type: int
                 description: Default maximum device log rate limit.
             mode:
@@ -121,10 +122,9 @@ options:
                  - Logging rate limit mode.
                  - disable - Logging rate limit function disabled.
                  - manual - System rate limit and device rate limit both configurable, no limit if not configured.
-                choices:
-                    - 'disable'
-                    - 'manual'
+                choices: ['disable', 'manual']
             system_ratelimit:
+                aliases: ['system-ratelimit']
                 type: int
                 description: Maximum system log rate limit.
             ratelimits:
@@ -136,14 +136,13 @@ options:
                         type: str
                         description: Device or ADOM filter according to filter-type setting, wildcard expression supported.
                     filter_type:
+                        aliases: ['filter-type']
                         type: str
                         description:
                          - Device filter type.
                          - devid - Device ID.
                          - adom - ADOM name.
-                        choices:
-                            - 'devid'
-                            - 'adom'
+                        choices: ['devid', 'adom']
                     id:
                         type: int
                         description: Filter ID.

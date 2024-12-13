@@ -108,6 +108,7 @@ options:
         type: dict
         suboptions:
             devices_name:
+                aliases: ['devices-name']
                 type: str
                 description: no description
             interfaces:

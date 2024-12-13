@@ -92,9 +92,11 @@ options:
         type: dict
         suboptions:
             User_Agent:
+                aliases: ['User-Agent']
                 type: str
                 description: Configure the user agent string.
             fds_clt_ssl_protocol:
+                aliases: ['fds-clt-ssl-protocol']
                 type: str
                 description:
                  - The SSL protocols version for connecting fds server
@@ -103,13 +105,9 @@ options:
                  - tlsv1.1 - set TLSv1.1 as the client version.
                  - tlsv1.2 - set TLSv1.2 as the client version
                  - tlsv1.3 - set TLSv1.3 as the client version.
-                choices:
-                    - 'sslv3'
-                    - 'tlsv1.0'
-                    - 'tlsv1.1'
-                    - 'tlsv1.2'
-                    - 'tlsv1.3'
+                choices: ['sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3']
             fds_ssl_protocol:
+                aliases: ['fds-ssl-protocol']
                 type: str
                 description:
                  - The SSL protocols version for receiving fgt connection
@@ -118,13 +116,9 @@ options:
                  - tlsv1.1 - set TLSv1.1 as the lowest version.
                  - tlsv1.2 - set TLSv1.2 as the lowest version
                  - tlsv1.3 - set TLSv1.3 as the lowest version.
-                choices:
-                    - 'sslv3'
-                    - 'tlsv1.0'
-                    - 'tlsv1.1'
-                    - 'tlsv1.2'
-                    - 'tlsv1.3'
+                choices: ['sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3']
             fmtr_log:
+                aliases: ['fmtr-log']
                 type: str
                 description:
                  - fmtr log level
@@ -137,35 +131,25 @@ options:
                  - info - Log level - info
                  - debug - Log level - debug
                  - disable - Disable linkd log
-                choices:
-                    - 'emergency'
-                    - 'alert'
-                    - 'critical'
-                    - 'error'
-                    - 'warn'
-                    - 'notice'
-                    - 'info'
-                    - 'debug'
-                    - 'disable'
+                choices: ['emergency', 'alert', 'critical', 'error', 'warn', 'notice', 'info', 'debug', 'disable']
             fortiguard_anycast:
+                aliases: ['fortiguard-anycast']
                 type: str
                 description:
                  - Enable/disable use of FortiGuards anycast network
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             fortiguard_anycast_source:
+                aliases: ['fortiguard-anycast-source']
                 type: str
                 description:
                  - Configure which of Fortinets servers to provide FortiGuard services in FortiGuards anycast network.
                  - fortinet - Use Fortinets servers to provide FortiGuard services in FortiGuards anycast network.
                  - aws - Use Fortinets AWS servers to provide FortiGuard services in FortiGuards anycast network.
-                choices:
-                    - 'fortinet'
-                    - 'aws'
+                choices: ['fortinet', 'aws']
             linkd_log:
+                aliases: ['linkd-log']
                 type: str
                 description:
                  - The linkd log level
@@ -178,23 +162,17 @@ options:
                  - info - Log level - info
                  - debug - Log level - debug
                  - disable - Disable linkd log
-                choices:
-                    - 'emergency'
-                    - 'alert'
-                    - 'critical'
-                    - 'error'
-                    - 'warn'
-                    - 'notice'
-                    - 'info'
-                    - 'debug'
-                    - 'disable'
+                choices: ['emergency', 'alert', 'critical', 'error', 'warn', 'notice', 'info', 'debug', 'disable']
             max_av_ips_version:
+                aliases: ['max-av-ips-version']
                 type: int
                 description: The maximum number of downloadable, full version AV/IPS packages
             max_work:
+                aliases: ['max-work']
                 type: int
                 description: The maximum number of worker processing download requests
             push_override:
+                aliases: ['push-override']
                 description: no description
                 type: dict
                 suboptions:
@@ -210,14 +188,14 @@ options:
                          - Enable/disable push updates for clients
                          - disable - Disable setting.
                          - enable - Enable setting.
-                        choices:
-                            - 'disable'
-                            - 'enable'
+                        choices: ['disable', 'enable']
             push_override_to_client:
+                aliases: ['push-override-to-client']
                 description: no description
                 type: dict
                 suboptions:
                     announce_ip:
+                        aliases: ['announce-ip']
                         description: no description
                         type: list
                         elements: dict
@@ -237,28 +215,23 @@ options:
                          - Enable/disable push updates
                          - disable - Disable setting.
                          - enable - Enable setting.
-                        choices:
-                            - 'disable'
-                            - 'enable'
+                        choices: ['disable', 'enable']
             send_report:
                 type: str
                 description:
                  - send report/fssi to fds server.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             send_setup:
                 type: str
                 description:
                  - forward setup to fds server.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             server_override:
+                aliases: ['server-override']
                 description: no description
                 type: dict
                 suboptions:
@@ -280,25 +253,22 @@ options:
                                 type: int
                                 description: Port number to use when contacting FortiGuard
                             service_type:
+                                aliases: ['service-type']
                                 type: str
                                 description:
                                  - Override service type.
                                  - fct - Server override config for fct
                                  - fds - Server override config for fds
-                                choices:
-                                    - 'fct'
-                                    - 'fds'
-                                    - 'fai'
+                                choices: ['fct', 'fds', 'fai']
                     status:
                         type: str
                         description:
                          - Override status.
                          - disable - Disable setting.
                          - enable - Enable setting.
-                        choices:
-                            - 'disable'
-                            - 'enable'
+                        choices: ['disable', 'enable']
             system_support_fct:
+                aliases: ['system-support-fct']
                 description:
                  - Supported FortiClient versions.
                  - 4.x - Support version 4.x
@@ -310,18 +280,9 @@ options:
                  - 6.2 - Support version 6.2
                 type: list
                 elements: str
-                choices:
-                    - '4.x'
-                    - '5.0'
-                    - '5.2'
-                    - '5.4'
-                    - '5.6'
-                    - '6.0'
-                    - '6.2'
-                    - '6.4'
-                    - '7.0'
-                    - '7.2'
+                choices: ['4.x', '5.0', '5.2', '5.4', '5.6', '6.0', '6.2', '6.4', '7.0', '7.2']
             system_support_fgt:
+                aliases: ['system-support-fgt']
                 description:
                  - Supported FortiOS versions.
                  - 5.4 - Support version 5.4
@@ -331,17 +292,9 @@ options:
                  - 6.4 - Support version 6.4
                 type: list
                 elements: str
-                choices:
-                    - '5.4'
-                    - '5.6'
-                    - '6.0'
-                    - '6.2'
-                    - '6.4'
-                    - '7.0'
-                    - '7.2'
-                    - '7.4'
-                    - '7.6'
+                choices: ['5.4', '5.6', '6.0', '6.2', '6.4', '7.0', '7.2', '7.4', '7.6']
             system_support_fml:
+                aliases: ['system-support-fml']
                 description:
                  - Supported FortiMail versions.
                  - 4.x - Support version 4.x
@@ -349,17 +302,9 @@ options:
                  - 6.x - Support version 6.x
                 type: list
                 elements: str
-                choices:
-                    - '4.x'
-                    - '5.x'
-                    - '6.x'
-                    - '6.0'
-                    - '6.2'
-                    - '6.4'
-                    - '7.0'
-                    - '7.2'
-                    - '7.x'
+                choices: ['4.x', '5.x', '6.x', '6.0', '6.2', '6.4', '7.0', '7.2', '7.x']
             system_support_fsa:
+                aliases: ['system-support-fsa']
                 description:
                  - Supported FortiSandbox versions.
                  - 1.x - Support version 1.x
@@ -367,15 +312,9 @@ options:
                  - 3.x - Support version 3.x
                 type: list
                 elements: str
-                choices:
-                    - '1.x'
-                    - '2.x'
-                    - '3.x'
-                    - '3.0'
-                    - '3.1'
-                    - '3.2'
-                    - '4.x'
+                choices: ['1.x', '2.x', '3.x', '3.0', '3.1', '3.2', '4.x']
             system_support_fsw:
+                aliases: ['system-support-fsw']
                 description:
                  - Supported FortiSwitch versions.
                  - 4.x - Support version 4.x
@@ -387,16 +326,9 @@ options:
                  - 6.2 - Support version 6.2
                 type: list
                 elements: str
-                choices:
-                    - '4.x'
-                    - '5.0'
-                    - '5.2'
-                    - '5.4'
-                    - '5.6'
-                    - '6.0'
-                    - '6.2'
-                    - '6.4'
+                choices: ['4.x', '5.0', '5.2', '5.4', '5.6', '6.0', '6.2', '6.4']
             umsvc_log:
+                aliases: ['umsvc-log']
                 type: str
                 description:
                  - The um_service log level
@@ -409,28 +341,18 @@ options:
                  - info - Log level - info
                  - debug - Log level - debug
                  - disable - Disable linkd log
-                choices:
-                    - 'emergency'
-                    - 'alert'
-                    - 'critical'
-                    - 'error'
-                    - 'warn'
-                    - 'notice'
-                    - 'info'
-                    - 'debug'
-                    - 'disable'
+                choices: ['emergency', 'alert', 'critical', 'error', 'warn', 'notice', 'info', 'debug', 'disable']
             unreg_dev_option:
+                aliases: ['unreg-dev-option']
                 type: str
                 description:
                  - set the option for unregister devices
                  - ignore - Ignore all unregistered devices.
                  - svc-only - Allow update requests without adding the device.
                  - add-service - Add unregistered devices and allow update request.
-                choices:
-                    - 'ignore'
-                    - 'svc-only'
-                    - 'add-service'
+                choices: ['ignore', 'svc-only', 'add-service']
             update_schedule:
+                aliases: ['update-schedule']
                 description: no description
                 type: dict
                 suboptions:
@@ -445,14 +367,7 @@ options:
                          - Thursday - Update every Thursday.
                          - Friday - Update every Friday.
                          - Saturday - Update every Saturday.
-                        choices:
-                            - 'Sunday'
-                            - 'Monday'
-                            - 'Tuesday'
-                            - 'Wednesday'
-                            - 'Thursday'
-                            - 'Friday'
-                            - 'Saturday'
+                        choices: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
                     frequency:
                         type: str
                         description:
@@ -460,78 +375,67 @@ options:
                          - every - Time interval.
                          - daily - Every day.
                          - weekly - Every week.
-                        choices:
-                            - 'every'
-                            - 'daily'
-                            - 'weekly'
+                        choices: ['every', 'daily', 'weekly']
                     status:
                         type: str
                         description:
                          - Enable/disable scheduled updates.
                          - disable - Disable setting.
                          - enable - Enable setting.
-                        choices:
-                            - 'disable'
-                            - 'enable'
+                        choices: ['disable', 'enable']
                     time:
                         description: Time interval between updates, or the hour and minute when the update occurs
                         type: str
             wanip_query_mode:
+                aliases: ['wanip-query-mode']
                 type: str
                 description:
                  - public ip query mode
                  - disable - Do not query public ip
                  - 'ipify - Get public IP through https://api.ipify.org'
-                choices:
-                    - 'disable'
-                    - 'ipify'
+                choices: ['disable', 'ipify']
             system_support_fdc:
+                aliases: ['system-support-fdc']
                 description:
                  - Supported FortiDeceptor versions.
                  - 3.x - Support version 3.x
                 type: list
                 elements: str
-                choices:
-                    - '3.x'
-                    - '4.x'
+                choices: ['3.x', '4.x', '5.x', '6.x']
             system_support_fts:
+                aliases: ['system-support-fts']
                 description:
                  - Supported FortiTester versions.
                  - 4.x - Support version 4.x
                 type: list
                 elements: str
-                choices:
-                    - '4.x'
-                    - '3.x'
-                    - '7.x'
+                choices: ['4.x', '3.x', '7.x']
             system_support_faz:
+                aliases: ['system-support-faz']
                 description:
                  - Supported FortiAnalyzer versions.
                  - 6.x - Support version 6.x
                  - 7.x - Support version 7.x
                 type: list
                 elements: str
-                choices:
-                    - '6.x'
-                    - '7.x'
+                choices: ['6.x', '7.x']
             system_support_fis:
+                aliases: ['system-support-fis']
                 description:
                  - Supported FortiIsolator versions.
                  - 1.x - Support version 1.x
                  - 2.x - Support version 2.x
                 type: list
                 elements: str
-                choices:
-                    - '1.x'
-                    - '2.x'
+                choices: ['1.x', '2.x']
             system_support_fai:
+                aliases: ['system-support-fai']
                 description:
                  - Supported FortiNDR versions.
                  - 7.x - Support version 7.x
                 type: list
                 elements: str
-                choices:
-                    - '7.x'
+                choices: ['7.x']
 '''
 
 EXAMPLES = '''
@@ -686,14 +590,19 @@ def main():
                     }
                 },
                 'wanip-query-mode': {'choices': ['disable', 'ipify'], 'type': 'str'},
-                'system-support-fdc': {'v_range': [['6.4.6', '6.4.14'], ['7.0.1', '']], 'type': 'list', 'choices': ['3.x', '4.x'], 'elements': 'str'},
+                'system-support-fdc': {
+                    'v_range': [['6.4.6', '6.4.15'], ['7.0.1', '']],
+                    'type': 'list',
+                    'choices': ['3.x', '4.x', '5.x', '6.x'],
+                    'elements': 'str'
+                },
                 'system-support-fts': {
-                    'v_range': [['6.4.6', '6.4.14'], ['7.0.1', '']],
+                    'v_range': [['6.4.6', '6.4.15'], ['7.0.1', '']],
                     'type': 'list',
                     'choices': ['4.x', '3.x', '7.x'],
                     'elements': 'str'
                 },
-                'system-support-faz': {'v_range': [['7.0.7', '7.0.12'], ['7.2.2', '']], 'type': 'list', 'choices': ['6.x', '7.x'], 'elements': 'str'},
+                'system-support-faz': {'v_range': [['7.0.7', '7.0.13'], ['7.2.2', '']], 'type': 'list', 'choices': ['6.x', '7.x'], 'elements': 'str'},
                 'system-support-fis': {'v_range': [['7.4.0', '']], 'type': 'list', 'choices': ['1.x', '2.x'], 'elements': 'str'},
                 'system-support-fai': {'v_range': [['7.6.0', '']], 'type': 'list', 'choices': ['7.x'], 'elements': 'str'}
             }

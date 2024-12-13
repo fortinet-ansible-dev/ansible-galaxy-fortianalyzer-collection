@@ -97,9 +97,7 @@ options:
                  - Enable/disable authentication.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             fromaddress:
                 type: str
                 description: SMTP from address.

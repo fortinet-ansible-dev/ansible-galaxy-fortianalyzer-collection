@@ -92,16 +92,14 @@ options:
         type: dict
         suboptions:
             download_mode:
+                aliases: ['download-mode']
                 type: str
                 description:
                  - Download mode for pcap files.
                  - plain - Download original file.
                  - zip - Download zip file without password.
                  - zip-with-password - Download zip file with password.
-                choices:
-                    - 'plain'
-                    - 'zip'
-                    - 'zip-with-password'
+                choices: ['plain', 'zip', 'zip-with-password']
 '''
 
 EXAMPLES = '''

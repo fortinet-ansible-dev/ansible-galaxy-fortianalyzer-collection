@@ -92,23 +92,21 @@ options:
         type: dict
         suboptions:
             ip_only_ep:
+                aliases: ['ip-only-ep']
                 type: str
                 description:
                  - Disable/Enable IP-only endpoint identification.
                  - disable - Disable IP-only endpoint identification.
                  - enable - Enable IP-only endpoint identification.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             ip_unique_scope:
+                aliases: ['ip-unique-scope']
                 type: str
                 description:
                  - set ip-unique-scope.
                  - adom - set ip-unique-scope to adom.
                  - vdom - set ip-unique-scope to vdom.
-                choices:
-                    - 'adom'
-                    - 'vdom'
+                choices: ['adom', 'vdom']
 '''
 
 EXAMPLES = '''

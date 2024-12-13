@@ -104,12 +104,7 @@ options:
             flags:
                 type: str
                 description: no description
-                choices:
-                    - 'f_boot_alt_partition'
-                    - 'f_skip_retrieve'
-                    - 'f_skip_multi_steps'
-                    - 'f_skip_fortiguard_img'
-                    - 'f_preview'
+                choices: ['f_boot_alt_partition', 'f_skip_retrieve', 'f_skip_multi_steps', 'f_skip_fortiguard_img', 'f_preview']
             image:
                 description: no description
                 type: dict

@@ -158,6 +158,14 @@ options:
                     - 'dvmdb_device_vdom'
                     - 'dvmdb_folder'
                     - 'dvmdb_group'
+                    - 'eventmgmt_config_basichandler'
+                    - 'eventmgmt_config_correlationhandler'
+                    - 'eventmgmt_config_dataselector'
+                    - 'eventmgmt_config_notificationprofile'
+                    - 'eventmgmt_config_trigger'
+                    - 'eventmgmt_config_trigger_device'
+                    - 'eventmgmt_config_trigger_filter'
+                    - 'eventmgmt_config_trigger_filter_rule'
                     - 'report_config_chart'
                     - 'report_config_chart_drilldowntable'
                     - 'report_config_chart_tablecolumns'
@@ -765,7 +773,7 @@ def main():
             'urls': [
                 '/cli/global/system/global/ssl-cipher-suites/{ssl-cipher-suites}'
             ],
-            'v_range': [['6.4.8', '6.4.14'], ['7.0.2', '']],
+            'v_range': [['6.4.8', '6.4.15'], ['7.0.2', '']],
             'mkey': 'priority'
         },
         'cli_system_syslog': {
@@ -819,6 +827,62 @@ def main():
             ],
             'v_range': [['6.2.1', '']],
             'mkey': 'name'
+        },
+        'eventmgmt_config_basichandler': {
+            'urls': [
+                '/eventmgmt/adom/{adom}/config/basic-handler/{basic-handler}'
+            ],
+            'v_range': [['7.2.2', '']],
+            'mkey': 'name'
+        },
+        'eventmgmt_config_correlationhandler': {
+            'urls': [
+                '/eventmgmt/adom/{adom}/config/correlation-handler/{correlation-handler}'
+            ],
+            'v_range': [['7.2.2', '']],
+            'mkey': 'name'
+        },
+        'eventmgmt_config_dataselector': {
+            'urls': [
+                '/eventmgmt/adom/{adom}/config/data-selector/{data-selector}'
+            ],
+            'v_range': [['7.2.2', '']],
+            'mkey': 'name'
+        },
+        'eventmgmt_config_notificationprofile': {
+            'urls': [
+                '/eventmgmt/adom/{adom}/config/notification-profile/{notification-profile}'
+            ],
+            'v_range': [['7.2.2', '']],
+            'mkey': 'name'
+        },
+        'eventmgmt_config_trigger': {
+            'urls': [
+                '/eventmgmt/adom/{adom}/config/trigger/{trigger}'
+            ],
+            'v_range': [['6.2.1', '7.2.1']],
+            'mkey': 'id'
+        },
+        'eventmgmt_config_trigger_device': {
+            'urls': [
+                '/eventmgmt/adom/{adom}/config/trigger/{trigger_id}/device/{device}'
+            ],
+            'v_range': [['6.2.1', '7.2.1']],
+            'mkey': 'id'
+        },
+        'eventmgmt_config_trigger_filter': {
+            'urls': [
+                '/eventmgmt/adom/{adom}/config/trigger/{trigger_id}/filter/{filter}'
+            ],
+            'v_range': [['6.2.1', '7.2.1']],
+            'mkey': 'id'
+        },
+        'eventmgmt_config_trigger_filter_rule': {
+            'urls': [
+                '/eventmgmt/adom/{adom}/config/trigger/{trigger_id}/filter/{filter_id}/rule/{rule}'
+            ],
+            'v_range': [['6.2.1', '7.2.1']],
+            'mkey': 'id'
         },
         'report_config_chart': {
             'urls': [
@@ -1055,6 +1119,14 @@ def main():
                         'dvmdb_device_vdom',
                         'dvmdb_folder',
                         'dvmdb_group',
+                        'eventmgmt_config_basichandler',
+                        'eventmgmt_config_correlationhandler',
+                        'eventmgmt_config_dataselector',
+                        'eventmgmt_config_notificationprofile',
+                        'eventmgmt_config_trigger',
+                        'eventmgmt_config_trigger_device',
+                        'eventmgmt_config_trigger_filter',
+                        'eventmgmt_config_trigger_filter_rule',
                         'report_config_chart',
                         'report_config_chart_drilldowntable',
                         'report_config_chart_tablecolumns',

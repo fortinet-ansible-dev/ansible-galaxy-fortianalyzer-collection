@@ -109,6 +109,7 @@ options:
                 type: str
                 description: Name of SSH certificate.
             private_key:
+                aliases: ['private-key']
                 description: SSH private-key
                 type: str
 '''

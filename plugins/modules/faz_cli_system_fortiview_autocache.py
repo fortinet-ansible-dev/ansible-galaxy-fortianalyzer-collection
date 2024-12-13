@@ -92,14 +92,13 @@ options:
         type: dict
         suboptions:
             aggressive_fortiview:
+                aliases: ['aggressive-fortiview']
                 type: str
                 description:
                  - Enable/disable auto-cache on fortiview aggressively.
                  - disable - Disable the aggressive fortiview auto-cache.
                  - enable - Enable the aggressive fortiview auto-cache.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             interval:
                 type: int
                 description: The time interval in hours for fortiview auto-cache.
@@ -109,18 +108,15 @@ options:
                  - Enable/disable fortiview auto-cache.
                  - disable - Disable the fortiview auto-cache.
                  - enable - Enable the fortiview auto-cache.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             incr_fortiview:
+                aliases: ['incr-fortiview']
                 type: str
                 description:
                  - Enable/disable fortiview incremental cache.
                  - disable - Disable the fortiview incremental auto cache.
                  - enable - Enable the fortiview incremental auto cache.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''
@@ -209,7 +205,7 @@ def main():
                 'aggressive-fortiview': {'choices': ['disable', 'enable'], 'type': 'str'},
                 'interval': {'type': 'int'},
                 'status': {'choices': ['disable', 'enable'], 'type': 'str'},
-                'incr-fortiview': {'v_range': [['7.2.5', '7.2.7'], ['7.4.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
+                'incr-fortiview': {'v_range': [['7.2.5', '7.2.8'], ['7.4.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
         }
     }

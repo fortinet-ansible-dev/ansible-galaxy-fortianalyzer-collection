@@ -97,27 +97,21 @@ options:
                  - Enable/disable container.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             fortiwlm:
                 type: str
                 description:
                  - Enable/disable container.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             sdwancontroller:
                 type: str
                 description:
                  - Enable/disable container.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             status:
                 type: str
                 description:
@@ -126,15 +120,13 @@ options:
                  - enable - Enable production registry.
                  - qa - Enable QA test registry.
                  - dev - Enable QA test registry
-                choices:
-                    - 'disable'
-                    - 'enable'
-                    - 'qa'
-                    - 'dev'
+                choices: ['disable', 'enable', 'qa', 'dev']
             default_address_pool_base:
+                aliases: ['default-address-pool_base']
                 type: str
                 description: Set default-address-pool CIDR.
             default_address_pool_size:
+                aliases: ['default-address-pool_size']
                 type: int
                 description: Set default-address-pool size.
             fortiauthenticator:
@@ -143,18 +135,14 @@ options:
                  - Enable/disable container.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             fortisigconverter:
                 type: str
                 description:
                  - Enable/disable container.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             cpu:
                 type: int
                 description: no description
@@ -162,6 +150,7 @@ options:
                 type: int
                 description: Max % RAM usage.
             docker_user_login_max:
+                aliases: ['docker-user-login-max']
                 type: int
                 description: Max login session for docker users.
             fortisoar:
@@ -170,36 +159,28 @@ options:
                  - Enable/disable container.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             fortiaiops:
                 type: str
                 description:
                  - Enable/disable container.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             fsmcollector:
                 type: str
                 description:
                  - Enable/disable container.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             universalconnector:
                 type: str
                 description:
                  - Enable/disable container.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''

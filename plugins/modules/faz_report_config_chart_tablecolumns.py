@@ -108,12 +108,10 @@ options:
         type: dict
         suboptions:
             data_type:
+                aliases: ['data-type']
                 type: str
                 description: no description
-                choices:
-                    - 'aggregate'
-                    - 'raw'
-                    - 'drilldown'
+                choices: ['aggregate', 'raw', 'drilldown']
             header:
                 type: str
                 description: no description
@@ -121,6 +119,7 @@ options:
                 type: int
                 description: no description
             column_attr:
+                aliases: ['column-attr']
                 type: str
                 description: no description
                 choices:
@@ -153,26 +152,28 @@ options:
                     - 'time'
                     - 'kbps'
             column_graph_type:
+                aliases: ['column-graph-type']
                 type: str
                 description: no description
-                choices:
-                    - 'none'
-                    - 'bar'
-                    - 'line-down'
-                    - 'line-up'
+                choices: ['none', 'bar', 'line-down', 'line-up']
             column_num:
+                aliases: ['column-num']
                 type: int
                 description: no description
             column_span:
+                aliases: ['column-span']
                 type: int
                 description: no description
             column_width:
+                aliases: ['column-width']
                 type: int
                 description: no description
             data_binding:
+                aliases: ['data-binding']
                 type: str
                 description: no description
             data_top:
+                aliases: ['data-top']
                 type: int
                 description: no description
             legend:
@@ -285,7 +286,7 @@ def main():
                 'header': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
                 'id': {'v_range': [['6.2.1', '7.4.2']], 'type': 'int'},
                 'column-attr': {
-                    'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']],
+                    'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']],
                     'choices': [
                         'app-id', 'email-recver', 'timespan', 'obf-url', 'cal-percent', 'vuln', 'bandwidth', 'dev-type', 'severity', 'percent', 'trend',
                         'attack', 'html', 'ipsec-tunnel', 'web-cat', 'ip-country', 'email-sender', 'search', 'virus', 'user', 'state-icon', 'count',
@@ -293,13 +294,13 @@ def main():
                     ],
                     'type': 'str'
                 },
-                'column-graph-type': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['none', 'bar', 'line-down', 'line-up'], 'type': 'str'},
-                'column-num': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                'column-span': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                'column-width': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                'data-binding': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'data-top': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                'legend': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'}
+                'column-graph-type': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['none', 'bar', 'line-down', 'line-up'], 'type': 'str'},
+                'column-num': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                'column-span': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                'column-width': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                'data-binding': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'data-top': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                'legend': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'}
             }
         }
     }

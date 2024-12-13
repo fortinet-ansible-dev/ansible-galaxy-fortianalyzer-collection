@@ -100,6 +100,7 @@ options:
         type: dict
         suboptions:
             device_type:
+                aliases: ['device-type']
                 type: str
                 description:
                  - Device type.
@@ -110,21 +111,16 @@ options:
                  - FortiWeb - Set device type to FortiWeb.
                  - FortiSandbox - Set device type to FortiSandbox
                  - FortiProxy - Set device type to FortiProxy
-                choices:
-                    - 'FortiGate'
-                    - 'FortiManager'
-                    - 'FortiClient'
-                    - 'FortiMail'
-                    - 'FortiWeb'
-                    - 'FortiSandbox'
-                    - 'FortiProxy'
+                choices: ['FortiGate', 'FortiManager', 'FortiClient', 'FortiMail', 'FortiWeb', 'FortiSandbox', 'FortiProxy']
             id:
                 type: int
                 description: Add or Edit log index fields.
             index_field:
+                aliases: ['index-field']
                 type: str
                 description: Field to be added to skip index.
             log_type:
+                aliases: ['log-type']
                 type: str
                 description:
                  - Log type.

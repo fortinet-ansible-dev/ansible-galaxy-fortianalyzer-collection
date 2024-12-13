@@ -92,23 +92,21 @@ options:
         type: dict
         suboptions:
             log_fortigate:
+                aliases: ['log-fortigate']
                 type: str
                 description:
                  - Enable/disable logging of FortiGuard antivirus and IPS service updates of FortiGate devices
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             log_server:
+                aliases: ['log-server']
                 type: str
                 description:
                  - Enable/disable logging of update packages received by the build-in FortiGuard server
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''

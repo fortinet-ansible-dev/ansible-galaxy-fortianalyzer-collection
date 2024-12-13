@@ -103,9 +103,7 @@ options:
                  - Enable/disable push updates for clients
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''

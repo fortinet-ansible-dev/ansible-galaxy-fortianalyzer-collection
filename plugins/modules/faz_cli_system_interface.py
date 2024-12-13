@@ -115,17 +115,7 @@ options:
                  - https-logging - Logging over HTTPS access.
                 type: list
                 elements: str
-                choices:
-                    - 'ping'
-                    - 'https'
-                    - 'ssh'
-                    - 'snmp'
-                    - 'http'
-                    - 'webservice'
-                    - 'fgfm'
-                    - 'https-logging'
-                    - 'soc-fabric'
-                    - 'fabric'
+                choices: ['ping', 'https', 'ssh', 'snmp', 'http', 'webservice', 'fgfm', 'https-logging', 'soc-fabric', 'fabric']
             description:
                 type: str
                 description: Description.
@@ -137,9 +127,11 @@ options:
                 type: dict
                 suboptions:
                     ip6_address:
+                        aliases: ['ip6-address']
                         type: str
                         description: IPv6 address/prefix of interface.
                     ip6_allowaccess:
+                        aliases: ['ip6-allowaccess']
                         description:
                          - Allow management access to interface.
                          - ping - PING access.
@@ -152,25 +144,15 @@ options:
                          - https-logging - Logging over HTTPS access.
                         type: list
                         elements: str
-                        choices:
-                            - 'ping'
-                            - 'https'
-                            - 'ssh'
-                            - 'snmp'
-                            - 'http'
-                            - 'webservice'
-                            - 'fgfm'
-                            - 'https-logging'
-                            - 'fabric'
+                        choices: ['ping', 'https', 'ssh', 'snmp', 'http', 'webservice', 'fgfm', 'https-logging', 'fabric']
                     ip6_autoconf:
+                        aliases: ['ip6-autoconf']
                         type: str
                         description:
                          - Enable/disable address auto config
                          - disable - Disable setting.
                          - enable - Enable setting.
-                        choices:
-                            - 'disable'
-                            - 'enable'
+                        choices: ['disable', 'enable']
             mtu:
                 type: int
                 description: Maximum transportation unit
@@ -216,31 +198,27 @@ options:
                  - Interface status.
                  - down - Interface down.
                  - up - Interface up.
-                choices:
-                    - 'down'
-                    - 'up'
-                    - 'disable'
-                    - 'enable'
+                choices: ['down', 'up', 'disable', 'enable']
             aggregate:
                 type: str
                 description: Aggregate interface.
             lacp_mode:
+                aliases: ['lacp-mode']
                 type: str
                 description:
                  - LACP mode.
                  - active - Actively use LACP to negotiate 802.3ad aggregation.
-                choices:
-                    - 'active'
+                choices: ['active']
             lacp_speed:
+                aliases: ['lacp-speed']
                 type: str
                 description:
                  - How often the interface sends LACP messages.
                  - slow - Send LACP message every 30 seconds.
                  - fast - Send LACP message every second.
-                choices:
-                    - 'slow'
-                    - 'fast'
+                choices: ['slow', 'fast']
             link_up_delay:
+                aliases: ['link-up-delay']
                 type: int
                 description: Number of milliseconds to wait before considering a link is up.
             member:
@@ -249,42 +227,39 @@ options:
                 elements: dict
                 suboptions:
                     interface_name:
+                        aliases: ['interface-name']
                         type: str
                         description: Physical interface name.
             min_links:
+                aliases: ['min-links']
                 type: int
                 description: Minimum number of aggregated ports that must be up.
             min_links_down:
+                aliases: ['min-links-down']
                 type: str
                 description:
                  - Action to take when less than the configured minimum number of links are active.
                  - operational - Set the aggregate operationally down.
                  - administrative - Set the aggregate administratively down.
-                choices:
-                    - 'operational'
-                    - 'administrative'
+                choices: ['operational', 'administrative']
             type:
                 type: str
                 description:
                  - Set type of interface
                  - physical - Physical interface.
                  - aggregate - Aggregate interface.
-                choices:
-                    - 'physical'
-                    - 'aggregate'
-                    - 'vlan'
+                choices: ['physical', 'aggregate', 'vlan']
             interface:
                 type: str
                 description: Underlying interface name.
             vlan_protocol:
+                aliases: ['vlan-protocol']
                 type: str
                 description:
                  - Ethernet protocol of VLAN.
                  - 8021q - IEEE 802.1Q.
                  - 8021ad - IEEE 802.1AD.
-                choices:
-                    - '8021q'
-                    - '8021ad'
+                choices: ['8021q', '8021ad']
             vlanid:
                 type: int
                 description: VLAN ID
@@ -294,48 +269,41 @@ options:
                  - Enable/disable LLDP
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             defaultgw:
                 type: str
                 description:
                  - Enable/disable default gateway.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             dhcp_client_identifier:
+                aliases: ['dhcp-client-identifier']
                 type: str
                 description: DHCP client identifier.
             dns_server_override:
+                aliases: ['dns-server-override']
                 type: str
                 description:
                  - Enable/disable use DNS acquired by DHCP or PPPoE.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             mode:
                 type: str
                 description:
                  - Addressing mode
                  - static - Static setting.
                  - dhcp - External DHCP client mode.
-                choices:
-                    - 'static'
-                    - 'dhcp'
+                choices: ['static', 'dhcp']
             mtu_override:
+                aliases: ['mtu-override']
                 type: str
                 description:
                  - Enable/disable use MTU acquired by DHCP or PPPoE.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''

@@ -100,6 +100,7 @@ options:
         type: dict
         suboptions:
             agg_archive_types:
+                aliases: ['agg-archive-types']
                 description:
                  - Archive types.
                  - Web_Archive
@@ -123,6 +124,7 @@ options:
                     - 'IPS_Packets'
                     - 'CDR_Archive'
             agg_logtypes:
+                aliases: ['agg-logtypes']
                 description:
                  - Log types.
                  - none - none
@@ -181,15 +183,19 @@ options:
                     - 'ztna'
                     - 'security'
             agg_password:
+                aliases: ['agg-password']
                 description: Log aggregation access password for server.
                 type: str
             agg_time:
+                aliases: ['agg-time']
                 type: int
                 description: Daily at.
             agg_user:
+                aliases: ['agg-user']
                 type: str
                 description: Log aggregation access user name for server.
             device_filter:
+                aliases: ['device-filter']
                 description: no description
                 type: list
                 elements: dict
@@ -202,11 +208,7 @@ options:
                          - exclude - Exclude specified device.
                          - include-like - Include specified device matching the given wildcard expression.
                          - exclude-like - Exclude specified device matching the given wildcard expression.
-                        choices:
-                            - 'include'
-                            - 'exclude'
-                            - 'include-like'
-                            - 'exclude-like'
+                        choices: ['include', 'exclude', 'include-like', 'exclude-like']
                     device:
                         type: str
                         description: Device ID of log client device, or a wildcard expression matching log client device
@@ -217,6 +219,7 @@ options:
                         type: str
                         description: Adom name or
             fwd_archive_types:
+                aliases: ['fwd-archive-types']
                 description:
                  - forwarding archive types.
                  - Web_Archive
@@ -240,15 +243,15 @@ options:
                     - 'EDISC_Archive'
                     - 'CDR_Archive'
             fwd_archives:
+                aliases: ['fwd-archives']
                 type: str
                 description:
                  - Enable/disable forwarding archives.
                  - disable - Disable forwarding archives.
                  - enable - Enable forwarding archives.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             fwd_facility:
+                aliases: ['fwd-facility']
                 type: str
                 description:
                  - Facility for remote syslog.
@@ -302,66 +305,58 @@ options:
                     - 'local6'
                     - 'local7'
             fwd_log_source_ip:
+                aliases: ['fwd-log-source-ip']
                 type: str
                 description:
                  - Logs source IP address
                  - local_ip - Use FAZVM64 local ip.
                  - original_ip - Use original source ip.
-                choices:
-                    - 'local_ip'
-                    - 'original_ip'
+                choices: ['local_ip', 'original_ip']
             fwd_max_delay:
+                aliases: ['fwd-max-delay']
                 type: str
                 description:
                  - Max delay for near realtime log forwarding.
                  - realtime - Realtime forwarding, no delay.
                  - 1min - Near realtime forwarding with up to one miniute delay.
                  - 5min - Near realtime forwarding with up to five miniutes delay.
-                choices:
-                    - 'realtime'
-                    - '1min'
-                    - '5min'
+                choices: ['realtime', '1min', '5min']
             fwd_reliable:
+                aliases: ['fwd-reliable']
                 type: str
                 description:
                  - Enable/disable reliable logging.
                  - disable - Disable reliable logging.
                  - enable - Enable reliable logging.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             fwd_secure:
+                aliases: ['fwd-secure']
                 type: str
                 description:
                  - Enable/disable TLS/SSL secured reliable logging.
                  - disable - Disable TLS/SSL secured reliable logging.
                  - enable - Enable TLS/SSL secured reliable logging.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             fwd_server_type:
+                aliases: ['fwd-server-type']
                 type: str
                 description:
                  - Forwarding all logs to syslog server or FortiAnalyzer.
                  - syslog - Forward logs to generic syslog server.
                  - fortianalyzer - Forward logs to FortiAnalyzer.
                  - cef - Forward logs to a CEF
-                choices:
-                    - 'syslog'
-                    - 'fortianalyzer'
-                    - 'cef'
-                    - 'syslog-pack'
-                    - 'fwd-via-output-plugin'
-                    - 'elite-service'
+                choices: ['syslog', 'fortianalyzer', 'cef', 'syslog-pack', 'fwd-via-output-plugin', 'elite-service']
             id:
                 type: int
                 description: Log forwarding ID.
             log_field_exclusion:
+                aliases: ['log-field-exclusion']
                 description: no description
                 type: list
                 elements: dict
                 suboptions:
                     dev_type:
+                        aliases: ['dev-type']
                         type: str
                         description:
                          - Device type.
@@ -399,12 +394,14 @@ options:
                             - 'FortiCASB'
                             - 'FortiToken'
                     field_list:
+                        aliases: ['field-list']
                         type: str
                         description: List of fields to be excluded.
                     id:
                         type: int
                         description: Log field exclusion ID.
                     log_type:
+                        aliases: ['log-type']
                         type: str
                         description:
                          - Log type.
@@ -461,15 +458,15 @@ options:
                             - 'ztna'
                             - 'security'
             log_field_exclusion_status:
+                aliases: ['log-field-exclusion-status']
                 type: str
                 description:
                  - Enable or disable log field exclusion.
                  - disable - Disable log field exclusion.
                  - enable - Enable log field exclusion.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             log_filter:
+                aliases: ['log-filter']
                 description: no description
                 type: list
                 elements: dict
@@ -517,37 +514,26 @@ options:
                          - contain - Contain
                          - not-contain - Not contain
                          - match - Match
-                        choices:
-                            - '='
-                            - '!='
-                            - '<'
-                            - '>'
-                            - '<='
-                            - '>='
-                            - 'contain'
-                            - 'not-contain'
-                            - 'match'
+                        choices: ['=', '!=', '<', '>', '<=', '>=', 'contain', 'not-contain', 'match']
                     value:
                         type: str
                         description: Field filter operand or free-text matching expression.
             log_filter_logic:
+                aliases: ['log-filter-logic']
                 type: str
                 description:
                  - Logic operator used to connect filters.
                  - and - Conjunctive filters.
                  - or - Disjunctive filters.
-                choices:
-                    - 'and'
-                    - 'or'
+                choices: ['and', 'or']
             log_filter_status:
+                aliases: ['log-filter-status']
                 type: str
                 description:
                  - Enable or disable log filtering.
                  - disable - Disable log filtering.
                  - enable - Enable log filtering.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             mode:
                 type: str
                 description:
@@ -555,38 +541,40 @@ options:
                  - forwarding - Realtime or near realtime forwarding logs to servers.
                  - aggregation - Aggregate logs and archives to Analyzer.
                  - disable - Do not forward or aggregate logs.
-                choices:
-                    - 'forwarding'
-                    - 'aggregation'
-                    - 'disable'
+                choices: ['forwarding', 'aggregation', 'disable']
             proxy_service:
+                aliases: ['proxy-service']
                 type: str
                 description:
                  - Enable/disable proxy service under collector mode.
                  - disable - Disable proxy service.
                  - enable - Enable proxy service.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             proxy_service_priority:
+                aliases: ['proxy-service-priority']
                 type: int
                 description: Proxy service priority from 1
             server_device:
+                aliases: ['server-device']
                 type: str
                 description: Log forwarding server device ID.
             server_ip:
+                aliases: ['server-ip']
                 type: str
                 description: Remote server IP address.
             server_name:
+                aliases: ['server-name']
                 type: str
                 description: Log forwarding server name.
             server_port:
+                aliases: ['server-port']
                 type: int
                 description: Server listen port
             signature:
                 type: int
                 description: Aggregation cfg hash token.
             sync_metadata:
+                aliases: ['sync-metadata']
                 description:
                  - Synchronizing meta data types.
                  - sf-topology - Security Fabric topology
@@ -595,52 +583,47 @@ options:
                  - endusr-avatar - End-user avatar
                 type: list
                 elements: str
-                choices:
-                    - 'sf-topology'
-                    - 'interface-role'
-                    - 'device'
-                    - 'endusr-avatar'
-                    - 'fgt-policy'
-                    - 'interface-info'
+                choices: ['sf-topology', 'interface-role', 'device', 'endusr-avatar', 'fgt-policy', 'interface-info']
             fwd_syslog_format:
+                aliases: ['fwd-syslog-format']
                 type: str
                 description:
                  - Forwarding format for syslog.
                  - fgt - fgt syslog format
                  - rfc-5424 - rfc-5424 syslog format
-                choices:
-                    - 'fgt'
-                    - 'rfc-5424'
+                choices: ['fgt', 'rfc-5424']
             fwd_ha_bind_vip:
+                aliases: ['fwd-ha-bind-vip']
                 type: str
                 description:
                  - When HA is enabled, always use vip as forwarding port
                  - disable - Disable bind forwarding to vip interface.
                  - enable - Enable bind forwarding to vip interface.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             server_addr:
+                aliases: ['server-addr']
                 type: str
                 description: Remote server address.
             fwd_compression:
+                aliases: ['fwd-compression']
                 type: str
                 description:
                  - Enable/disable compression for better bandwidth efficiency.
                  - disable - Disable compression of messages.
                  - enable - Enable compression of messages.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             log_masking_custom:
+                aliases: ['log-masking-custom']
                 description: no description
                 type: list
                 elements: dict
                 suboptions:
                     field_name:
+                        aliases: ['field-name']
                         type: str
                         description: Field name.
                     field_type:
+                        aliases: ['field-type']
                         type: str
                         description:
                          - Field type.
@@ -649,26 +632,20 @@ options:
                          - mac - MAC address.
                          - email - Email address.
                          - unknown - Unknown.
-                        choices:
-                            - 'string'
-                            - 'ip'
-                            - 'mac'
-                            - 'email'
-                            - 'unknown'
+                        choices: ['string', 'ip', 'mac', 'email', 'unknown']
                     id:
                         type: int
                         description: Field masking id.
             log_masking_custom_priority:
+                aliases: ['log-masking-custom-priority']
                 type: str
                 description:
                  - Prioritize custom fields.
                  - disable - Disable custom field search priority.
                  - no description
-                choices:
-                    - 'disable'
-                    - ''
-                    - 'enable'
+                choices: ['disable', '', 'enable']
             log_masking_fields:
+                aliases: ['log-masking-fields']
                 description:
                  - Log field masking fields.
                  - user - User name.
@@ -682,72 +659,64 @@ options:
                  - domain - Domain.
                 type: list
                 elements: str
-                choices:
-                    - 'user'
-                    - 'srcip'
-                    - 'srcname'
-                    - 'srcmac'
-                    - 'dstip'
-                    - 'dstname'
-                    - 'email'
-                    - 'message'
-                    - 'domain'
+                choices: ['user', 'srcip', 'srcname', 'srcmac', 'dstip', 'dstname', 'email', 'message', 'domain']
             log_masking_key:
+                aliases: ['log-masking-key']
                 description: Log field masking key.
                 type: str
             log_masking_status:
+                aliases: ['log-masking-status']
                 type: str
                 description:
                  - Enable or disable log field masking.
                  - disable - Disable log field masking.
                  - enable - Enable log field masking.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             agg_data_end_time:
+                aliases: ['agg-data-end-time']
                 description: 'End date and time of the data-range <hh:mm yyyy/mm/dd>.'
                 type: str
             agg_data_start_time:
+                aliases: ['agg-data-start-time']
                 description: 'Start date and time of the data-range <hh:mm yyyy/mm/dd>.'
                 type: str
             agg_schedule:
+                aliases: ['agg-schedule']
                 type: str
                 description:
                  - Schedule log aggregation mode.
                  - daily - Run daily log aggregation
                  - on-demand - Run log aggregation on demand
-                choices:
-                    - 'daily'
-                    - 'on-demand'
+                choices: ['daily', 'on-demand']
             pcapurl_domain_ip:
+                aliases: ['pcapurl-domain-ip']
                 type: str
                 description: The domain name or ip for forming a pcapurl.
             pcapurl_enrich:
+                aliases: ['pcapurl-enrich']
                 type: str
                 description:
                  - Enable/disable enriching pcapurl.
                  - disable - Disable enriching pcapurl.
                  - enable - Enable enriching pcapurl.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             peer_cert_cn:
+                aliases: ['peer-cert-cn']
                 type: str
                 description: Certificate common name of log-forward server.
             fwd_output_plugin_id:
+                aliases: ['fwd-output-plugin-id']
                 type: str
                 description: Name of the output plugin profile
             fwd_syslog_transparent:
+                aliases: ['fwd-syslog-transparent']
                 type: str
                 description:
                  - Enable/disable transparently forwarding logs from syslog devices to syslog server.
                  - disable - Disable syslog transparent forward mode.
                  - enable - Enable syslog transparent forward mode.
                  - faz-enrich - Disable syslog transparent forward mode.
-                choices:
-                    - 'disable'
-                    - 'enable'
-                    - 'faz-enrich'
+                choices: ['disable', 'enable', 'faz-enrich']
 '''
 
 EXAMPLES = '''
@@ -955,7 +924,7 @@ def main():
                     'elements': 'str'
                 },
                 'fwd-syslog-format': {'v_range': [['6.4.3', '']], 'choices': ['fgt', 'rfc-5424'], 'type': 'str'},
-                'fwd-ha-bind-vip': {'v_range': [['6.4.8', '6.4.14'], ['7.0.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'fwd-ha-bind-vip': {'v_range': [['6.4.8', '6.4.15'], ['7.0.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'server-addr': {'v_range': [['6.4.8', '']], 'type': 'str'},
                 'fwd-compression': {'v_range': [['7.0.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'log-masking-custom': {

@@ -92,15 +92,15 @@ options:
         type: dict
         suboptions:
             accept_aggregation:
+                aliases: ['accept-aggregation']
                 type: str
                 description:
                  - Enable/disable accept log aggregation option.
                  - disable - Disable attribute function
                  - enable - Enable attribute function
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             aggregation_disk_quota:
+                aliases: ['aggregation-disk-quota']
                 type: int
                 description: Aggregated device disk quota
 '''

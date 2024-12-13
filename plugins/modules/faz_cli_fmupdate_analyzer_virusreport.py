@@ -97,9 +97,7 @@ options:
                  - Enable/disable sending virus detection notification to FortiGuard
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''

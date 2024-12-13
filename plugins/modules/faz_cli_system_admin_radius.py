@@ -100,6 +100,7 @@ options:
         type: dict
         suboptions:
             auth_type:
+                aliases: ['auth-type']
                 type: str
                 description:
                  - Authentication protocol.
@@ -107,24 +108,23 @@ options:
                  - pap - PAP.
                  - chap - CHAP.
                  - mschap2 - MSCHAPv2.
-                choices:
-                    - 'any'
-                    - 'pap'
-                    - 'chap'
-                    - 'mschap2'
+                choices: ['any', 'pap', 'chap', 'mschap2']
             name:
                 type: str
                 description: Name.
             nas_ip:
+                aliases: ['nas-ip']
                 type: str
                 description: NAS IP address and called station ID.
             port:
                 type: int
                 description: Server port.
             secondary_secret:
+                aliases: ['secondary-secret']
                 description: Secondary server secret.
                 type: str
             secondary_server:
+                aliases: ['secondary-server']
                 type: str
                 description: Secondary server name/IP.
             secret:

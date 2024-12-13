@@ -92,6 +92,7 @@ options:
         type: dict
         suboptions:
             announce_ip:
+                aliases: ['announce-ip']
                 description: no description
                 type: list
                 elements: dict
@@ -111,9 +112,7 @@ options:
                  - Enable/disable push updates
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''

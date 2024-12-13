@@ -97,9 +97,7 @@ options:
                  - CSV format.
                  - disable - Disable CSV format.
                  - enable - Enable CSV format.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             facility:
                 type: str
                 description:
@@ -165,25 +163,16 @@ options:
                  - notification - Notification level.
                  - information - Information level.
                  - debug - Debug level.
-                choices:
-                    - 'emergency'
-                    - 'alert'
-                    - 'critical'
-                    - 'error'
-                    - 'warning'
-                    - 'notification'
-                    - 'information'
-                    - 'debug'
+                choices: ['emergency', 'alert', 'critical', 'error', 'warning', 'notification', 'information', 'debug']
             status:
                 type: str
                 description:
                  - Remote syslog log.
                  - disable - Do not log to remote syslog server.
                  - enable - Log to remote syslog server.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             syslog_name:
+                aliases: ['syslog-name']
                 type: str
                 description: Remote syslog server name.
             cert:
@@ -195,18 +184,15 @@ options:
                  - Enable/disable reliable realtime logging.
                  - disable - Disable reliable realtime logging.
                  - enable - Enable reliable realtime logging.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             secure_connection:
+                aliases: ['secure-connection']
                 type: str
                 description:
                  - Enable/disable connection secured by TLS/SSL.
                  - disable - Disable SSL connection.
                  - enable - Enable SSL connection.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''
@@ -306,9 +292,9 @@ def main():
                 'severity': {'choices': ['emergency', 'alert', 'critical', 'error', 'warning', 'notification', 'information', 'debug'], 'type': 'str'},
                 'status': {'choices': ['disable', 'enable'], 'type': 'str'},
                 'syslog-name': {'type': 'str'},
-                'cert': {'v_range': [['6.4.6', '6.4.14'], ['7.0.1', '7.4.2']], 'type': 'str'},
-                'reliable': {'v_range': [['6.4.6', '6.4.14'], ['7.0.1', '7.4.2']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'secure-connection': {'v_range': [['6.4.6', '6.4.14'], ['7.0.1', '7.4.2']], 'choices': ['disable', 'enable'], 'type': 'str'}
+                'cert': {'v_range': [['6.4.6', '6.4.15'], ['7.0.1', '7.4.2']], 'type': 'str'},
+                'reliable': {'v_range': [['6.4.6', '6.4.15'], ['7.0.1', '7.4.2']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'secure-connection': {'v_range': [['6.4.6', '6.4.15'], ['7.0.1', '7.4.2']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
         }
     }

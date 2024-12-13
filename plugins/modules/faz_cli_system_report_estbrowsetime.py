@@ -92,6 +92,7 @@ options:
         type: dict
         suboptions:
             max_read_time:
+                aliases: ['max-read-time']
                 type: int
                 description: Read time threshold for each page view.
             status:
@@ -100,9 +101,7 @@ options:
                  - Estimate browse time status.
                  - disable - Disable estimating browse time.
                  - enable - Enable estimating browse time.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''

@@ -104,6 +104,7 @@ options:
         type: dict
         suboptions:
             interface_name:
+                aliases: ['interface-name']
                 type: str
                 description: Physical interface name.
 '''

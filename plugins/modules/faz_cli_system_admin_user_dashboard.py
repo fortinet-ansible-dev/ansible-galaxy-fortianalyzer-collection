@@ -107,39 +107,34 @@ options:
                 type: int
                 description: Widgets column ID.
             diskio_content_type:
+                aliases: ['diskio-content-type']
                 type: str
                 description:
                  - Disk I/O Monitor widgets chart type.
                  - util - bandwidth utilization.
                  - iops - the number of I/O requests.
                  - blks - the amount of data of I/O requests.
-                choices:
-                    - 'util'
-                    - 'iops'
-                    - 'blks'
+                choices: ['util', 'iops', 'blks']
             diskio_period:
+                aliases: ['diskio-period']
                 type: str
                 description:
                  - Disk I/O Monitor widgets data period.
                  - 1hour - 1 hour.
                  - 8hour - 8 hour.
                  - 24hour - 24 hour.
-                choices:
-                    - '1hour'
-                    - '8hour'
-                    - '24hour'
+                choices: ['1hour', '8hour', '24hour']
             log_rate_period:
+                aliases: ['log-rate-period']
                 type: str
                 description:
                  - Log receive monitor widgets data period.
                  - 2min  - 2 minutes.
                  - 1hour - 1 hour.
                  - 6hours - 6 hours.
-                choices:
-                    - '2min '
-                    - '1hour'
-                    - '6hours'
+                choices: ['2min ', '1hour', '6hours']
             log_rate_topn:
+                aliases: ['log-rate-topn']
                 type: str
                 description:
                  - Log receive monitor widgets number of top items to display.
@@ -148,21 +143,15 @@ options:
                  - 3 - Top 3.
                  - 4 - Top 4.
                  - 5 - Top 5.
-                choices:
-                    - '1'
-                    - '2'
-                    - '3'
-                    - '4'
-                    - '5'
+                choices: ['1', '2', '3', '4', '5']
             log_rate_type:
+                aliases: ['log-rate-type']
                 type: str
                 description:
                  - Log receive monitor widgets statistics breakdown options.
                  - log - Show log rates for each log type.
                  - device - Show log rates for each device.
-                choices:
-                    - 'log'
-                    - 'device'
+                choices: ['log', 'device']
             moduleid:
                 type: int
                 description: Widget ID.
@@ -170,64 +159,59 @@ options:
                 type: str
                 description: Widget name.
             num_entries:
+                aliases: ['num-entries']
                 type: int
                 description: Number of entries.
             refresh_interval:
+                aliases: ['refresh-interval']
                 type: int
                 description: Widgets refresh interval.
             res_cpu_display:
+                aliases: ['res-cpu-display']
                 type: str
                 description:
                  - Widgets CPU display type.
                  - average  - Average usage of CPU.
                  - each - Each usage of CPU.
-                choices:
-                    - 'average '
-                    - 'each'
+                choices: ['average ', 'each']
             res_period:
+                aliases: ['res-period']
                 type: str
                 description:
                  - Widgets data period.
                  - 10min  - Last 10 minutes.
                  - hour - Last hour.
                  - day - Last day.
-                choices:
-                    - '10min '
-                    - 'hour'
-                    - 'day'
+                choices: ['10min ', 'hour', 'day']
             res_view_type:
+                aliases: ['res-view-type']
                 type: str
                 description:
                  - Widgets data view type.
                  - real-time  - Real-time view.
                  - history - History view.
-                choices:
-                    - 'real-time '
-                    - 'history'
+                choices: ['real-time ', 'history']
             status:
                 type: str
                 description:
                  - Widgets opened/closed state.
                  - close - Widget closed.
                  - open - Widget opened.
-                choices:
-                    - 'close'
-                    - 'open'
+                choices: ['close', 'open']
             tabid:
                 type: int
                 description: ID of tab where widget is displayed.
             time_period:
+                aliases: ['time-period']
                 type: str
                 description:
                  - Log Database Monitor widgets data period.
                  - 1hour - 1 hour.
                  - 8hour - 8 hour.
                  - 24hour - 24 hour.
-                choices:
-                    - '1hour'
-                    - '8hour'
-                    - '24hour'
+                choices: ['1hour', '8hour', '24hour']
             widget_type:
+                aliases: ['widget-type']
                 type: str
                 description:
                  - Widget type.

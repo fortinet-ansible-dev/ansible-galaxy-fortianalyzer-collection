@@ -100,9 +100,7 @@ options:
                  - Web proxy mode
                  - proxy - proxy mode
                  - tunnel - tunnel mode
-                choices:
-                    - 'proxy'
-                    - 'tunnel'
+                choices: ['proxy', 'tunnel']
             password:
                 description: The password for the user name used for authentication.
                 type: str
@@ -115,9 +113,7 @@ options:
                  - Enable/disable system web proxy
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             username:
                 type: str
                 description: The user name used for authentication.
@@ -211,14 +207,14 @@ def main():
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_system_webproxy': {
             'type': 'dict',
-            'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']],
+            'v_range': [['6.4.8', '6.4.15'], ['7.0.3', '']],
             'options': {
-                'address': {'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']], 'type': 'str'},
-                'mode': {'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']], 'choices': ['proxy', 'tunnel'], 'type': 'str'},
-                'password': {'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']], 'no_log': True, 'type': 'str'},
-                'port': {'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']], 'type': 'int'},
-                'status': {'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'username': {'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']], 'type': 'str'}
+                'address': {'v_range': [['6.4.8', '6.4.15'], ['7.0.3', '']], 'type': 'str'},
+                'mode': {'v_range': [['6.4.8', '6.4.15'], ['7.0.3', '']], 'choices': ['proxy', 'tunnel'], 'type': 'str'},
+                'password': {'v_range': [['6.4.8', '6.4.15'], ['7.0.3', '']], 'no_log': True, 'type': 'str'},
+                'port': {'v_range': [['6.4.8', '6.4.15'], ['7.0.3', '']], 'type': 'int'},
+                'status': {'v_range': [['6.4.8', '6.4.15'], ['7.0.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'username': {'v_range': [['6.4.8', '6.4.15'], ['7.0.3', '']], 'type': 'str'}
             }
         }
     }

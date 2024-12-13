@@ -180,7 +180,7 @@ class HttpApi(HttpApiBase):
             "verbose": 1
         }
         # FortiAnalyzer handle report API
-        if request_url.startswith("/report/") or jsonrpc2:
+        if request_url.startswith("/report/") or request_url.startswith("/eventmgmt/") or jsonrpc2:
             json_request["jsonrpc"] = "2.0"
             json_request["params"][0]["apiver"] = 3
         data = json.dumps(json_request, ensure_ascii=False).replace("\\\\", "\\")

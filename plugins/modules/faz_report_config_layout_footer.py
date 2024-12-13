@@ -110,15 +110,13 @@ options:
         type: dict
         suboptions:
             footer_id:
+                aliases: ['footer-id']
                 type: int
                 description: no description
             type:
                 type: str
                 description: no description
-                choices:
-                    - 'text'
-                    - 'graphic'
-                    - 'minicover'
+                choices: ['text', 'graphic', 'minicover']
             graphic:
                 type: str
                 description: no description
@@ -224,8 +222,8 @@ def main():
             'options': {
                 'footer-id': {'type': 'int'},
                 'type': {'choices': ['text', 'graphic', 'minicover'], 'type': 'str'},
-                'graphic': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'},
-                'text': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'}
+                'graphic': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'type': 'str'},
+                'text': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'type': 'str'}
             }
         }
     }

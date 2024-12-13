@@ -111,9 +111,11 @@ options:
                 type: int
                 description: no description
             include_option:
+                aliases: ['include-option']
                 type: str
                 description: no description
             address_type:
+                aliases: ['address-type']
                 type: str
                 description: no description
 '''

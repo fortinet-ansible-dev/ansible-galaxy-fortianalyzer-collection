@@ -102,9 +102,7 @@ options:
                          - Enable/disable MD5 authentication.
                          - disable - Disable setting.
                          - enable - Enable setting.
-                        choices:
-                            - 'disable'
-                            - 'enable'
+                        choices: ['disable', 'enable']
                     id:
                         type: int
                         description: Time server ID.
@@ -112,6 +110,7 @@ options:
                         description: Key for authentication.
                         type: str
                     key_id:
+                        aliases: ['key-id']
                         type: int
                         description: Key ID for authentication.
                     ntpv3:
@@ -120,9 +119,7 @@ options:
                          - Enable/disable NTPv3.
                          - disable - Disable setting.
                          - enable - Enable setting.
-                        choices:
-                            - 'disable'
-                            - 'enable'
+                        choices: ['disable', 'enable']
                     server:
                         type: str
                         description: IP address/hostname of NTP Server.
@@ -138,9 +135,7 @@ options:
                  - Enable/disable NTP.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             sync_interval:
                 type: int
                 description: NTP sync interval
@@ -237,8 +232,8 @@ def main():
                         'key-id': {'no_log': False, 'type': 'int'},
                         'ntpv3': {'choices': ['disable', 'enable'], 'type': 'str'},
                         'server': {'type': 'str'},
-                        'maxpoll': {'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']], 'type': 'int'},
-                        'minpoll': {'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']], 'type': 'int'}
+                        'maxpoll': {'v_range': [['6.4.8', '6.4.15'], ['7.0.3', '']], 'type': 'int'},
+                        'minpoll': {'v_range': [['6.4.8', '6.4.15'], ['7.0.3', '']], 'type': 'int'}
                     },
                     'elements': 'dict'
                 },

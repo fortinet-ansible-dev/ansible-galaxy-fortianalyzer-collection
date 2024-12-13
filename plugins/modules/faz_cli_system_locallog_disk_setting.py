@@ -97,16 +97,17 @@ options:
                  - Policy to apply when disk is full.
                  - overwrite - Overwrite oldest log when disk is full.
                  - nolog - Stop logging when disk is full.
-                choices:
-                    - 'overwrite'
-                    - 'nolog'
+                choices: ['overwrite', 'nolog']
             log_disk_full_percentage:
+                aliases: ['log-disk-full-percentage']
                 type: int
                 description: Consider log disk as full at this usage percentage.
             max_log_file_size:
+                aliases: ['max-log-file-size']
                 type: int
                 description: Maximum log file size before rolling.
             roll_day:
+                aliases: ['roll-day']
                 description:
                  - Days of week to roll logs.
                  - sunday - Sunday.
@@ -118,39 +119,29 @@ options:
                  - saturday - Saturday.
                 type: list
                 elements: str
-                choices:
-                    - 'sunday'
-                    - 'monday'
-                    - 'tuesday'
-                    - 'wednesday'
-                    - 'thursday'
-                    - 'friday'
-                    - 'saturday'
+                choices: ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
             roll_schedule:
+                aliases: ['roll-schedule']
                 type: str
                 description:
                  - Frequency to check log file for rolling.
                  - none - Not scheduled.
                  - daily - Every day.
                  - weekly - Every week.
-                choices:
-                    - 'none'
-                    - 'daily'
-                    - 'weekly'
+                choices: ['none', 'daily', 'weekly']
             roll_time:
+                aliases: ['roll-time']
                 type: str
                 description: Time to roll logs
             server_type:
+                aliases: ['server-type']
                 type: str
                 description:
                  - Server type.
                  - FTP - Upload via FTP.
                  - SFTP - Upload via SFTP.
                  - SCP - Upload via SCP.
-                choices:
-                    - 'FTP'
-                    - 'SFTP'
-                    - 'SCP'
+                choices: ['FTP', 'SFTP', 'SCP']
             severity:
                 type: str
                 description:
@@ -163,43 +154,31 @@ options:
                  - notification - Notification level.
                  - information - Information level.
                  - debug - Debug level.
-                choices:
-                    - 'emergency'
-                    - 'alert'
-                    - 'critical'
-                    - 'error'
-                    - 'warning'
-                    - 'notification'
-                    - 'information'
-                    - 'debug'
+                choices: ['emergency', 'alert', 'critical', 'error', 'warning', 'notification', 'information', 'debug']
             status:
                 type: str
                 description:
                  - Enable/disable local disk log.
                  - disable - Do not log to local disk.
                  - enable - Log to local disk.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             upload:
                 type: str
                 description:
                  - Upload log file when rolling.
                  - disable - Disable uploading when rolling log file.
                  - enable - Enable uploading when rolling log file.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             upload_delete_files:
+                aliases: ['upload-delete-files']
                 type: str
                 description:
                  - Delete log files after uploading
                  - disable - Do not delete log files after uploading.
                  - enable - Delete log files after uploading.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             upload_time:
+                aliases: ['upload-time']
                 type: str
                 description: Time to upload logs
             uploaddir:
@@ -220,17 +199,14 @@ options:
                  - Scheduled upload
                  - disable - Upload when rolling.
                  - enable - Scheduled upload.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             uploadtype:
                 description:
                  - Types of log files that need to be uploaded.
                  - event - Upload event log.
                 type: list
                 elements: str
-                choices:
-                    - 'event'
+                choices: ['event']
             uploaduser:
                 type: str
                 description: User account in upload server.
@@ -240,13 +216,13 @@ options:
                  - Compress upload logs.
                  - disable - Upload log files as plain text.
                  - enable - Upload log files compressed.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             max_log_file_num:
+                aliases: ['max-log-file-num']
                 type: int
                 description: Maximum number of log files before rolling.
             log_disk_quota:
+                aliases: ['log-disk-quota']
                 type: int
                 description: Quota for controlling local log size.
 '''
@@ -380,7 +356,7 @@ def main():
                 'uploadtype': {'type': 'list', 'choices': ['event'], 'elements': 'str'},
                 'uploaduser': {'type': 'str'},
                 'uploadzip': {'choices': ['disable', 'enable'], 'type': 'str'},
-                'max-log-file-num': {'v_range': [['6.4.8', '6.4.14'], ['7.0.2', '']], 'type': 'int'},
+                'max-log-file-num': {'v_range': [['6.4.8', '6.4.15'], ['7.0.2', '']], 'type': 'int'},
                 'log-disk-quota': {'v_range': [['7.0.3', '']], 'type': 'int'}
             }
         }

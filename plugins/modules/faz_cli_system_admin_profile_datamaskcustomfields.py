@@ -104,6 +104,7 @@ options:
         type: dict
         suboptions:
             field_category:
+                aliases: ['field-category']
                 description:
                  - Field categories.
                  - log - Log.
@@ -113,25 +114,21 @@ options:
                  - all - All.
                 type: list
                 elements: str
-                choices:
-                    - 'log'
-                    - 'fortiview'
-                    - 'alert'
-                    - 'ueba'
-                    - 'all'
+                choices: ['log', 'fortiview', 'alert', 'ueba', 'all']
             field_name:
+                aliases: ['field-name']
                 type: str
                 description: Field name.
             field_status:
+                aliases: ['field-status']
                 type: str
                 description:
                  - Field status.
                  - disable - Disable field.
                  - enable - Enable field.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             field_type:
+                aliases: ['field-type']
                 type: str
                 description:
                  - Field type.
@@ -140,12 +137,7 @@ options:
                  - mac - MAC address.
                  - email - Email address.
                  - unknown - Unknown.
-                choices:
-                    - 'string'
-                    - 'ip'
-                    - 'mac'
-                    - 'email'
-                    - 'unknown'
+                choices: ['string', 'ip', 'mac', 'email', 'unknown']
 '''
 
 EXAMPLES = '''

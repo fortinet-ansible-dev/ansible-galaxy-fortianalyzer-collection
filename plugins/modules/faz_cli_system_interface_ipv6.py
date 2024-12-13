@@ -96,9 +96,11 @@ options:
         type: dict
         suboptions:
             ip6_address:
+                aliases: ['ip6-address']
                 type: str
                 description: IPv6 address/prefix of interface.
             ip6_allowaccess:
+                aliases: ['ip6-allowaccess']
                 description:
                  - Allow management access to interface.
                  - ping - PING access.
@@ -111,25 +113,15 @@ options:
                  - https-logging - Logging over HTTPS access.
                 type: list
                 elements: str
-                choices:
-                    - 'ping'
-                    - 'https'
-                    - 'ssh'
-                    - 'snmp'
-                    - 'http'
-                    - 'webservice'
-                    - 'fgfm'
-                    - 'https-logging'
-                    - 'fabric'
+                choices: ['ping', 'https', 'ssh', 'snmp', 'http', 'webservice', 'fgfm', 'https-logging', 'fabric']
             ip6_autoconf:
+                aliases: ['ip6-autoconf']
                 type: str
                 description:
                  - Enable/disable address auto config
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''

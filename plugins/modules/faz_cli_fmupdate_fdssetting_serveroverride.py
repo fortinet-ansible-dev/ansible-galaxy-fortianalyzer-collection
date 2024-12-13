@@ -109,24 +109,20 @@ options:
                         type: int
                         description: Port number to use when contacting FortiGuard
                     service_type:
+                        aliases: ['service-type']
                         type: str
                         description:
                          - Override service type.
                          - fct - Server override config for fct
                          - fds - Server override config for fds
-                        choices:
-                            - 'fct'
-                            - 'fds'
-                            - 'fai'
+                        choices: ['fct', 'fds', 'fai']
             status:
                 type: str
                 description:
                  - Override status.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''

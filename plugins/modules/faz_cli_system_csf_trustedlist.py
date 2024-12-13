@@ -105,31 +105,28 @@ options:
                  - Security fabric authorization action.
                  - accept - Accept authorization request.
                  - deny - Deny authorization request.
-                choices:
-                    - 'accept'
-                    - 'deny'
+                choices: ['accept', 'deny']
             authorization_type:
+                aliases: ['authorization-type']
                 type: str
                 description:
                  - Authorization type.
                  - serial - Verify downstream by serial number.
                  - certificate - Verify downstream by certificate.
-                choices:
-                    - 'serial'
-                    - 'certificate'
+                choices: ['serial', 'certificate']
             certificate:
                 type: str
                 description: Certificate.
             downstream_authorization:
+                aliases: ['downstream-authorization']
                 type: str
                 description:
                  - Trust authorizations by this nodes administrator.
                  - disable - Disable downstream authorization.
                  - enable - Enable downstream authorization.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             ha_members:
+                aliases: ['ha-members']
                 type: str
                 description: HA members.
             index:

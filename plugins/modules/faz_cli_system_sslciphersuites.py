@@ -111,9 +111,7 @@ options:
                  - SSL/TLS version the cipher suite can be used with.
                  - tls1.2-or-below - TLS 1.2 or below.
                  - tls1.3 - TLS 1.3
-                choices:
-                    - 'tls1.2-or-below'
-                    - 'tls1.3'
+                choices: ['tls1.2-or-below', 'tls1.3']
 '''
 
 EXAMPLES = '''
@@ -203,11 +201,11 @@ def main():
         'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},
         'cli_system_sslciphersuites': {
             'type': 'dict',
-            'v_range': [['6.4.8', '6.4.14'], ['7.0.2', '']],
+            'v_range': [['6.4.8', '6.4.15'], ['7.0.2', '']],
             'options': {
-                'cipher': {'v_range': [['6.4.8', '6.4.14'], ['7.0.2', '']], 'type': 'str'},
-                'priority': {'v_range': [['6.4.8', '6.4.14'], ['7.0.2', '']], 'type': 'int'},
-                'version': {'v_range': [['6.4.8', '6.4.14'], ['7.0.2', '']], 'choices': ['tls1.2-or-below', 'tls1.3'], 'type': 'str'}
+                'cipher': {'v_range': [['6.4.8', '6.4.15'], ['7.0.2', '']], 'type': 'str'},
+                'priority': {'v_range': [['6.4.8', '6.4.15'], ['7.0.2', '']], 'type': 'int'},
+                'version': {'v_range': [['6.4.8', '6.4.15'], ['7.0.2', '']], 'choices': ['tls1.2-or-below', 'tls1.3'], 'type': 'str'}
             }
         }
     }

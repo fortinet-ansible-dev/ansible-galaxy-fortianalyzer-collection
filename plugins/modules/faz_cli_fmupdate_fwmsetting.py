@@ -92,61 +92,58 @@ options:
         type: dict
         suboptions:
             auto_scan_fgt_disk:
+                aliases: ['auto-scan-fgt-disk']
                 type: str
                 description:
                  - auto scan fgt disk if needed.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             check_fgt_disk:
+                aliases: ['check-fgt-disk']
                 type: str
                 description:
                  - check fgt disk before upgrade image.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             fds_failover_fmg:
+                aliases: ['fds-failover-fmg']
                 type: str
                 description:
                  - using fmg local image file is download from fds fails.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             fds_image_timeout:
+                aliases: ['fds-image-timeout']
                 type: int
                 description: timer for fgt download image from fortiguard
             multiple_steps_interval:
+                aliases: ['multiple-steps-interval']
                 type: int
                 description: waiting time between multiple steps upgrade
             max_fds_retry:
+                aliases: ['max-fds-retry']
                 type: int
                 description: The retries when fgt download from fds fail
             skip_disk_check:
+                aliases: ['skip-disk-check']
                 type: str
                 description:
                  - skip disk check when upgrade image.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             immx_source:
+                aliases: ['immx-source']
                 type: str
                 description:
                  - Configure which of IMMX file to be used for choosing upgrade pach.
                  - fmg - Use IMMX file for FortiManager
                  - fgt - Use IMMX file for FortiGate
                  - cloud - Use IMMX file for FortiCloud
-                choices:
-                    - 'fmg'
-                    - 'fgt'
-                    - 'cloud'
+                choices: ['fmg', 'fgt', 'cloud']
             log:
                 type: str
                 description:
@@ -154,78 +151,94 @@ options:
                  - fwm - FWM daemon log
                  - fwm_dm - FWM and Deployment service log
                  - fwm_dm_json - FWM and Deployment service log with JSON data between FMG-FGT
-                choices:
-                    - 'fwm'
-                    - 'fwm_dm'
-                    - 'fwm_dm_json'
+                choices: ['fwm', 'fwm_dm', 'fwm_dm_json']
             upgrade_timeout:
+                aliases: ['upgrade-timeout']
                 description: no description
                 type: dict
                 suboptions:
                     check_status_timeout:
+                        aliases: ['check-status-timeout']
                         type: int
                         description: timeout for checking status after tunnnel is up.
                     ctrl_check_status_timeout:
+                        aliases: ['ctrl-check-status-timeout']
                         type: int
                         description: timeout for checking fap/fsw/fext status after request upgrade.
                     ctrl_put_image_by_fds_timeout:
+                        aliases: ['ctrl-put-image-by-fds-timeout']
                         type: int
                         description: timeout for waiting device get fap/fsw/fext image from fortiguard.
                     ha_sync_timeout:
+                        aliases: ['ha-sync-timeout']
                         type: int
                         description: timeout for waiting HA sync.
                     license_check_timeout:
+                        aliases: ['license-check-timeout']
                         type: int
                         description: timeout for waiting fortigate check license.
                     prepare_image_timeout:
+                        aliases: ['prepare-image-timeout']
                         type: int
                         description: timeout for preparing image.
                     put_image_by_fds_timeout:
+                        aliases: ['put-image-by-fds-timeout']
                         type: int
                         description: timeout for waiting device get image from fortiguard.
                     put_image_timeout:
+                        aliases: ['put-image-timeout']
                         type: int
                         description: timeout for waiting send image over tunnel.
                     reboot_of_fsck_timeout:
+                        aliases: ['reboot-of-fsck-timeout']
                         type: int
                         description: timeout for waiting fortigate reboot.
                     reboot_of_upgrade_timeout:
+                        aliases: ['reboot-of-upgrade-timeout']
                         type: int
                         description: timeout for waiting fortigate reboot after image upgrade.
                     retrieve_timeout:
+                        aliases: ['retrieve-timeout']
                         type: int
                         description: timeout for waiting retrieve.
                     rpc_timeout:
+                        aliases: ['rpc-timeout']
                         type: int
                         description: timeout for waiting fortigate rpc response.
                     total_timeout:
+                        aliases: ['total-timeout']
                         type: int
                         description: timeout for the whole fortigate upgrade
                     health_check_timeout:
+                        aliases: ['health-check-timeout']
                         type: int
                         description: timeout for waiting retrieve.
             retry_interval:
+                aliases: ['retry-interval']
                 type: int
                 description: waiting time for resending request to device
             retry_max:
+                aliases: ['retry-max']
                 type: int
                 description: max retry times
             send_image_retry:
+                aliases: ['send-image-retry']
                 type: int
                 description: retry send image when failed
             health_check:
+                aliases: ['health-check']
                 type: str
                 description:
                  - do health check after upgrade
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             max_device_history:
+                aliases: ['max-device-history']
                 type: int
                 description: max number of device upgrade report
             max_profile_history:
+                aliases: ['max-profile-history']
                 type: int
                 description: max number of profile upgrade report
             retrieve:
@@ -234,18 +247,15 @@ options:
                  - do retrieve after upgrade
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             revision_diff:
+                aliases: ['revision-diff']
                 type: str
                 description:
                  - calculate diff script after upgrade
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''
@@ -345,30 +355,30 @@ def main():
                 'max-fds-retry': {'v_range': [['6.2.2', '6.2.3']], 'type': 'int'},
                 'skip-disk-check': {'v_range': [['6.2.2', '6.2.3']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'immx-source': {'v_range': [['6.4.2', '']], 'choices': ['fmg', 'fgt', 'cloud'], 'type': 'str'},
-                'log': {'v_range': [['6.4.8', '6.4.14'], ['7.0.1', '']], 'choices': ['fwm', 'fwm_dm', 'fwm_dm_json'], 'type': 'str'},
+                'log': {'v_range': [['6.4.8', '6.4.15'], ['7.0.1', '']], 'choices': ['fwm', 'fwm_dm', 'fwm_dm_json'], 'type': 'str'},
                 'upgrade-timeout': {
-                    'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']],
+                    'v_range': [['7.0.5', '7.0.13'], ['7.2.2', '']],
                     'type': 'dict',
                     'options': {
-                        'check-status-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
-                        'ctrl-check-status-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
-                        'ctrl-put-image-by-fds-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
-                        'ha-sync-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
-                        'license-check-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
-                        'prepare-image-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
-                        'put-image-by-fds-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
-                        'put-image-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
-                        'reboot-of-fsck-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
-                        'reboot-of-upgrade-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
-                        'retrieve-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
-                        'rpc-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
-                        'total-timeout': {'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']], 'type': 'int'},
+                        'check-status-timeout': {'v_range': [['7.0.5', '7.0.13'], ['7.2.2', '']], 'type': 'int'},
+                        'ctrl-check-status-timeout': {'v_range': [['7.0.5', '7.0.13'], ['7.2.2', '']], 'type': 'int'},
+                        'ctrl-put-image-by-fds-timeout': {'v_range': [['7.0.5', '7.0.13'], ['7.2.2', '']], 'type': 'int'},
+                        'ha-sync-timeout': {'v_range': [['7.0.5', '7.0.13'], ['7.2.2', '']], 'type': 'int'},
+                        'license-check-timeout': {'v_range': [['7.0.5', '7.0.13'], ['7.2.2', '']], 'type': 'int'},
+                        'prepare-image-timeout': {'v_range': [['7.0.5', '7.0.13'], ['7.2.2', '']], 'type': 'int'},
+                        'put-image-by-fds-timeout': {'v_range': [['7.0.5', '7.0.13'], ['7.2.2', '']], 'type': 'int'},
+                        'put-image-timeout': {'v_range': [['7.0.5', '7.0.13'], ['7.2.2', '']], 'type': 'int'},
+                        'reboot-of-fsck-timeout': {'v_range': [['7.0.5', '7.0.13'], ['7.2.2', '']], 'type': 'int'},
+                        'reboot-of-upgrade-timeout': {'v_range': [['7.0.5', '7.0.13'], ['7.2.2', '']], 'type': 'int'},
+                        'retrieve-timeout': {'v_range': [['7.0.5', '7.0.13'], ['7.2.2', '']], 'type': 'int'},
+                        'rpc-timeout': {'v_range': [['7.0.5', '7.0.13'], ['7.2.2', '']], 'type': 'int'},
+                        'total-timeout': {'v_range': [['7.0.5', '7.0.13'], ['7.2.2', '']], 'type': 'int'},
                         'health-check-timeout': {'v_range': [['7.4.2', '']], 'type': 'int'}
                     }
                 },
-                'retry-interval': {'v_range': [['7.0.10', '7.0.12'], ['7.2.5', '7.2.7'], ['7.4.2', '']], 'type': 'int'},
-                'retry-max': {'v_range': [['7.0.10', '7.0.12'], ['7.2.5', '7.2.7'], ['7.4.2', '']], 'type': 'int'},
-                'send-image-retry': {'v_range': [['7.2.6', '7.2.7']], 'type': 'int'},
+                'retry-interval': {'v_range': [['7.0.10', '7.0.13'], ['7.2.5', '7.2.8'], ['7.4.2', '']], 'type': 'int'},
+                'retry-max': {'v_range': [['7.0.10', '7.0.13'], ['7.2.5', '7.2.8'], ['7.4.2', '']], 'type': 'int'},
+                'send-image-retry': {'v_range': [['7.2.6', '7.2.8'], ['7.4.4', '7.4.5']], 'type': 'int'},
                 'health-check': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'max-device-history': {'v_range': [['7.4.2', '']], 'type': 'int'},
                 'max-profile-history': {'v_range': [['7.4.2', '']], 'type': 'int'},

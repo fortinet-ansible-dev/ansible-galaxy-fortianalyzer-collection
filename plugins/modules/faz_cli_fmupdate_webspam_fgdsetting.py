@@ -92,110 +92,103 @@ options:
         type: dict
         suboptions:
             as_cache:
+                aliases: ['as-cache']
                 type: int
                 description: Antispam service maximum memory usage in megabytes
             as_log:
+                aliases: ['as-log']
                 type: str
                 description:
                  - Antispam log setting
                  - disable - Disable spam log.
                  - nospam - Log non-spam events.
                  - all - Log all spam lookups.
-                choices:
-                    - 'disable'
-                    - 'nospam'
-                    - 'all'
+                choices: ['disable', 'nospam', 'all']
             as_preload:
+                aliases: ['as-preload']
                 type: str
                 description:
                  - Enable/disable preloading antispam database to memory
                  - disable - Disable antispam database preload.
                  - enable - Enable antispam database preload.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             av_cache:
+                aliases: ['av-cache']
                 type: int
                 description: Antivirus service maximum memory usage, in megabytes
             av_log:
+                aliases: ['av-log']
                 type: str
                 description:
                  - Antivirus log setting
                  - disable - Disable virus log.
                  - novirus - Log non-virus events.
                  - all - Log all virus lookups.
-                choices:
-                    - 'disable'
-                    - 'novirus'
-                    - 'all'
+                choices: ['disable', 'novirus', 'all']
             av_preload:
+                aliases: ['av-preload']
                 type: str
                 description:
                  - Enable/disable preloading antivirus database to memory
                  - disable - Disable antivirus database preload.
                  - enable - Enable antivirus database preload.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             av2_cache:
+                aliases: ['av2-cache']
                 type: int
                 description: Antispam service maximum memory usage in megabytes
             av2_log:
+                aliases: ['av2-log']
                 type: str
                 description:
                  - Outbreak prevention log setting
                  - disable - Disable av2 log.
                  - noav2 - Log non-av2 events.
                  - all - Log all av2 lookups.
-                choices:
-                    - 'disable'
-                    - 'noav2'
-                    - 'all'
+                choices: ['disable', 'noav2', 'all']
             av2_preload:
+                aliases: ['av2-preload']
                 type: str
                 description:
                  - Enable/disable preloading outbreak prevention database to memory
                  - disable - Disable outbreak prevention database preload.
                  - enable - Enable outbreak prevention database preload.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             eventlog_query:
+                aliases: ['eventlog-query']
                 type: str
                 description:
                  - Enable/disable record query to event-log besides fgd-log
                  - disable - Record query to event-log besides fgd-log.
                  - enable - Do not log to event-log.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             fgd_pull_interval:
+                aliases: ['fgd-pull-interval']
                 type: int
                 description: Fgd pull interval setting, in minutes
             fq_cache:
+                aliases: ['fq-cache']
                 type: int
                 description: File query service maximum memory usage, in megabytes
             fq_log:
+                aliases: ['fq-log']
                 type: str
                 description:
                  - File query log setting
                  - disable - Disable file query log.
                  - nofilequery - Log non-file query events.
                  - all - Log all file query events.
-                choices:
-                    - 'disable'
-                    - 'nofilequery'
-                    - 'all'
+                choices: ['disable', 'nofilequery', 'all']
             fq_preload:
+                aliases: ['fq-preload']
                 type: str
                 description:
                  - Enable/disable preloading file query database to memory
                  - disable - Disable file query db preload.
                  - enable - Enable file query db preload.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             linkd_log:
+                aliases: ['linkd-log']
                 type: str
                 description:
                  - Linkd log setting
@@ -208,47 +201,49 @@ options:
                  - info - General information.
                  - debug - Debug information.
                  - disable - Linkd logging is disabled.
-                choices:
-                    - 'emergency'
-                    - 'alert'
-                    - 'critical'
-                    - 'error'
-                    - 'warn'
-                    - 'notice'
-                    - 'info'
-                    - 'debug'
-                    - 'disable'
+                choices: ['emergency', 'alert', 'critical', 'error', 'warn', 'notice', 'info', 'debug', 'disable']
             max_client_worker:
+                aliases: ['max-client-worker']
                 type: int
                 description: max worker for tcp client connection
             max_log_quota:
+                aliases: ['max-log-quota']
                 type: int
                 description: Maximum log quota setting, in megabytes
             max_unrated_site:
+                aliases: ['max-unrated-site']
                 type: int
                 description: Maximum number of unrated site in memory, in kilobytes
             restrict_as1_dbver:
+                aliases: ['restrict-as1-dbver']
                 type: str
                 description: Restrict system update to indicated antispam
             restrict_as2_dbver:
+                aliases: ['restrict-as2-dbver']
                 type: str
                 description: Restrict system update to indicated antispam
             restrict_as4_dbver:
+                aliases: ['restrict-as4-dbver']
                 type: str
                 description: Restrict system update to indicated antispam
             restrict_av_dbver:
+                aliases: ['restrict-av-dbver']
                 type: str
                 description: Restrict system update to indicated antivirus database version
             restrict_av2_dbver:
+                aliases: ['restrict-av2-dbver']
                 type: str
                 description: Restrict system update to indicated outbreak prevention database version
             restrict_fq_dbver:
+                aliases: ['restrict-fq-dbver']
                 type: str
                 description: Restrict system update to indicated file query database version
             restrict_wf_dbver:
+                aliases: ['restrict-wf-dbver']
                 type: str
                 description: Restrict system update to indicated web filter database version
             server_override:
+                aliases: ['server-override']
                 description: no description
                 type: dict
                 suboptions:
@@ -270,103 +265,97 @@ options:
                                 type: int
                                 description: Port number to use when contacting FortiGuard
                             service_type:
+                                aliases: ['service-type']
                                 type: str
                                 description:
                                  - Override service type.
                                  - fgd - Server override config for fgd
                                  - fgc - Server override config for fgc
                                  - fsa - Server override config for fsa
-                                choices:
-                                    - 'fgd'
-                                    - 'fgc'
-                                    - 'fsa'
-                                    - 'fgfq'
-                                    - 'geoip'
-                                    - 'iot-collect'
+                                choices: ['fgd', 'fgc', 'fsa', 'fgfq', 'geoip', 'iot-collect']
                     status:
                         type: str
                         description:
                          - Override status.
                          - disable - Disable setting.
                          - enable - Enable setting.
-                        choices:
-                            - 'disable'
-                            - 'enable'
+                        choices: ['disable', 'enable']
             stat_log_interval:
+                aliases: ['stat-log-interval']
                 type: int
                 description: Statistic log interval setting, in minutes
             stat_sync_interval:
+                aliases: ['stat-sync-interval']
                 type: int
                 description: Synchronization interval for statistic of unrated site in minutes
             update_interval:
+                aliases: ['update-interval']
                 type: int
                 description: FortiGuard database update wait time if not enough delta files, in hours
             update_log:
+                aliases: ['update-log']
                 type: str
                 description:
                  - Enable/disable update log setting
                  - disable - Disable update log.
                  - enable - Enable update log.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             wf_cache:
+                aliases: ['wf-cache']
                 type: int
                 description: Web filter service maximum memory usage, in megabytes
             wf_dn_cache_expire_time:
+                aliases: ['wf-dn-cache-expire-time']
                 type: int
                 description: Web filter DN cache expire time, in minutes
             wf_dn_cache_max_number:
+                aliases: ['wf-dn-cache-max-number']
                 type: int
                 description: Maximum number of Web filter DN cache
             wf_log:
+                aliases: ['wf-log']
                 type: str
                 description:
                  - Web filter log setting
                  - disable - Disable URL log.
                  - nourl - Log non-URL events.
                  - all - Log all URL lookups.
-                choices:
-                    - 'disable'
-                    - 'nourl'
-                    - 'all'
+                choices: ['disable', 'nourl', 'all']
             wf_preload:
+                aliases: ['wf-preload']
                 type: str
                 description:
                  - Enable/disable preloading the web filter database into memory
                  - disable - Disable web filter database preload.
                  - enable - Enable web filter database preload.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             iot_cache:
+                aliases: ['iot-cache']
                 type: int
                 description: IoT service maximum memory usage, in megabytes
             iot_log:
+                aliases: ['iot-log']
                 type: str
                 description:
                  - IoT log setting
                  - disable - Disable IoT log.
                  - nofilequery - Log non-IoT events.
                  - all - Log all IoT events.
-                choices:
-                    - 'disable'
-                    - 'nofilequery'
-                    - 'all'
-                    - 'noiot'
+                choices: ['disable', 'nofilequery', 'all', 'noiot']
             iot_preload:
+                aliases: ['iot-preload']
                 type: str
                 description:
                  - Enable/disable preloading IoT database to memory
                  - disable - Disable IoT db preload.
                  - enable - Enable IoT db preload.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             restrict_iots_dbver:
+                aliases: ['restrict-iots-dbver']
                 type: str
                 description: Restrict system update to indicated file query database version
             stat_log:
+                aliases: ['stat-log']
                 type: str
                 description:
                  - stat log setting
@@ -379,25 +368,15 @@ options:
                  - info - General information
                  - debug - Debug information
                  - disable - Linkd logging is disabled.
-                choices:
-                    - 'emergency'
-                    - 'alert'
-                    - 'critical'
-                    - 'error'
-                    - 'warn'
-                    - 'notice'
-                    - 'info'
-                    - 'debug'
-                    - 'disable'
+                choices: ['emergency', 'alert', 'critical', 'error', 'warn', 'notice', 'info', 'debug', 'disable']
             iotv_preload:
+                aliases: ['iotv-preload']
                 type: str
                 description:
                  - Enable/disable preloading IoT-Vulnerability database to memory
                  - disable - Disable IoT-Vulnerability db preload.
                  - enable - Enable IoT-Vulnerability db preload.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''
@@ -539,12 +518,12 @@ def main():
                 'wf-dn-cache-max-number': {'type': 'int'},
                 'wf-log': {'choices': ['disable', 'nourl', 'all'], 'type': 'str'},
                 'wf-preload': {'choices': ['disable', 'enable'], 'type': 'str'},
-                'iot-cache': {'v_range': [['6.4.6', '6.4.14'], ['7.0.1', '']], 'type': 'int'},
-                'iot-log': {'v_range': [['6.4.6', '6.4.14'], ['7.0.1', '']], 'choices': ['disable', 'nofilequery', 'all', 'noiot'], 'type': 'str'},
-                'iot-preload': {'v_range': [['6.4.6', '6.4.14'], ['7.0.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'restrict-iots-dbver': {'v_range': [['6.4.6', '6.4.14'], ['7.0.1', '']], 'type': 'str'},
+                'iot-cache': {'v_range': [['6.4.6', '6.4.15'], ['7.0.1', '']], 'type': 'int'},
+                'iot-log': {'v_range': [['6.4.6', '6.4.15'], ['7.0.1', '']], 'choices': ['disable', 'nofilequery', 'all', 'noiot'], 'type': 'str'},
+                'iot-preload': {'v_range': [['6.4.6', '6.4.15'], ['7.0.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'restrict-iots-dbver': {'v_range': [['6.4.6', '6.4.15'], ['7.0.1', '']], 'type': 'str'},
                 'stat-log': {
-                    'v_range': [['7.0.10', '7.0.12'], ['7.2.5', '7.2.7'], ['7.4.2', '']],
+                    'v_range': [['7.0.10', '7.0.13'], ['7.2.5', '7.2.8'], ['7.4.2', '']],
                     'choices': ['emergency', 'alert', 'critical', 'error', 'warn', 'notice', 'info', 'debug', 'disable'],
                     'type': 'str'
                 },

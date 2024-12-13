@@ -271,3 +271,64 @@ releases:
         name: faz_cli_system_admin_user_policyblock
         namespace: ""
     release_date: "2024-09-27"
+  1.8.0:
+    changes:
+      bugfixes:
+        - Supported all sanity tests of ansible-core 2.18.0
+      minor_changes:
+        - Added 16 eventmgmt modules.
+        - Supported FortiAnalyzer 6.2.13, 6.4.15, 7.0.13, 7.2.8, 7.4.4, 7.4.5, 7.6.1
+          API schemas.
+      release_summary: Release fortinet.fortianalyzer 1.8.0
+    fragments:
+      - 1.8.0.yml
+    modules:
+      - description: Acknowledge alert events.
+        name: faz_eventmgmt_alerts_ack
+        namespace: ""
+      - description: Assign alert events
+        name: faz_eventmgmt_alerts_assign
+        namespace: ""
+      - description: Handle alert comments.
+        name: faz_eventmgmt_alerts_comment
+        namespace: ""
+      - description: Import basic handlers.
+        name: faz_eventmgmt_alerts_import
+        namespace: ""
+      - description: Mark a specific alert event as read.
+        name: faz_eventmgmt_alerts_read
+        namespace: ""
+      - description: Unacknowledge alert events.
+        name: faz_eventmgmt_alerts_unack
+        namespace: ""
+      - description: Import basic handlers.
+        name: faz_eventmgmt_basichandlers_import
+        namespace: ""
+      - description: Config basic-handler.
+        name: faz_eventmgmt_config_basichandler
+        namespace: ""
+      - description: Config correlation-handler.
+        name: faz_eventmgmt_config_correlationhandler
+        namespace: ""
+      - description: Config data-selector.
+        name: faz_eventmgmt_config_dataselector
+        namespace: ""
+      - description: Config notification-profile.
+        name: faz_eventmgmt_config_notificationprofile
+        namespace: ""
+      - description: trigger
+        name: faz_eventmgmt_config_trigger
+        namespace: ""
+      - description: device
+        name: faz_eventmgmt_config_trigger_device
+        namespace: ""
+      - description: filter
+        name: faz_eventmgmt_config_trigger_filter
+        namespace: ""
+      - description: rule
+        name: faz_eventmgmt_config_trigger_filter_rule
+        namespace: ""
+      - description: Import correlation handlers.
+        name: faz_eventmgmt_correlationhandlers_import
+        namespace: ""
+    release_date: "2024-12-13"

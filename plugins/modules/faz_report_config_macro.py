@@ -107,6 +107,7 @@ options:
                 type: str
                 description: no description
             dev_type:
+                aliases: ['dev-type']
                 type: str
                 description: no description
                 choices:
@@ -126,21 +127,19 @@ options:
                     - 'FortiGate'
                     - 'FortiFirewall'
             disp_name:
+                aliases: ['disp-name']
                 type: str
                 description: no description
             name:
                 type: str
                 description: no description
             data_attr:
+                aliases: ['data-attr']
                 type: str
                 description: no description
-                choices:
-                    - 'count'
-                    - 'none'
-                    - 'percent'
-                    - 'bandwidth'
-                    - 'timespan'
+                choices: ['count', 'none', 'percent', 'bandwidth', 'timespan']
             data_binding:
+                aliases: ['data-binding']
                 type: str
                 description: no description
             dataset:
@@ -149,10 +148,9 @@ options:
             protected:
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             chart_style:
+                aliases: ['chart-style']
                 type: str
                 description: no description
 '''
@@ -266,13 +264,13 @@ def main():
                 'disp-name': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
                 'name': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
                 'data-attr': {
-                    'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']],
+                    'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']],
                     'choices': ['count', 'none', 'percent', 'bandwidth', 'timespan'],
                     'type': 'str'
                 },
-                'data-binding': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'dataset': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'protected': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'data-binding': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'dataset': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'protected': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
                 'chart-style': {'v_range': [['7.4.3', '']], 'type': 'str'}
             }
         }

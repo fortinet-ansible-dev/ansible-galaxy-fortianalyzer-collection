@@ -92,9 +92,11 @@ options:
         type: dict
         suboptions:
             max_depth:
+                aliases: ['max-depth']
                 type: int
                 description: Maximum descend levels below this device.
             max_depth_share:
+                aliases: ['max-depth-share']
                 type: int
                 description: Maximum descend levels below this device to share with upstream.
 '''
@@ -183,10 +185,10 @@ def main():
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_system_log_topology': {
             'type': 'dict',
-            'v_range': [['6.4.7', '6.4.14'], ['7.0.2', '']],
+            'v_range': [['6.4.7', '6.4.15'], ['7.0.2', '']],
             'options': {
-                'max-depth': {'v_range': [['6.4.7', '6.4.14'], ['7.0.2', '']], 'type': 'int'},
-                'max-depth-share': {'v_range': [['6.4.7', '6.4.14'], ['7.0.2', '']], 'type': 'int'}
+                'max-depth': {'v_range': [['6.4.7', '6.4.15'], ['7.0.2', '']], 'type': 'int'},
+                'max-depth-share': {'v_range': [['6.4.7', '6.4.15'], ['7.0.2', '']], 'type': 'int'}
             }
         }
     }

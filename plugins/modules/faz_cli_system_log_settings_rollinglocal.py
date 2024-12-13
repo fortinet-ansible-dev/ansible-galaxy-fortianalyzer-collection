@@ -103,38 +103,30 @@ options:
                  - sat - Saturday.
                 type: list
                 elements: str
-                choices:
-                    - 'sun'
-                    - 'mon'
-                    - 'tue'
-                    - 'wed'
-                    - 'thu'
-                    - 'fri'
-                    - 'sat'
+                choices: ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
             del_files:
+                aliases: ['del-files']
                 type: str
                 description:
                  - Enable/disable log file deletion after uploading.
                  - disable - Disable log file deletion.
                  - enable - Enable log file deletion.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             directory:
                 type: str
                 description: Upload server directory, for Unix server, use absolute
             file_size:
+                aliases: ['file-size']
                 type: int
                 description: Roll log files when they reach this size
             gzip_format:
+                aliases: ['gzip-format']
                 type: str
                 description:
                  - Enable/disable compression of uploaded log files.
                  - disable - Disable compression.
                  - enable - Enable compression.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             hour:
                 type: int
                 description: Log files rolling schedule
@@ -148,16 +140,14 @@ options:
                 type: str
                 description: Upload server IP3 address.
             log_format:
+                aliases: ['log-format']
                 type: str
                 description:
                  - Format of uploaded log files.
                  - native - Native format
                  - text - Text format
                  - csv - CSV
-                choices:
-                    - 'native'
-                    - 'text'
-                    - 'csv'
+                choices: ['native', 'text', 'csv']
             min:
                 type: int
                 description: Log files rolling schedule
@@ -180,46 +170,41 @@ options:
                 type: int
                 description: Upload server IP3 port number.
             server_type:
+                aliases: ['server-type']
                 type: str
                 description:
                  - Upload server type.
                  - ftp - Upload via FTP.
                  - sftp - Upload via SFTP.
                  - scp - Upload via SCP.
-                choices:
-                    - 'ftp'
-                    - 'sftp'
-                    - 'scp'
+                choices: ['ftp', 'sftp', 'scp']
             upload:
                 type: str
                 description:
                  - Enable/disable log file uploads.
                  - disable - Disable log files uploading.
                  - enable - Enable log files uploading.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             upload_hour:
+                aliases: ['upload-hour']
                 type: int
                 description: Log files upload schedule
             upload_mode:
+                aliases: ['upload-mode']
                 type: str
                 description:
                  - Upload mode with multiple servers.
                  - backup - Servers are attempted and used one after the other upon failure to connect.
                  - mirror - All configured servers are attempted and used.
-                choices:
-                    - 'backup'
-                    - 'mirror'
+                choices: ['backup', 'mirror']
             upload_trigger:
+                aliases: ['upload-trigger']
                 type: str
                 description:
                  - Event triggering log files upload.
                  - on-roll - Upload log files after they are rolled.
                  - on-schedule - Upload log files daily.
-                choices:
-                    - 'on-roll'
-                    - 'on-schedule'
+                choices: ['on-roll', 'on-schedule']
             username:
                 type: str
                 description: Upload server login username.
@@ -236,11 +221,9 @@ options:
                  - none - Do not roll log files periodically.
                  - daily - Roll log files daily.
                  - weekly - Roll log files on certain days of week.
-                choices:
-                    - 'none'
-                    - 'daily'
-                    - 'weekly'
+                choices: ['none', 'daily', 'weekly']
             rolling_upgrade_status:
+                aliases: ['rolling-upgrade-status']
                 type: int
                 description: rolling upgrade status
             server:
@@ -352,9 +335,9 @@ def main():
                 'file-size': {'type': 'int'},
                 'gzip-format': {'choices': ['disable', 'enable'], 'type': 'str'},
                 'hour': {'type': 'int'},
-                'ip': {'v_range': [['6.2.1', '7.0.12']], 'type': 'str'},
-                'ip2': {'v_range': [['6.2.1', '7.0.12']], 'type': 'str'},
-                'ip3': {'v_range': [['6.2.1', '7.0.12']], 'type': 'str'},
+                'ip': {'v_range': [['6.2.1', '7.0.13']], 'type': 'str'},
+                'ip2': {'v_range': [['6.2.1', '7.0.13']], 'type': 'str'},
+                'ip3': {'v_range': [['6.2.1', '7.0.13']], 'type': 'str'},
                 'log-format': {'choices': ['native', 'text', 'csv'], 'type': 'str'},
                 'min': {'type': 'int'},
                 'password': {'no_log': True, 'type': 'str'},

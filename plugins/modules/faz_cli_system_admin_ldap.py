@@ -105,21 +105,25 @@ options:
                 elements: dict
                 suboptions:
                     adom_name:
+                        aliases: ['adom-name']
                         type: str
                         description: Admin domain names.
             adom_attr:
+                aliases: ['adom-attr']
                 type: str
                 description: Attribute used to retrieve adom
             attributes:
                 type: str
                 description: Attributes used for group searching.
             ca_cert:
+                aliases: ['ca-cert']
                 type: str
                 description: CA certificate name.
             cnid:
                 type: str
                 description: Common Name Identifier
             connect_timeout:
+                aliases: ['connect-timeout']
                 type: int
                 description: LDAP connection timeout
             dn:
@@ -132,6 +136,7 @@ options:
                 type: str
                 description: Full base DN used for group searching.
             memberof_attr:
+                aliases: ['memberof-attr']
                 type: str
                 description: Attribute used to retrieve memeberof.
             name:
@@ -144,9 +149,11 @@ options:
                 type: int
                 description: Port number of LDAP server
             profile_attr:
+                aliases: ['profile-attr']
                 type: str
                 description: Attribute used to retrieve admin profile.
             secondary_server:
+                aliases: ['secondary-server']
                 type: str
                 description: no description
             secure:
@@ -156,14 +163,12 @@ options:
                  - disable - No SSL.
                  - starttls - Use StartTLS.
                  - ldaps - Use LDAPS.
-                choices:
-                    - 'disable'
-                    - 'starttls'
-                    - 'ldaps'
+                choices: ['disable', 'starttls', 'ldaps']
             server:
                 type: str
                 description: no description
             tertiary_server:
+                aliases: ['tertiary-server']
                 type: str
                 description: no description
             type:
@@ -173,22 +178,30 @@ options:
                  - simple - Simple password authentication without search.
                  - anonymous - Bind using anonymous user search.
                  - regular - Bind using username/password and then search.
-                choices:
-                    - 'simple'
-                    - 'anonymous'
-                    - 'regular'
+                choices: ['simple', 'anonymous', 'regular']
             username:
                 type: str
                 description: Username
             adom_access:
+                aliases: ['adom-access']
                 type: str
                 description:
                  - set all or specify adom access type.
                  - all - All ADOMs access.
                  - specify - Specify ADOMs access.
-                choices:
-                    - 'all'
-                    - 'specify'
+                choices: ['all', 'specify']
+            ssl_protocol:
+                aliases: ['ssl-protocol']
+                type: str
+                description:
+                 - set the lowest SSL protocol version for connection to ldap server.
+                 - follow-global-ssl-protocol - Follow system.global.global-ssl-protocol setting
+                 - sslv3 - set SSLv3 as the lowest version.
+                 - tlsv1.0 - set TLSv1.0 as the lowest version.
+                 - tlsv1.1 - set TLSv1.1 as the lowest version.
+                 - tlsv1.2 - set TLSv1.2 as the lowest version.
+                 - tlsv1.3 - set TLSv1.3 as the lowest version.
+                choices: ['follow-global-ssl-protocol', 'sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3']
 '''
 
 EXAMPLES = '''
@@ -300,7 +313,12 @@ def main():
                 'tertiary-server': {'type': 'str'},
                 'type': {'choices': ['simple', 'anonymous', 'regular'], 'type': 'str'},
                 'username': {'type': 'str'},
-                'adom-access': {'v_range': [['7.0.3', '']], 'choices': ['all', 'specify'], 'type': 'str'}
+                'adom-access': {'v_range': [['7.0.3', '']], 'choices': ['all', 'specify'], 'type': 'str'},
+                'ssl-protocol': {
+                    'v_range': [['7.4.4', '7.4.5']],
+                    'choices': ['follow-global-ssl-protocol', 'sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3'],
+                    'type': 'str'
+                }
             }
         }
     }

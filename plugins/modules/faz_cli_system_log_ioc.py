@@ -97,36 +97,34 @@ options:
                  - Disable/Enable IoC notification.
                  - disable - Disable IoC feature.
                  - enable - Enable IoC feature.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             notification_throttle:
+                aliases: ['notification-throttle']
                 type: int
                 description: Minute value for throttling the rate of IoC notifications.
             rescan_max_runner:
+                aliases: ['rescan-max-runner']
                 type: int
                 description: Max count of cocurrent runner of IoC rescan.
             rescan_run_at:
+                aliases: ['rescan-run-at']
                 type: int
                 description: When to run IoC rescan.
             rescan_status:
+                aliases: ['rescan-status']
                 type: str
                 description:
                  - Disable/Enable IoC rescan.
                  - disable - Disable IoC feature.
                  - enable - Enable IoC feature.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             status:
                 type: str
                 description:
                  - Disable/Enable IoC feature.
                  - disable - Disable IoC feature.
                  - enable - Enable IoC feature.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''

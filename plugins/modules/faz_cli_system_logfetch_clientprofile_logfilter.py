@@ -120,16 +120,7 @@ options:
                  - contain - Contain
                  - not-contain - Not contain
                  - match - Match
-                choices:
-                    - '='
-                    - '!='
-                    - '<'
-                    - '>'
-                    - '<='
-                    - '>='
-                    - 'contain'
-                    - 'not-contain'
-                    - 'match'
+                choices: ['=', '!=', '<', '>', '<=', '>=', 'contain', 'not-contain', 'match']
             value:
                 type: str
                 description: Field filter operand or free-text matching expression.

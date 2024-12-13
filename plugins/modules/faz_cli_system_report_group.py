@@ -103,37 +103,43 @@ options:
                 type: str
                 description: Admin domain name.
             case_insensitive:
+                aliases: ['case-insensitive']
                 type: str
                 description:
                  - Case insensitive.
                  - disable - Disable the case insensitive match.
                  - enable - Enable the case insensitive match.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             chart_alternative:
+                aliases: ['chart-alternative']
                 description: no description
                 type: list
                 elements: dict
                 suboptions:
                     chart_name:
+                        aliases: ['chart-name']
                         type: str
                         description: Chart name.
                     chart_replace:
+                        aliases: ['chart-replace']
                         type: str
                         description: Chart replacement.
             group_by:
+                aliases: ['group-by']
                 description: no description
                 type: list
                 elements: dict
                 suboptions:
                     var_expression:
+                        aliases: ['var-expression']
                         type: str
                         description: Variable expression.
                     var_name:
+                        aliases: ['var-name']
                         type: str
                         description: Variable name.
                     var_type:
+                        aliases: ['var-type']
                         type: str
                         description:
                          - Variable type.
@@ -141,15 +147,13 @@ options:
                          - string - String.
                          - enum - Enum.
                          - ip - IP.
-                        choices:
-                            - 'integer'
-                            - 'string'
-                            - 'enum'
-                            - 'ip'
+                        choices: ['integer', 'string', 'enum', 'ip']
             group_id:
+                aliases: ['group-id']
                 type: int
                 description: Group ID.
             report_like:
+                aliases: ['report-like']
                 type: str
                 description: Report pattern.
 '''

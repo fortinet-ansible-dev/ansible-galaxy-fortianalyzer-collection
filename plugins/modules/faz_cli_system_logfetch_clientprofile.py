@@ -100,19 +100,22 @@ options:
         type: dict
         suboptions:
             client_adom:
+                aliases: ['client-adom']
                 type: str
                 description: Log-fetch client sides adom name.
             data_range:
+                aliases: ['data-range']
                 type: str
                 description:
                  - Data-range for fetched logs.
                  - custom - Specify some other date and time range.
-                choices:
-                    - 'custom'
+                choices: ['custom']
             data_range_value:
+                aliases: ['data-range-value']
                 type: int
                 description: Last n days or hours.
             device_filter:
+                aliases: ['device-filter']
                 description: no description
                 type: list
                 elements: dict
@@ -130,21 +133,22 @@ options:
                         type: str
                         description: Vdom filters.
             end_time:
+                aliases: ['end-time']
                 description: 'End date and time of the data-range <hh:mm yyyy/mm/dd>.'
                 type: str
             id:
                 type: int
                 description: Log-fetch client profile ID.
             index_fetch_logs:
+                aliases: ['index-fetch-logs']
                 type: str
                 description:
                  - Enable/Disable indexing logs automatically after fetching logs.
                  - disable - Disable attribute function.
                  - enable - Enable attribute function.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             log_filter:
+                aliases: ['log-filter']
                 description: no description
                 type: list
                 elements: dict
@@ -164,37 +168,26 @@ options:
                          - contain - Contain
                          - not-contain - Not contain
                          - match - Match
-                        choices:
-                            - '='
-                            - '!='
-                            - '<'
-                            - '>'
-                            - '<='
-                            - '>='
-                            - 'contain'
-                            - 'not-contain'
-                            - 'match'
+                        choices: ['=', '!=', '<', '>', '<=', '>=', 'contain', 'not-contain', 'match']
                     value:
                         type: str
                         description: Field filter operand or free-text matching expression.
             log_filter_logic:
+                aliases: ['log-filter-logic']
                 type: str
                 description:
                  - And/Or logic for log-filters.
                  - and - Logic And.
                  - or - Logic Or.
-                choices:
-                    - 'and'
-                    - 'or'
+                choices: ['and', 'or']
             log_filter_status:
+                aliases: ['log-filter-status']
                 type: str
                 description:
                  - Enable/Disable log-filter.
                  - disable - Disable attribute function.
                  - enable - Enable attribute function.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             name:
                 type: str
                 description: Name of log-fetch client profile.
@@ -202,36 +195,38 @@ options:
                 description: Log-fetch server login password.
                 type: str
             secure_connection:
+                aliases: ['secure-connection']
                 type: str
                 description:
                  - Enable/Disable protecting log-fetch connection with TLS/SSL.
                  - disable - Disable attribute function.
                  - enable - Enable attribute function.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             server_adom:
+                aliases: ['server-adom']
                 type: str
                 description: Log-fetch server sides adom name.
             server_ip:
+                aliases: ['server-ip']
                 type: str
                 description: Log-fetch server IP address.
             start_time:
+                aliases: ['start-time']
                 description: 'Start date and time of the data-range <hh:mm yyyy/mm/dd>.'
                 type: str
             sync_adom_config:
+                aliases: ['sync-adom-config']
                 type: str
                 description:
                  - Enable/Disable sync adom related config.
                  - disable - Disable attribute function.
                  - enable - Enable attribute function.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             user:
                 type: str
                 description: Log-fetch server login username.
             peer_cert_cn:
+                aliases: ['peer-cert-cn']
                 type: str
                 description: Certificate common name of log-fetch server.
 '''

@@ -112,6 +112,7 @@ options:
                 elements: dict
                 suboptions:
                     devices_name:
+                        aliases: ['devices-name']
                         type: str
                         description: no description
                     interfaces:
@@ -136,9 +137,7 @@ options:
                     opcode:
                         type: str
                         description: no description
-                        choices:
-                            - 'not_equal'
-                            - 'equal'
+                        choices: ['not_equal', 'equal']
                     status:
                         type: int
                         description: no description
@@ -149,35 +148,38 @@ options:
                 type: str
                 description: no description
             report_layout:
+                aliases: ['report-layout']
                 description: 'reference: /report/adom/<adom-name>/config/schedule/<schedule_name>/report-layout'
                 type: list
                 elements: dict
                 suboptions:
                     layout_id:
+                        aliases: ['layout-id']
                         type: int
                         description: no description
                     is_global:
+                        aliases: ['is-global']
                         type: int
                         description: no description
             status:
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             admin_user:
+                aliases: ['admin-user']
                 type: str
                 description: no description
             auto_hcache:
+                aliases: ['auto-hcache']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             date_format:
+                aliases: ['date-format']
                 type: str
                 description: no description
             dev_type:
+                aliases: ['dev-type']
                 type: str
                 description: no description
                 choices:
@@ -197,165 +199,141 @@ options:
                     - 'FortiGate'
                     - 'FortiFirewall'
             device_list_type:
+                aliases: ['device-list-type']
                 type: str
                 description: no description
-                choices:
-                    - 'compact'
-                    - 'count'
-                    - 'detailed'
-                    - 'none'
+                choices: ['compact', 'count', 'detailed', 'none']
             display_device_by:
+                aliases: ['display-device-by']
                 type: str
                 description: no description
-                choices:
-                    - 'device-id'
-                    - 'device-name'
+                choices: ['device-id', 'device-name']
             display_table_contents:
+                aliases: ['display-table-contents']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             email_report_per_device:
+                aliases: ['email-report-per-device']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             filter_logic:
+                aliases: ['filter-logic']
                 type: str
                 description: no description
-                choices:
-                    - 'all'
-                    - 'any'
+                choices: ['all', 'any']
             filter_type:
+                aliases: ['filter-type']
                 type: str
                 description: no description
-                choices:
-                    - 'srcip'
-                    - 'none'
-                    - 'hostname'
-                    - 'group'
-                    - 'user'
+                choices: ['srcip', 'none', 'hostname', 'group', 'user']
             include_coverpage:
+                aliases: ['include-coverpage']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             include_other:
+                aliases: ['include-other']
                 type: str
                 description: no description
-                choices:
-                    - 'auto'
-                    - 'enable'
-                    - 'disable'
+                choices: ['auto', 'enable', 'disable']
             language:
                 type: str
                 description: no description
             ldap_query:
+                aliases: ['ldap-query']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             ldap_server:
+                aliases: ['ldap-server']
                 type: str
                 description: no description
             ldap_user_case_change:
+                aliases: ['ldap-user-case-change']
                 type: str
                 description: no description
-                choices:
-                    - 'upper'
-                    - 'lower'
-                    - 'disable'
+                choices: ['upper', 'lower', 'disable']
             max_reports:
+                aliases: ['max-reports']
                 type: int
                 description: no description
             obfuscate_user:
+                aliases: ['obfuscate-user']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             orientation:
                 type: str
                 description: no description
-                choices:
-                    - 'portrait'
-                    - 'landscape'
+                choices: ['portrait', 'landscape']
             output_format:
+                aliases: ['output-format']
                 type: str
                 description: no description
-                choices:
-                    - 'xml'
-                    - 'rtf'
-                    - 'connectwise'
-                    - 'html'
-                    - 'pdf'
-                    - 'mht'
-                    - 'txt'
-                    - 'csv'
+                choices: ['xml', 'rtf', 'connectwise', 'html', 'pdf', 'mht', 'txt', 'csv']
             output_profile:
+                aliases: ['output-profile']
                 type: str
                 description: no description
             period_end:
+                aliases: ['period-end']
                 description: no description
                 type: list
                 elements: dict
             period_last_n:
+                aliases: ['period-last-n']
                 type: int
                 description: no description
             period_opt:
+                aliases: ['period-opt']
                 type: str
                 description: no description
-                choices:
-                    - 'faz'
-                    - 'dev'
+                choices: ['faz', 'dev']
             period_start:
+                aliases: ['period-start']
                 description: no description
                 type: list
                 elements: dict
             print_report_filters:
+                aliases: ['print-report-filters']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             report_per_device:
+                aliases: ['report-per-device']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             resolve_hostname:
+                aliases: ['resolve-hostname']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             schedule_color:
+                aliases: ['schedule-color']
                 type: str
                 description: no description
             schedule_frequency:
+                aliases: ['schedule-frequency']
                 type: int
                 description: no description
             schedule_type:
+                aliases: ['schedule-type']
                 type: str
                 description: no description
-                choices:
-                    - 'every-n-days'
-                    - 'every-n-months'
-                    - 'every-n-hours'
-                    - 'on-demand'
-                    - 'every-n-weeks'
+                choices: ['every-n-days', 'every-n-months', 'every-n-hours', 'on-demand', 'every-n-weeks']
             schedule_valid_end:
+                aliases: ['schedule-valid-end']
                 type: str
                 description: no description
             schedule_valid_start:
+                aliases: ['schedule-valid-start']
                 type: str
                 description: no description
             time_period:
+                aliases: ['time-period']
                 type: str
                 description: no description
                 choices:
@@ -377,17 +355,12 @@ options:
                     - 'today'
                     - 'last-n-hours'
             week_start:
+                aliases: ['week-start']
                 type: str
                 description: no description
-                choices:
-                    - 'wed'
-                    - 'sun'
-                    - 'fri'
-                    - 'thr'
-                    - 'mon'
-                    - 'tue'
-                    - 'sat'
+                choices: ['wed', 'sun', 'fri', 'thr', 'mon', 'tue', 'sat']
             address_filter:
+                aliases: ['address-filter']
                 description: 'reference: /report/adom/<adom-name>/config/schedule/<schedule_name>/address-filter'
                 type: list
                 elements: dict
@@ -396,12 +369,15 @@ options:
                         type: int
                         description: no description
                     include_option:
+                        aliases: ['include-option']
                         type: str
                         description: no description
                     address_type:
+                        aliases: ['address-type']
                         type: str
                         description: no description
             soc_cust_filters:
+                aliases: ['soc-cust-filters']
                 description: 'reference: /sql-report/schedule/soc-cust-filters'
                 type: list
                 elements: dict
@@ -576,8 +552,8 @@ def main():
                         'description': {'type': 'str'},
                         'name': {'type': 'str'},
                         'opcode': {'choices': ['not_equal', 'equal'], 'type': 'str'},
-                        'status': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                        'value': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'}
+                        'status': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                        'value': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'}
                     },
                     'elements': 'dict'
                 },
@@ -588,63 +564,63 @@ def main():
                     'elements': 'dict'
                 },
                 'status': {'v_range': [['6.2.1', '7.4.2']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'admin-user': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'},
-                'auto-hcache': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'date-format': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
+                'admin-user': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'type': 'str'},
+                'auto-hcache': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'date-format': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
                 'dev-type': {
-                    'v_range': [['6.2.2', '6.2.12']],
+                    'v_range': [['6.2.2', '6.2.13']],
                     'choices': [
                         'FortiSandbox', 'FortiWeb', 'Fabric', 'Syslog', 'FortiCache', 'FortiAuthenticator', 'FortiMail', 'FortiProxy', 'FortiManager',
                         'FortiNAC', 'FortiAnalyzer', 'FortiClient', 'FortiDDoS', 'FortiGate', 'FortiFirewall'
                     ],
                     'type': 'str'
                 },
-                'device-list-type': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['compact', 'count', 'detailed', 'none'], 'type': 'str'},
-                'display-device-by': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['device-id', 'device-name'], 'type': 'str'},
-                'display-table-contents': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'email-report-per-device': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'filter-logic': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['all', 'any'], 'type': 'str'},
-                'filter-type': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['srcip', 'none', 'hostname', 'group', 'user'], 'type': 'str'},
-                'include-coverpage': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'include-other': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['auto', 'enable', 'disable'], 'type': 'str'},
-                'language': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'ldap-query': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'ldap-server': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'ldap-user-case-change': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['upper', 'lower', 'disable'], 'type': 'str'},
-                'max-reports': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                'obfuscate-user': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'orientation': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['portrait', 'landscape'], 'type': 'str'},
+                'device-list-type': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['compact', 'count', 'detailed', 'none'], 'type': 'str'},
+                'display-device-by': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['device-id', 'device-name'], 'type': 'str'},
+                'display-table-contents': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'email-report-per-device': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'filter-logic': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['all', 'any'], 'type': 'str'},
+                'filter-type': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['srcip', 'none', 'hostname', 'group', 'user'], 'type': 'str'},
+                'include-coverpage': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'include-other': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['auto', 'enable', 'disable'], 'type': 'str'},
+                'language': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'ldap-query': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'ldap-server': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'ldap-user-case-change': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['upper', 'lower', 'disable'], 'type': 'str'},
+                'max-reports': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                'obfuscate-user': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'orientation': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['portrait', 'landscape'], 'type': 'str'},
                 'output-format': {
-                    'v_range': [['6.2.2', '6.2.12']],
+                    'v_range': [['6.2.2', '6.2.13']],
                     'choices': ['xml', 'rtf', 'connectwise', 'html', 'pdf', 'mht', 'txt', 'csv'],
                     'type': 'str'
                 },
-                'output-profile': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'period-end': {'v_range': [['6.2.2', '6.2.12']], 'type': 'list', 'elements': 'dict'},
-                'period-last-n': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                'period-opt': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['faz', 'dev'], 'type': 'str'},
-                'period-start': {'v_range': [['6.2.2', '6.2.12']], 'type': 'list', 'elements': 'dict'},
-                'print-report-filters': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'report-per-device': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'resolve-hostname': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'schedule-color': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'schedule-frequency': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
+                'output-profile': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'period-end': {'v_range': [['6.2.2', '6.2.13']], 'type': 'list', 'elements': 'dict'},
+                'period-last-n': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                'period-opt': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['faz', 'dev'], 'type': 'str'},
+                'period-start': {'v_range': [['6.2.2', '6.2.13']], 'type': 'list', 'elements': 'dict'},
+                'print-report-filters': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'report-per-device': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'resolve-hostname': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'schedule-color': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'schedule-frequency': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
                 'schedule-type': {
-                    'v_range': [['6.2.2', '6.2.12']],
+                    'v_range': [['6.2.2', '6.2.13']],
                     'choices': ['every-n-days', 'every-n-months', 'every-n-hours', 'on-demand', 'every-n-weeks'],
                     'type': 'str'
                 },
-                'schedule-valid-end': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'schedule-valid-start': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
+                'schedule-valid-end': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'schedule-valid-start': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
                 'time-period': {
-                    'v_range': [['6.2.2', '6.2.12']],
+                    'v_range': [['6.2.2', '6.2.13']],
                     'choices': [
                         'last-n-weeks', 'last-month', 'last-7-days', 'last-week', 'yesterday', 'this-month', 'this-week', 'last-30-days', 'last-quarter',
                         'last-2-weeks', 'this-quarter', 'last-n-days', 'last-14-days', 'this-year', 'other', 'today', 'last-n-hours'
                     ],
                     'type': 'str'
                 },
-                'week-start': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['wed', 'sun', 'fri', 'thr', 'mon', 'tue', 'sat'], 'type': 'str'},
+                'week-start': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['wed', 'sun', 'fri', 'thr', 'mon', 'tue', 'sat'], 'type': 'str'},
                 'address-filter': {
                     'v_range': [['6.4.3', '']],
                     'type': 'list',
@@ -656,9 +632,9 @@ def main():
                     'elements': 'dict'
                 },
                 'soc-cust-filters': {
-                    'v_range': [['6.4.7', '6.4.14'], ['7.0.1', '']],
+                    'v_range': [['6.4.7', '6.4.15'], ['7.0.1', '']],
                     'type': 'list',
-                    'options': {'name': {'v_range': [['6.4.7', '6.4.14'], ['7.0.1', '']], 'type': 'str'}},
+                    'options': {'name': {'v_range': [['6.4.7', '6.4.15'], ['7.0.1', '']], 'type': 'str'}},
                     'elements': 'dict'
                 }
             }

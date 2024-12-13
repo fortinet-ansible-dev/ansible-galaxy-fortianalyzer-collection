@@ -113,11 +113,7 @@ options:
                  - exclude - Exclude specified device.
                  - include-like - Include specified device matching the given wildcard expression.
                  - exclude-like - Exclude specified device matching the given wildcard expression.
-                choices:
-                    - 'include'
-                    - 'exclude'
-                    - 'include-like'
-                    - 'exclude-like'
+                choices: ['include', 'exclude', 'include-like', 'exclude-like']
             device:
                 type: str
                 description: Device ID of log client device, or a wildcard expression matching log client device

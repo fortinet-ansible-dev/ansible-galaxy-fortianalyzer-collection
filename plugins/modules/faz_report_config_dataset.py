@@ -107,6 +107,7 @@ options:
                 type: str
                 description: no description
             dev_type:
+                aliases: ['dev-type']
                 type: str
                 description: no description
                 choices:
@@ -137,50 +138,43 @@ options:
                         type: str
                         description: no description
                     var_expression:
+                        aliases: ['var-expression']
                         type: str
                         description: no description
                     var_name:
+                        aliases: ['var-name']
                         type: str
                         description: no description
                     var_type:
+                        aliases: ['var-type']
                         type: str
                         description: no description
-                        choices:
-                            - 'ip'
-                            - 'integer'
-                            - 'string'
-                            - 'datetime'
+                        choices: ['ip', 'integer', 'string', 'datetime']
                     drilldown_flag:
+                        aliases: ['drilldown-flag']
                         type: str
                         description: no description
-                        choices:
-                            - 'enable'
-                            - 'disable'
+                        choices: ['enable', 'disable']
                     var_array:
+                        aliases: ['var-array']
                         type: str
                         description: no description
-                        choices:
-                            - 'enable'
-                            - 'disable'
+                        choices: ['enable', 'disable']
             dev_drilldown:
+                aliases: ['dev-drilldown']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             hcache:
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             hidden:
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             log_type:
+                aliases: ['log-type']
                 type: str
                 description: no description
                 choices:
@@ -212,9 +206,7 @@ options:
             protected:
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             query:
                 type: str
                 description: no description
@@ -341,16 +333,16 @@ def main():
                         'var-expression': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
                         'var-name': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
                         'var-type': {'v_range': [['6.2.1', '7.4.2']], 'choices': ['ip', 'integer', 'string', 'datetime'], 'type': 'str'},
-                        'drilldown-flag': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                        'var-array': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'}
+                        'drilldown-flag': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                        'var-array': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'}
                     },
                     'elements': 'dict'
                 },
-                'dev-drilldown': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'hcache': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'hidden': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'dev-drilldown': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'hcache': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'hidden': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
                 'log-type': {
-                    'v_range': [['6.2.2', '6.2.12']],
+                    'v_range': [['6.2.2', '6.2.13']],
                     'choices': [
                         'netscan', 'webfilter', 'event', 'fct-traffic', 'content', 'generic', 'waf', 'gtp', 'attack', 'dlp', 'dns', 'fct-event', 'ssl',
                         'virus', 'traffic', 'ssh', 'file-filter', 'voip', 'app-ctrl', 'emailfilter', 'local-event', 'sniffer', 'fct-netscan', 'history',
@@ -358,8 +350,8 @@ def main():
                     ],
                     'type': 'str'
                 },
-                'protected': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'query': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'}
+                'protected': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'query': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'}
             }
         }
     }

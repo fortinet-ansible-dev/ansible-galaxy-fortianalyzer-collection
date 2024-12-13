@@ -116,9 +116,7 @@ options:
             opcode:
                 type: str
                 description: no description
-                choices:
-                    - 'not_equal'
-                    - 'equal'
+                choices: ['not_equal', 'equal']
             status:
                 type: int
                 description: no description
@@ -225,8 +223,8 @@ def main():
                 'description': {'type': 'str'},
                 'name': {'type': 'str'},
                 'opcode': {'choices': ['not_equal', 'equal'], 'type': 'str'},
-                'status': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                'value': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'}
+                'status': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                'value': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'}
             }
         }
     }

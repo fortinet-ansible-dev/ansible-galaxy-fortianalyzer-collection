@@ -105,9 +105,7 @@ options:
                  - Enable authentication.
                  - disable - Disable authentication.
                  - enable - Enable authentication.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             id:
                 type: str
                 description: Mail Service ID.
@@ -118,6 +116,7 @@ options:
                 type: int
                 description: SMTP server port.
             secure_option:
+                aliases: ['secure-option']
                 type: str
                 description:
                  - Communication secure option.
@@ -125,11 +124,7 @@ options:
                  - none - Communication will be in plain text format.
                  - smtps - Communication will be protected by SMTPS.
                  - starttls - Communication will be protected by STARTTLS.
-                choices:
-                    - 'default'
-                    - 'none'
-                    - 'smtps'
-                    - 'starttls'
+                choices: ['default', 'none', 'smtps', 'starttls']
             server:
                 type: str
                 description: SMTP server.
@@ -137,20 +132,32 @@ options:
                 type: str
                 description: SMTP account username.
             auth_type:
+                aliases: ['auth-type']
                 type: str
                 description:
                  - SMTP authentication type.
                  - psk - Use username and password to authenticate.
                  - certificate - Use local certificate to authenticate.
-                choices:
-                    - 'psk'
-                    - 'certificate'
+                choices: ['psk', 'certificate']
             local_cert:
+                aliases: ['local-cert']
                 type: str
                 description: SMTP local certificate.
             from:
                 type: str
                 description: Username for MAIL FROM.
+            ssl_protocol:
+                aliases: ['ssl-protocol']
+                type: str
+                description:
+                 - set the lowest SSL protocol version for connection to mail server.
+                 - follow-global-ssl-protocol - Follow system.global.global-ssl-protocol setting
+                 - sslv3 - set SSLv3 as the lowest version.
+                 - tlsv1.0 - set TLSv1.0 as the lowest version.
+                 - tlsv1.1 - set TLSv1.1 as the lowest version.
+                 - tlsv1.2 - set TLSv1.2 as the lowest version.
+                 - tlsv1.3 - set TLSv1.3 as the lowest version.
+                choices: ['follow-global-ssl-protocol', 'sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3']
 '''
 
 EXAMPLES = '''
@@ -252,7 +259,12 @@ def main():
                 'user': {'type': 'str'},
                 'auth-type': {'v_range': [['6.4.6', '']], 'choices': ['psk', 'certificate'], 'type': 'str'},
                 'local-cert': {'v_range': [['6.4.6', '']], 'type': 'str'},
-                'from': {'v_range': [['7.0.7', '7.0.12'], ['7.2.2', '']], 'type': 'str'}
+                'from': {'v_range': [['7.0.7', '7.0.13'], ['7.2.2', '']], 'type': 'str'},
+                'ssl-protocol': {
+                    'v_range': [['7.4.4', '7.4.5']],
+                    'choices': ['follow-global-ssl-protocol', 'sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3'],
+                    'type': 'str'
+                }
             }
         }
     }

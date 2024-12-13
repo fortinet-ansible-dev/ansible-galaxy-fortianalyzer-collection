@@ -97,9 +97,7 @@ options:
                  - Server override mode
                  - strict - Access override server only.
                  - loose - Allow access other servers.
-                choices:
-                    - 'strict'
-                    - 'loose'
+                choices: ['strict', 'loose']
 '''
 
 EXAMPLES = '''

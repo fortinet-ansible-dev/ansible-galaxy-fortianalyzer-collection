@@ -113,9 +113,11 @@ options:
                 type: str
                 description: no description
             email_from:
+                aliases: ['email-from']
                 type: str
                 description: no description
             email_server:
+                aliases: ['email-server']
                 type: str
                 description: no description
 '''

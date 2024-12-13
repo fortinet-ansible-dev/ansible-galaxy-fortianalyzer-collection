@@ -98,10 +98,7 @@ options:
                  - 'days - Auto-delete data older than <value> days.'
                  - 'weeks - Auto-delete data older than <value> weeks.'
                  - 'months - Auto-delete data older than <value> months.'
-                choices:
-                    - 'days'
-                    - 'weeks'
-                    - 'months'
+                choices: ['days', 'weeks', 'months']
             runat:
                 type: int
                 description: Automatic deletion run at
@@ -111,9 +108,7 @@ options:
                  - Enable/disable automatic deletion.
                  - disable - Disable automatic deletion.
                  - enable - Enable automatic deletion.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             value:
                 type: int
                 description: Automatic deletion in x days, weeks, or months.

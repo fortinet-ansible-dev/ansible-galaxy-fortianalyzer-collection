@@ -100,9 +100,7 @@ options:
                  - Enable/disable built-in FortiGuard service to FortiClient installations
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''

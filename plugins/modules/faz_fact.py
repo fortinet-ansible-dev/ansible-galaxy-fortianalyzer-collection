@@ -258,6 +258,14 @@ options:
                     - 'eventmgmt_alerts_export'
                     - 'eventmgmt_alerts_extradetails'
                     - 'eventmgmt_basichandlers_export'
+                    - 'eventmgmt_config_basichandler'
+                    - 'eventmgmt_config_correlationhandler'
+                    - 'eventmgmt_config_dataselector'
+                    - 'eventmgmt_config_notificationprofile'
+                    - 'eventmgmt_config_trigger'
+                    - 'eventmgmt_config_trigger_device'
+                    - 'eventmgmt_config_trigger_filter'
+                    - 'eventmgmt_config_trigger_filter_rule'
                     - 'eventmgmt_correlationhandlers_export'
                     - 'fazsys_enduseravatar'
                     - 'fazsys_forticare_licinfo'
@@ -556,7 +564,7 @@ def main():
                 '/cli/global/fmupdate/fwm-setting/upgrade-timeout'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['7.0.5', '7.0.12'], ['7.2.2', '']],
+            'jsonrpc2': False, 'v_range': [['7.0.5', '7.0.13'], ['7.2.2', '']],
         },
         'cli_fmupdate_multilayer': {
             'urls': [
@@ -1297,7 +1305,7 @@ def main():
                 '/cli/global/system/log/topology'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.4.7', '6.4.14'], ['7.0.2', '']],
+            'jsonrpc2': False, 'v_range': [['6.4.7', '6.4.15'], ['7.0.2', '']],
         },
         'cli_system_log_ueba': {
             'urls': [
@@ -1612,7 +1620,7 @@ def main():
                 '/cli/global/system/global/ssl-cipher-suites/{ssl-cipher-suites}'
             ],
             'params': ['fields', 'filter', 'loadsub', 'option'],
-            'jsonrpc2': False, 'v_range': [['6.4.8', '6.4.14'], ['7.0.2', '']],
+            'jsonrpc2': False, 'v_range': [['6.4.8', '6.4.15'], ['7.0.2', '']],
         },
         'cli_system_status': {
             'urls': [
@@ -1634,7 +1642,7 @@ def main():
                 '/cli/global/system/web-proxy'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']],
+            'jsonrpc2': False, 'v_range': [['6.4.8', '6.4.15'], ['7.0.3', '']],
         },
         'cli_system_workflow_approvalmatrix': {
             'urls': [
@@ -1772,6 +1780,62 @@ def main():
             ],
             'params': ['attachment', 'data-format', 'filter'],
             'jsonrpc2': True, 'v_range': [['7.2.2', '']],
+        },
+        'eventmgmt_config_basichandler': {
+            'urls': [
+                '/eventmgmt/adom/{adom}/config/basic-handler'
+            ],
+            'params': [],
+            'jsonrpc2': True, 'v_range': [['7.2.2', '']],
+        },
+        'eventmgmt_config_correlationhandler': {
+            'urls': [
+                '/eventmgmt/adom/{adom}/config/correlation-handler'
+            ],
+            'params': [],
+            'jsonrpc2': True, 'v_range': [['7.2.2', '']],
+        },
+        'eventmgmt_config_dataselector': {
+            'urls': [
+                '/eventmgmt/adom/{adom}/config/data-selector'
+            ],
+            'params': [],
+            'jsonrpc2': True, 'v_range': [['7.2.2', '']],
+        },
+        'eventmgmt_config_notificationprofile': {
+            'urls': [
+                '/eventmgmt/adom/{adom}/config/notification-profile'
+            ],
+            'params': [],
+            'jsonrpc2': True, 'v_range': [['7.2.2', '']],
+        },
+        'eventmgmt_config_trigger': {
+            'urls': [
+                '/eventmgmt/adom/{adom}/config/trigger'
+            ],
+            'params': [],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '7.2.1']],
+        },
+        'eventmgmt_config_trigger_device': {
+            'urls': [
+                '/eventmgmt/adom/{adom}/config/trigger/{trigger_id}/device'
+            ],
+            'params': [],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '7.2.1']],
+        },
+        'eventmgmt_config_trigger_filter': {
+            'urls': [
+                '/eventmgmt/adom/{adom}/config/trigger/{trigger_id}/filter'
+            ],
+            'params': [],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '7.2.1']],
+        },
+        'eventmgmt_config_trigger_filter_rule': {
+            'urls': [
+                '/eventmgmt/adom/{adom}/config/trigger/{trigger_id}/filter/{filter_id}/rule'
+            ],
+            'params': [],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '7.2.1']],
         },
         'eventmgmt_correlationhandlers_export': {
             'urls': [
@@ -1988,140 +2052,140 @@ def main():
                 '/report/adom/{adom}/config/chart'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
         'report_config_chart_drilldowntable': {
             'urls': [
                 '/report/adom/{adom}/config/chart/{chart_name}/drill-down-table'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
         'report_config_chart_tablecolumns': {
             'urls': [
                 '/report/adom/{adom}/config/chart/{chart_name}/table-columns'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
         'report_config_chart_variabletemplate': {
             'urls': [
                 '/report/adom/{adom}/config/chart/{chart_name}/variable-template'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
         'report_config_dataset': {
             'urls': [
                 '/report/adom/{adom}/config/dataset'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
         'report_config_dataset_variable': {
             'urls': [
                 '/report/adom/{adom}/config/dataset/{dataset_name}/variable'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
         'report_config_layout': {
             'urls': [
                 '/report/adom/{adom}/config/layout'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
         'report_config_layout_component': {
             'urls': [
                 '/report/adom/{adom}/config/layout/{layout-id}/component'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
         'report_config_layout_component_variable': {
             'urls': [
                 '/report/adom/{adom}/config/layout/{layout-id}/component/{component-id}/variable'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
         'report_config_layout_footer': {
             'urls': [
                 '/report/adom/{adom}/config/layout/{layout-id}/footer'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
         'report_config_layout_header': {
             'urls': [
                 '/report/adom/{adom}/config/layout/{layout-id}/header'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
         'report_config_layoutfolder': {
             'urls': [
                 '/report/adom/{adom}/config/layout-folder'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
         'report_config_macro': {
             'urls': [
                 '/report/adom/{adom}/config/macro'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
         'report_config_output': {
             'urls': [
                 '/report/adom/{adom}/config/output'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
         'report_config_output_emailrecipients': {
             'urls': [
                 '/report/adom/{adom}/config/output/{output-name}/email-recipients'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
         'report_config_schedule': {
             'urls': [
                 '/report/adom/{adom}/config/schedule'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
         'report_config_schedule_addressfilter': {
             'urls': [
                 '/report/adom/{adom}/config/schedule/{schedule_name}/address-filter'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.4.3', '']],
+            'jsonrpc2': True, 'v_range': [['6.4.3', '']],
         },
         'report_config_schedule_devices': {
             'urls': [
                 '/report/adom/{adom}/config/schedule/{schedule_name}/devices'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
         'report_config_schedule_filter': {
             'urls': [
                 '/report/adom/{adom}/config/schedule/{schedule_name}/filter'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
         'report_config_schedule_reportlayout': {
             'urls': [
                 '/report/adom/{adom}/config/schedule/{schedule_name}/report-layout'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
         'report_graphfile': {
             'urls': [
@@ -2275,7 +2339,7 @@ def main():
                 '/soar/adom/{adom}/task/monitor'
             ],
             'params': ['filter', 'instance-id', 'playbook-uuid', 'sort-by', 'time-range', 'timezone'],
-            'jsonrpc2': True, 'v_range': [['6.4.2', '7.4.3']],
+            'jsonrpc2': True, 'v_range': [['6.4.2', '7.4.5']],
         },
         'sys_ha_status': {
             'urls': [
@@ -2305,7 +2369,7 @@ def main():
                 '/task/task/{task}/history/{history}'
             ],
             'params': ['fields', 'filter', 'loadsub', 'option', 'range', 'sortings'],
-            'jsonrpc2': False, 'v_range': [['6.2.2', '6.2.12']],
+            'jsonrpc2': False, 'v_range': [['6.2.2', '6.2.13']],
         },
         'task_task_line': {
             'urls': [

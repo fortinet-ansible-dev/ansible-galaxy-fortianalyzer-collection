@@ -103,12 +103,12 @@ options:
                 type: str
                 description: Device
             filter_type:
+                aliases: ['filter-type']
                 type: str
                 description:
                  - Device filter type.
                  - devid - Device ID.
-                choices:
-                    - 'devid'
+                choices: ['devid']
             id:
                 type: int
                 description: Device filter ID.

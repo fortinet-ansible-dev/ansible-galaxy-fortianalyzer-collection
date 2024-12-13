@@ -107,6 +107,7 @@ options:
                 type: str
                 description: no description
             meta_fields:
+                aliases: ['meta fields']
                 description: no description
                 type: dict
             name:
@@ -150,22 +151,14 @@ options:
             type:
                 type: str
                 description: no description
-                choices:
-                    - 'normal'
-                    - 'default'
-                    - 'auto'
-                    - 'cluster'
-                    - 'fabric'
+                choices: ['normal', 'default', 'auto', 'cluster', 'fabric']
             id:
                 type: str
                 description: no description
             cluster_type:
                 type: str
                 description: no description
-                choices:
-                    - 'unknown'
-                    - 'vwan'
-                    - 'sase'
+                choices: ['unknown', 'vwan', 'sase']
 '''
 
 EXAMPLES = '''

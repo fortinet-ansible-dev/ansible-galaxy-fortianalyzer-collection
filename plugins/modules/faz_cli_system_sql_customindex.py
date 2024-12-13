@@ -100,15 +100,15 @@ options:
         type: dict
         suboptions:
             case_sensitive:
+                aliases: ['case-sensitive']
                 type: str
                 description:
                  - Disable/Enable case sensitive index.
                  - disable - Build a case insensitive index.
                  - enable - Build a case sensitive index.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             device_type:
+                aliases: ['device-type']
                 type: str
                 description:
                  - Device type.
@@ -130,9 +130,11 @@ options:
                 type: int
                 description: Add or Edit log index fields.
             index_field:
+                aliases: ['index-field']
                 type: str
                 description: Log field name to be indexed.
             log_type:
+                aliases: ['log-type']
                 type: str
                 description:
                  - Log type.

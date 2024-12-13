@@ -114,21 +114,19 @@ options:
                  - Enable/disable sniffing IPv6 packets.
                  - disable - Disable sniffer for IPv6 packets.
                  - enable - Enable sniffer for IPv6 packets.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             max_packet_count:
+                aliases: ['max-packet-count']
                 type: int
                 description: Maximum packet count
             non_ip:
+                aliases: ['non-ip']
                 type: str
                 description:
                  - Enable/disable sniffing non-IP packets.
                  - disable - Disable sniffer for non-IP packets.
                  - enable - Enable sniffer for non-IP packets.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             port:
                 type: str
                 description: Ports to sniff

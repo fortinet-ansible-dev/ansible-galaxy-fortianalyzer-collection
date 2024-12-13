@@ -116,9 +116,7 @@ options:
             opmode:
                 type: str
                 description: no description
-                choices:
-                    - 'nat'
-                    - 'transparent'
+                choices: ['nat', 'transparent']
             rtm_prof_id:
                 type: int
                 description: no description
@@ -129,14 +127,13 @@ options:
                 type: int
                 description: no description
             meta_fields:
+                aliases: ['meta fields']
                 description: no description
                 type: dict
             vdom_type:
                 type: str
                 description: no description
-                choices:
-                    - 'traffic'
-                    - 'admin'
+                choices: ['traffic', 'admin']
 '''
 
 EXAMPLES = '''

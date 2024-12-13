@@ -103,14 +103,13 @@ options:
                 type: str
                 description: Device or ADOM filter according to filter-type setting, wildcard expression supported.
             filter_type:
+                aliases: ['filter-type']
                 type: str
                 description:
                  - Device filter type.
                  - devid - Device ID.
                  - adom - ADOM name.
-                choices:
-                    - 'devid'
-                    - 'adom'
+                choices: ['devid', 'adom']
             id:
                 type: int
                 description: Filter ID.

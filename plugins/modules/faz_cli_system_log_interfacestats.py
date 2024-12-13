@@ -92,9 +92,11 @@ options:
         type: dict
         suboptions:
             retention_days:
+                aliases: ['retention-days']
                 type: int
                 description: Number of days for interface data storage.
             sampling_interval:
+                aliases: ['sampling-interval']
                 type: int
                 description: Interval of receiving interface data from FortiGates in seconds.
             status:
@@ -103,18 +105,15 @@ options:
                  - Disable/Enable interface statistics feature.
                  - disable - Disable interface statistics.
                  - enable - Enable interface statistics.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             billing_report:
+                aliases: ['billing-report']
                 type: str
                 description:
                  - Disable/Enable billing report feature.
                  - disable - Disable billing report.
                  - enable - Enable billing report.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''

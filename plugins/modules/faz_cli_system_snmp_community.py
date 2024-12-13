@@ -170,9 +170,7 @@ options:
                  - Enable/disable SNMP v1 query.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             query_v2c_port:
                 type: int
                 description: SNMP v2c query port.
@@ -182,18 +180,14 @@ options:
                  - Enable/disable SNMP v2c query.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             status:
                 type: str
                 description:
                  - Enable/disable community.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             trap_v1_rport:
                 type: int
                 description: SNMP v1 trap remote port.
@@ -203,9 +197,7 @@ options:
                  - Enable/disable SNMP v1 trap.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             trap_v2c_rport:
                 type: int
                 description: SNMP v2c trap remote port.
@@ -215,9 +207,7 @@ options:
                  - Enable/disable SNMP v2c trap.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''

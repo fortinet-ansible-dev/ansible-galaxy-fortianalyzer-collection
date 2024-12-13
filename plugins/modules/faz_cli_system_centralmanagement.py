@@ -92,34 +92,30 @@ options:
         type: dict
         suboptions:
             allow_monitor:
+                aliases: ['allow-monitor']
                 type: str
                 description:
                  - Enable/disable remote monitor of device.
                  - disable - Disable.
                  - enable - Enable.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             authorized_manager_only:
+                aliases: ['authorized-manager-only']
                 type: str
                 description:
                  - Enable/disable restricted to authorized manager only.
                  - disable - Disable.
                  - enable - Enable.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             enc_algorithm:
+                aliases: ['enc-algorithm']
                 type: str
                 description:
                  - SSL communication encryption algorithms.
                  - default - SSL communication with high and medium encryption algorithms
                  - low - SSL communication with low encryption algorithms
                  - high - SSL communication with high encryption algorithms
-                choices:
-                    - 'default'
-                    - 'low'
-                    - 'high'
+                choices: ['default', 'low', 'high']
             fmg:
                 type: str
                 description: Address of Fortimanager
@@ -127,6 +123,7 @@ options:
                 type: int
                 description: Management ID.
             serial_number:
+                aliases: ['serial-number']
                 description: Serial number.
                 type: str
             type:
@@ -134,23 +131,18 @@ options:
                 description:
                  - Type of management server.
                  - fortimanager - FortiManager.
-                choices:
-                    - 'fortimanager'
-                    - 'fortigatecloud'
-                    - 'none'
-                    - 'cloud-management'
+                choices: ['fortimanager', 'fortigatecloud', 'none', 'cloud-management']
             acctid:
                 type: str
                 description: Account ID.
             elite_service:
+                aliases: ['elite-service']
                 type: str
                 description:
                  - Enable/disable elite service.
                  - disable - Disable elite service.
                  - enable - Enable elite service.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''

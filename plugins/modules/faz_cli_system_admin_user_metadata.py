@@ -118,18 +118,14 @@ options:
                  - Importance.
                  - optional - This field is optional.
                  - required - This field is required.
-                choices:
-                    - 'optional'
-                    - 'required'
+                choices: ['optional', 'required']
             status:
                 type: str
                 description:
                  - Status.
                  - disabled - This field is disabled.
                  - enabled - This field is enabled.
-                choices:
-                    - 'disabled'
-                    - 'enabled'
+                choices: ['disabled', 'enabled']
 '''
 
 EXAMPLES = '''

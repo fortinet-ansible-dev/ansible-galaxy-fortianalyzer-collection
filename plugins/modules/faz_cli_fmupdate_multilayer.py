@@ -92,14 +92,13 @@ options:
         type: dict
         suboptions:
             webspam_rating:
+                aliases: ['webspam-rating']
                 type: str
                 description:
                  - Enable/disable URL/Antispam rating service
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''

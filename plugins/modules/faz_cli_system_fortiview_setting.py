@@ -92,34 +92,30 @@ options:
         type: dict
         suboptions:
             not_scanned_apps:
+                aliases: ['not-scanned-apps']
                 type: str
                 description:
                  - Include/Exclude Not.Scanned applications in FortiView.
                  - exclude - Exclude Not.Scanned applications in FortiView.
                  - include - Include Not.Scanned applications in FortiView.
-                choices:
-                    - 'exclude'
-                    - 'include'
+                choices: ['exclude', 'include']
             resolve_ip:
+                aliases: ['resolve-ip']
                 type: str
                 description:
                  - Enable or disable resolving IP address to hostname in FortiView.
                  - disable - Disable resolving IP address to hostname.
                  - enable - Enable resolving IP address to hostname.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             data_source:
+                aliases: ['data-source']
                 type: str
                 description:
                  - Data soure of the fortiview query.
                  - auto - Data from hcache, and from logs in a flexible way.
                  - cache-only - Data from hcache only.
                  - log-and-cache - Data from logs and hcache.
-                choices:
-                    - 'auto'
-                    - 'cache-only'
-                    - 'log-and-cache'
+                choices: ['auto', 'cache-only', 'log-and-cache']
 '''
 
 EXAMPLES = '''
@@ -207,7 +203,7 @@ def main():
             'options': {
                 'not-scanned-apps': {'choices': ['exclude', 'include'], 'type': 'str'},
                 'resolve-ip': {'choices': ['disable', 'enable'], 'type': 'str'},
-                'data-source': {'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']], 'choices': ['auto', 'cache-only', 'log-and-cache'], 'type': 'str'}
+                'data-source': {'v_range': [['6.4.8', '6.4.15'], ['7.0.3', '']], 'choices': ['auto', 'cache-only', 'log-and-cache'], 'type': 'str'}
             }
         }
     }

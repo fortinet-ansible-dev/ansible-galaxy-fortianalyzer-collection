@@ -118,41 +118,35 @@ options:
             not:
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             var:
                 type: str
                 description: no description
             var_value:
+                aliases: ['var-value']
                 type: str
                 description: no description
             description:
                 type: str
                 description: no description
             drilldown_flag:
+                aliases: ['drilldown-flag']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             status:
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             var_expression:
+                aliases: ['var-expression']
                 type: str
                 description: no description
             var_type:
+                aliases: ['var-type']
                 type: str
                 description: no description
-                choices:
-                    - 'ip'
-                    - 'integer'
-                    - 'string'
-                    - 'datetime'
+                choices: ['ip', 'integer', 'string', 'datetime']
             view_mask:
                 type: int
                 description: no description
@@ -264,12 +258,12 @@ def main():
                 'not': {'v_range': [['6.2.1', '7.4.2']], 'choices': ['enable', 'disable'], 'type': 'str'},
                 'var': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
                 'var-value': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
-                'description': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'},
-                'drilldown-flag': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'status': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'var-expression': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'var-type': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['ip', 'integer', 'string', 'datetime'], 'type': 'str'},
-                'view_mask': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'}
+                'description': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'type': 'str'},
+                'drilldown-flag': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'status': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'var-expression': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'var-type': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['ip', 'integer', 'string', 'datetime'], 'type': 'str'},
+                'view_mask': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'}
             }
         }
     }

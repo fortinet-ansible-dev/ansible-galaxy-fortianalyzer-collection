@@ -92,6 +92,7 @@ options:
         type: dict
         suboptions:
             dlp_files_auto_deletion:
+                aliases: ['dlp-files-auto-deletion']
                 description: no description
                 type: dict
                 suboptions:
@@ -102,10 +103,7 @@ options:
                          - 'days - Auto-delete data older than <value> days.'
                          - 'weeks - Auto-delete data older than <value> weeks.'
                          - 'months - Auto-delete data older than <value> months.'
-                        choices:
-                            - 'days'
-                            - 'weeks'
-                            - 'months'
+                        choices: ['days', 'weeks', 'months']
                     runat:
                         type: int
                         description: Automatic deletion run at
@@ -115,13 +113,12 @@ options:
                          - Enable/disable automatic deletion.
                          - disable - Disable automatic deletion.
                          - enable - Enable automatic deletion.
-                        choices:
-                            - 'disable'
-                            - 'enable'
+                        choices: ['disable', 'enable']
                     value:
                         type: int
                         description: Automatic deletion in x days, weeks, or months.
             log_auto_deletion:
+                aliases: ['log-auto-deletion']
                 description: no description
                 type: dict
                 suboptions:
@@ -132,10 +129,7 @@ options:
                          - 'days - Auto-delete data older than <value> days.'
                          - 'weeks - Auto-delete data older than <value> weeks.'
                          - 'months - Auto-delete data older than <value> months.'
-                        choices:
-                            - 'days'
-                            - 'weeks'
-                            - 'months'
+                        choices: ['days', 'weeks', 'months']
                     runat:
                         type: int
                         description: Automatic deletion run at
@@ -145,13 +139,12 @@ options:
                          - Enable/disable automatic deletion.
                          - disable - Disable automatic deletion.
                          - enable - Enable automatic deletion.
-                        choices:
-                            - 'disable'
-                            - 'enable'
+                        choices: ['disable', 'enable']
                     value:
                         type: int
                         description: Automatic deletion in x days, weeks, or months.
             quarantine_files_auto_deletion:
+                aliases: ['quarantine-files-auto-deletion']
                 description: no description
                 type: dict
                 suboptions:
@@ -162,10 +155,7 @@ options:
                          - 'days - Auto-delete data older than <value> days.'
                          - 'weeks - Auto-delete data older than <value> weeks.'
                          - 'months - Auto-delete data older than <value> months.'
-                        choices:
-                            - 'days'
-                            - 'weeks'
-                            - 'months'
+                        choices: ['days', 'weeks', 'months']
                     runat:
                         type: int
                         description: Automatic deletion run at
@@ -175,13 +165,12 @@ options:
                          - Enable/disable automatic deletion.
                          - disable - Disable automatic deletion.
                          - enable - Enable automatic deletion.
-                        choices:
-                            - 'disable'
-                            - 'enable'
+                        choices: ['disable', 'enable']
                     value:
                         type: int
                         description: Automatic deletion in x days, weeks, or months.
             report_auto_deletion:
+                aliases: ['report-auto-deletion']
                 description: no description
                 type: dict
                 suboptions:
@@ -192,10 +181,7 @@ options:
                          - 'days - Auto-delete data older than <value> days.'
                          - 'weeks - Auto-delete data older than <value> weeks.'
                          - 'months - Auto-delete data older than <value> months.'
-                        choices:
-                            - 'days'
-                            - 'weeks'
-                            - 'months'
+                        choices: ['days', 'weeks', 'months']
                     runat:
                         type: int
                         description: Automatic deletion run at
@@ -205,13 +191,12 @@ options:
                          - Enable/disable automatic deletion.
                          - disable - Disable automatic deletion.
                          - enable - Enable automatic deletion.
-                        choices:
-                            - 'disable'
-                            - 'enable'
+                        choices: ['disable', 'enable']
                     value:
                         type: int
                         description: Automatic deletion in x days, weeks, or months.
             status_fake:
+                aliases: ['status-fake']
                 type: int
                 description: Fake value for the menu to work.
 '''

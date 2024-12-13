@@ -97,18 +97,15 @@ options:
                  - Enable/disable reliable realtime logging.
                  - disable - Disable reliable realtime logging.
                  - enable - Enable reliable realtime logging.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             secure_connection:
+                aliases: ['secure-connection']
                 type: str
                 description:
                  - Enable/disable connection secured by TLS/SSL.
                  - disable - Disable SSL connection.
                  - enable - Enable SSL connection.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             server:
                 type: str
                 description: Remote FortiAnalyzer server FQDN, hostname, or IP address
@@ -124,15 +121,7 @@ options:
                  - notification - Notification level.
                  - information - Information level.
                  - debug - Debug level.
-                choices:
-                    - 'emergency'
-                    - 'alert'
-                    - 'critical'
-                    - 'error'
-                    - 'warning'
-                    - 'notification'
-                    - 'information'
-                    - 'debug'
+                choices: ['emergency', 'alert', 'critical', 'error', 'warning', 'notification', 'information', 'debug']
             status:
                 type: str
                 description:
@@ -140,14 +129,13 @@ options:
                  - disable - Log to FortiAnalyzer disabled.
                  - realtime - Log to FortiAnalyzer in realtime.
                  - upload - Log to FortiAnalyzer at schedule time.
-                choices:
-                    - 'disable'
-                    - 'realtime'
-                    - 'upload'
+                choices: ['disable', 'realtime', 'upload']
             upload_time:
+                aliases: ['upload-time']
                 description: Time to upload local log files
                 type: str
             peer_cert_cn:
+                aliases: ['peer-cert-cn']
                 type: str
                 description: Certificate common name of remote fortianalyzer.
 '''

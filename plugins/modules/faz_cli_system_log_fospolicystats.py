@@ -92,9 +92,11 @@ options:
         type: dict
         suboptions:
             retention_days:
+                aliases: ['retention-days']
                 type: int
                 description: Number of days for FortiOS policy stats data storage.
             sampling_interval:
+                aliases: ['sampling-interval']
                 type: int
                 description: Interval to request policy stats data from FortiOS in minutes.
             status:
@@ -103,9 +105,7 @@ options:
                  - Disable/Enable FortiOS policy statistics feature.
                  - disable - Disable querying FortiOS policy stats.
                  - enable - Enable querying FortiOS policy stats.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''

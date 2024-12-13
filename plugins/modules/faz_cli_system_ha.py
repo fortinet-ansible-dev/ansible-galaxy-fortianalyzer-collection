@@ -92,15 +92,19 @@ options:
         type: dict
         suboptions:
             group_id:
+                aliases: ['group-id']
                 type: int
                 description: HA group ID
             group_name:
+                aliases: ['group-name']
                 type: str
                 description: HA group name.
             hb_interface:
+                aliases: ['hb-interface']
                 type: str
                 description: Interface for heartbeat.
             hb_interval:
+                aliases: ['hb-interval']
                 type: int
                 description: Heartbeat interval
             healthcheck:
@@ -110,49 +114,42 @@ options:
                  - fault-test - temp fault test
                 type: list
                 elements: str
-                choices:
-                    - 'DB'
-                    - 'fault-test'
+                choices: ['DB', 'fault-test']
             initial_sync:
+                aliases: ['initial-sync']
                 type: str
                 description:
                  - Need to sync data from master before up as an HA member.
                  - false - False.
                  - true - True.
-                choices:
-                    - 'false'
-                    - 'true'
+                choices: ['false', 'true']
             initial_sync_threads:
+                aliases: ['initial-sync-threads']
                 type: int
                 description: Number of threads used for initial sync
             load_balance:
+                aliases: ['load-balance']
                 type: str
                 description:
                  - Load balance to slaves.
                  - disable - Disable load-balance to slaves.
                  - round-robin - Round-Robin mode.
-                choices:
-                    - 'disable'
-                    - 'round-robin'
+                choices: ['disable', 'round-robin']
             log_sync:
+                aliases: ['log-sync']
                 type: str
                 description:
                  - Sync logs to backup FortiAnalyzer.
                  - disable - Disable.
                  - enable - Enable.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             mode:
                 type: str
                 description:
                  - Standalone or HA
                  - standalone - Standalone mode.
                  - a-p - Active-Passive mode.
-                choices:
-                    - 'standalone'
-                    - 'a-p'
-                    - 'a-a'
+                choices: ['standalone', 'a-p', 'a-a']
             password:
                 description: HA group password.
                 type: str
@@ -168,9 +165,11 @@ options:
                         type: str
                         description: IP address of peer for management and data.
                     ip_hb:
+                        aliases: ['ip-hb']
                         type: str
                         description: IP address of peers VIP interface for heartbeat, set if different from ip.
                     serial_number:
+                        aliases: ['serial-number']
                         type: str
                         description: Serial number of peer.
                     status:
@@ -179,58 +178,56 @@ options:
                          - Peer enabled status.
                          - disable - Disable.
                          - enable - Enable.
-                        choices:
-                            - 'disable'
-                            - 'enable'
+                        choices: ['disable', 'enable']
                     addr:
                         type: str
                         description: Address of peer for management and data.
                     addr_hb:
+                        aliases: ['addr-hb']
                         type: str
                         description: Address of peers interface for heartbeat, set if different from ip.
             preferred_role:
+                aliases: ['preferred-role']
                 type: str
                 description:
                  - Preferred role, runtime role may be different.
                  - slave - Prefer slave mode, FAZ can only become master after data-sync is done.
                  - master - Prefer master mode, FAZ can become master if theres no existing master.
-                choices:
-                    - 'slave'
-                    - 'master'
-                    - 'secondary'
-                    - 'primary'
+                choices: ['slave', 'master', 'secondary', 'primary']
             priority:
                 type: int
                 description: Set the runtime priority between 80
             private_clusterid:
+                aliases: ['private-clusterid']
                 type: int
                 description: Cluster ID range
             private_file_quota:
+                aliases: ['private-file-quota']
                 type: int
                 description: File quota in MB
             private_hb_interval:
+                aliases: ['private-hb-interval']
                 type: int
                 description: Heartbeat interval
             private_hb_lost_threshold:
+                aliases: ['private-hb-lost-threshold']
                 type: int
                 description: Heartbeat lost threshold
             private_mode:
+                aliases: ['private-mode']
                 type: str
                 description:
                  - Mode.
                  - standalone - Standalone.
                  - master - Master.
                  - slave - Slave.
-                choices:
-                    - 'standalone'
-                    - 'master'
-                    - 'slave'
-                    - 'primary'
-                    - 'secondary'
+                choices: ['standalone', 'master', 'slave', 'primary', 'secondary']
             private_password:
+                aliases: ['private-password']
                 description: Group password.
                 type: str
             private_peer:
+                aliases: ['private-peer']
                 description: no description
                 type: list
                 elements: dict
@@ -245,6 +242,7 @@ options:
                         type: str
                         description: IP address
                     serial_number:
+                        aliases: ['serial-number']
                         type: str
                         description: Serial number of peer.
                     status:
@@ -253,31 +251,31 @@ options:
                          - Peer admin status.
                          - disable - Disable.
                          - enable - Enable.
-                        choices:
-                            - 'disable'
-                            - 'enable'
+                        choices: ['disable', 'enable']
             unicast:
                 type: str
                 description:
                  - Use unicast for HA heartbeat.
                  - disable - HA heartbeat through multicast.
                  - enable - HA heartbeat through unicast.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             vip:
                 type: str
                 description: Virtual IP address for the HA
             vip_interface:
+                aliases: ['vip-interface']
                 type: str
                 description: Interface for configuring virtual IP address
             private_local_cert:
+                aliases: ['private-local-cert']
                 type: str
                 description: set the ha local certificate.
             cfg_sync_hb_interval:
+                aliases: ['cfg-sync-hb-interval']
                 type: int
                 description: Config sync heartbeat interval
             local_cert:
+                aliases: ['local-cert']
                 type: str
                 description: set the ha local certificate.
 '''
@@ -384,8 +382,8 @@ def main():
                         'ip-hb': {'v_range': [['6.2.1', '7.4.3']], 'type': 'str'},
                         'serial-number': {'type': 'str'},
                         'status': {'choices': ['disable', 'enable'], 'type': 'str'},
-                        'addr': {'v_range': [['7.6.0', '']], 'type': 'str'},
-                        'addr-hb': {'v_range': [['7.6.0', '']], 'type': 'str'}
+                        'addr': {'v_range': [['7.4.4', '']], 'type': 'str'},
+                        'addr-hb': {'v_range': [['7.4.4', '']], 'type': 'str'}
                     },
                     'elements': 'dict'
                 },
@@ -411,8 +409,8 @@ def main():
                 'unicast': {'choices': ['disable', 'enable'], 'type': 'str'},
                 'vip': {'type': 'str'},
                 'vip-interface': {'v_range': [['6.2.1', '7.0.4']], 'type': 'str'},
-                'private-local-cert': {'v_range': [['6.2.7', '6.2.12']], 'type': 'str'},
-                'cfg-sync-hb-interval': {'v_range': [['6.4.8', '6.4.14'], ['7.0.3', '']], 'type': 'int'},
+                'private-local-cert': {'v_range': [['6.2.7', '6.2.13']], 'type': 'str'},
+                'cfg-sync-hb-interval': {'v_range': [['6.4.8', '6.4.15'], ['7.0.3', '']], 'type': 'int'},
                 'local-cert': {'v_range': [['7.4.3', '']], 'type': 'str'}
             }
         }

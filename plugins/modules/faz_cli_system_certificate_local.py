@@ -115,6 +115,7 @@ options:
                 description: Local certificate password.
                 type: str
             private_key:
+                aliases: ['private-key']
                 description: Local certificate private-key.
                 type: str
 '''

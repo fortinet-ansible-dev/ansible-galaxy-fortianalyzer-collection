@@ -92,21 +92,22 @@ options:
         type: dict
         suboptions:
             change_4_characters:
+                aliases: ['change-4-characters']
                 type: str
                 description:
                  - Enable/disable changing at least 4 characters for new password.
                  - disable - Disable changing at least 4 characters for new password.
                  - enable - Enable changing at least 4 characters for new password.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             expire:
                 type: int
                 description: Number of days after which admin users password will expire
             minimum_length:
+                aliases: ['minimum-length']
                 type: int
                 description: Minimum password length.
             must_contain:
+                aliases: ['must-contain']
                 description:
                  - Password character requirements.
                  - upper-case-letter - Require password to contain upper case letter.
@@ -115,21 +116,16 @@ options:
                  - non-alphanumeric - Require password to contain non-alphanumeric characters.
                 type: list
                 elements: str
-                choices:
-                    - 'upper-case-letter'
-                    - 'lower-case-letter'
-                    - 'number'
-                    - 'non-alphanumeric'
+                choices: ['upper-case-letter', 'lower-case-letter', 'number', 'non-alphanumeric']
             status:
                 type: str
                 description:
                  - Enable/disable password policy.
                  - disable - Disable password policy.
                  - enable - Enable password policy.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             password_history:
+                aliases: ['password-history']
                 type: int
                 description: Number of unique new passwords that must be used before old password can be reused
 '''

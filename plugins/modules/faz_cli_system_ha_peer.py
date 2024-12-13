@@ -106,9 +106,11 @@ options:
                 type: str
                 description: IP address of peer for management and data.
             ip_hb:
+                aliases: ['ip-hb']
                 type: str
                 description: IP address of peers VIP interface for heartbeat, set if different from ip.
             serial_number:
+                aliases: ['serial-number']
                 type: str
                 description: Serial number of peer.
             status:
@@ -117,13 +119,12 @@ options:
                  - Peer enabled status.
                  - disable - Disable.
                  - enable - Enable.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             addr:
                 type: str
                 description: Address of peer for management and data.
             addr_hb:
+                aliases: ['addr-hb']
                 type: str
                 description: Address of peers interface for heartbeat, set if different from ip.
 '''
@@ -221,8 +222,8 @@ def main():
                 'ip-hb': {'v_range': [['6.2.1', '7.4.3']], 'type': 'str'},
                 'serial-number': {'type': 'str'},
                 'status': {'choices': ['disable', 'enable'], 'type': 'str'},
-                'addr': {'v_range': [['7.6.0', '']], 'type': 'str'},
-                'addr-hb': {'v_range': [['7.6.0', '']], 'type': 'str'}
+                'addr': {'v_range': [['7.4.4', '']], 'type': 'str'},
+                'addr-hb': {'v_range': [['7.4.4', '']], 'type': 'str'}
             }
         }
     }

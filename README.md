@@ -1,6 +1,6 @@
 ![Fortinet logo|](https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Fortinet_logo.svg/320px-Fortinet_logo.svg.png)
 
-# fortinet.fortianalyzer:1.7.0 - configuring FortiAnalyzer
+# fortinet.fortianalyzer:1.8.0 - configuring FortiAnalyzer
 
 ## Description
 
@@ -249,6 +249,22 @@ The collection provides the following modules:
 * `faz_dvmdb_folder`  Device manager database folder.
 * `faz_dvmdb_group`  Device group table.
 * `faz_dvmdb_group_objectmember`  Device group table.
+* `faz_eventmgmt_alerts_ack`  Acknowledge alert events.
+* `faz_eventmgmt_alerts_assign`  Assign alert events.
+* `faz_eventmgmt_alerts_comment`  Handle alert comments.
+* `faz_eventmgmt_alerts_import`  Import basic handlers.
+* `faz_eventmgmt_alerts_read`  Mark a specific alert event as read.
+* `faz_eventmgmt_alerts_unack`  Unacknowledge alert events.
+* `faz_eventmgmt_basichandlers_import`  Import basic handlers.
+* `faz_eventmgmt_config_basichandler`  Config basic-handler.
+* `faz_eventmgmt_config_correlationhandler`  Config correlation-handler.
+* `faz_eventmgmt_config_dataselector`  Config data-selector.
+* `faz_eventmgmt_config_notificationprofile`  Config notification-profile.
+* `faz_eventmgmt_config_trigger`  trigger.
+* `faz_eventmgmt_config_trigger_device`  device.
+* `faz_eventmgmt_config_trigger_filter`  filter.
+* `faz_eventmgmt_config_trigger_filter_rule`  rule.
+* `faz_eventmgmt_correlationhandlers_import`  Import correlation handlers.
 * `faz_report_config_chart`  Config chart.
 * `faz_report_config_chart_drilldowntable`  Config drill-down-table.
 * `faz_report_config_chart_tablecolumns`  Config table-columns.

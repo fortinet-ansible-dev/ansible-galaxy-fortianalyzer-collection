@@ -100,6 +100,7 @@ options:
         type: dict
         suboptions:
             authen_type:
+                aliases: ['authen-type']
                 type: str
                 description:
                  - Authentication type.
@@ -108,21 +109,14 @@ options:
                  - pap - PAP.
                  - chap - CHAP.
                  - mschap - MSCHAP.
-                choices:
-                    - 'auto'
-                    - 'ascii'
-                    - 'pap'
-                    - 'chap'
-                    - 'mschap'
+                choices: ['auto', 'ascii', 'pap', 'chap', 'mschap']
             authorization:
                 type: str
                 description:
                  - Enable/disable TACACS+ authorization.
                  - disable - Disable TACACS+ authorization.
                  - enable - Enable TACACS+ authorization
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             key:
                 description: no description
                 type: str
@@ -133,18 +127,22 @@ options:
                 type: int
                 description: Port number of TACACS+ server.
             secondary_key:
+                aliases: ['secondary-key']
                 description: no description
                 type: str
             secondary_server:
+                aliases: ['secondary-server']
                 type: str
                 description: no description
             server:
                 type: str
                 description: no description
             tertiary_key:
+                aliases: ['tertiary-key']
                 description: no description
                 type: str
             tertiary_server:
+                aliases: ['tertiary-server']
                 type: str
                 description: no description
 '''

@@ -92,27 +92,31 @@ options:
         type: dict
         suboptions:
             log_interval_dev_no_logging:
+                aliases: ['log-interval-dev-no-logging']
                 type: int
                 description: Interval in minute for logging the event of no logs received from a device.
             log_interval_disk_full:
+                aliases: ['log-interval-disk-full']
                 type: int
                 description: Interval in minute for logging the event of disk full.
             log_interval_gbday_exceeded:
+                aliases: ['log-interval-gbday-exceeded']
                 type: int
                 description: Interval in minute for logging the event of the GB/Day license exceeded.
             log_daemon_crash:
+                aliases: ['log-daemon-crash']
                 type: str
                 description:
                  - Send a logmsg when a daemon crashes.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             no_log_detection_threshold:
+                aliases: ['no-log-detection-threshold']
                 type: int
                 description: Time interval in minutes to trigger a local event message if no log data is received.
             log_interval_adom_perf_stats:
+                aliases: ['log-interval-adom-perf-stats']
                 type: int
                 description: Interval in minute for logging the event of adom perf stats.
 '''
@@ -205,7 +209,7 @@ def main():
                 'log-interval-disk-full': {'type': 'int'},
                 'log-interval-gbday-exceeded': {'type': 'int'},
                 'log-daemon-crash': {'v_range': [['7.2.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'no-log-detection-threshold': {'v_range': [['7.2.4', '7.2.7'], ['7.4.2', '']], 'type': 'int'},
+                'no-log-detection-threshold': {'v_range': [['7.2.4', '7.2.8'], ['7.4.2', '']], 'type': 'int'},
                 'log-interval-adom-perf-stats': {'v_range': [['7.4.0', '']], 'type': 'int'}
             }
         }

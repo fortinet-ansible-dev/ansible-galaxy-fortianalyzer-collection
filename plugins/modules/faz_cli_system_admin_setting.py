@@ -92,33 +92,34 @@ options:
         type: dict
         suboptions:
             access_banner:
+                aliases: ['access-banner']
                 type: str
                 description:
                  - Enable/disable access banner.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             admin_https_redirect:
+                aliases: ['admin-https-redirect']
                 type: str
                 description:
                  - Enable/disable redirection of HTTP admin traffic to HTTPS.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             admin_login_max:
+                aliases: ['admin-login-max']
                 type: int
                 description: Maximum number admin users logged in at one time
             admin_server_cert:
                 type: str
                 description: HTTPS & Web Service server certificate.
             banner_message:
+                aliases: ['banner-message']
                 type: str
                 description: Banner message.
             gui_theme:
+                aliases: ['gui-theme']
                 type: str
                 description:
                  - Color scheme to use for the administration GUI.
@@ -196,80 +197,73 @@ options:
                 type: int
                 description: Idle timeout
             objects_force_deletion:
+                aliases: ['objects-force-deletion']
                 type: str
                 description:
                  - Enable/disable used objects force deletion.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             shell_access:
+                aliases: ['shell-access']
                 type: str
                 description:
                  - Enable/disable shell access.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             shell_password:
+                aliases: ['shell-password']
                 description: Password for shell access.
                 type: str
             show_add_multiple:
+                aliases: ['show-add-multiple']
                 type: str
                 description:
                  - Show add multiple button.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             show_checkbox_in_table:
+                aliases: ['show-checkbox-in-table']
                 type: str
                 description:
                  - Show checkboxs in tables on GUI.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             show_device_import_export:
+                aliases: ['show-device-import-export']
                 type: str
                 description:
                  - Enable/disable import/export of ADOM, device, and group lists.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             show_fct_manager:
+                aliases: ['show-fct-manager']
                 type: str
                 description:
                  - Enable/disable FCT manager.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             show_hostname:
+                aliases: ['show-hostname']
                 type: str
                 description:
                  - Enable/disable hostname display in the GUI login page.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             show_log_forwarding:
+                aliases: ['show-log-forwarding']
                 type: str
                 description:
                  - Show log forwarding tab in regular mode.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             unreg_dev_opt:
                 type: str
                 description:
@@ -277,10 +271,7 @@ options:
                  - add_no_service - Add unregistered devices but deny service requests.
                  - ignore - Ignore unregistered devices.
                  - add_allow_service - Add unregistered devices and allow service requests.
-                choices:
-                    - 'add_no_service'
-                    - 'ignore'
-                    - 'add_allow_service'
+                choices: ['add_no_service', 'ignore', 'add_allow_service']
             webadmin_language:
                 type: str
                 description:
@@ -292,15 +283,7 @@ options:
                  - japanese - Japanese.
                  - korean - Korean.
                  - spanish - Spanish.
-                choices:
-                    - 'auto_detect'
-                    - 'english'
-                    - 'simplified_chinese'
-                    - 'traditional_chinese'
-                    - 'japanese'
-                    - 'korean'
-                    - 'spanish'
-                    - 'french'
+                choices: ['auto_detect', 'english', 'simplified_chinese', 'traditional_chinese', 'japanese', 'korean', 'spanish', 'french']
             idle_timeout_api:
                 type: int
                 description: Idle timeout for API sessions
@@ -308,45 +291,46 @@ options:
                 type: int
                 description: Idle timeout for GUI sessions
             auth_addr:
+                aliases: ['auth-addr']
                 type: str
                 description: IP which is used by FGT to authorize FAZ.
             auth_port:
+                aliases: ['auth-port']
                 type: int
                 description: Port which is used by FGT to authorize FAZ.
             preferred_fgfm_intf:
+                aliases: ['preferred-fgfm-intf']
                 type: str
                 description: Preferred interface for FGFM connection.
             idle_timeout_sso:
                 type: int
                 description: Idle timeout for SSO sessions
             fsw_ignore_platform_check:
+                aliases: ['fsw-ignore-platform-check']
                 type: str
                 description:
                  - Enable/disable FortiSwitch Manager switch platform support check.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             firmware_upgrade_check:
+                aliases: ['firmware-upgrade-check']
                 type: str
                 description:
                  - Enable/disable firmware upgrade check.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             fgt_gui_proxy:
+                aliases: ['fgt-gui-proxy']
                 type: str
                 description:
                  - Enable/disable FortiGate GUI proxy.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             fgt_gui_proxy_port:
+                aliases: ['fgt-gui-proxy-port']
                 type: int
                 description: FortiGate GUI proxy port.
 '''
@@ -479,7 +463,7 @@ def main():
                 'auth-port': {'v_range': [['7.0.1', '']], 'type': 'int'},
                 'preferred-fgfm-intf': {'v_range': [['7.0.2', '']], 'type': 'str'},
                 'idle_timeout_sso': {'v_range': [['7.0.3', '']], 'type': 'int'},
-                'fsw-ignore-platform-check': {'v_range': [['7.0.7', '7.0.12'], ['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'fsw-ignore-platform-check': {'v_range': [['7.0.7', '7.0.13'], ['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'firmware-upgrade-check': {'v_range': [['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'fgt-gui-proxy': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'fgt-gui-proxy-port': {'v_range': [['7.4.2', '']], 'type': 'int'}

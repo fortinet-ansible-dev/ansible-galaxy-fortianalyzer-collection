@@ -99,10 +99,7 @@ options:
                  - fortiguard-db - Fortinets Fortiguard database.
                 type: list
                 elements: str
-                choices:
-                    - 'both'
-                    - 'custom-url'
-                    - 'fortiguard-db'
+                choices: ['both', 'custom-url', 'fortiguard-db']
 '''
 
 EXAMPLES = '''

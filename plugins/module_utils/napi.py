@@ -37,7 +37,7 @@ def get_ansible_format_name(api_format_name, replace_param=False):
         ansible_format_name = ansible_format_name.replace(special_char, '_')
     if replace_param:
         replace_dict = {'message': 'faz_message'}
-        for key in replace_dict:
+        for key in replace_dict:  # todo?
             ansible_format_name = ansible_format_name.replace(key, replace_dict[key])
     return ansible_format_name
 
@@ -184,10 +184,9 @@ class FortiAnalyzerAnsible(object):
             self.process_fact()
         elif self.task_type == 'rename':
             self.process_rename()
-        elif self.task_type == 'report_add':
-            self.process_request_without_data_wrapper('add')
-        elif self.task_type == 'report_delete':
-            self.process_request_without_data_wrapper('delete')
+        elif self.task_type.startswith('jsonrpc2_'):
+            method = self.task_type[9:]
+            self.process_request_without_data_wrapper(method, True)
         else:
             raise AssertionError('Wrong task type')
 
@@ -196,7 +195,7 @@ class FortiAnalyzerAnsible(object):
         response = self.conn.send_request(method, param, jsonrpc2=jsonrpc2)
         self.do_exit(response)
 
-    def process_request_without_data_wrapper(self, request_method):
+    def process_request_without_data_wrapper(self, request_method, jsonrpc2=True):
         argument_specs = self.metadata
         params = self.module.params
         module_name = self.module_level2_name
@@ -213,7 +212,7 @@ class FortiAnalyzerAnsible(object):
                 api_params[param_name] = params[module_name][param_name]
         if self.module.check_mode:
             self.do_final_exit(changed=True)
-        response = self.conn.send_request(request_method, [api_params])
+        response = self.conn.send_request(request_method, [api_params], jsonrpc2=jsonrpc2)
         self.do_exit(response)
 
     def process_exec(self):
@@ -240,10 +239,10 @@ class FortiAnalyzerAnsible(object):
         argument_specs = self.metadata
         params = self.module.params
         module_name = self.module_level2_name
-        track = [module_name]
         version_check = params.get('version_check', False)
         bypass_valid = params.get('bypass_validation', False)
         if version_check and not bypass_valid:
+            track = [module_name]
             self.check_versioning_mismatch(track, argument_specs.get(module_name, None), params.get(module_name, None))
         response = (-1, {})
         state = params['state']

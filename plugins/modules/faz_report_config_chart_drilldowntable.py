@@ -113,27 +113,25 @@ options:
             flag:
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             table_id:
+                aliases: ['table-id']
                 type: int
                 description: no description
             chart_group:
+                aliases: ['chart-group']
                 type: str
                 description: no description
             page_break_after:
+                aliases: ['page-break-after']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             show_title:
+                aliases: ['show-title']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
 '''
 
 EXAMPLES = '''
@@ -235,9 +233,9 @@ def main():
                 'chart': {'type': 'str'},
                 'flag': {'choices': ['enable', 'disable'], 'type': 'str'},
                 'table-id': {'v_range': [['6.2.1', '7.4.2']], 'type': 'int'},
-                'chart-group': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'},
-                'page-break-after': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'show-title': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'}
+                'chart-group': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'type': 'str'},
+                'page-break-after': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'show-title': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'}
             }
         }
     }

@@ -104,20 +104,21 @@ options:
         type: dict
         suboptions:
             folder_id:
+                aliases: ['folder-id']
                 type: int
                 description: no description
             parent_id:
+                aliases: ['parent-id']
                 type: int
                 description: no description
             folder_name:
+                aliases: ['folder-name']
                 type: str
                 description: no description
             protected:
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
 '''
 
 EXAMPLES = '''
@@ -214,8 +215,8 @@ def main():
             'options': {
                 'folder-id': {'type': 'int'},
                 'parent-id': {'type': 'int'},
-                'folder-name': {'v_range': [['6.2.2', '6.2.12'], ['7.0.0', '7.0.0'], ['7.4.3', '']], 'type': 'str'},
-                'protected': {'v_range': [['6.2.2', '6.2.12'], ['7.0.0', '7.0.0']], 'choices': ['enable', 'disable'], 'type': 'str'}
+                'folder-name': {'v_range': [['6.2.2', '6.2.13'], ['7.0.0', '7.0.0'], ['7.4.3', '']], 'type': 'str'},
+                'protected': {'v_range': [['6.2.2', '6.2.13'], ['7.0.0', '7.0.0']], 'choices': ['enable', 'disable'], 'type': 'str'}
             }
         }
     }

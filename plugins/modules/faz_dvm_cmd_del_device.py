@@ -96,10 +96,7 @@ options:
                  - nonblocking - The API will return immediately in for non-blocking call.
                 type: list
                 elements: str
-                choices:
-                    - 'none'
-                    - 'create_task'
-                    - 'nonblocking'
+                choices: ['none', 'create_task', 'nonblocking']
 '''
 
 EXAMPLES = '''

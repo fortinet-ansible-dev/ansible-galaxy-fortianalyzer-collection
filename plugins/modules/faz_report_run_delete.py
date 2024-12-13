@@ -181,7 +181,7 @@ def main():
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
     faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
-                               metadata=module_arg_spec, task_type='report_delete')
+                               metadata=module_arg_spec, task_type='jsonrpc2_delete')
     faz.process()
     module.exit_json(meta=module.params)
 

@@ -103,13 +103,12 @@ options:
                  - Enable/disable custom certificate.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             password:
                 description: Password for encrypted private-key, unset for non-encrypted.
                 type: str
             private_key:
+                aliases: ['private-key']
                 description: PEM format private key.
                 type: str
             local:
@@ -122,10 +121,7 @@ options:
                  - default - Default mode.
                  - custom - Use custom certificate.
                  - local - Use a local certificate.
-                choices:
-                    - 'default'
-                    - 'custom'
-                    - 'local'
+                choices: ['default', 'custom', 'local']
 '''
 
 EXAMPLES = '''

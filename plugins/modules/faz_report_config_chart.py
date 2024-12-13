@@ -110,6 +110,7 @@ options:
                 type: str
                 description: no description
             dev_type:
+                aliases: ['dev-type']
                 type: str
                 description: no description
                 choices:
@@ -129,9 +130,11 @@ options:
                     - 'FortiGate'
                     - 'FortiFirewall'
             disp_name:
+                aliases: ['disp-name']
                 type: str
                 description: no description
             drill_down_table:
+                aliases: ['drill-down-table']
                 description: 'reference: /report/adom/<adom-name>/config/chart/<chart_name>/drill-down-table'
                 type: list
                 elements: dict
@@ -142,42 +145,39 @@ options:
                     flag:
                         type: str
                         description: no description
-                        choices:
-                            - 'enable'
-                            - 'disable'
+                        choices: ['enable', 'disable']
                     table_id:
+                        aliases: ['table-id']
                         type: int
                         description: no description
                     chart_group:
+                        aliases: ['chart-group']
                         type: str
                         description: no description
                     page_break_after:
+                        aliases: ['page-break-after']
                         type: str
                         description: no description
-                        choices:
-                            - 'enable'
-                            - 'disable'
+                        choices: ['enable', 'disable']
                     show_title:
+                        aliases: ['show-title']
                         type: str
                         description: no description
-                        choices:
-                            - 'enable'
-                            - 'disable'
+                        choices: ['enable', 'disable']
             name:
                 type: str
                 description: no description
             table_columns:
+                aliases: ['table-columns']
                 description: 'reference: /report/adom/<adom-name>/config/chart/<chart_name>/table-columns'
                 type: list
                 elements: dict
                 suboptions:
                     data_type:
+                        aliases: ['data-type']
                         type: str
                         description: no description
-                        choices:
-                            - 'aggregate'
-                            - 'raw'
-                            - 'drilldown'
+                        choices: ['aggregate', 'raw', 'drilldown']
                     header:
                         type: str
                         description: no description
@@ -185,6 +185,7 @@ options:
                         type: int
                         description: no description
                     column_attr:
+                        aliases: ['column-attr']
                         type: str
                         description: no description
                         choices:
@@ -217,32 +218,35 @@ options:
                             - 'time'
                             - 'kbps'
                     column_graph_type:
+                        aliases: ['column-graph-type']
                         type: str
                         description: no description
-                        choices:
-                            - 'none'
-                            - 'bar'
-                            - 'line-down'
-                            - 'line-up'
+                        choices: ['none', 'bar', 'line-down', 'line-up']
                     column_num:
+                        aliases: ['column-num']
                         type: int
                         description: no description
                     column_span:
+                        aliases: ['column-span']
                         type: int
                         description: no description
                     column_width:
+                        aliases: ['column-width']
                         type: int
                         description: no description
                     data_binding:
+                        aliases: ['data-binding']
                         type: str
                         description: no description
                     data_top:
+                        aliases: ['data-top']
                         type: int
                         description: no description
                     legend:
                         type: str
                         description: no description
             variable_template:
+                aliases: ['variable-template']
                 description: 'reference: /report/adom/<adom-name>/config/chart/<chart_name>/variable-template'
                 type: list
                 elements: dict
@@ -250,177 +254,159 @@ options:
                     not:
                         type: str
                         description: no description
-                        choices:
-                            - 'enable'
-                            - 'disable'
+                        choices: ['enable', 'disable']
                     var:
                         type: str
                         description: no description
                     var_value:
+                        aliases: ['var-value']
                         type: str
                         description: no description
                     description:
                         type: str
                         description: no description
                     drilldown_flag:
+                        aliases: ['drilldown-flag']
                         type: str
                         description: no description
-                        choices:
-                            - 'enable'
-                            - 'disable'
+                        choices: ['enable', 'disable']
                     status:
                         type: str
                         description: no description
-                        choices:
-                            - 'enable'
-                            - 'disable'
+                        choices: ['enable', 'disable']
                     var_expression:
+                        aliases: ['var-expression']
                         type: str
                         description: no description
                     var_type:
+                        aliases: ['var-type']
                         type: str
                         description: no description
-                        choices:
-                            - 'ip'
-                            - 'integer'
-                            - 'string'
-                            - 'datetime'
+                        choices: ['ip', 'integer', 'string', 'datetime']
                     view_mask:
                         type: int
                         description: no description
             chart_type:
+                aliases: ['chart-type']
                 type: str
                 description: no description
-                choices:
-                    - 'map'
-                    - 'none'
-                    - 'chord'
-                    - 'bar'
-                    - 'area'
-                    - 'pie'
-                    - 'donut'
-                    - 'radar'
-                    - 'table'
-                    - 'line'
+                choices: ['map', 'none', 'chord', 'bar', 'area', 'pie', 'donut', 'radar', 'table', 'line']
             dataset:
                 type: str
                 description: no description
             drill_down_agg:
+                aliases: ['drill-down-agg']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             drill_down_desc:
+                aliases: ['drill-down-desc']
                 type: str
                 description: no description
             drill_down_title:
+                aliases: ['drill-down-title']
                 type: str
                 description: no description
             favorite:
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             hidden:
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             include_other:
+                aliases: ['include-other']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             line_subtype:
+                aliases: ['line-subtype']
                 type: str
                 description: no description
-                choices:
-                    - 'back-to-back'
-                    - 'stacked'
-                    - 'basic'
+                choices: ['back-to-back', 'stacked', 'basic']
             order_by:
+                aliases: ['order-by']
                 type: str
                 description: no description
             order_desc:
+                aliases: ['order-desc']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             protected:
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             resolve_hostname:
+                aliases: ['resolve-hostname']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             resolve_hostname_mode:
+                aliases: ['resolve-hostname-mode']
                 type: str
                 description: no description
-                choices:
-                    - 'variable'
-                    - 'specify'
+                choices: ['variable', 'specify']
             scale:
                 type: int
                 description: no description
             show_table:
+                aliases: ['show-table']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             x_axis_data_binding:
+                aliases: ['x-axis-data-binding']
                 type: str
                 description: no description
             x_axis_data_top:
+                aliases: ['x-axis-data-top']
                 type: int
                 description: no description
             x_axis_include_other:
+                aliases: ['x-axis-include-other']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             x_axis_label:
+                aliases: ['x-axis-label']
                 type: str
                 description: no description
             y_axis_data_binding:
+                aliases: ['y-axis-data-binding']
                 type: str
                 description: no description
             y_axis_group:
+                aliases: ['y-axis-group']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             y_axis_group_by:
+                aliases: ['y-axis-group-by']
                 type: str
                 description: no description
             y_axis_group_top:
+                aliases: ['y-axis-group-top']
                 type: int
                 description: no description
             y_axis_label:
+                aliases: ['y-axis-label']
                 type: str
                 description: no description
             y2_axis_data_binding:
+                aliases: ['y2-axis-data-binding']
                 type: str
                 description: no description
             y2_axis_label:
+                aliases: ['y2-axis-label']
                 type: str
                 description: no description
             tags:
                 type: str
                 description: no description
             chart_style:
+                aliases: ['chart-style']
                 type: str
                 description: no description
 '''
@@ -593,9 +579,9 @@ def main():
                         'chart': {'type': 'str'},
                         'flag': {'choices': ['enable', 'disable'], 'type': 'str'},
                         'table-id': {'v_range': [['6.2.1', '7.4.2']], 'type': 'int'},
-                        'chart-group': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'},
-                        'page-break-after': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                        'show-title': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'}
+                        'chart-group': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'type': 'str'},
+                        'page-break-after': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                        'show-title': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'}
                     },
                     'elements': 'dict'
                 },
@@ -607,7 +593,7 @@ def main():
                         'header': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
                         'id': {'v_range': [['6.2.1', '7.4.2']], 'type': 'int'},
                         'column-attr': {
-                            'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']],
+                            'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']],
                             'choices': [
                                 'app-id', 'email-recver', 'timespan', 'obf-url', 'cal-percent', 'vuln', 'bandwidth', 'dev-type', 'severity', 'percent',
                                 'trend', 'attack', 'html', 'ipsec-tunnel', 'web-cat', 'ip-country', 'email-sender', 'search', 'virus', 'user',
@@ -615,13 +601,13 @@ def main():
                             ],
                             'type': 'str'
                         },
-                        'column-graph-type': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['none', 'bar', 'line-down', 'line-up'], 'type': 'str'},
-                        'column-num': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                        'column-span': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                        'column-width': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                        'data-binding': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                        'data-top': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                        'legend': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'}
+                        'column-graph-type': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['none', 'bar', 'line-down', 'line-up'], 'type': 'str'},
+                        'column-num': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                        'column-span': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                        'column-width': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                        'data-binding': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                        'data-top': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                        'legend': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'}
                     },
                     'elements': 'dict'
                 },
@@ -631,46 +617,46 @@ def main():
                         'not': {'v_range': [['6.2.1', '7.4.2']], 'choices': ['enable', 'disable'], 'type': 'str'},
                         'var': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
                         'var-value': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
-                        'description': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'},
-                        'drilldown-flag': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                        'status': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                        'var-expression': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                        'var-type': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['ip', 'integer', 'string', 'datetime'], 'type': 'str'},
-                        'view_mask': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'}
+                        'description': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'type': 'str'},
+                        'drilldown-flag': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                        'status': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                        'var-expression': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                        'var-type': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['ip', 'integer', 'string', 'datetime'], 'type': 'str'},
+                        'view_mask': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'}
                     },
                     'elements': 'dict'
                 },
                 'chart-type': {
-                    'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']],
+                    'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']],
                     'choices': ['map', 'none', 'chord', 'bar', 'area', 'pie', 'donut', 'radar', 'table', 'line'],
                     'type': 'str'
                 },
-                'dataset': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'drill-down-agg': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'drill-down-desc': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'drill-down-title': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'favorite': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'hidden': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'include-other': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'line-subtype': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['back-to-back', 'stacked', 'basic'], 'type': 'str'},
-                'order-by': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'order-desc': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'protected': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'resolve-hostname': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'resolve-hostname-mode': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['variable', 'specify'], 'type': 'str'},
-                'scale': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                'show-table': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'x-axis-data-binding': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'x-axis-data-top': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                'x-axis-include-other': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'x-axis-label': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'y-axis-data-binding': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'y-axis-group': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'y-axis-group-by': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'y-axis-group-top': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                'y-axis-label': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'y2-axis-data-binding': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'y2-axis-label': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
+                'dataset': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'drill-down-agg': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'drill-down-desc': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'drill-down-title': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'favorite': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'hidden': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'include-other': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'line-subtype': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['back-to-back', 'stacked', 'basic'], 'type': 'str'},
+                'order-by': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'order-desc': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'protected': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'resolve-hostname': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'resolve-hostname-mode': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['variable', 'specify'], 'type': 'str'},
+                'scale': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                'show-table': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'x-axis-data-binding': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'x-axis-data-top': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                'x-axis-include-other': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'x-axis-label': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'y-axis-data-binding': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'y-axis-group': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'y-axis-group-by': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'y-axis-group-top': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                'y-axis-label': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'y2-axis-data-binding': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'y2-axis-label': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
                 'tags': {'v_range': [['6.4.3', '7.4.2']], 'type': 'str'},
                 'chart-style': {'v_range': [['7.4.3', '']], 'type': 'str'}
             }

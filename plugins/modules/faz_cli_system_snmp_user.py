@@ -100,19 +100,15 @@ options:
         type: dict
         suboptions:
             auth_proto:
+                aliases: ['auth-proto']
                 type: str
                 description:
                  - Authentication protocol.
                  - md5 - HMAC-MD5-96 authentication protocol.
                  - sha - HMAC-SHA-96 authentication protocol.
-                choices:
-                    - 'md5'
-                    - 'sha'
-                    - 'sha224'
-                    - 'sha256'
-                    - 'sha384'
-                    - 'sha512'
+                choices: ['md5', 'sha', 'sha224', 'sha256', 'sha384', 'sha512']
             auth_pwd:
+                aliases: ['auth-pwd']
                 description: Password for authentication protocol.
                 type: str
             events:
@@ -147,23 +143,23 @@ options:
                 type: str
                 description: SNMP user name.
             notify_hosts:
+                aliases: ['notify-hosts']
                 type: str
                 description: Hosts to send notifications
             notify_hosts6:
+                aliases: ['notify-hosts6']
                 type: str
                 description: IPv6 hosts to send notifications
             priv_proto:
+                aliases: ['priv-proto']
                 type: str
                 description:
                  - Privacy
                  - aes - CFB128-AES-128 symmetric encryption protocol.
                  - des - CBC-DES symmetric encryption protocol.
-                choices:
-                    - 'aes'
-                    - 'des'
-                    - 'aes256'
-                    - 'aes256cisco'
+                choices: ['aes', 'des', 'aes256', 'aes256cisco']
             priv_pwd:
+                aliases: ['priv-pwd']
                 description: Password for privacy
                 type: str
             queries:
@@ -172,23 +168,20 @@ options:
                  - Enable/disable queries for this user.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             query_port:
+                aliases: ['query-port']
                 type: int
                 description: SNMPv3 query port.
             security_level:
+                aliases: ['security-level']
                 type: str
                 description:
                  - Security level for message authentication and encryption.
                  - no-auth-no-priv - Message with no authentication and no privacy
                  - auth-no-priv - Message with authentication but no privacy
                  - auth-priv - Message with authentication and privacy
-                choices:
-                    - 'no-auth-no-priv'
-                    - 'auth-no-priv'
-                    - 'auth-priv'
+                choices: ['no-auth-no-priv', 'auth-no-priv', 'auth-priv']
 '''
 
 EXAMPLES = '''

@@ -100,9 +100,7 @@ options:
                  - Web proxy mode
                  - proxy - HTTP proxy mode
                  - tunnel - HTTP tunnel mode
-                choices:
-                    - 'proxy'
-                    - 'tunnel'
+                choices: ['proxy', 'tunnel']
             password:
                 description: The password for the user name used for authentication.
                 type: str
@@ -115,9 +113,7 @@ options:
                  - Enable/disable connections through the web proxy
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             username:
                 type: str
                 description: The user name used for authentication.

@@ -107,6 +107,7 @@ options:
                 type: str
                 description: no description
             email_recipients:
+                aliases: ['email-recipients']
                 description: 'reference: /report/adom/<adom-name>/config/output/<output-name>/email-recipients'
                 type: list
                 elements: dict
@@ -115,76 +116,70 @@ options:
                         type: str
                         description: no description
                     email_from:
+                        aliases: ['email-from']
                         type: str
                         description: no description
                     email_server:
+                        aliases: ['email-server']
                         type: str
                         description: no description
             name:
                 type: str
                 description: no description
             output_format:
+                aliases: ['output-format']
                 type: str
                 description: no description
-                choices:
-                    - 'xml'
-                    - 'rtf'
-                    - 'connectwise'
-                    - 'html'
-                    - 'pdf'
-                    - 'mht'
-                    - 'txt'
-                    - 'csv'
+                choices: ['xml', 'rtf', 'connectwise', 'html', 'pdf', 'mht', 'txt', 'csv']
             email:
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             email_attachment_compress:
+                aliases: ['email-attachment-compress']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             email_attachment_name:
+                aliases: ['email-attachment-name']
                 type: str
                 description: no description
             email_body:
+                aliases: ['email-body']
                 type: str
                 description: no description
             email_subject:
+                aliases: ['email-subject']
                 type: str
                 description: no description
             upload:
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             upload_delete:
+                aliases: ['upload-delete']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             upload_dir:
+                aliases: ['upload-dir']
                 type: str
                 description: no description
             upload_pass:
+                aliases: ['upload-pass']
                 type: str
                 description: no description
             upload_server:
+                aliases: ['upload-server']
                 type: str
                 description: no description
             upload_server_type:
+                aliases: ['upload-server-type']
                 type: str
                 description: no description
-                choices:
-                    - 'ftp'
-                    - 'scp'
-                    - 'sftp'
+                choices: ['ftp', 'scp', 'sftp']
             upload_user:
+                aliases: ['upload-user']
                 type: str
                 description: no description
 '''
@@ -308,18 +303,18 @@ def main():
                     'choices': ['xml', 'rtf', 'connectwise', 'html', 'pdf', 'mht', 'txt', 'csv'],
                     'type': 'str'
                 },
-                'email': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'email-attachment-compress': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'email-attachment-name': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'email-body': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'email-subject': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'upload': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'upload-delete': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'upload-dir': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'upload-pass': {'v_range': [['6.2.2', '6.2.12']], 'no_log': False, 'type': 'str'},
-                'upload-server': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'upload-server-type': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['ftp', 'scp', 'sftp'], 'type': 'str'},
-                'upload-user': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'}
+                'email': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'email-attachment-compress': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'email-attachment-name': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'email-body': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'email-subject': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'upload': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'upload-delete': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'upload-dir': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'upload-pass': {'v_range': [['6.2.2', '6.2.13']], 'no_log': False, 'type': 'str'},
+                'upload-server': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'upload-server-type': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['ftp', 'scp', 'sftp'], 'type': 'str'},
+                'upload-user': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'}
             }
         }
     }

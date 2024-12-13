@@ -94,9 +94,7 @@ options:
             importance:
                 type: str
                 description: no description
-                choices:
-                    - 'optional'
-                    - 'required'
+                choices: ['optional', 'required']
             length:
                 type: int
                 description: no description
@@ -106,9 +104,7 @@ options:
             status:
                 type: str
                 description: no description
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''

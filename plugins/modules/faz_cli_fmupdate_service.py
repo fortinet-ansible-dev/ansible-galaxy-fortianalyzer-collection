@@ -97,18 +97,15 @@ options:
                  - Enable/disable the built-in FortiGuard to provide FortiGuard antivirus and IPS updates
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             query_geoip:
+                aliases: ['query-geoip']
                 type: str
                 description:
                  - Enable/disable geoip service
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''

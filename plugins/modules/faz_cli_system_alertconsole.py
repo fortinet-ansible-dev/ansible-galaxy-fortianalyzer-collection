@@ -102,15 +102,9 @@ options:
                  - 5 - 5 days.
                  - 6 - 6 days.
                  - 7 - 7 days.
-                choices:
-                    - '1'
-                    - '2'
-                    - '3'
-                    - '4'
-                    - '5'
-                    - '6'
-                    - '7'
+                choices: ['1', '2', '3', '4', '5', '6', '7']
             severity_level:
+                aliases: ['severity-level']
                 description:
                  - Alert console keeps alerts of this and higher severity.
                  - debug - Debug level.
@@ -123,15 +117,7 @@ options:
                  - emergency - Emergency level.
                 type: list
                 elements: str
-                choices:
-                    - 'debug'
-                    - 'information'
-                    - 'notify'
-                    - 'warning'
-                    - 'error'
-                    - 'critical'
-                    - 'alert'
-                    - 'emergency'
+                choices: ['debug', 'information', 'notify', 'warning', 'error', 'critical', 'alert', 'emergency']
 '''
 
 EXAMPLES = '''

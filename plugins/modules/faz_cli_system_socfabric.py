@@ -106,31 +106,27 @@ options:
                  - Enable or Disable SOC Fabric.
                  - member - SOC Fabric member.
                  - supervisor - SOC Fabric supervisor.
-                choices:
-                    - 'member'
-                    - 'supervisor'
+                choices: ['member', 'supervisor']
             secure_connection:
+                aliases: ['secure-connection']
                 type: str
                 description:
                  - Enable or Disable SSL/TLS.
                  - disable - Disable SSL/TLS.
                  - enable - Enable SSL/TLS.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             status:
                 type: str
                 description:
                  - Enable or Disable SOC Fabric.
                  - disable - Disable SOC Fabric.
                  - enable - Enable SOC Fabric.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             supervisor:
                 type: str
                 description: IP/FQDN of supervisor.
             trusted_list:
+                aliases: ['trusted-list']
                 description: no description
                 type: list
                 elements: dict
@@ -233,7 +229,7 @@ def main():
             'options': {
                 'name': {'v_range': [['7.0.0', '']], 'type': 'str'},
                 'port': {'v_range': [['7.0.0', '']], 'type': 'int'},
-                'psk': {'v_range': [['7.0.0', '7.2.7']], 'no_log': True, 'type': 'str'},
+                'psk': {'v_range': [['7.0.0', '7.2.8']], 'no_log': True, 'type': 'str'},
                 'role': {'v_range': [['7.0.0', '']], 'choices': ['member', 'supervisor'], 'type': 'str'},
                 'secure-connection': {'v_range': [['7.0.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'status': {'v_range': [['7.0.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'},

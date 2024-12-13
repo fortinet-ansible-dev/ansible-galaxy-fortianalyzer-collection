@@ -111,31 +111,28 @@ options:
                 type: str
                 description: no description
             var_expression:
+                aliases: ['var-expression']
                 type: str
                 description: no description
             var_name:
+                aliases: ['var-name']
                 type: str
                 description: no description
             var_type:
+                aliases: ['var-type']
                 type: str
                 description: no description
-                choices:
-                    - 'ip'
-                    - 'integer'
-                    - 'string'
-                    - 'datetime'
+                choices: ['ip', 'integer', 'string', 'datetime']
             drilldown_flag:
+                aliases: ['drilldown-flag']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             var_array:
+                aliases: ['var-array']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
 '''
 
 EXAMPLES = '''
@@ -238,8 +235,8 @@ def main():
                 'var-expression': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
                 'var-name': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
                 'var-type': {'v_range': [['6.2.1', '7.4.2']], 'choices': ['ip', 'integer', 'string', 'datetime'], 'type': 'str'},
-                'drilldown-flag': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'var-array': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'}
+                'drilldown-flag': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'var-array': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'}
             }
         }
     }

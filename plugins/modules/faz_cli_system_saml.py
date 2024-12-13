@@ -92,67 +92,78 @@ options:
         type: dict
         suboptions:
             acs_url:
+                aliases: ['acs-url']
                 type: str
                 description: SP ACS
             cert:
                 type: str
                 description: Certificate name.
             default_profile:
+                aliases: ['default-profile']
                 type: str
                 description: Default Profile Name.
             entity_id:
+                aliases: ['entity-id']
                 type: str
                 description: SP entity ID.
             fabric_idp:
+                aliases: ['fabric-idp']
                 description: no description
                 type: list
                 elements: dict
                 suboptions:
                     dev_id:
+                        aliases: ['dev-id']
                         type: str
                         description: IDP Device ID.
                     idp_cert:
+                        aliases: ['idp-cert']
                         type: str
                         description: IDP Certificate name.
                     idp_entity_id:
+                        aliases: ['idp-entity-id']
                         type: str
                         description: IDP entity ID.
                     idp_single_logout_url:
+                        aliases: ['idp-single-logout-url']
                         type: str
                         description: IDP single logout url.
                     idp_single_sign_on_url:
+                        aliases: ['idp-single-sign-on-url']
                         type: str
                         description: IDP single sign-on URL.
                     idp_status:
+                        aliases: ['idp-status']
                         type: str
                         description:
                          - Enable/disable SAML authentication
                          - disable - Disable SAML authentication.
                          - enable - Enabld SAML authentication.
-                        choices:
-                            - 'disable'
-                            - 'enable'
+                        choices: ['disable', 'enable']
             idp_cert:
+                aliases: ['idp-cert']
                 type: str
                 description: IDP Certificate name.
             idp_entity_id:
+                aliases: ['idp-entity-id']
                 type: str
                 description: IDP entity ID.
             idp_single_logout_url:
+                aliases: ['idp-single-logout-url']
                 type: str
                 description: IDP single logout url.
             idp_single_sign_on_url:
+                aliases: ['idp-single-sign-on-url']
                 type: str
                 description: IDP single sign-on URL.
             login_auto_redirect:
+                aliases: ['login-auto-redirect']
                 type: str
                 description:
                  - Enable/Disable auto redirect to IDP login page.
                  - disable - Disable auto redirect to IDP Login Page.
                  - enable - Enable auto redirect to IDP Login Page.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             role:
                 type: str
                 description:
@@ -160,25 +171,27 @@ options:
                  - IDP - IDentiy Provider.
                  - SP - Service Provider.
                  - FAB-SP - Fabric Service Provider.
-                choices:
-                    - 'IDP'
-                    - 'SP'
-                    - 'FAB-SP'
+                choices: ['IDP', 'SP', 'FAB-SP']
             server_address:
+                aliases: ['server-address']
                 type: str
                 description: server address.
             service_providers:
+                aliases: ['service-providers']
                 description: no description
                 type: list
                 elements: dict
                 suboptions:
                     idp_entity_id:
+                        aliases: ['idp-entity-id']
                         type: str
                         description: IDP Entity ID.
                     idp_single_logout_url:
+                        aliases: ['idp-single-logout-url']
                         type: str
                         description: IDP single logout url.
                     idp_single_sign_on_url:
+                        aliases: ['idp-single-sign-on-url']
                         type: str
                         description: IDP single sign-on URL.
                     name:
@@ -188,24 +201,31 @@ options:
                         type: str
                         description: Prefix.
                     sp_cert:
+                        aliases: ['sp-cert']
                         type: str
                         description: SP certificate name.
                     sp_entity_id:
+                        aliases: ['sp-entity-id']
                         type: str
                         description: SP Entity ID.
                     sp_single_logout_url:
+                        aliases: ['sp-single-logout-url']
                         type: str
                         description: SP single logout URL.
                     sp_single_sign_on_url:
+                        aliases: ['sp-single-sign-on-url']
                         type: str
                         description: SP single sign-on URL.
                     sp_adom:
+                        aliases: ['sp-adom']
                         type: str
                         description: SP adom name.
                     sp_profile:
+                        aliases: ['sp-profile']
                         type: str
                         description: SP profile name.
             sls_url:
+                aliases: ['sls-url']
                 type: str
                 description: SP SLS
             status:
@@ -214,45 +234,39 @@ options:
                  - Enable/disable SAML authentication
                  - disable - Disable SAML authentication.
                  - enable - Enabld SAML authentication.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             forticloud_sso:
+                aliases: ['forticloud-sso']
                 type: str
                 description:
                  - Enable/disable FortiCloud SSO
                  - disable - Disable Forticloud SSO.
                  - enable - Enabld Forticloud SSO.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             user_auto_create:
+                aliases: ['user-auto-create']
                 type: str
                 description:
                  - Enable/disable user auto creation
                  - disable - Disable auto create user.
                  - enable - Enable auto create user.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             auth_request_signed:
+                aliases: ['auth-request-signed']
                 type: str
                 description:
                  - Enable/Disable auth request signed.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             want_assertions_signed:
+                aliases: ['want-assertions-signed']
                 type: str
                 description:
                  - Enable/Disable want assertions signed.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''

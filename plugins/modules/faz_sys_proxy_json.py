@@ -87,11 +87,7 @@ options:
             action:
                 type: str
                 description: Specify HTTP action for the request.
-                choices:
-                    - 'get'
-                    - 'post'
-                    - 'put'
-                    - 'delete'
+                choices: ['get', 'post', 'put', 'delete']
             payload:
                 description: no description
                 type: dict

@@ -102,14 +102,7 @@ options:
                  - Thursday - Update every Thursday.
                  - Friday - Update every Friday.
                  - Saturday - Update every Saturday.
-                choices:
-                    - 'Sunday'
-                    - 'Monday'
-                    - 'Tuesday'
-                    - 'Wednesday'
-                    - 'Thursday'
-                    - 'Friday'
-                    - 'Saturday'
+                choices: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
             frequency:
                 type: str
                 description:
@@ -117,19 +110,14 @@ options:
                  - every - Time interval.
                  - daily - Every day.
                  - weekly - Every week.
-                choices:
-                    - 'every'
-                    - 'daily'
-                    - 'weekly'
+                choices: ['every', 'daily', 'weekly']
             status:
                 type: str
                 description:
                  - Enable/disable scheduled updates.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             time:
                 description: Time interval between updates, or the hour and minute when the update occurs
                 type: str

@@ -109,9 +109,11 @@ options:
                 type: int
                 description: Syslog server port.
             local_cert:
+                aliases: ['local-cert']
                 type: str
                 description: Select local certificate used for secure connection.
             peer_cert_cn:
+                aliases: ['peer-cert-cn']
                 type: str
                 description: Certificate common name of syslog server.
             reliable:
@@ -120,18 +122,27 @@ options:
                  - Enable/disable reliable connection with syslog server.
                  - disable - Disable reliable connection with syslog server.
                  - enable - Enable reliable connection with syslog server.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             secure_connection:
+                aliases: ['secure-connection']
                 type: str
                 description:
                  - Enable/disable connection secured by TLS/SSL.
                  - disable - Disable SSL connection.
                  - enable - Enable SSL connection.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
+            ssl_protocol:
+                aliases: ['ssl-protocol']
+                type: str
+                description:
+                 - set the lowest SSL protocol version for connection to syslog server.
+                 - follow-global-ssl-protocol - Follow system.global.global-ssl-protocol setting
+                 - sslv3 - set SSLv3 as the lowest version.
+                 - tlsv1.0 - set TLSv1.0 as the lowest version.
+                 - tlsv1.1 - set TLSv1.1 as the lowest version.
+                 - tlsv1.2 - set TLSv1.2 as the lowest version.
+                 - tlsv1.3 - set TLSv1.3 as the lowest version.
+                choices: ['follow-global-ssl-protocol', 'sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3']
 '''
 
 EXAMPLES = '''
@@ -223,10 +234,15 @@ def main():
                 'ip': {'type': 'str'},
                 'name': {'type': 'str'},
                 'port': {'type': 'int'},
-                'local-cert': {'v_range': [['6.4.8', '6.4.14'], ['7.0.4', '']], 'type': 'str'},
-                'peer-cert-cn': {'v_range': [['6.4.8', '6.4.14'], ['7.0.4', '']], 'type': 'str'},
-                'reliable': {'v_range': [['6.4.8', '6.4.14'], ['7.0.4', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'secure-connection': {'v_range': [['6.4.8', '6.4.14'], ['7.0.4', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
+                'local-cert': {'v_range': [['6.4.8', '6.4.15'], ['7.0.4', '']], 'type': 'str'},
+                'peer-cert-cn': {'v_range': [['6.4.8', '6.4.15'], ['7.0.4', '']], 'type': 'str'},
+                'reliable': {'v_range': [['6.4.8', '6.4.15'], ['7.0.4', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'secure-connection': {'v_range': [['6.4.8', '6.4.15'], ['7.0.4', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'ssl-protocol': {
+                    'v_range': [['7.4.4', '7.4.5']],
+                    'choices': ['follow-global-ssl-protocol', 'sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3'],
+                    'type': 'str'
+                }
             }
         }
     }

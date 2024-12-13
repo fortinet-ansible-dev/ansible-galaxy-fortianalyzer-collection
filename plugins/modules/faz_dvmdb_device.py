@@ -126,30 +126,19 @@ options:
             conf_status:
                 type: str
                 description: no description
-                choices:
-                    - 'unknown'
-                    - 'insync'
-                    - 'outofsync'
+                choices: ['unknown', 'insync', 'outofsync']
             conn_mode:
                 type: str
                 description: no description
-                choices:
-                    - 'active'
-                    - 'passive'
+                choices: ['active', 'passive']
             conn_status:
                 type: str
                 description: no description
-                choices:
-                    - 'UNKNOWN'
-                    - 'up'
-                    - 'down'
+                choices: ['UNKNOWN', 'up', 'down']
             db_status:
                 type: str
                 description: no description
-                choices:
-                    - 'unknown'
-                    - 'nomod'
-                    - 'mod'
+                choices: ['unknown', 'nomod', 'mod']
             desc:
                 type: str
                 description: no description
@@ -177,15 +166,19 @@ options:
                 type: int
                 description: no description
             faz_full_act:
+                aliases: ['faz.full_act']
                 type: int
                 description: no description
             faz_perm:
+                aliases: ['faz.perm']
                 type: int
                 description: no description
             faz_quota:
+                aliases: ['faz.quota']
                 type: int
                 description: no description
             faz_used:
+                aliases: ['faz.used']
                 type: int
                 description: no description
             fex_cnt:
@@ -222,9 +215,7 @@ options:
             foslic_dr_site:
                 type: str
                 description: VM Meter DR Site status.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             foslic_inst_time:
                 type: int
                 description: VM Meter first deployment time
@@ -237,11 +228,7 @@ options:
             foslic_type:
                 type: str
                 description: VM Meter license type.
-                choices:
-                    - 'temporary'
-                    - 'trial'
-                    - 'regular'
-                    - 'trial_expired'
+                choices: ['temporary', 'trial', 'regular', 'trial_expired']
             foslic_utm:
                 description:
                  - VM Meter services
@@ -254,14 +241,7 @@ options:
                  - fwb - FortiWeb
                 type: list
                 elements: str
-                choices:
-                    - 'fw'
-                    - 'av'
-                    - 'ips'
-                    - 'app'
-                    - 'url'
-                    - 'utm'
-                    - 'fwb'
+                choices: ['fw', 'av', 'ips', 'app', 'url', 'utm', 'fwb']
             fsw_cnt:
                 type: int
                 description: no description
@@ -274,16 +254,7 @@ options:
             ha_mode:
                 type: str
                 description: enabled - Value reserved for non-FOS HA devices.
-                choices:
-                    - 'standalone'
-                    - 'AP'
-                    - 'AA'
-                    - 'ELBC'
-                    - 'DUAL'
-                    - 'enabled'
-                    - 'unknown'
-                    - 'fmg-enabled'
-                    - 'autoscale'
+                choices: ['standalone', 'AP', 'AA', 'ELBC', 'DUAL', 'enabled', 'unknown', 'fmg-enabled', 'autoscale']
             ha_slave:
                 description: no description
                 type: list
@@ -301,9 +272,7 @@ options:
                     role:
                         type: str
                         description: no description
-                        choices:
-                            - 'slave'
-                            - 'master'
+                        choices: ['slave', 'master']
                     sn:
                         type: str
                         description: no description
@@ -362,6 +331,7 @@ options:
                 type: int
                 description: no description
             meta_fields:
+                aliases: ['meta fields']
                 description: no description
                 type: dict
             mgmt_id:
@@ -373,11 +343,7 @@ options:
             mgmt_mode:
                 type: str
                 description: no description
-                choices:
-                    - 'unreg'
-                    - 'fmg'
-                    - 'faz'
-                    - 'fmgfaz'
+                choices: ['unreg', 'fmg', 'faz', 'fmgfaz']
             mgt_vdom:
                 type: str
                 description: no description
@@ -428,18 +394,7 @@ options:
             os_ver:
                 type: str
                 description: no description
-                choices:
-                    - 'unknown'
-                    - '0.0'
-                    - '1.0'
-                    - '2.0'
-                    - '3.0'
-                    - '4.0'
-                    - '5.0'
-                    - '6.0'
-                    - '7.0'
-                    - '8.0'
-                    - '9.0'
+                choices: ['unknown', '0.0', '1.0', '2.0', '3.0', '4.0', '5.0', '6.0', '7.0', '8.0', '9.0']
             patch:
                 type: int
                 description: no description
@@ -469,9 +424,7 @@ options:
                     opmode:
                         type: str
                         description: no description
-                        choices:
-                            - 'nat'
-                            - 'transparent'
+                        choices: ['nat', 'transparent']
                     rtm_prof_id:
                         type: int
                         description: no description
@@ -482,14 +435,13 @@ options:
                         type: int
                         description: no description
                     meta_fields:
+                        aliases: ['meta fields']
                         description: no description
                         type: dict
                     vdom_type:
                         type: str
                         description: no description
-                        choices:
-                            - 'traffic'
-                            - 'admin'
+                        choices: ['traffic', 'admin']
             version:
                 type: int
                 description: no description
@@ -526,10 +478,7 @@ options:
             role:
                 type: str
                 description: no description
-                choices:
-                    - 'master'
-                    - 'ha-slave'
-                    - 'autoscale-slave'
+                choices: ['master', 'ha-slave', 'autoscale-slave']
             nsxt_service_name:
                 type: str
                 description: no description
@@ -549,16 +498,20 @@ options:
                 type: int
                 description: no description
             ha_vsn:
+                aliases: ['ha.vsn']
                 type: str
                 description: no description
             relver_info:
                 type: str
                 description: no description
-            cluster_worker:
-                type: str
-                description: no description
             ha_upgrade_mode:
                 type: int
+                description: no description
+            vm_payg_status:
+                type: int
+                description: no description
+            cluster_worker:
+                type: str
                 description: no description
 '''
 
@@ -704,7 +657,7 @@ def main():
                         'role': {'choices': ['slave', 'master'], 'type': 'str'},
                         'sn': {'type': 'str'},
                         'status': {'type': 'int'},
-                        'conf_status': {'v_range': [['7.0.10', '7.0.12'], ['7.2.1', '']], 'type': 'int'}
+                        'conf_status': {'v_range': [['7.0.10', '7.0.13'], ['7.2.1', '']], 'type': 'int'}
                     },
                     'elements': 'dict'
                 },
@@ -766,21 +719,22 @@ def main():
                 'vm_mem': {'type': 'int'},
                 'vm_mem_limit': {'type': 'int'},
                 'vm_status': {'type': 'int'},
-                'hyperscale': {'v_range': [['6.2.7', '6.2.12'], ['6.4.3', '']], 'type': 'int'},
-                'private_key': {'v_range': [['6.2.7', '6.2.12'], ['6.4.4', '']], 'no_log': True, 'type': 'str'},
-                'private_key_status': {'v_range': [['6.2.7', '6.2.12'], ['6.4.4', '']], 'no_log': False, 'type': 'int'},
+                'hyperscale': {'v_range': [['6.2.7', '6.2.13'], ['6.4.3', '']], 'type': 'int'},
+                'private_key': {'v_range': [['6.2.7', '6.2.13'], ['6.4.4', '']], 'no_log': True, 'type': 'str'},
+                'private_key_status': {'v_range': [['6.2.7', '6.2.13'], ['6.4.4', '']], 'no_log': False, 'type': 'int'},
                 'prio': {'v_range': [['6.4.1', '']], 'type': 'int'},
                 'role': {'v_range': [['6.4.1', '']], 'choices': ['master', 'ha-slave', 'autoscale-slave'], 'type': 'str'},
                 'nsxt_service_name': {'v_range': [['6.4.4', '']], 'type': 'str'},
-                'vm_lic_overdue_since': {'v_range': [['6.4.12', '6.4.14'], ['7.0.8', '7.0.12'], ['7.2.3', '']], 'type': 'int'},
-                'first_tunnel_up': {'v_range': [['7.0.4', '7.0.12'], ['7.2.1', '']], 'type': 'int'},
+                'vm_lic_overdue_since': {'v_range': [['6.4.12', '6.4.15'], ['7.0.8', '7.0.13'], ['7.2.3', '']], 'type': 'int'},
+                'first_tunnel_up': {'v_range': [['7.0.4', '7.0.13'], ['7.2.1', '']], 'type': 'int'},
                 'eip': {'v_range': [['7.2.1', '']], 'type': 'str'},
                 'mgmt_uuid': {'v_range': [['7.2.1', '']], 'type': 'str'},
-                'hw_generation': {'v_range': [['7.2.4', '7.2.7'], ['7.4.1', '']], 'type': 'int'},
-                'ha.vsn': {'v_range': [['7.2.6', '7.2.7'], ['7.6.0', '']], 'type': 'str'},
+                'hw_generation': {'v_range': [['7.2.4', '7.2.8'], ['7.4.1', '']], 'type': 'int'},
+                'ha.vsn': {'v_range': [['7.2.6', '7.2.8'], ['7.4.4', '']], 'type': 'str'},
                 'relver_info': {'v_range': [['7.4.3', '']], 'type': 'str'},
-                'cluster_worker': {'v_range': [['7.6.0', '']], 'type': 'str'},
-                'ha_upgrade_mode': {'v_range': [['7.6.0', '']], 'type': 'int'}
+                'ha_upgrade_mode': {'v_range': [['7.4.4', '']], 'type': 'int'},
+                'vm_payg_status': {'v_range': [['7.4.4', '7.4.5']], 'type': 'int'},
+                'cluster_worker': {'v_range': [['7.6.0', '']], 'type': 'str'}
             }
         }
     }

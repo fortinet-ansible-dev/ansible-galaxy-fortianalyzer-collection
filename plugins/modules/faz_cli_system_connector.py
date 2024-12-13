@@ -92,29 +92,49 @@ options:
         type: dict
         suboptions:
             fsso_refresh_interval:
+                aliases: ['fsso-refresh-interval']
                 type: int
                 description: FSSO refresh interval
             fsso_sess_timeout:
+                aliases: ['fsso-sess-timeout']
                 type: int
                 description: FSSO session timeout
             px_refresh_interval:
+                aliases: ['px-refresh-interval']
                 type: int
                 description: pxGrid refresh interval
             px_svr_timeout:
+                aliases: ['px-svr-timeout']
                 type: int
                 description: pxGrid server timeout
             conn_refresh_interval:
+                aliases: ['conn-refresh-interval']
                 type: int
                 description: connector refresh interval
             cloud_orchest_refresh_interval:
+                aliases: ['cloud-orchest-refresh-interval']
                 type: int
                 description: Cloud Orchestration refresh interval
             faznotify_msg_queue_max:
+                aliases: ['faznotify-msg-queue-max']
                 type: int
                 description: faznotify max queued message per connector
             faznotify_msg_timeout:
+                aliases: ['faznotify-msg-timeout']
                 type: int
                 description: faznotify message timeout
+            conn_ssl_protocol:
+                aliases: ['conn-ssl-protocol']
+                type: str
+                description:
+                 - set the lowest SSL protocol version for connector.
+                 - follow-global-ssl-protocol - Follow system.global.global-ssl-protocol setting
+                 - sslv3 - set SSLv3 as the lowest version.
+                 - tlsv1.0 - set TLSv1.0 as the lowest version.
+                 - tlsv1.1 - set TLSv1.1 as the lowest version.
+                 - tlsv1.2 - set TLSv1.2 as the lowest version.
+                 - tlsv1.3 - set TLSv1.3 as the lowest version.
+                choices: ['follow-global-ssl-protocol', 'sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3']
 '''
 
 EXAMPLES = '''
@@ -209,7 +229,12 @@ def main():
                 'conn-refresh-interval': {'v_range': [['7.0.2', '']], 'type': 'int'},
                 'cloud-orchest-refresh-interval': {'v_range': [['7.4.0', '']], 'type': 'int'},
                 'faznotify-msg-queue-max': {'v_range': [['7.4.2', '']], 'type': 'int'},
-                'faznotify-msg-timeout': {'v_range': [['7.4.2', '']], 'type': 'int'}
+                'faznotify-msg-timeout': {'v_range': [['7.4.2', '']], 'type': 'int'},
+                'conn-ssl-protocol': {
+                    'v_range': [['7.4.4', '7.4.5']],
+                    'choices': ['follow-global-ssl-protocol', 'sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3'],
+                    'type': 'str'
+                }
             }
         }
     }

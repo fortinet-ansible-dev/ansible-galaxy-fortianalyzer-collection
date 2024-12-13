@@ -108,9 +108,11 @@ options:
         type: dict
         suboptions:
             layout_id:
+                aliases: ['layout-id']
                 type: int
                 description: no description
             is_global:
+                aliases: ['is-global']
                 type: int
                 description: no description
 '''

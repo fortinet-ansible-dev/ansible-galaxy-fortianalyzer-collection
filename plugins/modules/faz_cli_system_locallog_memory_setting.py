@@ -97,9 +97,7 @@ options:
                  - Action upon disk full.
                  - overwrite - Overwrite oldest log when disk is full.
                  - nolog - Stop logging when disk is full.
-                choices:
-                    - 'overwrite'
-                    - 'nolog'
+                choices: ['overwrite', 'nolog']
             severity:
                 type: str
                 description:
@@ -112,24 +110,14 @@ options:
                  - notification - Notification level.
                  - information - Information level.
                  - debug - Debug level.
-                choices:
-                    - 'emergency'
-                    - 'alert'
-                    - 'critical'
-                    - 'error'
-                    - 'warning'
-                    - 'notification'
-                    - 'information'
-                    - 'debug'
+                choices: ['emergency', 'alert', 'critical', 'error', 'warning', 'notification', 'information', 'debug']
             status:
                 type: str
                 description:
                  - Enable/disable memory buffer log.
                  - disable - Do not log to memory buffer.
                  - enable - Log to memory buffer.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''

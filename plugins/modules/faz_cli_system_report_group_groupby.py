@@ -104,12 +104,15 @@ options:
         type: dict
         suboptions:
             var_expression:
+                aliases: ['var-expression']
                 type: str
                 description: Variable expression.
             var_name:
+                aliases: ['var-name']
                 type: str
                 description: Variable name.
             var_type:
+                aliases: ['var-type']
                 type: str
                 description:
                  - Variable type.
@@ -117,11 +120,7 @@ options:
                  - string - String.
                  - enum - Enum.
                  - ip - IP.
-                choices:
-                    - 'integer'
-                    - 'string'
-                    - 'enum'
-                    - 'ip'
+                choices: ['integer', 'string', 'enum', 'ip']
 '''
 
 EXAMPLES = '''

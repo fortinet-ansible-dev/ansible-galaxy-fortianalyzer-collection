@@ -106,9 +106,11 @@ options:
         type: dict
         suboptions:
             field_name:
+                aliases: ['field-name']
                 type: str
                 description: Field name.
             field_type:
+                aliases: ['field-type']
                 type: str
                 description:
                  - Field type.
@@ -117,12 +119,7 @@ options:
                  - mac - MAC address.
                  - email - Email address.
                  - unknown - Unknown.
-                choices:
-                    - 'string'
-                    - 'ip'
-                    - 'mac'
-                    - 'email'
-                    - 'unknown'
+                choices: ['string', 'ip', 'mac', 'email', 'unknown']
             id:
                 type: int
                 description: Field masking id.

@@ -92,6 +92,7 @@ options:
                 type: str
                 description: Schedule name or id.
             schedule_param:
+                aliases: ['schedule-param']
                 description: Schedule parameters.
                 type: dict
                 suboptions:
@@ -99,6 +100,7 @@ options:
                         type: str
                         description: The list of device names.
                     display_table_contents:
+                        aliases: ['display-table-contents']
                         type: int
                         description: Display the table of contents.
                     filter:
@@ -116,30 +118,36 @@ options:
                                 type: str
                                 description: Filter value.
                     filter_logic:
+                        aliases: ['filter-logic']
                         type: str
                         description: Relationship between filters.
-                        choices:
-                            - 'all'
-                            - 'any'
+                        choices: ['all', 'any']
                     include_coverpage:
+                        aliases: ['include-coverpage']
                         type: int
                         description: Include the cover page.
                     layout_id:
+                        aliases: ['layout-id']
                         type: int
                         description: The report layout ID.
                     period_end:
+                        aliases: ['period-end']
                         type: str
                         description: End time of report data
                     period_last_n:
+                        aliases: ['period-last-n']
                         type: int
                         description: N for last-n-hours/last-n-days/last-n-weeks.
                     period_start:
+                        aliases: ['period-start']
                         type: str
                         description: Start time of report data
                     resolve_hostname:
+                        aliases: ['resolve-hostname']
                         type: int
                         description: Resolve IP to hostname.
                     time_period:
+                        aliases: ['time-period']
                         type: str
                         description: The type of time period.
                         choices:
@@ -161,11 +169,10 @@ options:
                             - 'this-year'
                             - 'other'
                     week_start:
+                        aliases: ['week-start']
                         type: str
                         description: Day of week start.
-                        choices:
-                            - 'sun'
-                            - 'mon'
+                        choices: ['sun', 'mon']
                     timezone:
                         type: str
                         description: The timezone index or name.
@@ -322,7 +329,7 @@ def main():
         module.fail_json(msg='MUST RUN IN HTTPAPI MODE')
     connection = Connection(module._socket_path)
     faz = FortiAnalyzerAnsible(urls_list, module_primary_key, url_params, module, connection,
-                               metadata=module_arg_spec, task_type='report_add')
+                               metadata=module_arg_spec, task_type='jsonrpc2_add')
     faz.process()
     module.exit_json(meta=module.params)
 

@@ -88,6 +88,7 @@ options:
                 type: str
                 description: Name or ID of the ADOM where the command is to be executed on.
             del_dev_member_list:
+                aliases: ['del-dev-member-list']
                 description: no description
                 type: list
                 elements: dict
@@ -104,10 +105,7 @@ options:
                  - nonblocking - The API will return immediately in for non-blocking call.
                 type: list
                 elements: str
-                choices:
-                    - 'none'
-                    - 'create_task'
-                    - 'nonblocking'
+                choices: ['none', 'create_task', 'nonblocking']
 '''
 
 EXAMPLES = '''

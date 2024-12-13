@@ -92,39 +92,34 @@ options:
         type: dict
         suboptions:
             aggressive_schedule:
+                aliases: ['aggressive-schedule']
                 type: str
                 description:
                  - Enable/disable auto-cache on schedule reports aggressively.
                  - disable - Disable the aggressive schedule auto-cache.
                  - enable - Enable the aggressive schedule auto-cache.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             order:
                 type: str
                 description:
                  - The order of which SQL log table is processed first.
                  - oldest-first - The oldest SQL log table is processed first.
-                choices:
-                    - 'oldest-first'
+                choices: ['oldest-first']
             status:
                 type: str
                 description:
                  - Enable/disable sql report auto cache.
                  - disable - Disable the sql report auto-cache.
                  - enable - Enable the sql report auto-cache.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             sche_rpt_only:
+                aliases: ['sche-rpt-only']
                 type: str
                 description:
                  - Enable/disable auto-cache on scheduled reports only.
                  - disable - Disable auto-cache on scheduled report only.
                  - enable - Enable auto-cache on scheduled report only.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''
@@ -214,7 +209,7 @@ def main():
                 'aggressive-schedule': {'choices': ['disable', 'enable'], 'type': 'str'},
                 'order': {'choices': ['oldest-first'], 'type': 'str'},
                 'status': {'choices': ['disable', 'enable'], 'type': 'str'},
-                'sche-rpt-only': {'v_range': [['7.0.8', '7.0.12'], ['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
+                'sche-rpt-only': {'v_range': [['7.0.8', '7.0.13'], ['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
         }
     }

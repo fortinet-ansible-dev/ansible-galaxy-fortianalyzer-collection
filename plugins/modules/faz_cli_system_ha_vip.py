@@ -108,13 +108,12 @@ options:
                  - VIP enabled status.
                  - disable - Disable.
                  - enable - Enable.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             vip:
                 type: str
                 description: Virtual IP address for the HA
             vip_interface:
+                aliases: ['vip-interface']
                 type: str
                 description: Interface for configuring virtual IP address
 '''

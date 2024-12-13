@@ -106,10 +106,7 @@ options:
                  - drop - Drop traffic matching this policy
                  - reject - Reject traffic matching this policy.
                  - accept - Allow traffic matching this policy.
-                choices:
-                    - 'drop'
-                    - 'reject'
-                    - 'accept'
+                choices: ['drop', 'reject', 'accept']
             dport:
                 type: int
                 description: Destination port number
@@ -129,10 +126,7 @@ options:
                  - tcp - TCP only.
                  - udp - UDP only.
                  - tcp_udp - Both TCP and UDP.
-                choices:
-                    - 'tcp'
-                    - 'udp'
-                    - 'tcp_udp'
+                choices: ['tcp', 'udp', 'tcp_udp']
             src:
                 type: str
                 description: Source IP and mask.

@@ -92,9 +92,7 @@ options:
                 description: no description
                 type: list
                 elements: str
-                choices:
-                    - 'force'
-                    - 'get_info'
+                choices: ['force', 'get_info']
 '''
 
 EXAMPLES = '''

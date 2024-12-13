@@ -92,48 +92,46 @@ options:
         type: dict
         suboptions:
             accept_auth_by_cert:
+                aliases: ['accept-auth-by-cert']
                 type: str
                 description:
                  - Accept connections with unknown certificates and ask admin for approval.
                  - disable - Do not accept SSL connections with unknown certificates.
                  - enable - Accept SSL connections without automatic certificate verification.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             authorization_request_type:
+                aliases: ['authorization-request-type']
                 type: str
                 description:
                  - Authorization request type.
                  - certificate - Request verification by certificate.
                  - serial - Request verification by serial number.
-                choices:
-                    - 'certificate'
-                    - 'serial'
+                choices: ['certificate', 'serial']
             certificate:
                 type: str
                 description: Certificate.
             configuration_sync:
+                aliases: ['configuration-sync']
                 type: str
                 description:
                  - Configuration sync mode.
                  - default - Synchronize configuration for IPAM, FortiAnalyzer, FortiSandbox, and Central Management to root node.
                  - local - Do not synchronize configuration with root node.
-                choices:
-                    - 'default'
-                    - 'local'
+                choices: ['default', 'local']
             downstream_access:
+                aliases: ['downstream-access']
                 type: str
                 description:
                  - Enable/disable downstream device access to this devices configuration and data.
                  - disable - Disable downstream device access to this devices configuration and data.
                  - enable - Enable downstream device access to this devices configuration and data.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             downstream_accprofile:
+                aliases: ['downstream-accprofile']
                 type: str
                 description: Default access profile for requests from downstream devices.
             fabric_connector:
+                aliases: ['fabric-connector']
                 description: no description
                 type: list
                 elements: dict
@@ -142,90 +140,89 @@ options:
                         type: str
                         description: Override access profile.
                     configuration_write_access:
+                        aliases: ['configuration-write-access']
                         type: str
                         description:
                          - Enable/disable downstream device write access to configuration.
                          - disable - Disable downstream device write access to configuration.
                          - enable - Enable downstream device write access to configuration.
-                        choices:
-                            - 'disable'
-                            - 'enable'
+                        choices: ['disable', 'enable']
                     serial:
                         type: str
                         description: Serial.
             fabric_object_unification:
+                aliases: ['fabric-object-unification']
                 type: str
                 description:
                  - Fabric CMDB Object Unification.
                  - local - Global CMDB objects will not be synchronized to and from this device.
                  - default - Global CMDB objects will be synchronized in Security Fabric.
-                choices:
-                    - 'local'
-                    - 'default'
+                choices: ['local', 'default']
             fabric_workers:
+                aliases: ['fabric-workers']
                 type: int
                 description: Number of worker processes for Security Fabric daemon.
             file_mgmt:
+                aliases: ['file-mgmt']
                 type: str
                 description:
                  - Enable/disable Security Fabric daemon file management.
                  - disable - Disable daemon file management.
                  - enable - Enable daemon file management.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             file_quota:
+                aliases: ['file-quota']
                 type: int
                 description: Maximum amount of memory that can be used by the daemon files
             file_quota_warning:
+                aliases: ['file-quota-warning']
                 type: int
                 description: Warn when the set percentage of quota has been used.
             fixed_key:
+                aliases: ['fixed-key']
                 description: Auto-generated fixed key used when this device is the root.
                 type: str
             forticloud_account_enforcement:
+                aliases: ['forticloud-account-enforcement']
                 type: str
                 description:
                  - Fabric FortiCloud account unification.
                  - disable - Disable FortiCloud accound ID matching for Security Fabric.
                  - enable - Enable FortiCloud account ID matching for Security Fabric.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             group_name:
+                aliases: ['group-name']
                 type: str
                 description: Security Fabric group name.
             group_password:
+                aliases: ['group-password']
                 description: Security Fabric group password.
                 type: str
             log_unification:
+                aliases: ['log-unification']
                 type: str
                 description:
                  - Enable/disable broadcast of discovery messages for log unification.
                  - disable - Disable broadcast of discovery messages for log unification.
                  - enable - Enable broadcast of discovery messages for log unification.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             saml_configuration_sync:
+                aliases: ['saml-configuration-sync']
                 type: str
                 description:
                  - SAML setting configuration synchronization.
                  - local - Do not apply SAML configuration generated by root.
                  - default - SAML setting for fabric members is created by fabric root.
-                choices:
-                    - 'local'
-                    - 'default'
+                choices: ['local', 'default']
             status:
                 type: str
                 description:
                  - Enable/disable Security Fabric.
                  - disable - Disable Security Fabric.
                  - enable - Enable Security Fabric.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             trusted_list:
+                aliases: ['trusted-list']
                 description: no description
                 type: list
                 elements: dict
@@ -236,31 +233,28 @@ options:
                          - Security fabric authorization action.
                          - accept - Accept authorization request.
                          - deny - Deny authorization request.
-                        choices:
-                            - 'accept'
-                            - 'deny'
+                        choices: ['accept', 'deny']
                     authorization_type:
+                        aliases: ['authorization-type']
                         type: str
                         description:
                          - Authorization type.
                          - serial - Verify downstream by serial number.
                          - certificate - Verify downstream by certificate.
-                        choices:
-                            - 'serial'
-                            - 'certificate'
+                        choices: ['serial', 'certificate']
                     certificate:
                         type: str
                         description: Certificate.
                     downstream_authorization:
+                        aliases: ['downstream-authorization']
                         type: str
                         description:
                          - Trust authorizations by this nodes administrator.
                          - disable - Disable downstream authorization.
                          - enable - Enable downstream authorization.
-                        choices:
-                            - 'disable'
-                            - 'enable'
+                        choices: ['disable', 'enable']
                     ha_members:
+                        aliases: ['ha-members']
                         type: str
                         description: HA members.
                     index:
@@ -276,17 +270,29 @@ options:
                 type: str
                 description: IP/FQDN of the FortiGate upstream from this FortiGate in the Security Fabric.
             upstream_port:
+                aliases: ['upstream-port']
                 type: int
                 description: The port number to use to communicate with the FortiGate upstream from this FortiGate in the Security Fabric
+            ssl_protocol:
+                aliases: ['ssl-protocol']
+                type: str
+                description:
+                 - set the lowest SSL protocol version for upstream and downstream connections.
+                 - follow-global-ssl-protocol - Follow system.global.global-ssl-protocol setting
+                 - sslv3 - set SSLv3 as the lowest version.
+                 - tlsv1.0 - set TLSv1.0 as the lowest version.
+                 - tlsv1.1 - set TLSv1.1 as the lowest version.
+                 - tlsv1.2 - set TLSv1.2 as the lowest version.
+                 - tlsv1.3 - set TLSv1.3 as the lowest version.
+                choices: ['follow-global-ssl-protocol', 'sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3']
             upstream_confirm:
+                aliases: ['upstream-confirm']
                 type: str
                 description:
                  - Upstream authorization confirm.
                  - discover - Discover upstream devices info.
                  - confirm - Confirm upstream devices access.
-                choices:
-                    - 'discover'
-                    - 'confirm'
+                choices: ['discover', 'confirm']
 '''
 
 EXAMPLES = '''
@@ -338,6 +344,7 @@ EXAMPLES = '''
               serial: <value of string>
           upstream: <value of string>
           upstream_port: <value of integer>
+          ssl_protocol: <value in [follow-global-ssl-protocol, sslv3, tlsv1.0, ...]>
           upstream_confirm: <value in [discover, confirm]>
 '''
 
@@ -452,6 +459,11 @@ def main():
                 },
                 'upstream': {'v_range': [['7.4.1', '']], 'type': 'str'},
                 'upstream-port': {'v_range': [['7.4.1', '']], 'type': 'int'},
+                'ssl-protocol': {
+                    'v_range': [['7.4.4', '7.4.5']],
+                    'choices': ['follow-global-ssl-protocol', 'sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3'],
+                    'type': 'str'
+                },
                 'upstream-confirm': {'v_range': [['7.6.0', '']], 'choices': ['discover', 'confirm'], 'type': 'str'}
             }
         }

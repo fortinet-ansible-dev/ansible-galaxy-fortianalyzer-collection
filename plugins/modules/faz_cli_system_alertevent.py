@@ -100,6 +100,7 @@ options:
         type: dict
         suboptions:
             alert_destination:
+                aliases: ['alert-destination']
                 description: no description
                 type: list
                 elements: dict
@@ -108,12 +109,15 @@ options:
                         type: str
                         description: Sender email address to use in alert emails.
                     smtp_name:
+                        aliases: ['smtp-name']
                         type: str
                         description: SMTP server name.
                     snmp_name:
+                        aliases: ['snmp-name']
                         type: str
                         description: SNMP trap name.
                     syslog_name:
+                        aliases: ['syslog-name']
                         type: str
                         description: Syslog server name.
                     to:
@@ -126,31 +130,27 @@ options:
                          - mail - Send email alert.
                          - snmp - Send SNMP trap.
                          - syslog - Send syslog message.
-                        choices:
-                            - 'mail'
-                            - 'snmp'
-                            - 'syslog'
+                        choices: ['mail', 'snmp', 'syslog']
             enable_generic_text:
+                aliases: ['enable-generic-text']
                 description:
                  - Enable/disable generic text match.
                  - enable - Enable setting.
                  - disable - Disable setting.
                 type: list
                 elements: str
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             enable_severity_filter:
+                aliases: ['enable-severity-filter']
                 description:
                  - Enable/disable alert severity filter.
                  - enable - Enable setting.
                  - disable - Disable setting.
                 type: list
                 elements: str
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             event_time_period:
+                aliases: ['event-time-period']
                 type: str
                 description:
                  - Time period
@@ -162,22 +162,16 @@ options:
                  - 24 - 1 day.
                  - 72 - 3 days.
                  - 168 - 1 week.
-                choices:
-                    - '0.5'
-                    - '1'
-                    - '3'
-                    - '6'
-                    - '12'
-                    - '24'
-                    - '72'
-                    - '168'
+                choices: ['0.5', '1', '3', '6', '12', '24', '72', '168']
             generic_text:
+                aliases: ['generic-text']
                 type: str
                 description: Text that must be contained in a log to trigger alert.
             name:
                 type: str
                 description: Alert name.
             num_events:
+                aliases: ['num-events']
                 type: str
                 description:
                  - Minimum number of events required within time period.
@@ -186,13 +180,9 @@ options:
                  - 10 - 10 events.
                  - 50 - 50 events.
                  - 100 - 100 events.
-                choices:
-                    - '1'
-                    - '5'
-                    - '10'
-                    - '50'
-                    - '100'
+                choices: ['1', '5', '10', '50', '100']
             severity_filter:
+                aliases: ['severity-filter']
                 type: str
                 description:
                  - Required log severity to trigger alert.
@@ -201,21 +191,15 @@ options:
                  - medium - Medium level alert.
                  - medium-low - Medium-low level alert.
                  - low - Low level alert.
-                choices:
-                    - 'high'
-                    - 'medium-high'
-                    - 'medium'
-                    - 'medium-low'
-                    - 'low'
+                choices: ['high', 'medium-high', 'medium', 'medium-low', 'low']
             severity_level_comp:
+                aliases: ['severity-level-comp']
                 description: Log severity threshold comparison criterion.
                 type: list
                 elements: str
-                choices:
-                    - '>='
-                    - '='
-                    - '<='
+                choices: ['>=', '=', '<=']
             severity_level_logs:
+                aliases: ['severity-level-logs']
                 description:
                  - Log severity threshold level.
                  - no-check - Do not check severity level for this log type.
@@ -228,15 +212,7 @@ options:
                  - emergency - Emergency level.
                 type: list
                 elements: str
-                choices:
-                    - 'no-check'
-                    - 'information'
-                    - 'notify'
-                    - 'warning'
-                    - 'error'
-                    - 'critical'
-                    - 'alert'
-                    - 'emergency'
+                choices: ['no-check', 'information', 'notify', 'warning', 'error', 'critical', 'alert', 'emergency']
 '''
 
 EXAMPLES = '''

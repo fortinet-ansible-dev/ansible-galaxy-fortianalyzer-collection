@@ -122,20 +122,7 @@ options:
                  - user - User
                  - group - Group
                  - free-text - General free-text filter
-                choices:
-                    - 'type'
-                    - 'logid'
-                    - 'level'
-                    - 'devid'
-                    - 'vd'
-                    - 'srcip'
-                    - 'srcintf'
-                    - 'dstip'
-                    - 'dstintf'
-                    - 'dstport'
-                    - 'user'
-                    - 'group'
-                    - 'free-text'
+                choices: ['type', 'logid', 'level', 'devid', 'vd', 'srcip', 'srcintf', 'dstip', 'dstintf', 'dstport', 'user', 'group', 'free-text']
             id:
                 type: int
                 description: Log filter ID.
@@ -148,16 +135,7 @@ options:
                  - contain - Contain
                  - not-contain - Not contain
                  - match - Match
-                choices:
-                    - '='
-                    - '!='
-                    - '<'
-                    - '>'
-                    - '<='
-                    - '>='
-                    - 'contain'
-                    - 'not-contain'
-                    - 'match'
+                choices: ['=', '!=', '<', '>', '<=', '>=', 'contain', 'not-contain', 'match']
             value:
                 type: str
                 description: Field filter operand or free-text matching expression.

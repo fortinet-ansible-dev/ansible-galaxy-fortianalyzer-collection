@@ -85,6 +85,7 @@ options:
         type: dict
         suboptions:
             add_dev_list:
+                aliases: ['add-dev-list']
                 description: A list of device objects to be added.
                 type: list
                 elements: dict
@@ -99,28 +100,27 @@ options:
                         type: str
                         description: available for all operations.
                     device_action:
+                        aliases: ['device action']
                         type: str
                         description:
                          - 'Specify add device operations, or leave blank to add real device:'
                          - add_model - add a model device.
                          - promote_unreg - promote an unregistered device to be managed by FortiManager using information from database.
                     faz_quota:
+                        aliases: ['faz.quota']
                         type: int
                         description: available for all operations.
                     ip:
                         type: str
                         description: add real device only.
                     meta_fields:
+                        aliases: ['meta fields']
                         type: str
                         description: add real and model device.
                     mgmt_mode:
                         type: str
                         description: add real and model device.
-                        choices:
-                            - 'unreg'
-                            - 'fmg'
-                            - 'faz'
-                            - 'fmgfaz'
+                        choices: ['unreg', 'fmg', 'faz', 'fmgfaz']
                     mr:
                         type: int
                         description: add model device only.
@@ -130,35 +130,11 @@ options:
                     os_type:
                         type: str
                         description: add model device only.
-                        choices:
-                            - 'unknown'
-                            - 'fos'
-                            - 'fsw'
-                            - 'foc'
-                            - 'fml'
-                            - 'faz'
-                            - 'fwb'
-                            - 'fch'
-                            - 'fct'
-                            - 'log'
-                            - 'fmg'
-                            - 'fsa'
-                            - 'fdd'
-                            - 'fac'
+                        choices: ['unknown', 'fos', 'fsw', 'foc', 'fml', 'faz', 'fwb', 'fch', 'fct', 'log', 'fmg', 'fsa', 'fdd', 'fac']
                     os_ver:
                         type: str
                         description: add model device only.
-                        choices:
-                            - 'unknown'
-                            - '0.0'
-                            - '1.0'
-                            - '2.0'
-                            - '3.0'
-                            - '4.0'
-                            - '5.0'
-                            - '6.0'
-                            - '7.0'
-                            - '8.0'
+                        choices: ['unknown', '0.0', '1.0', '2.0', '3.0', '4.0', '5.0', '6.0', '7.0', '8.0']
                     patch:
                         type: int
                         description: add model device only.
@@ -177,10 +153,7 @@ options:
                  - nonblocking - The API will return immediately in for non-blocking call.
                 type: list
                 elements: str
-                choices:
-                    - 'none'
-                    - 'create_task'
-                    - 'nonblocking'
+                choices: ['none', 'create_task', 'nonblocking']
 '''
 
 EXAMPLES = '''

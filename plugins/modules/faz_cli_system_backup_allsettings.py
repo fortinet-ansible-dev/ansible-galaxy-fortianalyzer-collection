@@ -110,10 +110,7 @@ options:
                  - sftp - SFTP.
                  - ftp - FTP.
                  - scp - SCP.
-                choices:
-                    - 'sftp'
-                    - 'ftp'
-                    - 'scp'
+                choices: ['sftp', 'ftp', 'scp']
             server:
                 type: str
                 description: Backup server name/IP.
@@ -123,9 +120,7 @@ options:
                  - Enable/disable schedule backup.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             time:
                 type: str
                 description: Time to backup.
@@ -144,14 +139,7 @@ options:
                  - sunday - Sunday.
                 type: list
                 elements: str
-                choices:
-                    - 'monday'
-                    - 'tuesday'
-                    - 'wednesday'
-                    - 'thursday'
-                    - 'friday'
-                    - 'saturday'
-                    - 'sunday'
+                choices: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
 '''
 
 EXAMPLES = '''

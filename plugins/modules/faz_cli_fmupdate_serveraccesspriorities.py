@@ -92,24 +92,23 @@ options:
         type: dict
         suboptions:
             access_public:
+                aliases: ['access-public']
                 type: str
                 description:
                  - Enable/disable FortiGates to Access Public FortiGuard Servers when Private Servers are Unavailable
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             av_ips:
+                aliases: ['av-ips']
                 type: str
                 description:
                  - Enable/disable Antivirus and IPS Update Service for Private Server
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
             private_server:
+                aliases: ['private-server']
                 description: no description
                 type: list
                 elements: dict
@@ -127,14 +126,13 @@ options:
                         type: int
                         description: Time zone of the private server
             web_spam:
+                aliases: ['web-spam']
                 type: str
                 description:
                  - Enable/disable Web Filter and Email Filter Update Service for Private Server
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''

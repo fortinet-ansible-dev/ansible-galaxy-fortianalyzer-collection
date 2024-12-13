@@ -100,12 +100,15 @@ options:
         type: dict
         suboptions:
             idp_entity_id:
+                aliases: ['idp-entity-id']
                 type: str
                 description: IDP Entity ID.
             idp_single_logout_url:
+                aliases: ['idp-single-logout-url']
                 type: str
                 description: IDP single logout url.
             idp_single_sign_on_url:
+                aliases: ['idp-single-sign-on-url']
                 type: str
                 description: IDP single sign-on URL.
             name:
@@ -115,21 +118,27 @@ options:
                 type: str
                 description: Prefix.
             sp_cert:
+                aliases: ['sp-cert']
                 type: str
                 description: SP certificate name.
             sp_entity_id:
+                aliases: ['sp-entity-id']
                 type: str
                 description: SP Entity ID.
             sp_single_logout_url:
+                aliases: ['sp-single-logout-url']
                 type: str
                 description: SP single logout URL.
             sp_single_sign_on_url:
+                aliases: ['sp-single-sign-on-url']
                 type: str
                 description: SP single sign-on URL.
             sp_adom:
+                aliases: ['sp-adom']
                 type: str
                 description: SP adom name.
             sp_profile:
+                aliases: ['sp-profile']
                 type: str
                 description: SP profile name.
 '''

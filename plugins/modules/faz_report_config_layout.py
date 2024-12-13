@@ -112,22 +112,13 @@ options:
                 elements: dict
                 suboptions:
                     component_id:
+                        aliases: ['component-id']
                         type: int
                         description: no description
                     type:
                         type: str
                         description: no description
-                        choices:
-                            - 'graphic'
-                            - 'column-break'
-                            - 'macro'
-                            - 'section'
-                            - 'chart'
-                            - 'heading2'
-                            - 'heading3'
-                            - 'heading1'
-                            - 'page-break'
-                            - 'text'
+                        choices: ['graphic', 'column-break', 'macro', 'section', 'chart', 'heading2', 'heading3', 'heading1', 'page-break', 'text']
                     variable:
                         description: 'reference: /report/adom/<adom-name>/config/layout/<layout-id>/component/<component-id>/variable'
                         type: list
@@ -136,41 +127,35 @@ options:
                             not:
                                 type: str
                                 description: no description
-                                choices:
-                                    - 'enable'
-                                    - 'disable'
+                                choices: ['enable', 'disable']
                             var:
                                 type: str
                                 description: no description
                             var_value:
+                                aliases: ['var-value']
                                 type: str
                                 description: no description
                             description:
                                 type: str
                                 description: no description
                             drilldown_flag:
+                                aliases: ['drilldown-flag']
                                 type: str
                                 description: no description
-                                choices:
-                                    - 'enable'
-                                    - 'disable'
+                                choices: ['enable', 'disable']
                             status:
                                 type: str
                                 description: no description
-                                choices:
-                                    - 'enable'
-                                    - 'disable'
+                                choices: ['enable', 'disable']
                             var_expression:
+                                aliases: ['var-expression']
                                 type: str
                                 description: no description
                             var_type:
+                                aliases: ['var-type']
                                 type: str
                                 description: no description
-                                choices:
-                                    - 'ip'
-                                    - 'integer'
-                                    - 'string'
-                                    - 'datetime'
+                                choices: ['ip', 'integer', 'string', 'datetime']
                             view_mask:
                                 type: int
                                 description: no description
@@ -178,6 +163,7 @@ options:
                         type: int
                         description: no description
                     bg_color:
+                        aliases: ['bg-color']
                         type: str
                         description: no description
                     category:
@@ -187,141 +173,129 @@ options:
                         type: str
                         description: no description
                     chart_option:
+                        aliases: ['chart-option']
                         type: str
                         description: no description
-                        choices:
-                            - 'calc-average'
-                            - 'none'
+                        choices: ['calc-average', 'none']
                     column:
                         type: str
                         description: no description
-                        choices:
-                            - '1'
-                            - '2'
+                        choices: ['1', '2']
                     customized:
                         type: int
                         description: no description
                     device_mode:
+                        aliases: ['device-mode']
                         type: str
                         description: no description
-                        choices:
-                            - 'variable'
-                            - 'specify'
+                        choices: ['variable', 'specify']
                     devices:
                         type: str
                         description: no description
                     drill_down_report:
+                        aliases: ['drill-down-report']
                         type: str
                         description: no description
-                        choices:
-                            - 'enable'
-                            - 'disable'
+                        choices: ['enable', 'disable']
                     filter_logic:
+                        aliases: ['filter-logic']
                         type: str
                         description: no description
-                        choices:
-                            - 'all'
-                            - 'any'
+                        choices: ['all', 'any']
                     filter_mode:
+                        aliases: ['filter-mode']
                         type: str
                         description: no description
-                        choices:
-                            - 'override'
-                            - 'inherit'
+                        choices: ['override', 'inherit']
                     font_color:
+                        aliases: ['font-color']
                         type: str
                         description: no description
                     font_family:
+                        aliases: ['font-family']
                         type: str
                         description: no description
                     font_size:
+                        aliases: ['font-size']
                         type: int
                         description: no description
                     font_type:
+                        aliases: ['font-type']
                         type: str
                         description: no description
-                        choices:
-                            - 'bold-italic'
-                            - 'bold'
-                            - 'undefined'
-                            - 'italic'
-                            - 'normal'
+                        choices: ['bold-italic', 'bold', 'undefined', 'italic', 'normal']
                     graphic:
                         type: str
                         description: no description
                     include_other:
+                        aliases: ['include-other']
                         type: str
                         description: no description
-                        choices:
-                            - 'enable'
-                            - 'disable'
+                        choices: ['enable', 'disable']
                     ldap_query:
+                        aliases: ['ldap-query']
                         type: str
                         description: no description
-                        choices:
-                            - 'auto'
-                            - 'enable'
-                            - 'disable'
+                        choices: ['auto', 'enable', 'disable']
                     ldap_server:
+                        aliases: ['ldap-server']
                         type: str
                         description: no description
                     ldap_user_case_change:
+                        aliases: ['ldap-user-case-change']
                         type: str
                         description: no description
-                        choices:
-                            - 'upper'
-                            - 'lower'
-                            - 'disable'
+                        choices: ['upper', 'lower', 'disable']
                     left_margin:
+                        aliases: ['left-margin']
                         type: int
                         description: no description
                     macro:
                         type: str
                         description: no description
                     not_vdom:
+                        aliases: ['not-vdom']
                         type: str
                         description: no description
-                        choices:
-                            - 'enable'
-                            - 'disable'
+                        choices: ['enable', 'disable']
                     period_end:
+                        aliases: ['period-end']
                         description: no description
                         type: list
                         elements: dict
                     period_last_n:
+                        aliases: ['period-last-n']
                         type: int
                         description: no description
                     period_mode:
+                        aliases: ['period-mode']
                         type: str
                         description: no description
-                        choices:
-                            - 'variable'
-                            - 'specify'
+                        choices: ['variable', 'specify']
                     period_opt:
+                        aliases: ['period-opt']
                         type: str
                         description: no description
-                        choices:
-                            - 'faz'
-                            - 'dev'
+                        choices: ['faz', 'dev']
                     period_start:
+                        aliases: ['period-start']
                         description: no description
                         type: list
                         elements: dict
                     right_margin:
+                        aliases: ['right-margin']
                         type: int
                         description: no description
                     table_color:
+                        aliases: ['table-color']
                         type: str
                         description: no description
-                        choices:
-                            - 'default'
-                            - 'blue'
-                            - 'green'
-                            - 'red'
+                        choices: ['default', 'blue', 'green', 'red']
                     text:
                         type: str
                         description: no description
                     time_period:
+                        aliases: ['time-period']
                         type: str
                         description: no description
                         choices:
@@ -349,16 +323,10 @@ options:
                         type: str
                         description: no description
                     week_start:
+                        aliases: ['week-start']
                         type: str
                         description: no description
-                        choices:
-                            - 'wed'
-                            - 'sun'
-                            - 'fri'
-                            - 'thr'
-                            - 'mon'
-                            - 'tue'
-                            - 'sat'
+                        choices: ['wed', 'sun', 'fri', 'thr', 'mon', 'tue', 'sat']
                     width:
                         type: int
                         description: no description
@@ -371,15 +339,13 @@ options:
                 elements: dict
                 suboptions:
                     footer_id:
+                        aliases: ['footer-id']
                         type: int
                         description: no description
                     type:
                         type: str
                         description: no description
-                        choices:
-                            - 'text'
-                            - 'graphic'
-                            - 'minicover'
+                        choices: ['text', 'graphic', 'minicover']
                     graphic:
                         type: str
                         description: no description
@@ -392,15 +358,13 @@ options:
                 elements: dict
                 suboptions:
                     header_id:
+                        aliases: ['header-id']
                         type: int
                         description: no description
                     type:
                         type: str
                         description: no description
-                        choices:
-                            - 'text'
-                            - 'graphic'
-                            - 'minicover'
+                        choices: ['text', 'graphic', 'minicover']
                     graphic:
                         type: str
                         description: no description
@@ -411,6 +375,7 @@ options:
                 type: str
                 description: no description
             layout_id:
+                aliases: ['layout-id']
                 type: int
                 description: no description
             subtitle:
@@ -422,75 +387,80 @@ options:
             alignment:
                 type: str
                 description: no description
-                choices:
-                    - 'right'
-                    - 'center'
-                    - 'left'
+                choices: ['right', 'center', 'left']
             bg_color:
+                aliases: ['bg-color']
                 type: str
                 description: no description
             category:
                 type: str
                 description: no description
             chart_heading_level:
+                aliases: ['chart-heading-level']
                 type: int
                 description: no description
             chart_info_display:
+                aliases: ['chart-info-display']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             coverpage_background_image:
+                aliases: ['coverpage-background-image']
                 type: str
                 description: no description
             coverpage_bottom_image:
+                aliases: ['coverpage-bottom-image']
                 type: str
                 description: no description
             coverpage_custom_text1:
+                aliases: ['coverpage-custom-text1']
                 type: str
                 description: no description
             coverpage_custom_text2:
+                aliases: ['coverpage-custom-text2']
                 type: str
                 description: no description
             coverpage_enable_create_time:
+                aliases: ['coverpage-enable-create-time']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             coverpage_enable_time_period:
+                aliases: ['coverpage-enable-time-period']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             coverpage_footer_bgcolor:
+                aliases: ['coverpage-footer-bgcolor']
                 type: str
                 description: no description
             coverpage_footer_left:
+                aliases: ['coverpage-footer-left']
                 type: str
                 description: no description
             coverpage_footer_right:
+                aliases: ['coverpage-footer-right']
                 type: str
                 description: no description
             coverpage_text_color:
+                aliases: ['coverpage-text-color']
                 type: str
                 description: no description
             coverpage_title:
+                aliases: ['coverpage-title']
                 type: str
                 description: no description
             coverpage_top_image:
+                aliases: ['coverpage-top-image']
                 type: str
                 description: no description
             coverpage_top_image_position:
+                aliases: ['coverpage-top-image-position']
                 type: str
                 description: no description
-                choices:
-                    - 'right'
-                    - 'center'
-                    - 'left'
+                choices: ['right', 'center', 'left']
             dev_type:
+                aliases: ['dev-type']
                 type: str
                 description: no description
                 choices:
@@ -510,63 +480,66 @@ options:
                     - 'FortiGate'
                     - 'FortiFirewall'
             folder_id:
+                aliases: ['folder-id']
                 type: int
                 description: no description
             font_color:
+                aliases: ['font-color']
                 type: str
                 description: no description
             font_family:
+                aliases: ['font-family']
                 type: str
                 description: no description
             font_size:
+                aliases: ['font-size']
                 type: int
                 description: no description
             font_type:
+                aliases: ['font-type']
                 type: str
                 description: no description
-                choices:
-                    - 'bold-italic'
-                    - 'bold'
-                    - 'undefined'
-                    - 'italic'
-                    - 'normal'
+                choices: ['bold-italic', 'bold', 'undefined', 'italic', 'normal']
             footer_bgcolor:
+                aliases: ['footer-bgcolor']
                 type: str
                 description: no description
             header_bgcolor:
+                aliases: ['header-bgcolor']
                 type: str
                 description: no description
             hide_report_title:
+                aliases: ['hide-report-title']
                 type: int
                 description: no description
             hide_rowid:
+                aliases: ['hide-rowid']
                 type: int
                 description: no description
             include_empty_charts:
+                aliases: ['include-empty-charts']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             is_template:
+                aliases: ['is-template']
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             left_margin:
+                aliases: ['left-margin']
                 type: int
                 description: no description
             protected:
                 type: str
                 description: no description
-                choices:
-                    - 'enable'
-                    - 'disable'
+                choices: ['enable', 'disable']
             report_tag:
+                aliases: ['report-tag']
                 type: str
                 description: no description
             right_margin:
+                aliases: ['right-margin']
                 type: int
                 description: no description
             folders:
@@ -575,6 +548,7 @@ options:
                 elements: dict
                 suboptions:
                     folder_id:
+                        aliases: ['folder-id']
                         type: int
                         description: no description
 '''
@@ -785,53 +759,53 @@ def main():
                                 'not': {'v_range': [['6.2.1', '7.4.2']], 'choices': ['enable', 'disable'], 'type': 'str'},
                                 'var': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
                                 'var-value': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
-                                'description': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'},
-                                'drilldown-flag': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                                'status': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                                'var-expression': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                                'var-type': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['ip', 'integer', 'string', 'datetime'], 'type': 'str'},
-                                'view_mask': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'}
+                                'description': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'type': 'str'},
+                                'drilldown-flag': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                                'status': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                                'var-expression': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                                'var-type': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['ip', 'integer', 'string', 'datetime'], 'type': 'str'},
+                                'view_mask': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'}
                             },
                             'elements': 'dict'
                         },
-                        'alignment': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'int'},
-                        'bg-color': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'},
-                        'category': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'},
-                        'chart': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'},
-                        'chart-option': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'choices': ['calc-average', 'none'], 'type': 'str'},
-                        'column': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['1', '2'], 'type': 'str'},
-                        'customized': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                        'device-mode': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['variable', 'specify'], 'type': 'str'},
-                        'devices': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                        'drill-down-report': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                        'filter-logic': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['all', 'any'], 'type': 'str'},
-                        'filter-mode': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['override', 'inherit'], 'type': 'str'},
-                        'font-color': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                        'font-family': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                        'font-size': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
+                        'alignment': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'type': 'int'},
+                        'bg-color': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'type': 'str'},
+                        'category': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'type': 'str'},
+                        'chart': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'type': 'str'},
+                        'chart-option': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'choices': ['calc-average', 'none'], 'type': 'str'},
+                        'column': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['1', '2'], 'type': 'str'},
+                        'customized': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                        'device-mode': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['variable', 'specify'], 'type': 'str'},
+                        'devices': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                        'drill-down-report': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                        'filter-logic': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['all', 'any'], 'type': 'str'},
+                        'filter-mode': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['override', 'inherit'], 'type': 'str'},
+                        'font-color': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                        'font-family': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                        'font-size': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
                         'font-type': {
-                            'v_range': [['6.2.2', '6.2.12']],
+                            'v_range': [['6.2.2', '6.2.13']],
                             'choices': ['bold-italic', 'bold', 'undefined', 'italic', 'normal'],
                             'type': 'str'
                         },
-                        'graphic': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                        'include-other': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                        'ldap-query': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['auto', 'enable', 'disable'], 'type': 'str'},
-                        'ldap-server': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                        'ldap-user-case-change': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['upper', 'lower', 'disable'], 'type': 'str'},
-                        'left-margin': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                        'macro': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                        'not-vdom': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                        'period-end': {'v_range': [['6.2.2', '6.2.12']], 'type': 'list', 'elements': 'dict'},
-                        'period-last-n': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                        'period-mode': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['variable', 'specify'], 'type': 'str'},
-                        'period-opt': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['faz', 'dev'], 'type': 'str'},
-                        'period-start': {'v_range': [['6.2.2', '6.2.12']], 'type': 'list', 'elements': 'dict'},
-                        'right-margin': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                        'table-color': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['default', 'blue', 'green', 'red'], 'type': 'str'},
-                        'text': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
+                        'graphic': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                        'include-other': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                        'ldap-query': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['auto', 'enable', 'disable'], 'type': 'str'},
+                        'ldap-server': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                        'ldap-user-case-change': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['upper', 'lower', 'disable'], 'type': 'str'},
+                        'left-margin': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                        'macro': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                        'not-vdom': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                        'period-end': {'v_range': [['6.2.2', '6.2.13']], 'type': 'list', 'elements': 'dict'},
+                        'period-last-n': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                        'period-mode': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['variable', 'specify'], 'type': 'str'},
+                        'period-opt': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['faz', 'dev'], 'type': 'str'},
+                        'period-start': {'v_range': [['6.2.2', '6.2.13']], 'type': 'list', 'elements': 'dict'},
+                        'right-margin': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                        'table-color': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['default', 'blue', 'green', 'red'], 'type': 'str'},
+                        'text': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
                         'time-period': {
-                            'v_range': [['6.2.2', '6.2.12']],
+                            'v_range': [['6.2.2', '6.2.13']],
                             'choices': [
                                 'last-n-weeks', 'last-month', 'last-7-days', 'last-week', 'yesterday', 'this-month', 'this-week', 'last-30-days',
                                 'last-quarter', 'last-2-weeks', 'this-quarter', 'last-n-days', 'last-14-days', 'this-year', 'other', 'today',
@@ -839,10 +813,10 @@ def main():
                             ],
                             'type': 'str'
                         },
-                        'title': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                        'vdom': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                        'week-start': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['wed', 'sun', 'fri', 'thr', 'mon', 'tue', 'sat'], 'type': 'str'},
-                        'width': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'}
+                        'title': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                        'vdom': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                        'week-start': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['wed', 'sun', 'fri', 'thr', 'mon', 'tue', 'sat'], 'type': 'str'},
+                        'width': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'}
                     },
                     'elements': 'dict'
                 },
@@ -852,8 +826,8 @@ def main():
                     'options': {
                         'footer-id': {'type': 'int'},
                         'type': {'choices': ['text', 'graphic', 'minicover'], 'type': 'str'},
-                        'graphic': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'},
-                        'text': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'}
+                        'graphic': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'type': 'str'},
+                        'text': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'type': 'str'}
                     },
                     'elements': 'dict'
                 },
@@ -862,8 +836,8 @@ def main():
                     'options': {
                         'header-id': {'type': 'int'},
                         'type': {'choices': ['text', 'graphic', 'minicover'], 'type': 'str'},
-                        'graphic': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'},
-                        'text': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'type': 'str'}
+                        'graphic': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'type': 'str'},
+                        'text': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'type': 'str'}
                     },
                     'elements': 'dict'
                 },
@@ -871,47 +845,47 @@ def main():
                 'layout-id': {'v_range': [['6.2.1', '7.4.2']], 'type': 'int'},
                 'subtitle': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
                 'title': {'v_range': [['6.2.1', '7.4.2']], 'type': 'str'},
-                'alignment': {'v_range': [['6.2.2', '6.2.12'], ['7.4.3', '']], 'choices': ['right', 'center', 'left'], 'type': 'str'},
-                'bg-color': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'category': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'chart-heading-level': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                'chart-info-display': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'coverpage-background-image': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'coverpage-bottom-image': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'coverpage-custom-text1': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'coverpage-custom-text2': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'coverpage-enable-create-time': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'coverpage-enable-time-period': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'coverpage-footer-bgcolor': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'coverpage-footer-left': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'coverpage-footer-right': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'coverpage-text-color': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'coverpage-title': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'coverpage-top-image': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'coverpage-top-image-position': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['right', 'center', 'left'], 'type': 'str'},
+                'alignment': {'v_range': [['6.2.2', '6.2.13'], ['7.4.3', '']], 'choices': ['right', 'center', 'left'], 'type': 'str'},
+                'bg-color': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'category': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'chart-heading-level': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                'chart-info-display': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'coverpage-background-image': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'coverpage-bottom-image': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'coverpage-custom-text1': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'coverpage-custom-text2': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'coverpage-enable-create-time': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'coverpage-enable-time-period': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'coverpage-footer-bgcolor': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'coverpage-footer-left': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'coverpage-footer-right': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'coverpage-text-color': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'coverpage-title': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'coverpage-top-image': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'coverpage-top-image-position': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['right', 'center', 'left'], 'type': 'str'},
                 'dev-type': {
-                    'v_range': [['6.2.2', '6.2.12']],
+                    'v_range': [['6.2.2', '6.2.13']],
                     'choices': [
                         'FortiSandbox', 'FortiWeb', 'Fabric', 'Syslog', 'FortiCache', 'FortiAuthenticator', 'FortiMail', 'FortiProxy', 'FortiManager',
                         'FortiNAC', 'FortiAnalyzer', 'FortiClient', 'FortiDDoS', 'FortiGate', 'FortiFirewall'
                     ],
                     'type': 'str'
                 },
-                'folder-id': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                'font-color': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'font-family': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'font-size': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                'font-type': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['bold-italic', 'bold', 'undefined', 'italic', 'normal'], 'type': 'str'},
-                'footer-bgcolor': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'header-bgcolor': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'hide-report-title': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                'hide-rowid': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                'include-empty-charts': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'is-template': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'left-margin': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
-                'protected': {'v_range': [['6.2.2', '6.2.12']], 'choices': ['enable', 'disable'], 'type': 'str'},
-                'report-tag': {'v_range': [['6.2.2', '6.2.12']], 'type': 'str'},
-                'right-margin': {'v_range': [['6.2.2', '6.2.12']], 'type': 'int'},
+                'folder-id': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                'font-color': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'font-family': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'font-size': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                'font-type': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['bold-italic', 'bold', 'undefined', 'italic', 'normal'], 'type': 'str'},
+                'footer-bgcolor': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'header-bgcolor': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'hide-report-title': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                'hide-rowid': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                'include-empty-charts': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'is-template': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'left-margin': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
+                'protected': {'v_range': [['6.2.2', '6.2.13']], 'choices': ['enable', 'disable'], 'type': 'str'},
+                'report-tag': {'v_range': [['6.2.2', '6.2.13']], 'type': 'str'},
+                'right-margin': {'v_range': [['6.2.2', '6.2.13']], 'type': 'int'},
                 'folders': {
                     'v_range': [['7.0.0', '']],
                     'type': 'list',

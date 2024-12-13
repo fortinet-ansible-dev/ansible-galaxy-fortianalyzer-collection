@@ -106,6 +106,7 @@ options:
         type: dict
         suboptions:
             dev_type:
+                aliases: ['dev-type']
                 type: str
                 description:
                  - Device type.
@@ -143,12 +144,14 @@ options:
                     - 'FortiCASB'
                     - 'FortiToken'
             field_list:
+                aliases: ['field-list']
                 type: str
                 description: List of fields to be excluded.
             id:
                 type: int
                 description: Log field exclusion ID.
             log_type:
+                aliases: ['log-type']
                 type: str
                 description:
                  - Log type.

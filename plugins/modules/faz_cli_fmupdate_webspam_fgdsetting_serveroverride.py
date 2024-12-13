@@ -109,28 +109,21 @@ options:
                         type: int
                         description: Port number to use when contacting FortiGuard
                     service_type:
+                        aliases: ['service-type']
                         type: str
                         description:
                          - Override service type.
                          - fgd - Server override config for fgd
                          - fgc - Server override config for fgc
                          - fsa - Server override config for fsa
-                        choices:
-                            - 'fgd'
-                            - 'fgc'
-                            - 'fsa'
-                            - 'fgfq'
-                            - 'geoip'
-                            - 'iot-collect'
+                        choices: ['fgd', 'fgc', 'fsa', 'fgfq', 'geoip', 'iot-collect']
             status:
                 type: str
                 description:
                  - Override status.
                  - disable - Disable setting.
                  - enable - Enable setting.
-                choices:
-                    - 'disable'
-                    - 'enable'
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''
