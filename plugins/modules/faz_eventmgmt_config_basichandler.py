@@ -184,25 +184,25 @@ EXAMPLES = '''
         # rc_succeeded: [0, -2, -3, ...]
         # rc_failed: [-2, -3, ...]
         adom: <your own value>
-        state: <value in [present, absent]>
+        state: present # <value in [present, absent]>
         eventmgmt_config_basichandler:
-          content_pack_id: <value of string>
-          content_pack_uuid: <value of string>
-          handler_id: <value of string>
-          name: <value of string>
-          rule: <value of dict>
-          uuid: <value of string>
-          version: <value of integer>
-          automation_stitch: <any type of data>
-          creation_time: <value of integer>
-          data_selector: <value of string>
-          description_: <value of string>
-          enable: <value in [disable, enable]>
-          enable_time: <value of integer>
-          mitre_info: <value of string>
-          notification: <value of string>
-          template_url: <value of string>
-          update_time: <value of integer>
+          handler_id: "your value" # Required variable, string
+          # content_pack_id: <value of string>
+          # content_pack_uuid: <value of string>
+          # name: <value of string>
+          # rule: <value of dict>
+          # uuid: <value of string>
+          # version: <value of integer>
+          # automation_stitch: <any type of data>
+          # creation_time: <value of integer>
+          # data_selector: <value of string>
+          # description_: <value of string>
+          # enable: <value in [disable, enable]>
+          # enable_time: <value of integer>
+          # mitre_info: <value of string>
+          # notification: <value of string>
+          # template_url: <value of string>
+          # update_time: <value of integer>
 '''
 
 RETURN = '''
@@ -256,7 +256,7 @@ def main():
     ]
 
     url_params = ['adom']
-    module_primary_key = 'name'
+    module_primary_key = 'handler_id'
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},

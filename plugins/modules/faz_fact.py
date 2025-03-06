@@ -2311,7 +2311,7 @@ def main():
                 '/soar/adom/{adom}/playbook/monitor'
             ],
             'params': ['filter', 'instance-id', 'playbook-uuid', 'sort-by', 'time-range', 'timezone'],
-            'jsonrpc2': True, 'v_range': [['6.4.2', '7.2.1'], ['7.6.0', '']],
+            'jsonrpc2': True, 'v_range': [['6.4.2', '7.2.1'], ['7.6.0', '7.6.1']],
         },
         'soar_playbook_run': {
             'urls': [
@@ -2338,8 +2338,8 @@ def main():
             'urls': [
                 '/soar/adom/{adom}/task/monitor'
             ],
-            'params': ['filter', 'instance-id', 'playbook-uuid', 'sort-by', 'time-range', 'timezone'],
-            'jsonrpc2': True, 'v_range': [['6.4.2', '7.4.5']],
+            'params': ['filter', 'instance-id', 'playbook-uuid', 'run-id', 'sort-by', 'time-range', 'timezone'],
+            'jsonrpc2': True, 'v_range': [['6.4.2', '7.4.6'], ['7.6.2', '']],
         },
         'sys_ha_status': {
             'urls': [

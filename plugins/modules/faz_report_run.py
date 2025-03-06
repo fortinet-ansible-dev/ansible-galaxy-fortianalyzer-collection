@@ -195,24 +195,24 @@ EXAMPLES = '''
         # rc_failed: [-2, -3, ...]
         adom: <your own value>
         report_run:
-          schedule: <value of string>
-          schedule_param:
-            device: <value of string>
-            display_table_contents: <value in [0, 1]>
-            filter:
-              - name: <value of string>
-                opcode: <value in [0, 1]>
-                value: <value of string>
-            filter_logic: <value in [all, any]>
-            include_coverpage: <value in [0, 1]>
-            layout_id: <value of integer>
-            period_end: <value of string>
-            period_last_n: <value of integer>
-            period_start: <value of string>
-            resolve_hostname: <value in [0, 1]>
-            time_period: <value in [today, yesterday, last-n-hours, ...]>
-            week_start: <value in [sun, mon]>
-            timezone: <value of string>
+          # schedule: <value of string>
+          # schedule_param:
+          #   device: <value of string>
+          #   display_table_contents: <value in [0, 1]>
+          #   filter:
+          #     - name: <value of string>
+          #       opcode: <value in [0, 1]>
+          #       value: <value of string>
+          #   filter_logic: <value in [all, any]>
+          #   include_coverpage: <value in [0, 1]>
+          #   layout_id: <value of integer>
+          #   period_end: <value of string>
+          #   period_last_n: <value of integer>
+          #   period_start: <value of string>
+          #   resolve_hostname: <value in [0, 1]>
+          #   time_period: <value in [today, yesterday, last-n-hours, ...]>
+          #   week_start: <value in [sun, mon]>
+          #   timezone: <value of string>
 '''
 
 RETURN = '''

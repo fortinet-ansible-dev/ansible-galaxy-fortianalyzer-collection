@@ -133,12 +133,12 @@ EXAMPLES = '''
         # bypass_validation: false
         # rc_succeeded: [0, -2, -3, ...]
         # rc_failed: [-2, -3, ...]
-        state: <value in [present, absent]>
+        state: present # <value in [present, absent]>
         cli_system_log_ratelimit_ratelimits:
-          filter: <value of string>
-          filter_type: <value in [devid, adom]>
-          id: <value of integer>
-          ratelimit: <value of integer>
+          id: 0 # Required variable, integer
+          # filter: <value of string>
+          # filter_type: <value in [devid, adom]>
+          # ratelimit: <value of integer>
 '''
 
 RETURN = '''

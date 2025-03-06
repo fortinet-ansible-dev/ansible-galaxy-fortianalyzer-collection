@@ -24,7 +24,7 @@ ANSIBLE_METADATA = {'status': ['preview'],
 DOCUMENTATION = '''
 ---
 module: faz_eventmgmt_config_trigger_device
-short_description: device
+short_description: Device
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
@@ -131,19 +131,19 @@ EXAMPLES = '''
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
   tasks:
-    - name: device
+    - name: Device
       fortinet.fortianalyzer.faz_eventmgmt_config_trigger_device:
         # bypass_validation: false
         # rc_succeeded: [0, -2, -3, ...]
         # rc_failed: [-2, -3, ...]
         adom: <your own value>
         trigger_id: <your own value>
-        state: <value in [present, absent]>
+        state: present # <value in [present, absent]>
         eventmgmt_config_trigger_device:
-          id: <value of integer>
-          name: <value of string>
-          type: <any type of data>
-          vdom: <value of string>
+          id: 0 # Required variable, integer
+          # name: <value of string>
+          # type: <any type of data>
+          # vdom: <value of string>
 '''
 
 RETURN = '''

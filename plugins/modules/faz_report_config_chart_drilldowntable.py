@@ -151,14 +151,14 @@ EXAMPLES = '''
         # rc_failed: [-2, -3, ...]
         adom: <your own value>
         chart_name: <your own value>
-        state: <value in [present, absent]>
+        state: present # <value in [present, absent]>
         report_config_chart_drilldowntable:
-          chart: <value of string>
-          flag: <value in [enable, disable]>
-          table_id: <value of integer>
-          chart_group: <value of string>
-          page_break_after: <value in [enable, disable]>
-          show_title: <value in [enable, disable]>
+          table_id: 0 # Required variable, integer
+          # chart: <value of string>
+          # flag: <value in [enable, disable]>
+          # chart_group: <value of string>
+          # page_break_after: <value in [enable, disable]>
+          # show_title: <value in [enable, disable]>
 '''
 
 RETURN = '''

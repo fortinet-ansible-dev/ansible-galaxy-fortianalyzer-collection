@@ -142,13 +142,13 @@ EXAMPLES = '''
         # rc_failed: [-2, -3, ...]
         adom: <your own value>
         schedule_name: <your own value>
-        state: <value in [present, absent]>
+        state: present # <value in [present, absent]>
         report_config_schedule_filter:
-          description: <value of string>
-          name: <value of string>
-          opcode: <value in [not_equal, equal]>
-          status: <value of integer>
-          value: <value of string>
+          name: "your value" # Required variable, string
+          # description: <value of string>
+          # opcode: <value in [not_equal, equal]>
+          # status: <value of integer>
+          # value: <value of string>
 '''
 
 RETURN = '''

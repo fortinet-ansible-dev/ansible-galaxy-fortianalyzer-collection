@@ -182,6 +182,10 @@ options:
                  - auth-no-priv - Message with authentication but no privacy
                  - auth-priv - Message with authentication and privacy
                 choices: ['no-auth-no-priv', 'auth-no-priv', 'auth-priv']
+            notify_port:
+                aliases: ['notify-port']
+                type: int
+                description: SNMPv3 trap remote port.
 '''
 
 EXAMPLES = '''
@@ -331,7 +335,8 @@ def main():
                 'priv-pwd': {'no_log': True, 'type': 'str'},
                 'queries': {'choices': ['disable', 'enable'], 'type': 'str'},
                 'query-port': {'type': 'int'},
-                'security-level': {'choices': ['no-auth-no-priv', 'auth-no-priv', 'auth-priv'], 'type': 'str'}
+                'security-level': {'choices': ['no-auth-no-priv', 'auth-no-priv', 'auth-priv'], 'type': 'str'},
+                'notify-port': {'v_range': [['7.2.10', '7.2.10'], ['7.4.6', '7.4.6'], ['7.6.2', '']], 'type': 'int'}
             }
         }
     }

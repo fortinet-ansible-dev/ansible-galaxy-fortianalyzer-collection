@@ -147,15 +147,15 @@ EXAMPLES = '''
         # bypass_validation: false
         # rc_succeeded: [0, -2, -3, ...]
         # rc_failed: [-2, -3, ...]
-        state: <value in [present, absent]>
+        state: present # <value in [present, absent]>
         cli_system_localinpolicy:
-          action: <value in [drop, reject, accept]>
-          dport: <value of integer>
-          dst: <value of string>
-          id: <value of integer>
-          intf: <value of string>
-          protocol: <value in [tcp, udp, tcp_udp]>
-          src: <value of string>
+          id: 0 # Required variable, integer
+          # action: <value in [drop, reject, accept]>
+          # dport: <value of integer>
+          # dst: <value of string>
+          # intf: <value of string>
+          # protocol: <value in [tcp, udp, tcp_udp]>
+          # src: <value of string>
 '''
 
 RETURN = '''

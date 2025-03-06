@@ -152,14 +152,14 @@ EXAMPLES = '''
         # rc_failed: [-2, -3, ...]
         adom: <your own value>
         dataset_name: <your own value>
-        state: <value in [present, absent]>
+        state: present # <value in [present, absent]>
         report_config_dataset_variable:
-          var: <value of string>
-          var_expression: <value of string>
-          var_name: <value of string>
-          var_type: <value in [ip, integer, string, ...]>
-          drilldown_flag: <value in [enable, disable]>
-          var_array: <value in [enable, disable]>
+          var: "your value" # Required variable, string
+          # var_expression: <value of string>
+          # var_name: <value of string>
+          # var_type: <value in [ip, integer, string, ...]>
+          # drilldown_flag: <value in [enable, disable]>
+          # var_array: <value in [enable, disable]>
 '''
 
 RETURN = '''

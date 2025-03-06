@@ -333,6 +333,15 @@ options:
                 aliases: ['fgt-gui-proxy-port']
                 type: int
                 description: FortiGate GUI proxy port.
+            object_threshold_limit:
+                aliases: ['object-threshold-limit']
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
+            object_threshold_limit_value:
+                aliases: ['object-threshold-limit-value']
+                type: int
+                description: no description
 '''
 
 EXAMPLES = '''
@@ -466,7 +475,9 @@ def main():
                 'fsw-ignore-platform-check': {'v_range': [['7.0.7', '7.0.13'], ['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'firmware-upgrade-check': {'v_range': [['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'fgt-gui-proxy': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'fgt-gui-proxy-port': {'v_range': [['7.4.2', '']], 'type': 'int'}
+                'fgt-gui-proxy-port': {'v_range': [['7.4.2', '']], 'type': 'int'},
+                'object-threshold-limit': {'v_range': [['7.6.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'object-threshold-limit-value': {'v_range': [['7.6.2', '']], 'type': 'int'}
             }
         }
     }

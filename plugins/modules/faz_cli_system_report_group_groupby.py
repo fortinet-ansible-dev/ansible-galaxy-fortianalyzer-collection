@@ -125,22 +125,25 @@ options:
 
 EXAMPLES = '''
 - name: Example playbook
-  connection: httpapi
   hosts: fortianalyzers
-  tasks:
-    - name: Group-by variables.
-      fortinet.fortianalyzer.faz_cli_system_report_group_groupby:
-        cli_system_report_group_groupby:
-          var_expression: <value of string>
-          var_name: <value of string>
-          var_type: <value in [integer, string, enum, ...]>
-        group: <your own value>
-        state: present
+  connection: httpapi
   vars:
     ansible_network_os: fortinet.fortianalyzer.fortianalyzer
     ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
+  tasks:
+    - name: Group-by variables.
+      fortinet.fortianalyzer.faz_cli_system_report_group_groupby:
+        # bypass_validation: false
+        # rc_succeeded: [0, -2, -3, ...]
+        # rc_failed: [-2, -3, ...]
+        group: <your own value>
+        state: present # <value in [present, absent]>
+        cli_system_report_group_groupby:
+          var_name: "your value" # Required variable, string
+          # var_expression: <value of string>
+          # var_type: <value in [integer, string, enum, ...]>
 '''
 
 RETURN = '''

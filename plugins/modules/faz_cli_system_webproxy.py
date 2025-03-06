@@ -135,12 +135,12 @@ EXAMPLES = '''
         # rc_succeeded: [0, -2, -3, ...]
         # rc_failed: [-2, -3, ...]
         cli_system_webproxy:
-          address: <value of string>
-          mode: <value in [proxy, tunnel]>
-          password: <value of string>
-          port: <value of integer>
-          status: <value in [disable, enable]>
-          username: <value of string>
+          # address: <value of string>
+          # mode: <value in [proxy, tunnel]>
+          # password: <value of string>
+          # port: <value of integer>
+          # status: <value in [disable, enable]>
+          # username: <value of string>
 '''
 
 RETURN = '''

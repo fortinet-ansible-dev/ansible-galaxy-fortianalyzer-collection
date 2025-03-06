@@ -171,17 +171,17 @@ EXAMPLES = '''
         # rc_succeeded: [0, -2, -3, ...]
         # rc_failed: [-2, -3, ...]
         adom: <your own value>
-        state: <value in [present, absent]>
+        state: present # <value in [present, absent]>
         report_config_macro:
-          description: <value of string>
-          dev_type: <value in [FortiSandbox, FortiWeb, Fabric, ...]>
-          disp_name: <value of string>
-          name: <value of string>
-          data_attr: <value in [count, none, percent, ...]>
-          data_binding: <value of string>
-          dataset: <value of string>
-          protected: <value in [enable, disable]>
-          chart_style: <value of string>
+          name: "your value" # Required variable, string
+          # description: <value of string>
+          # dev_type: <value in [FortiSandbox, FortiWeb, Fabric, ...]>
+          # disp_name: <value of string>
+          # data_attr: <value in [count, none, percent, ...]>
+          # data_binding: <value of string>
+          # dataset: <value of string>
+          # protected: <value in [enable, disable]>
+          # chart_style: <value of string>
 '''
 
 RETURN = '''

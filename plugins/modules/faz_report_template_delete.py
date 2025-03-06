@@ -112,9 +112,9 @@ EXAMPLES = '''
         # rc_succeeded: [0, -2, -3, ...]
         # rc_failed: [-2, -3, ...]
         report_template_delete:
-          dev_type: <value of string>
-          language: <value of string>
-          title: <value of string>
+          # dev_type: <value of string>
+          # language: <value of string>
+          # title: <value of string>
 '''
 
 RETURN = '''

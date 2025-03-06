@@ -117,8 +117,8 @@ EXAMPLES = '''
         # rc_succeeded: [0, -2, -3, ...]
         # rc_failed: [-2, -3, ...]
         cli_system_log_topology:
-          max_depth: <value of integer>
-          max_depth_share: <value of integer>
+          # max_depth: <value of integer>
+          # max_depth_share: <value of integer>
 '''
 
 RETURN = '''

@@ -673,7 +673,7 @@ def main():
                 'device-policy-package-lock': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'device-wan-link-load-balance': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'event-management': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
-                'fortirecorder-setting': {'v_range': [['6.2.1', '7.2.8']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
+                'fortirecorder-setting': {'v_range': [['6.2.1', '7.2.10']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'log-viewer': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'profileid': {'type': 'str'},
                 'realtime-monitor': {'v_range': [['6.2.1', '7.4.2']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},

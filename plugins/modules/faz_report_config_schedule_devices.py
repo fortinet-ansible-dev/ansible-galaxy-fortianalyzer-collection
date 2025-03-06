@@ -138,11 +138,11 @@ EXAMPLES = '''
         # rc_failed: [-2, -3, ...]
         adom: <your own value>
         schedule_name: <your own value>
-        state: <value in [present, absent]>
+        state: present # <value in [present, absent]>
         report_config_schedule_devices:
-          devices_name: <value of string>
-          interfaces:
-            - name: <value of string>
+          devices_name: "your value" # Required variable, string
+          # interfaces:
+          #   - name: <value of string>
 '''
 
 RETURN = '''

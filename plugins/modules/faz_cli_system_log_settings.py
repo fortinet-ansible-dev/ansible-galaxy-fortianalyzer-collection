@@ -654,6 +654,14 @@ options:
                 aliases: ['log-upload-interval-dev-no-logging']
                 type: int
                 description: Interval in minute of no log uploaded from a device when considering the device down.
+            legacy_auth_mode:
+                aliases: ['legacy-auth-mode']
+                type: str
+                description:
+                 - Enable/Disable legacy mode of device authentication by username/password.
+                 - disable - Disable legacy authentication mode support.
+                 - enable - Enable legacy authentication mode support.
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''
@@ -867,17 +875,18 @@ def main():
                 'sync-search-timeout': {'type': 'int'},
                 'keep-dev-logs': {'v_range': [['6.4.7', '6.4.15'], ['7.0.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'device-auto-detect': {
-                    'v_range': [['7.0.10', '7.0.13'], ['7.2.4', '7.2.8'], ['7.4.1', '']],
+                    'v_range': [['7.0.10', '7.0.13'], ['7.2.4', '7.2.10'], ['7.4.1', '']],
                     'choices': ['disable', 'enable'],
                     'type': 'str'
                 },
                 'unencrypted-logging': {
-                    'v_range': [['7.0.10', '7.0.13'], ['7.2.4', '7.2.8'], ['7.4.1', '']],
+                    'v_range': [['7.0.10', '7.0.13'], ['7.2.4', '7.2.10'], ['7.4.1', '']],
                     'choices': ['disable', 'enable'],
                     'type': 'str'
                 },
-                'log-interval-dev-no-logging': {'v_range': [['7.2.5', '7.2.8'], ['7.4.2', '']], 'type': 'int'},
-                'log-upload-interval-dev-no-logging': {'v_range': [['7.2.5', '7.2.8'], ['7.4.2', '']], 'type': 'int'}
+                'log-interval-dev-no-logging': {'v_range': [['7.2.5', '7.2.10'], ['7.4.2', '']], 'type': 'int'},
+                'log-upload-interval-dev-no-logging': {'v_range': [['7.2.5', '7.2.10'], ['7.4.2', '']], 'type': 'int'},
+                'legacy-auth-mode': {'v_range': [['7.2.10', '7.2.10']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
         }
     }

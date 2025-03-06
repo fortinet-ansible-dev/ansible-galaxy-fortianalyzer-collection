@@ -155,16 +155,16 @@ EXAMPLES = '''
         # bypass_validation: false
         # rc_succeeded: [0, -2, -3, ...]
         # rc_failed: [-2, -3, ...]
-        state: <value in [present, absent]>
+        state: present # <value in [present, absent]>
         cli_system_csf_trustedlist:
-          action: <value in [accept, deny]>
-          authorization_type: <value in [serial, certificate]>
-          certificate: <value of string>
-          downstream_authorization: <value in [disable, enable]>
-          ha_members: <value of string>
-          index: <value of integer>
-          name: <value of string>
-          serial: <value of string>
+          name: "your value" # Required variable, string
+          # action: <value in [accept, deny]>
+          # authorization_type: <value in [serial, certificate]>
+          # certificate: <value of string>
+          # downstream_authorization: <value in [disable, enable]>
+          # ha_members: <value of string>
+          # index: <value of integer>
+          # serial: <value of string>
 '''
 
 RETURN = '''

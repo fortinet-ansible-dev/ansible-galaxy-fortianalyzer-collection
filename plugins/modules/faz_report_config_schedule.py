@@ -403,65 +403,65 @@ EXAMPLES = '''
         # rc_succeeded: [0, -2, -3, ...]
         # rc_failed: [-2, -3, ...]
         adom: <your own value>
-        state: <value in [present, absent]>
+        state: present # <value in [present, absent]>
         report_config_schedule:
-          description: <value of string>
-          devices:
-            - devices_name: <value of string>
-              interfaces:
-                - name: <value of string>
-          filter:
-            - description: <value of string>
-              name: <value of string>
-              opcode: <value in [not_equal, equal]>
-              status: <value of integer>
-              value: <value of string>
-          name: <value of string>
-          report_layout:
-            - layout_id: <value of integer>
-              is_global: <value of integer>
-          status: <value in [enable, disable]>
-          admin_user: <value of string>
-          auto_hcache: <value in [enable, disable]>
-          date_format: <value of string>
-          dev_type: <value in [FortiSandbox, FortiWeb, Fabric, ...]>
-          device_list_type: <value in [compact, count, detailed, ...]>
-          display_device_by: <value in [device-id, device-name]>
-          display_table_contents: <value in [enable, disable]>
-          email_report_per_device: <value in [enable, disable]>
-          filter_logic: <value in [all, any]>
-          filter_type: <value in [srcip, none, hostname, ...]>
-          include_coverpage: <value in [enable, disable]>
-          include_other: <value in [auto, enable, disable]>
-          language: <value of string>
-          ldap_query: <value in [enable, disable]>
-          ldap_server: <value of string>
-          ldap_user_case_change: <value in [upper, lower, disable]>
-          max_reports: <value of integer>
-          obfuscate_user: <value in [enable, disable]>
-          orientation: <value in [portrait, landscape]>
-          output_format: <value in [xml, rtf, connectwise, ...]>
-          output_profile: <value of string>
-          period_end: <value of dict>
-          period_last_n: <value of integer>
-          period_opt: <value in [faz, dev]>
-          period_start: <value of dict>
-          print_report_filters: <value in [enable, disable]>
-          report_per_device: <value in [enable, disable]>
-          resolve_hostname: <value in [enable, disable]>
-          schedule_color: <value of string>
-          schedule_frequency: <value of integer>
-          schedule_type: <value in [every-n-days, every-n-months, every-n-hours, ...]>
-          schedule_valid_end: <value of string>
-          schedule_valid_start: <value of string>
-          time_period: <value in [last-n-weeks, last-month, last-7-days, ...]>
-          week_start: <value in [wed, sun, fri, ...]>
-          address_filter:
-            - id: <value of integer>
-              include_option: <value of string>
-              address_type: <value of string>
-          soc_cust_filters:
-            - name: <value of string>
+          name: "your value" # Required variable, string
+          # description: <value of string>
+          # devices:
+          #   - devices_name: <value of string>
+          #     interfaces:
+          #       - name: <value of string>
+          # filter:
+          #   - description: <value of string>
+          #     name: <value of string>
+          #     opcode: <value in [not_equal, equal]>
+          #     status: <value of integer>
+          #     value: <value of string>
+          # report_layout:
+          #   - layout_id: <value of integer>
+          #     is_global: <value of integer>
+          # status: <value in [enable, disable]>
+          # admin_user: <value of string>
+          # auto_hcache: <value in [enable, disable]>
+          # date_format: <value of string>
+          # dev_type: <value in [FortiSandbox, FortiWeb, Fabric, ...]>
+          # device_list_type: <value in [compact, count, detailed, ...]>
+          # display_device_by: <value in [device-id, device-name]>
+          # display_table_contents: <value in [enable, disable]>
+          # email_report_per_device: <value in [enable, disable]>
+          # filter_logic: <value in [all, any]>
+          # filter_type: <value in [srcip, none, hostname, ...]>
+          # include_coverpage: <value in [enable, disable]>
+          # include_other: <value in [auto, enable, disable]>
+          # language: <value of string>
+          # ldap_query: <value in [enable, disable]>
+          # ldap_server: <value of string>
+          # ldap_user_case_change: <value in [upper, lower, disable]>
+          # max_reports: <value of integer>
+          # obfuscate_user: <value in [enable, disable]>
+          # orientation: <value in [portrait, landscape]>
+          # output_format: <value in [xml, rtf, connectwise, ...]>
+          # output_profile: <value of string>
+          # period_end: <value of dict>
+          # period_last_n: <value of integer>
+          # period_opt: <value in [faz, dev]>
+          # period_start: <value of dict>
+          # print_report_filters: <value in [enable, disable]>
+          # report_per_device: <value in [enable, disable]>
+          # resolve_hostname: <value in [enable, disable]>
+          # schedule_color: <value of string>
+          # schedule_frequency: <value of integer>
+          # schedule_type: <value in [every-n-days, every-n-months, every-n-hours, ...]>
+          # schedule_valid_end: <value of string>
+          # schedule_valid_start: <value of string>
+          # time_period: <value in [last-n-weeks, last-month, last-7-days, ...]>
+          # week_start: <value in [wed, sun, fri, ...]>
+          # address_filter:
+          #   - id: <value of integer>
+          #     include_option: <value of string>
+          #     address_type: <value of string>
+          # soc_cust_filters:
+          #   - name: <value of string>
 '''
 
 RETURN = '''

@@ -111,7 +111,7 @@ EXAMPLES = '''
         # rc_failed: [-2, -3, ...]
         adom: <your own value>
         eventmgmt_alerts_read:
-          alertid: <list of string>
+          # alertid: <list of string>
 '''
 
 RETURN = '''

@@ -133,6 +133,29 @@ options:
             server:
                 type: str
                 description: Server name/IP.
+            ca_cert:
+                aliases: ['ca-cert']
+                type: str
+                description: CA of server certificate.
+            client_cert:
+                aliases: ['client-cert']
+                type: str
+                description: Client certificate.
+            message_authenticator:
+                aliases: ['message-authenticator']
+                type: str
+                description:
+                 - Require Message-Authenticator attribute.
+                 - optional - Message-Authenticator attribute is optional
+                 - require - Message-Authenticator attribute is required.
+                choices: ['optional', 'require']
+            protocol:
+                type: str
+                description:
+                 - Transport protocol.
+                 - udp - UDP
+                 - tls - TLS over TCP
+                choices: ['udp', 'tls']
 '''
 
 EXAMPLES = '''
@@ -230,7 +253,15 @@ def main():
                 'secondary-secret': {'no_log': True, 'type': 'str'},
                 'secondary-server': {'type': 'str'},
                 'secret': {'no_log': True, 'type': 'str'},
-                'server': {'type': 'str'}
+                'server': {'type': 'str'},
+                'ca-cert': {'v_range': [['7.2.10', '7.2.10'], ['7.4.6', '7.4.6'], ['7.6.2', '']], 'type': 'str'},
+                'client-cert': {'v_range': [['7.2.10', '7.2.10'], ['7.4.6', '7.4.6'], ['7.6.2', '']], 'type': 'str'},
+                'message-authenticator': {
+                    'v_range': [['7.2.10', '7.2.10'], ['7.4.6', '7.4.6'], ['7.6.2', '']],
+                    'choices': ['optional', 'require'],
+                    'type': 'str'
+                },
+                'protocol': {'v_range': [['7.2.10', '7.2.10'], ['7.4.6', '7.4.6'], ['7.6.2', '']], 'choices': ['udp', 'tls'], 'type': 'str'}
             }
         }
     }

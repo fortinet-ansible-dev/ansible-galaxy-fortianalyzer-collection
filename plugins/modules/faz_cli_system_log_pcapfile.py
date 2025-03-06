@@ -118,7 +118,7 @@ EXAMPLES = '''
         # rc_succeeded: [0, -2, -3, ...]
         # rc_failed: [-2, -3, ...]
         cli_system_log_pcapfile:
-          download_mode: <value in [plain, zip, zip-with-password]>
+          # download_mode: <value in [plain, zip, zip-with-password]>
 '''
 
 RETURN = '''

@@ -717,6 +717,11 @@ options:
                  - enable - Enable syslog transparent forward mode.
                  - faz-enrich - Disable syslog transparent forward mode.
                 choices: ['disable', 'enable', 'faz-enrich']
+            fwd_syslog_enrich_cve:
+                aliases: ['fwd-syslog-enrich-cve']
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''
@@ -953,7 +958,8 @@ def main():
                 'pcapurl-enrich': {'v_range': [['7.0.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'peer-cert-cn': {'v_range': [['7.0.3', '']], 'type': 'str'},
                 'fwd-output-plugin-id': {'v_range': [['7.4.0', '']], 'type': 'str'},
-                'fwd-syslog-transparent': {'v_range': [['7.4.3', '']], 'choices': ['disable', 'enable', 'faz-enrich'], 'type': 'str'}
+                'fwd-syslog-transparent': {'v_range': [['7.4.3', '']], 'choices': ['disable', 'enable', 'faz-enrich'], 'type': 'str'},
+                'fwd-syslog-enrich-cve': {'v_range': [['7.6.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
         }
     }

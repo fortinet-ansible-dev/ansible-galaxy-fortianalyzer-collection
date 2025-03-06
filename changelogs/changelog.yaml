@@ -332,3 +332,14 @@ releases:
         name: faz_eventmgmt_correlationhandlers_import
         namespace: ""
     release_date: "2024-12-13"
+  1.8.1:
+    changes:
+      bugfixes:
+        - Corrected the mainkey of some "eventmgmt" modules.
+        - Modified example playbooks to support ansible-lint check.
+      minor_changes:
+        - Supported FortiAnalyzer 7.2.9, 7.2.10, 7.4.6, 7.6.2
+      release_summary: Release fortinet.fortianalyzer 1.8.1
+    fragments:
+      - 1.8.1.yml
+    release_date: "2025-03-06"

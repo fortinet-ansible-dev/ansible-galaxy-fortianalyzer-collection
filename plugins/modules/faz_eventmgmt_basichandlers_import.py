@@ -125,11 +125,11 @@ EXAMPLES = '''
         # rc_failed: [-2, -3, ...]
         adom: <your own value>
         eventmgmt_basichandlers_import:
-          attachment:
-            - notification-profile
-          conflict_option: <value in [rename, replace, skip]>
-          data: <value of string>
-          data_type: <value in [zip/base64, txt, cli]>
+          # attachment:
+          #   - notification-profile
+          # conflict_option: <value in [rename, replace, skip]>
+          # data: <value of string>
+          # data_type: <value in [zip/base64, txt, cli]>
 '''
 
 RETURN = '''

@@ -111,7 +111,7 @@ EXAMPLES = '''
         # rc_failed: [-2, -3, ...]
         adom: <your own value>
         report_graphfile_delete:
-          file_name: <value of string>
+          # file_name: <value of string>
 '''
 
 RETURN = '''

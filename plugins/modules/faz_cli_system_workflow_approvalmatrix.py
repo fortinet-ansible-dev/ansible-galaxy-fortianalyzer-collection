@@ -24,7 +24,7 @@ ANSIBLE_METADATA = {'status': ['preview'],
 DOCUMENTATION = '''
 ---
 module: faz_cli_system_workflow_approvalmatrix
-short_description: workflow approval matrix.
+short_description: Workflow approval matrix.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.

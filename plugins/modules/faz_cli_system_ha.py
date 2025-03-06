@@ -122,7 +122,7 @@ options:
                  - Need to sync data from master before up as an HA member.
                  - false - False.
                  - true - True.
-                choices: ['false', 'true']
+                choices: ['false', 'true', 'disable', 'enable']
             initial_sync_threads:
                 aliases: ['initial-sync-threads']
                 type: int
@@ -368,7 +368,7 @@ def main():
                 'hb-interface': {'type': 'str'},
                 'hb-interval': {'type': 'int'},
                 'healthcheck': {'type': 'list', 'choices': ['DB', 'fault-test'], 'elements': 'str'},
-                'initial-sync': {'choices': ['false', 'true'], 'type': 'str'},
+                'initial-sync': {'choices': ['false', 'true', 'disable', 'enable'], 'type': 'str'},
                 'initial-sync-threads': {'type': 'int'},
                 'load-balance': {'choices': ['disable', 'round-robin'], 'type': 'str'},
                 'log-sync': {'choices': ['disable', 'enable'], 'type': 'str'},

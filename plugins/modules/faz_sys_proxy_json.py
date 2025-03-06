@@ -111,10 +111,10 @@ EXAMPLES = '''
     - name: Send and receive JSON request to/from managed devices.
       fortinet.fortianalyzer.faz_sys_proxy_json:
         sys_proxy_json:
-          action: <value in [get, post, put, ...]>
-          payload: <value of dict>
-          resource: <value of string>
-          target: <value of list>
+          # action: <value in [get, post, put, ...]>
+          # payload: <value of dict>
+          # resource: <value of string>
+          # target: <value of list>
   vars:
     ansible_network_os: fortinet.fortianalyzer.fortianalyzer
     ansible_httpapi_port: 443

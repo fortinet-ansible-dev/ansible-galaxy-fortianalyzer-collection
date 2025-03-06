@@ -169,20 +169,20 @@ EXAMPLES = '''
         # rc_succeeded: [0, -2, -3, ...]
         # rc_failed: [-2, -3, ...]
         adom: <your own value>
-        state: <value in [present, absent]>
+        state: present # <value in [present, absent]>
         eventmgmt_config_notificationprofile:
-          fabric_connector: <value of dict>
-          name: <value of string>
-          notify_bitmap: <value of integer>
-          profile_id: <value of string>
-          email_from: <value of string>
-          email_html_format: <value of integer>
-          email_subject: <value of string>
-          email_svr: <value of string>
-          email_to: <value of string>
-          snmp_community: <value of string>
-          snmpv3_user: <value of string>
-          syslog_svr: <value of string>
+          profile_id: "your value" # Required variable, string
+          # fabric_connector: <value of dict>
+          # name: <value of string>
+          # notify_bitmap: <value of integer>
+          # email_from: <value of string>
+          # email_html_format: <value of integer>
+          # email_subject: <value of string>
+          # email_svr: <value of string>
+          # email_to: <value of string>
+          # snmp_community: <value of string>
+          # snmpv3_user: <value of string>
+          # syslog_svr: <value of string>
 '''
 
 RETURN = '''
@@ -236,7 +236,7 @@ def main():
     ]
 
     url_params = ['adom']
-    module_primary_key = 'name'
+    module_primary_key = 'profile_id'
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},

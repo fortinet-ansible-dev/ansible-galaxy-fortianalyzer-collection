@@ -24,7 +24,7 @@ ANSIBLE_METADATA = {'status': ['preview'],
 DOCUMENTATION = '''
 ---
 module: faz_eventmgmt_config_trigger_filter
-short_description: filter
+short_description: Filter
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
@@ -218,43 +218,43 @@ EXAMPLES = '''
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
   tasks:
-    - name: filter
+    - name: Filter
       fortinet.fortianalyzer.faz_eventmgmt_config_trigger_filter:
         # bypass_validation: false
         # rc_succeeded: [0, -2, -3, ...]
         # rc_failed: [-2, -3, ...]
         adom: <your own value>
         trigger_id: <your own value>
-        state: <value in [present, absent]>
+        state: present # <value in [present, absent]>
         eventmgmt_config_trigger_filter:
-          dev_type: <any type of data>
-          id: <value of integer>
-          rule:
-            - id: <value of integer>
-              key: <value of string>
-              value: <value of string>
-              value_type: <value of integer>
-              oper: <value in [less-than, not-contain, less-or-equal, ...]>
-          subject: <value of string>
-          tag: <value of string>
-          enable: <value in [enable, disable]>
-          eventstatus: <value of string>
-          eventtype: <value of string>
-          extrainfo: <value of string>
-          extrainfo_type: <value in [default, custom]>
-          filter_expr: <value of string>
-          groupby1: <value of string>
-          groupby2: <value of string>
-          logtype: <value of string>
-          rule_relation: <value of integer>
-          severity: <value in [high, medium, critical, ...]>
-          thres_count: <value of integer>
-          thres_duration: <value of integer>
-          utmevent: <value of string>
-          indicator:
-            - count: <value of integer>
-              name: <value of string>
-              type: <value of string>
+          id: 0 # Required variable, integer
+          # dev_type: <any type of data>
+          # rule:
+          #   - id: <value of integer>
+          #     key: <value of string>
+          #     value: <value of string>
+          #     value_type: <value of integer>
+          #     oper: <value in [less-than, not-contain, less-or-equal, ...]>
+          # subject: <value of string>
+          # tag: <value of string>
+          # enable: <value in [enable, disable]>
+          # eventstatus: <value of string>
+          # eventtype: <value of string>
+          # extrainfo: <value of string>
+          # extrainfo_type: <value in [default, custom]>
+          # filter_expr: <value of string>
+          # groupby1: <value of string>
+          # groupby2: <value of string>
+          # logtype: <value of string>
+          # rule_relation: <value of integer>
+          # severity: <value in [high, medium, critical, ...]>
+          # thres_count: <value of integer>
+          # thres_duration: <value of integer>
+          # utmevent: <value of string>
+          # indicator:
+          #   - count: <value of integer>
+          #     name: <value of string>
+          #     type: <value of string>
 '''
 
 RETURN = '''

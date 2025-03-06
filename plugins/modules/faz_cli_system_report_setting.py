@@ -165,27 +165,31 @@ options:
 
 EXAMPLES = '''
 - name: Example playbook
-  connection: httpapi
   hosts: fortianalyzers
-  tasks:
-    - name: Report settings.
-      fortinet.fortianalyzer.faz_cli_system_report_setting:
-        cli_system_report_setting:
-          aggregate_report: disable
-          capwap_port: <value of integer>
-          capwap_service: <value of string>
-          exclude_capwap: <value in [disable, by-port, by-service]>
-          hcache_lossless: disable
-          ldap_cache_timeout: <value of integer>
-          max_table_rows: <value of integer>
-          report_priority: <value in [high, low, auto]>
-          template_auto_install: <value in [default, english]>
-          week_start: <value in [sun, mon]>
+  connection: httpapi
   vars:
     ansible_network_os: fortinet.fortianalyzer.fortianalyzer
     ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
+  tasks:
+    - name: Report settings.
+      fortinet.fortianalyzer.faz_cli_system_report_setting:
+        # bypass_validation: false
+        # rc_succeeded: [0, -2, -3, ...]
+        # rc_failed: [-2, -3, ...]
+        cli_system_report_setting:
+          # aggregate_report: <value in [disable, enable]>
+          # capwap_port: <value of integer>
+          # capwap_service: <value of string>
+          # exclude_capwap: <value in [disable, by-port, by-service]>
+          # hcache_lossless: <value in [disable, enable]>
+          # ldap_cache_timeout: <value of integer>
+          # max_table_rows: <value of integer>
+          # report_priority: <value in [high, low, auto]>
+          # template_auto_install: <value in [default, english]>
+          # week_start: <value in [sun, mon]>
+          # max_rpt_pdf_rows: <value of integer>
 '''
 
 RETURN = '''

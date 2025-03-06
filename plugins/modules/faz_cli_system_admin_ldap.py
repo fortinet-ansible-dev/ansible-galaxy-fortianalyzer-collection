@@ -298,7 +298,7 @@ def main():
                 'attributes': {'type': 'str'},
                 'ca-cert': {'type': 'str'},
                 'cnid': {'type': 'str'},
-                'connect-timeout': {'v_range': [['6.2.1', '7.4.2']], 'type': 'int'},
+                'connect-timeout': {'v_range': [['6.2.1', '7.2.9'], ['7.4.0', '7.4.2']], 'type': 'int'},
                 'dn': {'type': 'str'},
                 'filter': {'type': 'str'},
                 'group': {'type': 'str'},
@@ -315,7 +315,7 @@ def main():
                 'username': {'type': 'str'},
                 'adom-access': {'v_range': [['7.0.3', '']], 'choices': ['all', 'specify'], 'type': 'str'},
                 'ssl-protocol': {
-                    'v_range': [['7.4.4', '7.4.5']],
+                    'v_range': [['7.4.4', '7.4.6'], ['7.6.2', '']],
                     'choices': ['follow-global-ssl-protocol', 'sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3'],
                     'type': 'str'
                 }

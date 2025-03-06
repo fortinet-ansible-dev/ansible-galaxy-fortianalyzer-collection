@@ -142,12 +142,12 @@ EXAMPLES = '''
         # rc_failed: [-2, -3, ...]
         adom: <your own value>
         layout_id: <your own value>
-        state: <value in [present, absent]>
+        state: present # <value in [present, absent]>
         report_config_layout_footer:
-          footer_id: <value of integer>
-          type: <value in [text, graphic, minicover]>
-          graphic: <value of string>
-          text: <value of string>
+          footer_id: 0 # Required variable, integer
+          # type: <value in [text, graphic, minicover]>
+          # graphic: <value of string>
+          # text: <value of string>
 '''
 
 RETURN = '''

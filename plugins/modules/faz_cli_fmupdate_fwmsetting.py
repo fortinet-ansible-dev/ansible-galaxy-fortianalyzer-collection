@@ -376,9 +376,9 @@ def main():
                         'health-check-timeout': {'v_range': [['7.4.2', '']], 'type': 'int'}
                     }
                 },
-                'retry-interval': {'v_range': [['7.0.10', '7.0.13'], ['7.2.5', '7.2.8'], ['7.4.2', '']], 'type': 'int'},
-                'retry-max': {'v_range': [['7.0.10', '7.0.13'], ['7.2.5', '7.2.8'], ['7.4.2', '']], 'type': 'int'},
-                'send-image-retry': {'v_range': [['7.2.6', '7.2.8'], ['7.4.4', '7.4.5']], 'type': 'int'},
+                'retry-interval': {'v_range': [['7.0.10', '7.0.13'], ['7.2.5', '7.2.10'], ['7.4.2', '']], 'type': 'int'},
+                'retry-max': {'v_range': [['7.0.10', '7.0.13'], ['7.2.5', '7.2.10'], ['7.4.2', '']], 'type': 'int'},
+                'send-image-retry': {'v_range': [['7.2.6', '7.2.10'], ['7.4.4', '7.4.6'], ['7.6.2', '']], 'type': 'int'},
                 'health-check': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'max-device-history': {'v_range': [['7.4.2', '']], 'type': 'int'},
                 'max-profile-history': {'v_range': [['7.4.2', '']], 'type': 'int'},

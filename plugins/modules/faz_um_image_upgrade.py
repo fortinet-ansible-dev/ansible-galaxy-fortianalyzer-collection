@@ -142,18 +142,18 @@ EXAMPLES = '''
         # rc_succeeded: [0, -2, -3, ...]
         # rc_failed: [-2, -3, ...]
         um_image_upgrade:
-          adom: <value of string>
-          create_task: <value of string>
-          device:
-            - name: <value of string>
-              vdom: <value of string>
-          flags: <value in [f_boot_alt_partition, f_skip_retrieve, f_skip_multi_steps, ...]>
-          image:
-            build: <value of string>
-            id: <value of string>
-            model: <value of string>
-            release: <value of string>
-          schedule_time: <value of string>
+          # adom: <value of string>
+          # create_task: <value of string>
+          # device:
+          #   - name: <value of string>
+          #     vdom: <value of string>
+          # flags: <value in [f_boot_alt_partition, f_skip_retrieve, f_skip_multi_steps, ...]>
+          # image:
+          #   build: <value of string>
+          #   id: <value of string>
+          #   model: <value of string>
+          #   release: <value of string>
+          # schedule_time: <value of string>
 '''
 
 RETURN = '''

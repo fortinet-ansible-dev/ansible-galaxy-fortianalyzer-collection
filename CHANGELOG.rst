@@ -5,6 +5,25 @@ Fortinet.Fortianalyzer Release Notes
 .. contents:: Topics
 
 
+v1.8.1
+======
+
+Release Summary
+---------------
+
+Release fortinet.fortianalyzer 1.8.1
+
+Minor Changes
+-------------
+
+- Supported FortiAnalyzer 7.2.9, 7.2.10, 7.4.6, 7.6.2
+
+Bugfixes
+--------
+
+- Corrected the mainkey of some "eventmgmt" modules.
+- Modified example playbooks to support ansible-lint check.
+
 v1.8.0
 ======
 

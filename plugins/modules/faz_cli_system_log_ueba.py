@@ -107,6 +107,11 @@ options:
                  - adom - set ip-unique-scope to adom.
                  - vdom - set ip-unique-scope to vdom.
                 choices: ['adom', 'vdom']
+            hostname_ep_unifier:
+                aliases: ['hostname-ep-unifier']
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''
@@ -125,8 +130,9 @@ EXAMPLES = '''
         # rc_succeeded: [0, -2, -3, ...]
         # rc_failed: [-2, -3, ...]
         cli_system_log_ueba:
-          ip_only_ep: <value in [disable, enable]>
-          ip_unique_scope: <value in [adom, vdom]>
+          # ip_only_ep: <value in [disable, enable]>
+          # ip_unique_scope: <value in [adom, vdom]>
+          # hostname_ep_unifier: <value in [disable, enable]>
 '''
 
 RETURN = '''
@@ -196,7 +202,8 @@ def main():
             'v_range': [['7.4.3', '']],
             'options': {
                 'ip-only-ep': {'v_range': [['7.4.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'ip-unique-scope': {'v_range': [['7.4.3', '']], 'choices': ['adom', 'vdom'], 'type': 'str'}
+                'ip-unique-scope': {'v_range': [['7.4.3', '']], 'choices': ['adom', 'vdom'], 'type': 'str'},
+                'hostname-ep-unifier': {'v_range': [['7.6.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
         }
     }

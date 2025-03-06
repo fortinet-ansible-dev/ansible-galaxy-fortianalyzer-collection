@@ -569,110 +569,110 @@ EXAMPLES = '''
         # rc_succeeded: [0, -2, -3, ...]
         # rc_failed: [-2, -3, ...]
         adom: <your own value>
-        state: <value in [present, absent]>
+        state: present # <value in [present, absent]>
         report_config_layout:
-          body: <value of string>
-          component:
-            - component_id: <value of integer>
-              type: <value in [graphic, column-break, macro, ...]>
-              variable:
-                - not: <value in [enable, disable]>
-                  var: <value of string>
-                  var_value: <value of string>
-                  description: <value of string>
-                  drilldown_flag: <value in [enable, disable]>
-                  status: <value in [enable, disable]>
-                  var_expression: <value of string>
-                  var_type: <value in [ip, integer, string, ...]>
-                  view_mask: <value of integer>
-              alignment: <value of integer>
-              bg_color: <value of string>
-              category: <value of string>
-              chart: <value of string>
-              chart_option: <value in [calc-average, none]>
-              column: <value in [1, 2]>
-              customized: <value of integer>
-              device_mode: <value in [variable, specify]>
-              devices: <value of string>
-              drill_down_report: <value in [enable, disable]>
-              filter_logic: <value in [all, any]>
-              filter_mode: <value in [override, inherit]>
-              font_color: <value of string>
-              font_family: <value of string>
-              font_size: <value of integer>
-              font_type: <value in [bold-italic, bold, undefined, ...]>
-              graphic: <value of string>
-              include_other: <value in [enable, disable]>
-              ldap_query: <value in [auto, enable, disable]>
-              ldap_server: <value of string>
-              ldap_user_case_change: <value in [upper, lower, disable]>
-              left_margin: <value of integer>
-              macro: <value of string>
-              not_vdom: <value in [enable, disable]>
-              period_end: <value of dict>
-              period_last_n: <value of integer>
-              period_mode: <value in [variable, specify]>
-              period_opt: <value in [faz, dev]>
-              period_start: <value of dict>
-              right_margin: <value of integer>
-              table_color: <value in [default, blue, green, ...]>
-              text: <value of string>
-              time_period: <value in [last-n-weeks, last-month, last-7-days, ...]>
-              title: <value of string>
-              vdom: <value of string>
-              week_start: <value in [wed, sun, fri, ...]>
-              width: <value of integer>
-          description: <value of string>
-          footer:
-            - footer_id: <value of integer>
-              type: <value in [text, graphic, minicover]>
-              graphic: <value of string>
-              text: <value of string>
-          header:
-            - header_id: <value of integer>
-              type: <value in [text, graphic, minicover]>
-              graphic: <value of string>
-              text: <value of string>
-          language: <value of string>
-          layout_id: <value of integer>
-          subtitle: <value of string>
-          title: <value of string>
-          alignment: <value in [right, center, left]>
-          bg_color: <value of string>
-          category: <value of string>
-          chart_heading_level: <value of integer>
-          chart_info_display: <value in [enable, disable]>
-          coverpage_background_image: <value of string>
-          coverpage_bottom_image: <value of string>
-          coverpage_custom_text1: <value of string>
-          coverpage_custom_text2: <value of string>
-          coverpage_enable_create_time: <value in [enable, disable]>
-          coverpage_enable_time_period: <value in [enable, disable]>
-          coverpage_footer_bgcolor: <value of string>
-          coverpage_footer_left: <value of string>
-          coverpage_footer_right: <value of string>
-          coverpage_text_color: <value of string>
-          coverpage_title: <value of string>
-          coverpage_top_image: <value of string>
-          coverpage_top_image_position: <value in [right, center, left]>
-          dev_type: <value in [FortiSandbox, FortiWeb, Fabric, ...]>
-          folder_id: <value of integer>
-          font_color: <value of string>
-          font_family: <value of string>
-          font_size: <value of integer>
-          font_type: <value in [bold-italic, bold, undefined, ...]>
-          footer_bgcolor: <value of string>
-          header_bgcolor: <value of string>
-          hide_report_title: <value of integer>
-          hide_rowid: <value of integer>
-          include_empty_charts: <value in [enable, disable]>
-          is_template: <value in [enable, disable]>
-          left_margin: <value of integer>
-          protected: <value in [enable, disable]>
-          report_tag: <value of string>
-          right_margin: <value of integer>
-          folders:
-            - folder_id: <value of integer>
+          layout_id: 0 # Required variable, integer
+          # body: <value of string>
+          # component:
+          #   - component_id: <value of integer>
+          #     type: <value in [graphic, column-break, macro, ...]>
+          #     variable:
+          #       - not: <value in [enable, disable]>
+          #         var: <value of string>
+          #         var_value: <value of string>
+          #         description: <value of string>
+          #         drilldown_flag: <value in [enable, disable]>
+          #         status: <value in [enable, disable]>
+          #         var_expression: <value of string>
+          #         var_type: <value in [ip, integer, string, ...]>
+          #         view_mask: <value of integer>
+          #     alignment: <value of integer>
+          #     bg_color: <value of string>
+          #     category: <value of string>
+          #     chart: <value of string>
+          #     chart_option: <value in [calc-average, none]>
+          #     column: <value in [1, 2]>
+          #     customized: <value of integer>
+          #     device_mode: <value in [variable, specify]>
+          #     devices: <value of string>
+          #     drill_down_report: <value in [enable, disable]>
+          #     filter_logic: <value in [all, any]>
+          #     filter_mode: <value in [override, inherit]>
+          #     font_color: <value of string>
+          #     font_family: <value of string>
+          #     font_size: <value of integer>
+          #     font_type: <value in [bold-italic, bold, undefined, ...]>
+          #     graphic: <value of string>
+          #     include_other: <value in [enable, disable]>
+          #     ldap_query: <value in [auto, enable, disable]>
+          #     ldap_server: <value of string>
+          #     ldap_user_case_change: <value in [upper, lower, disable]>
+          #     left_margin: <value of integer>
+          #     macro: <value of string>
+          #     not_vdom: <value in [enable, disable]>
+          #     period_end: <value of dict>
+          #     period_last_n: <value of integer>
+          #     period_mode: <value in [variable, specify]>
+          #     period_opt: <value in [faz, dev]>
+          #     period_start: <value of dict>
+          #     right_margin: <value of integer>
+          #     table_color: <value in [default, blue, green, ...]>
+          #     text: <value of string>
+          #     time_period: <value in [last-n-weeks, last-month, last-7-days, ...]>
+          #     title: <value of string>
+          #     vdom: <value of string>
+          #     week_start: <value in [wed, sun, fri, ...]>
+          #     width: <value of integer>
+          # description: <value of string>
+          # footer:
+          #   - footer_id: <value of integer>
+          #     type: <value in [text, graphic, minicover]>
+          #     graphic: <value of string>
+          #     text: <value of string>
+          # header:
+          #   - header_id: <value of integer>
+          #     type: <value in [text, graphic, minicover]>
+          #     graphic: <value of string>
+          #     text: <value of string>
+          # language: <value of string>
+          # subtitle: <value of string>
+          # title: <value of string>
+          # alignment: <value in [right, center, left]>
+          # bg_color: <value of string>
+          # category: <value of string>
+          # chart_heading_level: <value of integer>
+          # chart_info_display: <value in [enable, disable]>
+          # coverpage_background_image: <value of string>
+          # coverpage_bottom_image: <value of string>
+          # coverpage_custom_text1: <value of string>
+          # coverpage_custom_text2: <value of string>
+          # coverpage_enable_create_time: <value in [enable, disable]>
+          # coverpage_enable_time_period: <value in [enable, disable]>
+          # coverpage_footer_bgcolor: <value of string>
+          # coverpage_footer_left: <value of string>
+          # coverpage_footer_right: <value of string>
+          # coverpage_text_color: <value of string>
+          # coverpage_title: <value of string>
+          # coverpage_top_image: <value of string>
+          # coverpage_top_image_position: <value in [right, center, left]>
+          # dev_type: <value in [FortiSandbox, FortiWeb, Fabric, ...]>
+          # folder_id: <value of integer>
+          # font_color: <value of string>
+          # font_family: <value of string>
+          # font_size: <value of integer>
+          # font_type: <value in [bold-italic, bold, undefined, ...]>
+          # footer_bgcolor: <value of string>
+          # header_bgcolor: <value of string>
+          # hide_report_title: <value of integer>
+          # hide_rowid: <value of integer>
+          # include_empty_charts: <value in [enable, disable]>
+          # is_template: <value in [enable, disable]>
+          # left_margin: <value of integer>
+          # protected: <value in [enable, disable]>
+          # report_tag: <value of string>
+          # right_margin: <value of integer>
+          # folders:
+          #   - folder_id: <value of integer>
 '''
 
 RETURN = '''

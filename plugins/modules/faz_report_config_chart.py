@@ -427,71 +427,71 @@ EXAMPLES = '''
         # rc_succeeded: [0, -2, -3, ...]
         # rc_failed: [-2, -3, ...]
         adom: <your own value>
-        state: <value in [present, absent]>
+        state: present # <value in [present, absent]>
         report_config_chart:
-          category: <value of string>
-          description: <value of string>
-          dev_type: <value in [FortiSandbox, FortiWeb, Fabric, ...]>
-          disp_name: <value of string>
-          drill_down_table:
-            - chart: <value of string>
-              flag: <value in [enable, disable]>
-              table_id: <value of integer>
-              chart_group: <value of string>
-              page_break_after: <value in [enable, disable]>
-              show_title: <value in [enable, disable]>
-          name: <value of string>
-          table_columns:
-            - data_type: <value in [aggregate, raw, drilldown]>
-              header: <value of string>
-              id: <value of integer>
-              column_attr: <value in [app-id, email-recver, timespan, ...]>
-              column_graph_type: <value in [none, bar, line-down, ...]>
-              column_num: <value of integer>
-              column_span: <value of integer>
-              column_width: <value of integer>
-              data_binding: <value of string>
-              data_top: <value of integer>
-              legend: <value of string>
-          variable_template:
-            - not: <value in [enable, disable]>
-              var: <value of string>
-              var_value: <value of string>
-              description: <value of string>
-              drilldown_flag: <value in [enable, disable]>
-              status: <value in [enable, disable]>
-              var_expression: <value of string>
-              var_type: <value in [ip, integer, string, ...]>
-              view_mask: <value of integer>
-          chart_type: <value in [map, none, chord, ...]>
-          dataset: <value of string>
-          drill_down_agg: <value in [enable, disable]>
-          drill_down_desc: <value of string>
-          drill_down_title: <value of string>
-          favorite: <value in [enable, disable]>
-          hidden: <value in [enable, disable]>
-          include_other: <value in [enable, disable]>
-          line_subtype: <value in [back-to-back, stacked, basic]>
-          order_by: <value of string>
-          order_desc: <value in [enable, disable]>
-          protected: <value in [enable, disable]>
-          resolve_hostname: <value in [enable, disable]>
-          resolve_hostname_mode: <value in [variable, specify]>
-          scale: <value of integer>
-          show_table: <value in [enable, disable]>
-          x_axis_data_binding: <value of string>
-          x_axis_data_top: <value of integer>
-          x_axis_include_other: <value in [enable, disable]>
-          x_axis_label: <value of string>
-          y_axis_data_binding: <value of string>
-          y_axis_group: <value in [enable, disable]>
-          y_axis_group_by: <value of string>
-          y_axis_group_top: <value of integer>
-          y_axis_label: <value of string>
-          y2_axis_data_binding: <value of string>
-          y2_axis_label: <value of string>
-          tags: <value of string>
-          chart_style: <value of string>
+          name: "your value" # Required variable, string
+          # category: <value of string>
+          # description: <value of string>
+          # dev_type: <value in [FortiSandbox, FortiWeb, Fabric, ...]>
+          # disp_name: <value of string>
+          # drill_down_table:
+          #   - chart: <value of string>
+          #     flag: <value in [enable, disable]>
+          #     table_id: <value of integer>
+          #     chart_group: <value of string>
+          #     page_break_after: <value in [enable, disable]>
+          #     show_title: <value in [enable, disable]>
+          # table_columns:
+          #   - data_type: <value in [aggregate, raw, drilldown]>
+          #     header: <value of string>
+          #     id: <value of integer>
+          #     column_attr: <value in [app-id, email-recver, timespan, ...]>
+          #     column_graph_type: <value in [none, bar, line-down, ...]>
+          #     column_num: <value of integer>
+          #     column_span: <value of integer>
+          #     column_width: <value of integer>
+          #     data_binding: <value of string>
+          #     data_top: <value of integer>
+          #     legend: <value of string>
+          # variable_template:
+          #   - not: <value in [enable, disable]>
+          #     var: <value of string>
+          #     var_value: <value of string>
+          #     description: <value of string>
+          #     drilldown_flag: <value in [enable, disable]>
+          #     status: <value in [enable, disable]>
+          #     var_expression: <value of string>
+          #     var_type: <value in [ip, integer, string, ...]>
+          #     view_mask: <value of integer>
+          # chart_type: <value in [map, none, chord, ...]>
+          # dataset: <value of string>
+          # drill_down_agg: <value in [enable, disable]>
+          # drill_down_desc: <value of string>
+          # drill_down_title: <value of string>
+          # favorite: <value in [enable, disable]>
+          # hidden: <value in [enable, disable]>
+          # include_other: <value in [enable, disable]>
+          # line_subtype: <value in [back-to-back, stacked, basic]>
+          # order_by: <value of string>
+          # order_desc: <value in [enable, disable]>
+          # protected: <value in [enable, disable]>
+          # resolve_hostname: <value in [enable, disable]>
+          # resolve_hostname_mode: <value in [variable, specify]>
+          # scale: <value of integer>
+          # show_table: <value in [enable, disable]>
+          # x_axis_data_binding: <value of string>
+          # x_axis_data_top: <value of integer>
+          # x_axis_include_other: <value in [enable, disable]>
+          # x_axis_label: <value of string>
+          # y_axis_data_binding: <value of string>
+          # y_axis_group: <value in [enable, disable]>
+          # y_axis_group_by: <value of string>
+          # y_axis_group_top: <value of integer>
+          # y_axis_label: <value of string>
+          # y2_axis_data_binding: <value of string>
+          # y2_axis_label: <value of string>
+          # tags: <value of string>
+          # chart_style: <value of string>
 '''
 
 RETURN = '''

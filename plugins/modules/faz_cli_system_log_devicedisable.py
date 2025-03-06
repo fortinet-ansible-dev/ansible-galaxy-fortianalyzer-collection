@@ -108,6 +108,9 @@ options:
             id:
                 type: int
                 description: ID of device logging disable entry.
+            expire:
+                type: str
+                description: no description
 '''
 
 EXAMPLES = '''
@@ -196,9 +199,10 @@ def main():
             'type': 'dict',
             'v_range': [['6.4.4', '']],
             'options': {
-                'TTL': {'v_range': [['6.4.4', '']], 'type': 'str'},
+                'TTL': {'v_range': [['6.4.4', '7.6.1']], 'type': 'str'},
                 'device': {'v_range': [['6.4.4', '']], 'type': 'str'},
-                'id': {'v_range': [['6.4.4', '']], 'type': 'int'}
+                'id': {'v_range': [['6.4.4', '']], 'type': 'int'},
+                'expire': {'v_range': [['7.6.2', '']], 'type': 'str'}
             }
         }
     }

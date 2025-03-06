@@ -1,6 +1,6 @@
 ![Fortinet logo|](https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Fortinet_logo.svg/320px-Fortinet_logo.svg.png)
 
-# fortinet.fortianalyzer:1.8.0 - configuring FortiAnalyzer
+# fortinet.fortianalyzer:1.8.1 - configuring FortiAnalyzer
 
 ## Description
 
@@ -65,7 +65,7 @@ For any questions regarding FortiAnalyzer Ansible, please create a [github issue
 
 ## Release Notes and Roadmap
 
-Please check [release note here](CHANGELOG.rst).
+Please check [release note here](https://ansible-galaxy-fortianalyzer-docs.readthedocs.io/en/latest/release.html).
 
 FortiAnalyzer Ansible is expected to be updated every two months.
 
@@ -235,7 +235,7 @@ The collection provides the following modules:
 * `faz_cli_system_sslciphersuites`  Configure preferred SSL/TLS cipher suites.
 * `faz_cli_system_syslog`  Syslog servers.
 * `faz_cli_system_webproxy`  Configure system web proxy.
-* `faz_cli_system_workflow_approvalmatrix`  workflow approval matrix.
+* `faz_cli_system_workflow_approvalmatrix`  Workflow approval matrix.
 * `faz_cli_system_workflow_approvalmatrix_approver`  Approver.
 * `faz_dvm_cmd_add_device`  Add a device to the Device Manager database.
 * `faz_dvm_cmd_add_devlist`  Add multiple devices to the Device Manager database.
@@ -260,10 +260,10 @@ The collection provides the following modules:
 * `faz_eventmgmt_config_correlationhandler`  Config correlation-handler.
 * `faz_eventmgmt_config_dataselector`  Config data-selector.
 * `faz_eventmgmt_config_notificationprofile`  Config notification-profile.
-* `faz_eventmgmt_config_trigger`  trigger.
-* `faz_eventmgmt_config_trigger_device`  device.
-* `faz_eventmgmt_config_trigger_filter`  filter.
-* `faz_eventmgmt_config_trigger_filter_rule`  rule.
+* `faz_eventmgmt_config_trigger`  Trigger.
+* `faz_eventmgmt_config_trigger_device`  Device.
+* `faz_eventmgmt_config_trigger_filter`  Filter.
+* `faz_eventmgmt_config_trigger_filter_rule`  Rule.
 * `faz_eventmgmt_correlationhandlers_import`  Import correlation handlers.
 * `faz_report_config_chart`  Config chart.
 * `faz_report_config_chart_drilldowntable`  Config drill-down-table.
@@ -307,4 +307,4 @@ The collection provides the following modules:
 
 ## License
 
-FortiAnalyzer Ansible Collection follows [GNU General Public License v3.0](LICENSE).
+FortiAnalyzer Ansible Collection follows [GNU General Public License v3.0](https://github.com/fortinet-ansible-dev/ansible-galaxy-fortianalyzer-collection/blob/main/LICENSE).

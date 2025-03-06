@@ -833,28 +833,28 @@ def main():
                 '/eventmgmt/adom/{adom}/config/basic-handler/{basic-handler}'
             ],
             'v_range': [['7.2.2', '']],
-            'mkey': 'name'
+            'mkey': 'handler_id'
         },
         'eventmgmt_config_correlationhandler': {
             'urls': [
                 '/eventmgmt/adom/{adom}/config/correlation-handler/{correlation-handler}'
             ],
             'v_range': [['7.2.2', '']],
-            'mkey': 'name'
+            'mkey': 'handler_id'
         },
         'eventmgmt_config_dataselector': {
             'urls': [
                 '/eventmgmt/adom/{adom}/config/data-selector/{data-selector}'
             ],
             'v_range': [['7.2.2', '']],
-            'mkey': 'name'
+            'mkey': 'selector_id'
         },
         'eventmgmt_config_notificationprofile': {
             'urls': [
                 '/eventmgmt/adom/{adom}/config/notification-profile/{notification-profile}'
             ],
             'v_range': [['7.2.2', '']],
-            'mkey': 'name'
+            'mkey': 'profile_id'
         },
         'eventmgmt_config_trigger': {
             'urls': [

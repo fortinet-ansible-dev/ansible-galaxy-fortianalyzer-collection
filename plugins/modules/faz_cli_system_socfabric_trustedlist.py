@@ -122,10 +122,10 @@ EXAMPLES = '''
         # bypass_validation: false
         # rc_succeeded: [0, -2, -3, ...]
         # rc_failed: [-2, -3, ...]
-        state: <value in [present, absent]>
+        state: present # <value in [present, absent]>
         cli_system_socfabric_trustedlist:
-          id: <value of integer>
-          serial: <value of string>
+          id: 0 # Required variable, integer
+          # serial: <value of string>
 '''
 
 RETURN = '''

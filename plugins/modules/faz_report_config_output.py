@@ -200,27 +200,27 @@ EXAMPLES = '''
         # rc_succeeded: [0, -2, -3, ...]
         # rc_failed: [-2, -3, ...]
         adom: <your own value>
-        state: <value in [present, absent]>
+        state: present # <value in [present, absent]>
         report_config_output:
-          description: <value of string>
-          email_recipients:
-            - address: <value of string>
-              email_from: <value of string>
-              email_server: <value of string>
-          name: <value of string>
-          output_format: <value in [xml, rtf, connectwise, ...]>
-          email: <value in [enable, disable]>
-          email_attachment_compress: <value in [enable, disable]>
-          email_attachment_name: <value of string>
-          email_body: <value of string>
-          email_subject: <value of string>
-          upload: <value in [enable, disable]>
-          upload_delete: <value in [enable, disable]>
-          upload_dir: <value of string>
-          upload_pass: <value of string>
-          upload_server: <value of string>
-          upload_server_type: <value in [ftp, scp, sftp]>
-          upload_user: <value of string>
+          name: "your value" # Required variable, string
+          # description: <value of string>
+          # email_recipients:
+          #   - address: <value of string>
+          #     email_from: <value of string>
+          #     email_server: <value of string>
+          # output_format: <value in [xml, rtf, connectwise, ...]>
+          # email: <value in [enable, disable]>
+          # email_attachment_compress: <value in [enable, disable]>
+          # email_attachment_name: <value of string>
+          # email_body: <value of string>
+          # email_subject: <value of string>
+          # upload: <value in [enable, disable]>
+          # upload_delete: <value in [enable, disable]>
+          # upload_dir: <value of string>
+          # upload_pass: <value of string>
+          # upload_server: <value of string>
+          # upload_server_type: <value in [ftp, scp, sftp]>
+          # upload_user: <value of string>
 '''
 
 RETURN = '''

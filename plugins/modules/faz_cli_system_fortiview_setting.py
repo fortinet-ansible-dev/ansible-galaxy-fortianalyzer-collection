@@ -116,6 +116,11 @@ options:
                  - cache-only - Data from hcache only.
                  - log-and-cache - Data from logs and hcache.
                 choices: ['auto', 'cache-only', 'log-and-cache']
+            query_run_mode:
+                aliases: ['query-run-mode']
+                type: str
+                description: no description
+                choices: ['auto', 'boost']
 '''
 
 EXAMPLES = '''
@@ -203,7 +208,8 @@ def main():
             'options': {
                 'not-scanned-apps': {'choices': ['exclude', 'include'], 'type': 'str'},
                 'resolve-ip': {'choices': ['disable', 'enable'], 'type': 'str'},
-                'data-source': {'v_range': [['6.4.8', '6.4.15'], ['7.0.3', '']], 'choices': ['auto', 'cache-only', 'log-and-cache'], 'type': 'str'}
+                'data-source': {'v_range': [['6.4.8', '6.4.15'], ['7.0.3', '']], 'choices': ['auto', 'cache-only', 'log-and-cache'], 'type': 'str'},
+                'query-run-mode': {'v_range': [['7.6.2', '']], 'choices': ['auto', 'boost'], 'type': 'str'}
             }
         }
     }

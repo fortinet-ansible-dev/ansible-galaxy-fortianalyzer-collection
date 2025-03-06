@@ -129,11 +129,11 @@ EXAMPLES = '''
         # bypass_validation: false
         # rc_succeeded: [0, -2, -3, ...]
         # rc_failed: [-2, -3, ...]
-        state: <value in [present, absent]>
+        state: present # <value in [present, absent]>
         cli_system_sslciphersuites:
-          cipher: <value of string>
-          priority: <value of integer>
-          version: <value in [tls1.2-or-below, tls1.3]>
+          priority: 0 # Required variable, integer
+          # cipher: <value of string>
+          # version: <value in [tls1.2-or-below, tls1.3]>
 '''
 
 RETURN = '''

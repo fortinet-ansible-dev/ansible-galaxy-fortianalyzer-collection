@@ -347,57 +347,57 @@ EXAMPLES = '''
         # rc_failed: [-2, -3, ...]
         adom: <your own value>
         layout_id: <your own value>
-        state: <value in [present, absent]>
+        state: present # <value in [present, absent]>
         report_config_layout_component:
-          component_id: <value of integer>
-          type: <value in [graphic, column-break, macro, ...]>
-          variable:
-            - not: <value in [enable, disable]>
-              var: <value of string>
-              var_value: <value of string>
-              description: <value of string>
-              drilldown_flag: <value in [enable, disable]>
-              status: <value in [enable, disable]>
-              var_expression: <value of string>
-              var_type: <value in [ip, integer, string, ...]>
-              view_mask: <value of integer>
-          alignment: <value of integer>
-          bg_color: <value of string>
-          category: <value of string>
-          chart: <value of string>
-          chart_option: <value in [calc-average, none]>
-          column: <value in [1, 2]>
-          customized: <value of integer>
-          device_mode: <value in [variable, specify]>
-          devices: <value of string>
-          drill_down_report: <value in [enable, disable]>
-          filter_logic: <value in [all, any]>
-          filter_mode: <value in [override, inherit]>
-          font_color: <value of string>
-          font_family: <value of string>
-          font_size: <value of integer>
-          font_type: <value in [bold-italic, bold, undefined, ...]>
-          graphic: <value of string>
-          include_other: <value in [enable, disable]>
-          ldap_query: <value in [auto, enable, disable]>
-          ldap_server: <value of string>
-          ldap_user_case_change: <value in [upper, lower, disable]>
-          left_margin: <value of integer>
-          macro: <value of string>
-          not_vdom: <value in [enable, disable]>
-          period_end: <value of dict>
-          period_last_n: <value of integer>
-          period_mode: <value in [variable, specify]>
-          period_opt: <value in [faz, dev]>
-          period_start: <value of dict>
-          right_margin: <value of integer>
-          table_color: <value in [default, blue, green, ...]>
-          text: <value of string>
-          time_period: <value in [last-n-weeks, last-month, last-7-days, ...]>
-          title: <value of string>
-          vdom: <value of string>
-          week_start: <value in [wed, sun, fri, ...]>
-          width: <value of integer>
+          component_id: 0 # Required variable, integer
+          # type: <value in [graphic, column-break, macro, ...]>
+          # variable:
+          #   - not: <value in [enable, disable]>
+          #     var: <value of string>
+          #     var_value: <value of string>
+          #     description: <value of string>
+          #     drilldown_flag: <value in [enable, disable]>
+          #     status: <value in [enable, disable]>
+          #     var_expression: <value of string>
+          #     var_type: <value in [ip, integer, string, ...]>
+          #     view_mask: <value of integer>
+          # alignment: <value of integer>
+          # bg_color: <value of string>
+          # category: <value of string>
+          # chart: <value of string>
+          # chart_option: <value in [calc-average, none]>
+          # column: <value in [1, 2]>
+          # customized: <value of integer>
+          # device_mode: <value in [variable, specify]>
+          # devices: <value of string>
+          # drill_down_report: <value in [enable, disable]>
+          # filter_logic: <value in [all, any]>
+          # filter_mode: <value in [override, inherit]>
+          # font_color: <value of string>
+          # font_family: <value of string>
+          # font_size: <value of integer>
+          # font_type: <value in [bold-italic, bold, undefined, ...]>
+          # graphic: <value of string>
+          # include_other: <value in [enable, disable]>
+          # ldap_query: <value in [auto, enable, disable]>
+          # ldap_server: <value of string>
+          # ldap_user_case_change: <value in [upper, lower, disable]>
+          # left_margin: <value of integer>
+          # macro: <value of string>
+          # not_vdom: <value in [enable, disable]>
+          # period_end: <value of dict>
+          # period_last_n: <value of integer>
+          # period_mode: <value in [variable, specify]>
+          # period_opt: <value in [faz, dev]>
+          # period_start: <value of dict>
+          # right_margin: <value of integer>
+          # table_color: <value in [default, blue, green, ...]>
+          # text: <value of string>
+          # time_period: <value in [last-n-weeks, last-month, last-7-days, ...]>
+          # title: <value of string>
+          # vdom: <value of string>
+          # week_start: <value in [wed, sun, fri, ...]>
+          # width: <value of integer>
 '''
 
 RETURN = '''

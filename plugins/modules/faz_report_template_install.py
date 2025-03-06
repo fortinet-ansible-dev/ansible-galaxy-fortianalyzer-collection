@@ -113,8 +113,8 @@ EXAMPLES = '''
         # rc_failed: [-2, -3, ...]
         adom: <your own value>
         report_template_install:
-          data: <value of string>
-          language: <value of string>
+          # data: <value of string>
+          # language: <value of string>
 '''
 
 RETURN = '''

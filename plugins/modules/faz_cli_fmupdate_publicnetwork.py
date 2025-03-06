@@ -98,6 +98,11 @@ options:
                  - disable - Disable setting.
                  - enable - Enable setting.
                 choices: ['disable', 'enable']
+            update_server_location:
+                aliases: ['update-server-location']
+                type: str
+                description: no description
+                choices: ['global', 'usa', 'eu']
 '''
 
 EXAMPLES = '''
@@ -181,7 +186,10 @@ def main():
         'cli_fmupdate_publicnetwork': {
             'type': 'dict',
             'v_range': [['6.2.1', '']],
-            'options': {'status': {'choices': ['disable', 'enable'], 'type': 'str'}}
+            'options': {
+                'status': {'choices': ['disable', 'enable'], 'type': 'str'},
+                'update-server-location': {'v_range': [['7.6.2', '']], 'choices': ['global', 'usa', 'eu'], 'type': 'str'}
+            }
         }
     }
 
