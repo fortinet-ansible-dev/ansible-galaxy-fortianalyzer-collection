@@ -128,10 +128,16 @@ options:
                 aliases: ['password-history']
                 type: int
                 description: Number of unique new passwords that must be used before old password can be reused
+            login_lockout_upon_downgrade:
+                aliases: ['login-lockout-upon-downgrade']
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''
 - name: Example playbook
+  gather_facts: false
   connection: httpapi
   hosts: fortianalyzers
   tasks:
@@ -226,7 +232,8 @@ def main():
                 'minimum-length': {'type': 'int'},
                 'must-contain': {'type': 'list', 'choices': ['upper-case-letter', 'lower-case-letter', 'number', 'non-alphanumeric'], 'elements': 'str'},
                 'status': {'choices': ['disable', 'enable'], 'type': 'str'},
-                'password-history': {'v_range': [['7.6.0', '']], 'no_log': False, 'type': 'int'}
+                'password-history': {'v_range': [['7.6.0', '']], 'no_log': False, 'type': 'int'},
+                'login-lockout-upon-downgrade': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
         }
     }

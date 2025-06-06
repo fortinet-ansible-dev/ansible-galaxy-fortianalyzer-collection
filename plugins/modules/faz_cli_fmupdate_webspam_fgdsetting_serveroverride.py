@@ -128,6 +128,7 @@ options:
 
 EXAMPLES = '''
 - name: Example playbook
+  gather_facts: false
   connection: httpapi
   hosts: fortianalyzers
   tasks:
@@ -206,20 +207,21 @@ def main():
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_fmupdate_webspam_fgdsetting_serveroverride': {
             'type': 'dict',
-            'v_range': [['6.2.1', '']],
+            'v_range': [['6.2.1', '7.6.2']],
             'options': {
                 'servlist': {
+                    'v_range': [['6.2.1', '7.6.2']],
                     'type': 'list',
                     'options': {
-                        'id': {'type': 'int'},
-                        'ip': {'type': 'str'},
-                        'ip6': {'type': 'str'},
-                        'port': {'type': 'int'},
-                        'service-type': {'choices': ['fgd', 'fgc', 'fsa', 'fgfq', 'geoip', 'iot-collect'], 'type': 'str'}
+                        'id': {'v_range': [['6.2.1', '7.6.2']], 'type': 'int'},
+                        'ip': {'v_range': [['6.2.1', '7.6.2']], 'type': 'str'},
+                        'ip6': {'v_range': [['6.2.1', '7.6.2']], 'type': 'str'},
+                        'port': {'v_range': [['6.2.1', '7.6.2']], 'type': 'int'},
+                        'service-type': {'v_range': [['6.2.1', '7.6.2']], 'choices': ['fgd', 'fgc', 'fsa', 'fgfq', 'geoip', 'iot-collect'], 'type': 'str'}
                     },
                     'elements': 'dict'
                 },
-                'status': {'choices': ['disable', 'enable'], 'type': 'str'}
+                'status': {'v_range': [['6.2.1', '7.6.2']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
         }
     }

@@ -115,6 +115,7 @@ options:
 
 EXAMPLES = '''
 - name: Example playbook
+  gather_facts: false
   connection: httpapi
   hosts: fortianalyzers
   tasks:
@@ -197,12 +198,12 @@ def main():
         'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},
         'cli_system_log_devicedisable': {
             'type': 'dict',
-            'v_range': [['6.4.4', '']],
+            'v_range': [['6.4.4', '7.6.2']],
             'options': {
                 'TTL': {'v_range': [['6.4.4', '7.6.1']], 'type': 'str'},
-                'device': {'v_range': [['6.4.4', '']], 'type': 'str'},
-                'id': {'v_range': [['6.4.4', '']], 'type': 'int'},
-                'expire': {'v_range': [['7.6.2', '']], 'type': 'str'}
+                'device': {'v_range': [['6.4.4', '7.6.2']], 'type': 'str'},
+                'id': {'v_range': [['6.4.4', '7.6.2']], 'type': 'int'},
+                'expire': {'v_range': [['7.6.2', '7.6.2']], 'type': 'str'}
             }
         }
     }

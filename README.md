@@ -1,6 +1,6 @@
 ![Fortinet logo|](https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Fortinet_logo.svg/320px-Fortinet_logo.svg.png)
 
-# fortinet.fortianalyzer:1.8.1 - configuring FortiAnalyzer
+# fortinet.fortianalyzer:1.9.0 - configuring FortiAnalyzer
 
 ## Description
 
@@ -91,6 +91,7 @@ The collection provides the following modules:
 * `faz_cli_fmupdate_fdssetting_serveroverride`  Server override configure.
 * `faz_cli_fmupdate_fdssetting_serveroverride_servlist`  Override server.
 * `faz_cli_fmupdate_fdssetting_updateschedule`  Configure the schedule when built-in FortiGuard retrieves antivirus and IPS updates.
+* `faz_cli_fmupdate_fgdsetting`  Cli fmupdate fgd setting.
 * `faz_cli_fmupdate_fwmsetting`  Configure firmware management settings.
 * `faz_cli_fmupdate_fwmsetting_upgradetimeout`  Configure the timeout value of image upgrade process.
 * `faz_cli_fmupdate_multilayer`  Configure multilayer mode.
@@ -180,6 +181,7 @@ The collection provides the following modules:
 * `faz_cli_system_locallog_syslogd_setting`  Settings for remote syslog server.
 * `faz_cli_system_log_alert`  Log based alert settings.
 * `faz_cli_system_log_devicedisable`  Disable client device logging.
+* `faz_cli_system_log_deviceselector`  Cli system log device selector.
 * `faz_cli_system_log_fospolicystats`  FortiOS policy statistics settings.
 * `faz_cli_system_log_interfacestats`  Interface statistics settings.
 * `faz_cli_system_log_ioc`  IoC settings.

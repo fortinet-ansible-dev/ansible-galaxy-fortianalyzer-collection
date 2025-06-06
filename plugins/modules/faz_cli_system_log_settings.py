@@ -662,10 +662,25 @@ options:
                  - disable - Disable legacy authentication mode support.
                  - enable - Enable legacy authentication mode support.
                 choices: ['disable', 'enable']
+            FFW_custom_field1:
+                aliases: ['FFW-custom-field1']
+                type: str
+                description: no description
+            unencrypted_logging_tcp:
+                aliases: ['unencrypted-logging-tcp']
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
+            unencrypted_logging_udp:
+                aliases: ['unencrypted-logging-udp']
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''
 - name: Example playbook
+  gather_facts: false
   connection: httpapi
   hosts: fortianalyzers
   tasks:
@@ -880,13 +895,16 @@ def main():
                     'type': 'str'
                 },
                 'unencrypted-logging': {
-                    'v_range': [['7.0.10', '7.0.13'], ['7.2.4', '7.2.10'], ['7.4.1', '']],
+                    'v_range': [['7.0.10', '7.0.13'], ['7.2.4', '7.2.10'], ['7.4.1', '7.6.2']],
                     'choices': ['disable', 'enable'],
                     'type': 'str'
                 },
                 'log-interval-dev-no-logging': {'v_range': [['7.2.5', '7.2.10'], ['7.4.2', '']], 'type': 'int'},
                 'log-upload-interval-dev-no-logging': {'v_range': [['7.2.5', '7.2.10'], ['7.4.2', '']], 'type': 'int'},
-                'legacy-auth-mode': {'v_range': [['7.2.10', '7.2.10']], 'choices': ['disable', 'enable'], 'type': 'str'}
+                'legacy-auth-mode': {'v_range': [['7.2.10', '7.2.10'], ['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'FFW-custom-field1': {'v_range': [['7.6.3', '']], 'type': 'str'},
+                'unencrypted-logging-tcp': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'unencrypted-logging-udp': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
         }
     }

@@ -308,6 +308,7 @@ options:
 
 EXAMPLES = '''
 - name: Example playbook
+  gather_facts: false
   connection: httpapi
   hosts: fortianalyzers
   tasks:
@@ -331,6 +332,7 @@ EXAMPLES = '''
     ansible_httpapi_validate_certs: false
 
 - name: Example playbook
+  gather_facts: false
   connection: httpapi
   hosts: fortianalyzers
   tasks:

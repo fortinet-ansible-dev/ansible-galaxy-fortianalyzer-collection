@@ -120,6 +120,7 @@ options:
                     - 'cli_system_localinpolicy'
                     - 'cli_system_localinpolicy6'
                     - 'cli_system_log_devicedisable'
+                    - 'cli_system_log_deviceselector'
                     - 'cli_system_log_maildomain'
                     - 'cli_system_log_ratelimit_device'
                     - 'cli_system_log_ratelimit_ratelimits'
@@ -311,7 +312,7 @@ def main():
             'urls': [
                 '/cli/global/fmupdate/web-spam/fgd-setting/server-override/servlist/{servlist}'
             ],
-            'v_range': [['6.2.1', '']],
+            'v_range': [['6.2.1', '7.6.2']],
             'mkey': 'id'
         },
         'cli_system_admin_group': {
@@ -556,7 +557,14 @@ def main():
             'urls': [
                 '/cli/global/system/log/device-disable/{device-disable}'
             ],
-            'v_range': [['6.4.4', '']],
+            'v_range': [['6.4.4', '7.6.2']],
+            'mkey': 'id'
+        },
+        'cli_system_log_deviceselector': {
+            'urls': [
+                '/cli/global/system/log/device-selector/{device-selector}'
+            ],
+            'v_range': [['7.6.3', '']],
             'mkey': 'id'
         },
         'cli_system_log_maildomain': {
@@ -1081,6 +1089,7 @@ def main():
                         'cli_system_localinpolicy',
                         'cli_system_localinpolicy6',
                         'cli_system_log_devicedisable',
+                        'cli_system_log_deviceselector',
                         'cli_system_log_maildomain',
                         'cli_system_log_ratelimit_device',
                         'cli_system_log_ratelimit_ratelimits',

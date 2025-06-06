@@ -342,10 +342,16 @@ options:
                 aliases: ['object-threshold-limit-value']
                 type: int
                 description: no description
+            show_sdwan_manager:
+                aliases: ['show-sdwan-manager']
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''
 - name: Example playbook
+  gather_facts: false
   connection: httpapi
   hosts: fortianalyzers
   tasks:
@@ -477,7 +483,8 @@ def main():
                 'fgt-gui-proxy': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'fgt-gui-proxy-port': {'v_range': [['7.4.2', '']], 'type': 'int'},
                 'object-threshold-limit': {'v_range': [['7.6.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'object-threshold-limit-value': {'v_range': [['7.6.2', '']], 'type': 'int'}
+                'object-threshold-limit-value': {'v_range': [['7.6.2', '']], 'type': 'int'},
+                'show-sdwan-manager': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
         }
     }

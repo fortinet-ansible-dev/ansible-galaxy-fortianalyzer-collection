@@ -185,6 +185,7 @@ options:
 
 EXAMPLES = '''
 - name: Example playbook
+  gather_facts: false
   connection: httpapi
   hosts: fortianalyzers
   tasks:
@@ -282,9 +283,9 @@ def main():
                 'cpu': {'v_range': [['6.4.5', '']], 'type': 'int'},
                 'mem': {'v_range': [['6.4.5', '']], 'type': 'int'},
                 'docker-user-login-max': {'v_range': [['6.4.6', '']], 'type': 'int'},
-                'fortisoar': {'v_range': [['7.0.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'fortisoar': {'v_range': [['7.0.0', '7.6.2']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'fortiaiops': {'v_range': [['7.0.1', '7.0.1']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'fsmcollector': {'v_range': [['7.0.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'fsmcollector': {'v_range': [['7.0.1', '7.6.2']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'universalconnector': {'v_range': [['7.0.1', '7.0.1']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
         }

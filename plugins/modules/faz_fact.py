@@ -95,6 +95,7 @@ options:
                     - 'cli_fmupdate_fdssetting_serveroverride'
                     - 'cli_fmupdate_fdssetting_serveroverride_servlist'
                     - 'cli_fmupdate_fdssetting_updateschedule'
+                    - 'cli_fmupdate_fgdsetting'
                     - 'cli_fmupdate_fwmsetting'
                     - 'cli_fmupdate_fwmsetting_upgradetimeout'
                     - 'cli_fmupdate_multilayer'
@@ -184,6 +185,7 @@ options:
                     - 'cli_system_locallog_syslogd_setting'
                     - 'cli_system_log_alert'
                     - 'cli_system_log_devicedisable'
+                    - 'cli_system_log_deviceselector'
                     - 'cli_system_log_fospolicystats'
                     - 'cli_system_log_interfacestats'
                     - 'cli_system_log_ioc'
@@ -552,6 +554,13 @@ def main():
             'params': [],
             'jsonrpc2': False, 'v_range': [['6.2.1', '']],
         },
+        'cli_fmupdate_fgdsetting': {
+            'urls': [
+                '/cli/global/fmupdate/fgd-setting'
+            ],
+            'params': [],
+            'jsonrpc2': False, 'v_range': [['7.6.3', '']],
+        },
         'cli_fmupdate_fwmsetting': {
             'urls': [
                 '/cli/global/fmupdate/fwm-setting'
@@ -614,14 +623,14 @@ def main():
                 '/cli/global/fmupdate/web-spam/fgd-setting'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': False, 'v_range': [['6.2.1', '7.6.2']],
         },
         'cli_fmupdate_webspam_fgdsetting_serveroverride': {
             'urls': [
                 '/cli/global/fmupdate/web-spam/fgd-setting/server-override'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': False, 'v_range': [['6.2.1', '7.6.2']],
         },
         'cli_fmupdate_webspam_fgdsetting_serveroverride_servlist': {
             'urls': [
@@ -629,7 +638,7 @@ def main():
                 '/cli/global/fmupdate/web-spam/fgd-setting/server-override/servlist/{servlist}'
             ],
             'params': ['fields', 'filter', 'loadsub', 'option'],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+            'jsonrpc2': False, 'v_range': [['6.2.1', '7.6.2']],
         },
         'cli_fmupdate_webspam_webproxy': {
             'urls': [
@@ -1211,7 +1220,15 @@ def main():
                 '/cli/global/system/log/device-disable/{device-disable}'
             ],
             'params': ['fields', 'filter', 'loadsub', 'option'],
-            'jsonrpc2': False, 'v_range': [['6.4.4', '']],
+            'jsonrpc2': False, 'v_range': [['6.4.4', '7.6.2']],
+        },
+        'cli_system_log_deviceselector': {
+            'urls': [
+                '/cli/global/system/log/device-selector',
+                '/cli/global/system/log/device-selector/{device-selector}'
+            ],
+            'params': ['fields', 'filter', 'loadsub', 'option'],
+            'jsonrpc2': False, 'v_range': [['7.6.3', '']],
         },
         'cli_system_log_fospolicystats': {
             'urls': [

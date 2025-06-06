@@ -343,3 +343,22 @@ releases:
     fragments:
       - 1.8.1.yml
     release_date: "2025-03-06"
+  1.9.0:
+    changes:
+      bugfixes:
+        - Added "gather_facts" to all example playbooks.
+        - Fixed a BUG that occurred when username/password and access token were used
+          at the same time.
+      minor_changes:
+        - Supported FortiAnalyzer 7.6.3. 2 new modules.
+      release_summary: Release fortinet.fortianalyzer 1.9.0
+    fragments:
+      - 1.9.0.yml
+    modules:
+      - description: Cli fmupdate fgd setting
+        name: faz_cli_fmupdate_fgdsetting
+        namespace: ""
+      - description: Cli system log device selector
+        name: faz_cli_system_log_deviceselector
+        namespace: ""
+    release_date: "2025-06-06"

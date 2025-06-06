@@ -1051,10 +1051,21 @@ options:
                 aliases: ['storage-age-limit']
                 type: int
                 description: no description
+            auth_dev_restapi_allowlist:
+                aliases: ['auth-dev-restapi-allowlist']
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
+            rpc_log:
+                aliases: ['rpc-log']
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''
 - name: Example playbook
+  gather_facts: false
   hosts: fortianalyzers
   connection: httpapi
   vars:
@@ -1315,7 +1326,9 @@ def main():
                 'jsonapi-log': {'v_range': [['7.6.0', '']], 'choices': ['disable', 'request', 'response', 'all'], 'type': 'str'},
                 'fmg-fabric-port': {'v_range': [['7.6.2', '']], 'type': 'int'},
                 'gui-feature-visibility-mode': {'v_range': [['7.6.2', '']], 'choices': ['per-adom', 'per-admin'], 'type': 'str'},
-                'storage-age-limit': {'v_range': [['7.6.2', '']], 'type': 'int'}
+                'storage-age-limit': {'v_range': [['7.6.2', '']], 'type': 'int'},
+                'auth-dev-restapi-allowlist': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'rpc-log': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
         }
     }

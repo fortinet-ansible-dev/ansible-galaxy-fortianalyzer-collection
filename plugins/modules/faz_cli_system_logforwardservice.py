@@ -103,10 +103,16 @@ options:
                 aliases: ['aggregation-disk-quota']
                 type: int
                 description: Aggregated device disk quota
+            collector_auth:
+                aliases: ['collector-auth']
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''
 - name: Example playbook
+  gather_facts: false
   connection: httpapi
   hosts: fortianalyzers
   tasks:
@@ -186,7 +192,11 @@ def main():
         'cli_system_logforwardservice': {
             'type': 'dict',
             'v_range': [['6.2.1', '']],
-            'options': {'accept-aggregation': {'choices': ['disable', 'enable'], 'type': 'str'}, 'aggregation-disk-quota': {'type': 'int'}}
+            'options': {
+                'accept-aggregation': {'choices': ['disable', 'enable'], 'type': 'str'},
+                'aggregation-disk-quota': {'type': 'int'},
+                'collector-auth': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
+            }
         }
     }
 

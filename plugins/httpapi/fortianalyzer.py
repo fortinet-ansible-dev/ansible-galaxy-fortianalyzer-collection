@@ -121,14 +121,17 @@ class HttpApi(HttpApiBase):
         self.log("log in")
         self._access_token = self.get_access_token()
         self._forticloud_access_token = self.get_forticloud_access_token()
-        if self._access_token:
+        if username is not None and password is not None:
+            self._login_method = "username_password"
+            self.send_request("exec", self._tools.format_request("exec", "sys/login/user", passwd=password, user=username))
+        elif self._access_token:
             self._login_method = "access_token"
         elif self._forticloud_access_token:
             self._login_method = "forticloud"
             self.forticloud_login()
         else:
-            self._login_method = "username_password"
-            self.send_request("exec", self._tools.format_request("exec", "sys/login/user", passwd=password, user=username))
+            err_msg = "Please check whether you provide the correct information."
+            raise AssertionError(err_msg)
         self.log("Login method: %s, Target: %s" % (self._login_method, to_text(self.connection._url)))
         if (self.sid or self._access_token) and self.connection._url is not None:
             # If Login worked, then inspect the FortiAnalyzer system information.
@@ -137,11 +140,11 @@ class HttpApi(HttpApiBase):
             if rc == -11:
                 # THE CONNECTION GOT LOST SOMEHOW, REMOVE THE SID AND REPORT BAD LOGIN
                 self.logout()
-                err_msg = "Can't login. Your login method is %s." % (self._login_method)
+                err_msg = "Can't login. Your login method is %s. " % (self._login_method)
                 err_msg += "Please check whether you provide the correct information."
                 raise AssertionError(err_msg)
         else:
-            err_msg = "Can't login. Your login method is %s." % (self._login_method)
+            err_msg = "Can't login. Your login method is %s. " % (self._login_method)
             err_msg += "Please check whether you provide the correct information."
             raise AssertionError(err_msg)
 

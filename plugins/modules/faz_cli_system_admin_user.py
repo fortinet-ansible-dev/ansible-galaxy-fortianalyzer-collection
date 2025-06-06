@@ -671,10 +671,15 @@ options:
                         aliases: ['policy-block-name']
                         type: str
                         description: Policy block names.
+            old_password:
+                aliases: ['old-password']
+                type: str
+                description: no description
 '''
 
 EXAMPLES = '''
 - name: Example playbook
+  gather_facts: false
   connection: httpapi
   hosts: fortianalyzers
   tasks:
@@ -895,7 +900,8 @@ def main():
                     'type': 'list',
                     'options': {'policy-block-name': {'v_range': [['7.6.0', '']], 'type': 'str'}},
                     'elements': 'dict'
-                }
+                },
+                'old-password': {'v_range': [['7.6.3', '']], 'no_log': True, 'type': 'str'}
             }
         }
     }

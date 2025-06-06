@@ -5,6 +5,32 @@ Fortinet.Fortianalyzer Release Notes
 .. contents:: Topics
 
 
+v1.9.0
+======
+
+Release Summary
+---------------
+
+Release fortinet.fortianalyzer 1.9.0
+
+Minor Changes
+-------------
+
+- Supported FortiAnalyzer 7.6.3. 2 new modules.
+
+Bugfixes
+--------
+
+- Added "gather_facts" to all example playbooks.
+- Fixed a BUG that occurred when username/password and access token were used at the same time.
+
+New Modules
+-----------
+
+- fortinet.fortianalyzer.faz_cli_fmupdate_fgdsetting - Cli fmupdate fgd setting
+- fortinet.fortianalyzer.faz_cli_system_log_deviceselector - Cli system log device selector
+
+
 v1.8.1
 ======
 

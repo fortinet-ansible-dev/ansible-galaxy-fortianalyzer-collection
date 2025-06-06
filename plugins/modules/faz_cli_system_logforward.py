@@ -722,10 +722,16 @@ options:
                 type: str
                 description: no description
                 choices: ['disable', 'enable']
+            fwd_syslog_decode_b64:
+                aliases: ['fwd-syslog-decode-b64']
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''
 - name: Example playbook
+  gather_facts: false
   connection: httpapi
   hosts: fortianalyzers
   tasks:
@@ -959,7 +965,8 @@ def main():
                 'peer-cert-cn': {'v_range': [['7.0.3', '']], 'type': 'str'},
                 'fwd-output-plugin-id': {'v_range': [['7.4.0', '']], 'type': 'str'},
                 'fwd-syslog-transparent': {'v_range': [['7.4.3', '']], 'choices': ['disable', 'enable', 'faz-enrich'], 'type': 'str'},
-                'fwd-syslog-enrich-cve': {'v_range': [['7.6.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
+                'fwd-syslog-enrich-cve': {'v_range': [['7.6.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'fwd-syslog-decode-b64': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
         }
     }
