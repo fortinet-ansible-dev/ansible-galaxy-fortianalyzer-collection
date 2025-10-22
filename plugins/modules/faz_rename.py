@@ -557,14 +557,14 @@ def main():
             'urls': [
                 '/cli/global/system/log/device-disable/{device-disable}'
             ],
-            'v_range': [['6.4.4', '7.6.2']],
+            'v_range': [['6.4.4', '7.4.6'], ['7.6.0', '7.6.2']],
             'mkey': 'id'
         },
         'cli_system_log_deviceselector': {
             'urls': [
                 '/cli/global/system/log/device-selector/{device-selector}'
             ],
-            'v_range': [['7.6.3', '']],
+            'v_range': [['7.4.7', '7.4.8'], ['7.6.3', '']],
             'mkey': 'id'
         },
         'cli_system_log_maildomain': {

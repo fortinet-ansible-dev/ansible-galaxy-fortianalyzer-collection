@@ -24,7 +24,7 @@ ANSIBLE_METADATA = {'status': ['preview'],
 DOCUMENTATION = '''
 ---
 module: faz_cli_system_log_deviceselector
-short_description: Cli system log device selector
+short_description: Accept/reject devices matching specified filter types.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
@@ -101,31 +101,42 @@ options:
         suboptions:
             action:
                 type: str
-                description: no description
+                description:
+                 - Include or exclude the matching devices.
+                 - include - Include devices matching specified filter type.
+                 - exclude - Exclude devices matching specified filter type.
                 choices: ['include', 'exclude']
             comment:
                 type: str
-                description: no description
+                description: Additional comment for the selector.
             devid:
                 type: str
-                description: no description
+                description: Device ID.
             expire:
                 type: str
-                description: no description
+                description: Expiration time of the selector.
             id:
                 type: int
-                description: no description
+                description: ID of device selector entry.
             srcip:
                 type: str
-                description: no description
+                description: Source IP or IP range.
             srcip_mode:
                 aliases: ['srcip-mode']
                 type: str
-                description: no description
+                description:
+                 - Apply the selector to UDP/514, TCP/514 or any mode.
+                 - UDP514 - Clients logging through UDP port 514.
+                 - TCP514 - Clients logging through TCP port 514.
+                 - any - Clients logging through any mode.
                 choices: ['UDP514', 'TCP514', 'any']
             type:
                 type: str
-                description: no description
+                description:
+                 - Type of the selector.
+                 - unspecified - Filter type unspecified.
+                 - devid - Filter devices by DeviceID.
+                 - srcip - Filter devices by source IP.
                 choices: ['unspecified', 'devid', 'srcip']
 '''
 
@@ -140,7 +151,7 @@ EXAMPLES = '''
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
   tasks:
-    - name: Cli system log device selector
+    - name: Accept/reject devices matching specified filter types.
       fortinet.fortianalyzer.faz_cli_system_log_deviceselector:
         # bypass_validation: false
         # rc_succeeded: [0, -2, -3, ...]
@@ -222,16 +233,16 @@ def main():
         'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},
         'cli_system_log_deviceselector': {
             'type': 'dict',
-            'v_range': [['7.6.3', '']],
+            'v_range': [['7.4.7', '7.4.8'], ['7.6.3', '']],
             'options': {
-                'action': {'v_range': [['7.6.3', '']], 'choices': ['include', 'exclude'], 'type': 'str'},
-                'comment': {'v_range': [['7.6.3', '']], 'type': 'str'},
-                'devid': {'v_range': [['7.6.3', '']], 'type': 'str'},
-                'expire': {'v_range': [['7.6.3', '']], 'type': 'str'},
-                'id': {'v_range': [['7.6.3', '']], 'type': 'int'},
-                'srcip': {'v_range': [['7.6.3', '']], 'type': 'str'},
-                'srcip-mode': {'v_range': [['7.6.3', '']], 'choices': ['UDP514', 'TCP514', 'any'], 'type': 'str'},
-                'type': {'v_range': [['7.6.3', '']], 'choices': ['unspecified', 'devid', 'srcip'], 'type': 'str'}
+                'action': {'v_range': [['7.4.7', '7.4.8'], ['7.6.3', '']], 'choices': ['include', 'exclude'], 'type': 'str'},
+                'comment': {'v_range': [['7.4.7', '7.4.8'], ['7.6.3', '']], 'type': 'str'},
+                'devid': {'v_range': [['7.4.7', '7.4.8'], ['7.6.3', '']], 'type': 'str'},
+                'expire': {'v_range': [['7.4.7', '7.4.8'], ['7.6.3', '']], 'type': 'str'},
+                'id': {'v_range': [['7.4.7', '7.4.8'], ['7.6.3', '']], 'type': 'int'},
+                'srcip': {'v_range': [['7.4.7', '7.4.8'], ['7.6.3', '']], 'type': 'str'},
+                'srcip-mode': {'v_range': [['7.4.7', '7.4.8'], ['7.6.3', '']], 'choices': ['UDP514', 'TCP514', 'any'], 'type': 'str'},
+                'type': {'v_range': [['7.4.7', '7.4.8'], ['7.6.3', '']], 'choices': ['unspecified', 'devid', 'srcip'], 'type': 'str'}
             }
         }
     }

@@ -194,6 +194,32 @@ EXAMPLES = '''
   connection: httpapi
   hosts: fortianalyzers
   tasks:
+    - name: Create snap user.
+      fortinet.fortianalyzer.faz_cli_system_snmp_user:
+        state: present
+        cli_system_snmp_user:
+          name: foosnmp
+          auth_proto: md5
+          auth_pwd: foopwd
+    - name: Alert destination.
+      fortinet.fortianalyzer.faz_cli_system_alertevent_alertdestination:
+        alert_event: fooevent
+        cli_system_alertevent_alertdestination:
+          type: snmp
+          snmp_name: foosnmp
+        state: present
+      when: false
+  vars:
+    ansible_network_os: fortinet.fortianalyzer.fortianalyzer
+    ansible_httpapi_port: 443
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+
+- name: Example playbook
+  gather_facts: false
+  connection: httpapi
+  hosts: fortianalyzers
+  tasks:
     - name: SNMP user configuration.
       fortinet.fortianalyzer.faz_cli_system_snmp_user:
         cli_system_snmp_user:
@@ -220,32 +246,6 @@ EXAMPLES = '''
           # query_port: <value of integer>
           # security_level: <value in [no-auth-no-priv, auth-no-priv, auth-priv]>
         state: present
-  vars:
-    ansible_network_os: fortinet.fortianalyzer.fortianalyzer
-    ansible_httpapi_port: 443
-    ansible_httpapi_use_ssl: true
-    ansible_httpapi_validate_certs: false
-
-- name: Example playbook
-  gather_facts: false
-  connection: httpapi
-  hosts: fortianalyzers
-  tasks:
-    - name: Create snap user.
-      fortinet.fortianalyzer.faz_cli_system_snmp_user:
-        state: present
-        cli_system_snmp_user:
-          name: foosnmp
-          auth_proto: md5
-          auth_pwd: foopwd
-    - name: Alert destination.
-      fortinet.fortianalyzer.faz_cli_system_alertevent_alertdestination:
-        alert_event: fooevent
-        cli_system_alertevent_alertdestination:
-          type: snmp
-          snmp_name: foosnmp
-        state: present
-      when: false
   vars:
     ansible_network_os: fortinet.fortianalyzer.fortianalyzer
     ansible_httpapi_port: 443
@@ -338,7 +338,7 @@ def main():
                 'queries': {'choices': ['disable', 'enable'], 'type': 'str'},
                 'query-port': {'type': 'int'},
                 'security-level': {'choices': ['no-auth-no-priv', 'auth-no-priv', 'auth-priv'], 'type': 'str'},
-                'notify-port': {'v_range': [['7.2.10', '7.2.10'], ['7.4.6', '7.4.6'], ['7.6.2', '']], 'type': 'int'}
+                'notify-port': {'v_range': [['7.2.10', '7.2.11'], ['7.4.6', '7.4.8'], ['7.6.2', '']], 'type': 'int'}
             }
         }
     }

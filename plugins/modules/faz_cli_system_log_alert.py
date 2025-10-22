@@ -95,6 +95,11 @@ options:
                 aliases: ['max-alert-count']
                 type: int
                 description: Maximum number of alerts supported.
+            min_severity_to_raise_incident_by_grouping:
+                aliases: ['min-severity-to-raise-incident-by-grouping']
+                type: str
+                description: no description
+                choices: ['none', 'critical', 'high']
 '''
 
 EXAMPLES = '''
@@ -179,7 +184,10 @@ def main():
         'cli_system_log_alert': {
             'type': 'dict',
             'v_range': [['6.2.1', '']],
-            'options': {'max-alert-count': {'type': 'int'}}
+            'options': {
+                'max-alert-count': {'type': 'int'},
+                'min-severity-to-raise-incident-by-grouping': {'v_range': [['7.6.4', '']], 'choices': ['none', 'critical', 'high'], 'type': 'str'}
+            }
         }
     }
 

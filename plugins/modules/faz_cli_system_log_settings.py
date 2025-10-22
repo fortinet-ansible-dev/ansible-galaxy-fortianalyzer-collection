@@ -646,6 +646,14 @@ options:
                  - disable - Disable receiving syslog through UDP
                  - enable - Enable receiving syslog through UDP
                 choices: ['disable', 'enable']
+            legacy_auth_mode:
+                aliases: ['legacy-auth-mode']
+                type: str
+                description:
+                 - Enable/Disable legacy mode of device authentication by username/password.
+                 - disable - Disable legacy authentication mode support.
+                 - enable - Enable legacy authentication mode support.
+                choices: ['disable', 'enable']
             log_interval_dev_no_logging:
                 aliases: ['log-interval-dev-no-logging']
                 type: int
@@ -654,13 +662,13 @@ options:
                 aliases: ['log-upload-interval-dev-no-logging']
                 type: int
                 description: Interval in minute of no log uploaded from a device when considering the device down.
-            legacy_auth_mode:
-                aliases: ['legacy-auth-mode']
+            log_process_fast_mode:
+                aliases: ['log-process-fast-mode']
                 type: str
                 description:
-                 - Enable/Disable legacy mode of device authentication by username/password.
-                 - disable - Disable legacy authentication mode support.
-                 - enable - Enable legacy authentication mode support.
+                 - Enable/Disable log process fast mode.
+                 - disable - Disable log process fast mode.
+                 - enable - Enable log process fast mode.
                 choices: ['disable', 'enable']
             FFW_custom_field1:
                 aliases: ['FFW-custom-field1']
@@ -676,6 +684,11 @@ options:
                 type: str
                 description: no description
                 choices: ['disable', 'enable']
+            syslog_over_tls_port:
+                aliases: ['syslog-over-tls-port']
+                type: str
+                description: no description
+                choices: ['514', '6514']
 '''
 
 EXAMPLES = '''
@@ -791,9 +804,9 @@ def main():
                         'file-size': {'type': 'int'},
                         'gzip-format': {'choices': ['disable', 'enable'], 'type': 'str'},
                         'hour': {'type': 'int'},
-                        'ip': {'v_range': [['6.2.1', '7.0.13']], 'type': 'str'},
-                        'ip2': {'v_range': [['6.2.1', '7.0.13']], 'type': 'str'},
-                        'ip3': {'v_range': [['6.2.1', '7.0.13']], 'type': 'str'},
+                        'ip': {'v_range': [['6.2.1', '7.0.14']], 'type': 'str'},
+                        'ip2': {'v_range': [['6.2.1', '7.0.14']], 'type': 'str'},
+                        'ip3': {'v_range': [['6.2.1', '7.0.14']], 'type': 'str'},
                         'log-format': {'choices': ['native', 'text', 'csv'], 'type': 'str'},
                         'min': {'type': 'int'},
                         'password': {'no_log': True, 'type': 'str'},
@@ -826,9 +839,9 @@ def main():
                         'file-size': {'type': 'int'},
                         'gzip-format': {'choices': ['disable', 'enable'], 'type': 'str'},
                         'hour': {'type': 'int'},
-                        'ip': {'v_range': [['6.2.1', '7.0.13']], 'type': 'str'},
-                        'ip2': {'v_range': [['6.2.1', '7.0.13']], 'type': 'str'},
-                        'ip3': {'v_range': [['6.2.1', '7.0.13']], 'type': 'str'},
+                        'ip': {'v_range': [['6.2.1', '7.0.14']], 'type': 'str'},
+                        'ip2': {'v_range': [['6.2.1', '7.0.14']], 'type': 'str'},
+                        'ip3': {'v_range': [['6.2.1', '7.0.14']], 'type': 'str'},
                         'log-format': {'choices': ['native', 'text', 'csv'], 'type': 'str'},
                         'min': {'type': 'int'},
                         'password': {'no_log': True, 'type': 'str'},
@@ -861,9 +874,9 @@ def main():
                         'file-size': {'type': 'int'},
                         'gzip-format': {'choices': ['disable', 'enable'], 'type': 'str'},
                         'hour': {'type': 'int'},
-                        'ip': {'v_range': [['6.2.1', '7.0.13']], 'type': 'str'},
-                        'ip2': {'v_range': [['6.2.1', '7.0.13']], 'type': 'str'},
-                        'ip3': {'v_range': [['6.2.1', '7.0.13']], 'type': 'str'},
+                        'ip': {'v_range': [['6.2.1', '7.0.14']], 'type': 'str'},
+                        'ip2': {'v_range': [['6.2.1', '7.0.14']], 'type': 'str'},
+                        'ip3': {'v_range': [['6.2.1', '7.0.14']], 'type': 'str'},
                         'log-format': {'choices': ['native', 'text', 'csv'], 'type': 'str'},
                         'min': {'type': 'int'},
                         'password': {'no_log': True, 'type': 'str'},
@@ -890,21 +903,27 @@ def main():
                 'sync-search-timeout': {'type': 'int'},
                 'keep-dev-logs': {'v_range': [['6.4.7', '6.4.15'], ['7.0.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'device-auto-detect': {
-                    'v_range': [['7.0.10', '7.0.13'], ['7.2.4', '7.2.10'], ['7.4.1', '']],
+                    'v_range': [['7.0.10', '7.0.14'], ['7.2.4', '7.2.11'], ['7.4.1', '']],
                     'choices': ['disable', 'enable'],
                     'type': 'str'
                 },
                 'unencrypted-logging': {
-                    'v_range': [['7.0.10', '7.0.13'], ['7.2.4', '7.2.10'], ['7.4.1', '7.6.2']],
+                    'v_range': [['7.0.10', '7.0.14'], ['7.2.4', '7.2.11'], ['7.4.1', '7.6.2']],
                     'choices': ['disable', 'enable'],
                     'type': 'str'
                 },
-                'log-interval-dev-no-logging': {'v_range': [['7.2.5', '7.2.10'], ['7.4.2', '']], 'type': 'int'},
-                'log-upload-interval-dev-no-logging': {'v_range': [['7.2.5', '7.2.10'], ['7.4.2', '']], 'type': 'int'},
-                'legacy-auth-mode': {'v_range': [['7.2.10', '7.2.10'], ['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'legacy-auth-mode': {
+                    'v_range': [['7.0.14', '7.0.14'], ['7.2.10', '7.2.11'], ['7.4.7', '7.4.8'], ['7.6.3', '']],
+                    'choices': ['disable', 'enable'],
+                    'type': 'str'
+                },
+                'log-interval-dev-no-logging': {'v_range': [['7.2.5', '7.2.11'], ['7.4.2', '']], 'type': 'int'},
+                'log-upload-interval-dev-no-logging': {'v_range': [['7.2.5', '7.2.11'], ['7.4.2', '']], 'type': 'int'},
+                'log-process-fast-mode': {'v_range': [['7.4.7', '7.4.8'], ['7.6.4', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'FFW-custom-field1': {'v_range': [['7.6.3', '']], 'type': 'str'},
                 'unencrypted-logging-tcp': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'unencrypted-logging-udp': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
+                'unencrypted-logging-udp': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'syslog-over-tls-port': {'v_range': [['7.6.4', '']], 'choices': ['514', '6514'], 'type': 'str'}
             }
         }
     }

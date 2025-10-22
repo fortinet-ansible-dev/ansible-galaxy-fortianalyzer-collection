@@ -270,22 +270,40 @@ def main():
         'rc_failed': {'type': 'list', 'elements': 'int'},
         'cli_system_docker': {
             'type': 'dict',
-            'v_range': [['6.2.1', '6.2.1'], ['6.4.1', '']],
+            'v_range': [['6.2.1', '6.2.1'], ['6.4.1', '7.0.13'], ['7.2.0', '7.2.10'], ['7.4.0', '7.4.7'], ['7.6.0', '7.6.3']],
             'options': {
                 'fortiportal': {'v_range': [['6.2.1', '6.2.1'], ['6.4.1', '7.0.1']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'fortiwlm': {'v_range': [['6.2.1', '6.2.1'], ['6.4.1', '7.0.1']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'sdwancontroller': {'v_range': [['6.2.1', '6.2.1'], ['6.4.1', '7.0.1']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'status': {'v_range': [['6.2.1', '6.2.1'], ['6.4.1', '']], 'choices': ['disable', 'enable', 'qa', 'dev'], 'type': 'str'},
-                'default-address-pool_base': {'v_range': [['6.4.3', '']], 'type': 'str'},
-                'default-address-pool_size': {'v_range': [['6.4.3', '']], 'type': 'int'},
+                'status': {
+                    'v_range': [['6.2.1', '6.2.1'], ['6.4.1', '7.0.13'], ['7.2.0', '7.2.10'], ['7.4.0', '7.4.7'], ['7.6.0', '7.6.3']],
+                    'choices': ['disable', 'enable', 'qa', 'dev'],
+                    'type': 'str'
+                },
+                'default-address-pool_base': {
+                    'v_range': [['6.4.3', '7.0.13'], ['7.2.0', '7.2.10'], ['7.4.0', '7.4.7'], ['7.6.0', '7.6.3']],
+                    'type': 'str'
+                },
+                'default-address-pool_size': {
+                    'v_range': [['6.4.3', '7.0.13'], ['7.2.0', '7.2.10'], ['7.4.0', '7.4.7'], ['7.6.0', '7.6.3']],
+                    'type': 'int'
+                },
                 'fortiauthenticator': {'v_range': [['6.4.3', '7.0.1']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'fortisigconverter': {'v_range': [['6.4.3', '7.0.1']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'cpu': {'v_range': [['6.4.5', '']], 'type': 'int'},
-                'mem': {'v_range': [['6.4.5', '']], 'type': 'int'},
-                'docker-user-login-max': {'v_range': [['6.4.6', '']], 'type': 'int'},
-                'fortisoar': {'v_range': [['7.0.0', '7.6.2']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'cpu': {'v_range': [['6.4.5', '7.0.13'], ['7.2.0', '7.2.10'], ['7.4.0', '7.4.7'], ['7.6.0', '7.6.3']], 'type': 'int'},
+                'mem': {'v_range': [['6.4.5', '7.0.13'], ['7.2.0', '7.2.10'], ['7.4.0', '7.4.7'], ['7.6.0', '7.6.3']], 'type': 'int'},
+                'docker-user-login-max': {'v_range': [['6.4.6', '7.0.13'], ['7.2.0', '7.2.10'], ['7.4.0', '7.4.7'], ['7.6.0', '7.6.3']], 'type': 'int'},
+                'fortisoar': {
+                    'v_range': [['7.0.0', '7.0.13'], ['7.2.0', '7.2.10'], ['7.4.0', '7.4.6'], ['7.6.0', '7.6.2']],
+                    'choices': ['disable', 'enable'],
+                    'type': 'str'
+                },
                 'fortiaiops': {'v_range': [['7.0.1', '7.0.1']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'fsmcollector': {'v_range': [['7.0.1', '7.6.2']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'fsmcollector': {
+                    'v_range': [['7.0.1', '7.0.13'], ['7.2.0', '7.2.10'], ['7.4.0', '7.4.6'], ['7.6.0', '7.6.2']],
+                    'choices': ['disable', 'enable'],
+                    'type': 'str'
+                },
                 'universalconnector': {'v_range': [['7.0.1', '7.0.1']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
         }

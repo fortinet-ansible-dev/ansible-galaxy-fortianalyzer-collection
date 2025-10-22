@@ -198,11 +198,11 @@ def main():
         'state': {'type': 'str', 'required': True, 'choices': ['present', 'absent']},
         'cli_system_log_devicedisable': {
             'type': 'dict',
-            'v_range': [['6.4.4', '7.6.2']],
+            'v_range': [['6.4.4', '7.4.6'], ['7.6.0', '7.6.2']],
             'options': {
-                'TTL': {'v_range': [['6.4.4', '7.6.1']], 'type': 'str'},
-                'device': {'v_range': [['6.4.4', '7.6.2']], 'type': 'str'},
-                'id': {'v_range': [['6.4.4', '7.6.2']], 'type': 'int'},
+                'TTL': {'v_range': [['6.4.4', '7.4.6'], ['7.6.0', '7.6.1']], 'type': 'str'},
+                'device': {'v_range': [['6.4.4', '7.4.6'], ['7.6.0', '7.6.2']], 'type': 'str'},
+                'id': {'v_range': [['6.4.4', '7.4.6'], ['7.6.0', '7.6.2']], 'type': 'int'},
                 'expire': {'v_range': [['7.6.2', '7.6.2']], 'type': 'str'}
             }
         }

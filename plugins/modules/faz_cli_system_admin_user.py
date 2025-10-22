@@ -654,6 +654,10 @@ options:
                 aliases: ['cors-allow-origin']
                 type: str
                 description: Access-Control-Allow-Origin.
+            old_password:
+                aliases: ['old-password']
+                type: str
+                description: Old password.
             fortiai:
                 type: str
                 description:
@@ -671,10 +675,11 @@ options:
                         aliases: ['policy-block-name']
                         type: str
                         description: Policy block names.
-            old_password:
-                aliases: ['old-password']
+            autoreg_user:
+                aliases: ['autoreg-user']
                 type: str
                 description: no description
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''
@@ -818,7 +823,7 @@ def main():
                 'first-name': {'type': 'str'},
                 'force-password-change': {'choices': ['disable', 'enable'], 'no_log': False, 'type': 'str'},
                 'group': {'type': 'str'},
-                'hidden': {'type': 'int'},
+                'hidden': {'v_range': [['6.2.1', '7.6.3']], 'type': 'int'},
                 'ipv6_trusthost1': {'type': 'str'},
                 'ipv6_trusthost10': {'type': 'str'},
                 'ipv6_trusthost2': {'type': 'str'},
@@ -894,6 +899,7 @@ def main():
                 'th-from-profile': {'v_range': [['7.0.3', '']], 'type': 'int'},
                 'th6-from-profile': {'v_range': [['7.0.3', '']], 'type': 'int'},
                 'cors-allow-origin': {'v_range': [['7.2.2', '']], 'type': 'str'},
+                'old-password': {'v_range': [['7.2.11', '7.2.11'], ['7.4.7', '7.4.8'], ['7.6.3', '']], 'no_log': True, 'type': 'str'},
                 'fortiai': {'v_range': [['7.6.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'policy-block': {
                     'v_range': [['7.6.0', '']],
@@ -901,7 +907,7 @@ def main():
                     'options': {'policy-block-name': {'v_range': [['7.6.0', '']], 'type': 'str'}},
                     'elements': 'dict'
                 },
-                'old-password': {'v_range': [['7.6.3', '']], 'no_log': True, 'type': 'str'}
+                'autoreg-user': {'v_range': [['7.6.4', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
         }
     }

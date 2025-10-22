@@ -124,15 +124,18 @@ options:
                  - disable - Disable password policy.
                  - enable - Enable password policy.
                 choices: ['disable', 'enable']
+            login_lockout_upon_downgrade:
+                aliases: ['login-lockout-upon-downgrade']
+                type: str
+                description:
+                 - Enable/disable administrative user login lockout upon downgrade
+                 - disable - Disable administrative user login lockout upon downgrade.
+                 - enable - Enable administrative user login lockout upon downgrade.
+                choices: ['disable', 'enable']
             password_history:
                 aliases: ['password-history']
                 type: int
                 description: Number of unique new passwords that must be used before old password can be reused
-            login_lockout_upon_downgrade:
-                aliases: ['login-lockout-upon-downgrade']
-                type: str
-                description: no description
-                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''
@@ -232,8 +235,12 @@ def main():
                 'minimum-length': {'type': 'int'},
                 'must-contain': {'type': 'list', 'choices': ['upper-case-letter', 'lower-case-letter', 'number', 'non-alphanumeric'], 'elements': 'str'},
                 'status': {'choices': ['disable', 'enable'], 'type': 'str'},
-                'password-history': {'v_range': [['7.6.0', '']], 'no_log': False, 'type': 'int'},
-                'login-lockout-upon-downgrade': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
+                'login-lockout-upon-downgrade': {
+                    'v_range': [['7.2.11', '7.2.11'], ['7.4.7', '7.4.8'], ['7.6.3', '']],
+                    'choices': ['disable', 'enable'],
+                    'type': 'str'
+                },
+                'password-history': {'v_range': [['7.6.0', '']], 'no_log': False, 'type': 'int'}
             }
         }
     }

@@ -130,6 +130,9 @@ options:
             src:
                 type: str
                 description: Source IP and mask.
+            description:
+                type: str
+                description: no description
 '''
 
 EXAMPLES = '''
@@ -157,6 +160,7 @@ EXAMPLES = '''
           # intf: <value of string>
           # protocol: <value in [tcp, udp, tcp_udp]>
           # src: <value of string>
+          # description: <value of string>
 '''
 
 RETURN = '''
@@ -232,7 +236,8 @@ def main():
                 'id': {'v_range': [['7.2.0', '']], 'type': 'int'},
                 'intf': {'v_range': [['7.2.0', '']], 'type': 'str'},
                 'protocol': {'v_range': [['7.2.0', '']], 'choices': ['tcp', 'udp', 'tcp_udp'], 'type': 'str'},
-                'src': {'v_range': [['7.2.0', '']], 'type': 'str'}
+                'src': {'v_range': [['7.2.0', '']], 'type': 'str'},
+                'description': {'v_range': [['7.6.4', '']], 'type': 'str'}
             }
         }
     }

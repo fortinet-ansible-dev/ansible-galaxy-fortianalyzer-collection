@@ -1,6 +1,6 @@
 ![Fortinet logo|](https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Fortinet_logo.svg/320px-Fortinet_logo.svg.png)
 
-# fortinet.fortianalyzer:1.9.0 - configuring FortiAnalyzer
+# fortinet.fortianalyzer:1.10.0 - configuring FortiAnalyzer
 
 ## Description
 
@@ -10,13 +10,10 @@ FortiAnalyzer Ansible Collection includes the modules that are able to configure
 
 ## Requirements
 
-- Ansible 2.15.0 or above
+- Ansible 2.16.0 or above
 - Python 3.9 or above
 
 ## Installation
-
-This collection is distributed via [ansible-galaxy](https://galaxy.ansible.com/fortinet/fortianalyzer).
-
 
 Before using this collection, you need to install it with the Ansible Galaxy command-line tool:
 
@@ -32,7 +29,6 @@ collections:
   - name: fortinet.fortianalyzer
 ```
 
-Note that if you install any collections from Ansible Galaxy, they will not be upgraded automatically when you upgrade the Ansible package.
 To upgrade the collection to the latest available version, run the following command:
 
 ```
@@ -55,7 +51,7 @@ See [example here](https://ansible-galaxy-fortianalyzer-docs.readthedocs.io/en/l
 
 ## Testing
 
-Testing is done by the Fortinet team. Before each new FMG Ansible release, it is tested with the latest patches from all FMG minor releases.
+Testing is done by the Fortinet team. Before each new FAZ Ansible release, it is tested with the latest patches from all FAZ minor releases.
 
 
 ## Support
@@ -162,6 +158,14 @@ The collection provides the following modules:
 * `faz_cli_system_interface_member`  Physical interfaces that belong to the aggregate or redundant interface.
 * `faz_cli_system_localinpolicy`  IPv4 local in policy configuration.
 * `faz_cli_system_localinpolicy6`  IPv6 local in policy configuration.
+* `faz_cli_system_localinpolicy6_dport`  Cli system local in policy6 dport.
+* `faz_cli_system_localinpolicy6_dst`  Cli system local in policy6 dst.
+* `faz_cli_system_localinpolicy6_intf`  Cli system local in policy6 intf.
+* `faz_cli_system_localinpolicy6_src`  Cli system local in policy6 src.
+* `faz_cli_system_localinpolicy_dport`  Cli system local in policy dport.
+* `faz_cli_system_localinpolicy_dst`  Cli system local in policy dst.
+* `faz_cli_system_localinpolicy_intf`  Cli system local in policy intf.
+* `faz_cli_system_localinpolicy_src`  Cli system local in policy src.
 * `faz_cli_system_locallog_disk_filter`  Filter for disk logging.
 * `faz_cli_system_locallog_disk_setting`  Settings for local disk logging.
 * `faz_cli_system_locallog_fortianalyzer2_filter`  Filter for FortiAnalyzer2 logging.
@@ -181,7 +185,7 @@ The collection provides the following modules:
 * `faz_cli_system_locallog_syslogd_setting`  Settings for remote syslog server.
 * `faz_cli_system_log_alert`  Log based alert settings.
 * `faz_cli_system_log_devicedisable`  Disable client device logging.
-* `faz_cli_system_log_deviceselector`  Cli system log device selector.
+* `faz_cli_system_log_deviceselector`  Accept/reject devices matching specified filter types.
 * `faz_cli_system_log_fospolicystats`  FortiOS policy statistics settings.
 * `faz_cli_system_log_interfacestats`  Interface statistics settings.
 * `faz_cli_system_log_ioc`  IoC settings.

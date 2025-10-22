@@ -198,8 +198,8 @@ def main():
             'type': 'dict',
             'v_range': [['6.2.1', '']],
             'options': {
-                'entropy-token': {'choices': ['enable', 'disable', 'dynamic'], 'type': 'str'},
-                're-seed-interval': {'type': 'int'},
+                'entropy-token': {'v_range': [['6.2.1', '7.6.3']], 'choices': ['enable', 'disable', 'dynamic'], 'type': 'str'},
+                're-seed-interval': {'v_range': [['6.2.1', '7.6.3']], 'type': 'int'},
                 'status': {'choices': ['disable', 'enable'], 'type': 'str'}
             }
         }

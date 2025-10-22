@@ -461,7 +461,7 @@ def main():
                 'upstream': {'v_range': [['7.4.1', '']], 'type': 'str'},
                 'upstream-port': {'v_range': [['7.4.1', '']], 'type': 'int'},
                 'ssl-protocol': {
-                    'v_range': [['7.4.4', '7.4.6'], ['7.6.2', '']],
+                    'v_range': [['7.4.4', '7.4.8'], ['7.6.2', '']],
                     'choices': ['follow-global-ssl-protocol', 'sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3'],
                     'type': 'str'
                 },

@@ -333,6 +333,14 @@ options:
                 aliases: ['fgt-gui-proxy-port']
                 type: int
                 description: FortiGate GUI proxy port.
+            admin_scp:
+                aliases: ['admin-scp']
+                type: str
+                description:
+                 - Enable/disable admin SCP.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
+                choices: ['disable', 'enable']
             object_threshold_limit:
                 aliases: ['object-threshold-limit']
                 type: str
@@ -478,10 +486,11 @@ def main():
                 'auth-port': {'v_range': [['7.0.1', '']], 'type': 'int'},
                 'preferred-fgfm-intf': {'v_range': [['7.0.2', '']], 'type': 'str'},
                 'idle_timeout_sso': {'v_range': [['7.0.3', '']], 'type': 'int'},
-                'fsw-ignore-platform-check': {'v_range': [['7.0.7', '7.0.13'], ['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'fsw-ignore-platform-check': {'v_range': [['7.0.7', '7.0.14'], ['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'firmware-upgrade-check': {'v_range': [['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'fgt-gui-proxy': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'fgt-gui-proxy-port': {'v_range': [['7.4.2', '']], 'type': 'int'},
+                'admin-scp': {'v_range': [['7.4.8', '7.4.8']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'object-threshold-limit': {'v_range': [['7.6.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'object-threshold-limit-value': {'v_range': [['7.6.2', '']], 'type': 'int'},
                 'show-sdwan-manager': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}

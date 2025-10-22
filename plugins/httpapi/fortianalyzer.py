@@ -248,7 +248,9 @@ class HttpApi(HttpApiBase):
             self.connection._connect()
         if self._status:
             return 0, self._status
-        rc, self._status = self.send_request("get", self._tools.format_request("get", "/cli/global/system/status"))
+        rc, self._status = self.send_request("get", self._tools.format_request("get", "/sys/status"))
+        if rc == -11:
+            rc, self._status = self.send_request("get", self._tools.format_request("get", "/cli/global/system/status"))
         return rc, self._status
 
     @property

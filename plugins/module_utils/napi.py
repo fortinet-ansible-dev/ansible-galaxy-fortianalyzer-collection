@@ -151,7 +151,7 @@ def modify_argument_spec(schema, module_level2_name):
 class FortiAnalyzerAnsible(object):
     def __init__(self, urls_list, module_primary_key, url_params, module, conn,
                  metadata=None, task_type=None):
-        self.urls_list = urls_list
+        self.urls_list = urls_list if urls_list else [""]
         self.module_primary_key = module_primary_key
         self.url_params = url_params
         self.module = module
@@ -165,6 +165,7 @@ class FortiAnalyzerAnsible(object):
         self.metadata = metadata
         self.diff_data = {'before': {}, 'after': {}}
         self.allow_diff = False
+        self.is_jsonrpc2 = False
 
     def _set_connection_options(self):
         for key in ['access_token', 'enable_log', 'log_path', 'forticloud_access_token']:
@@ -172,6 +173,8 @@ class FortiAnalyzerAnsible(object):
                 self.conn.set_customer_option(key, self.module.params[key])
 
     def process(self):
+        if self.urls_list[0].startswith("/report/") or self.urls_list[0].startswith("/eventmgmt/"):
+            self.is_jsonrpc2 = True
         if self.task_type == 'exec':
             self.process_exec()
         elif self.task_type == 'partial crud':
@@ -185,6 +188,7 @@ class FortiAnalyzerAnsible(object):
         elif self.task_type == 'rename':
             self.process_rename()
         elif self.task_type.startswith('jsonrpc2_'):
+            self.is_jsonrpc2 = True
             method = self.task_type[9:]
             self.process_request_without_data_wrapper(method, True)
         else:
@@ -267,7 +271,7 @@ class FortiAnalyzerAnsible(object):
                 response = self.delete_object(mvalue)
         else:
             if state == 'absent':
-                self.module.fail_json(msg='This module doesn\'t not support state:absent because of no primary key.')
+                self.do_final_exit(changed=False, msg='This module does not support state:absent. Skipping delete.')
             self.diff_get_and_save_data('before')
             response = self.create_object()
         self.diff_get_and_save_data('after')
@@ -554,6 +558,9 @@ class FortiAnalyzerAnsible(object):
         return False
 
     def is_update_required(self, robject):
+        jsonrpc_result = robject.get('result', {})
+        if isinstance(jsonrpc_result, dict) and jsonrpc_result.get('data', None):
+            robject = jsonrpc_result
         object_remote = robject['data'] if 'data' in robject else {}
         bypass_valid = self.module.params.get('bypass_validation', False)
         object_present = remove_aliases(self.module.params, self.metadata, bypass_valid)
@@ -638,7 +645,8 @@ class FortiAnalyzerAnsible(object):
         target_url = self.get_target_url()
         if not target_url.endswith('/'):
             target_url += '/'
-        target_url += str(mvalue)
+        if not self.is_jsonrpc2:
+            target_url += str(mvalue)
         bypass_valid = self.module.params.get('bypass_validation', False)
         raw_attributes = remove_aliases(self.module.params, self.metadata, bypass_valid)
         raw_attributes = raw_attributes.get(self.module_level2_name, {})
@@ -658,7 +666,9 @@ class FortiAnalyzerAnsible(object):
         if self.module.check_mode:
             self.diff_save_after_based_on_playbook()
             self.do_final_exit(changed=True)
-        return self.conn.send_request(self.get_propose_method('set'), params)
+        default_method = 'add' if self.is_jsonrpc2 else 'set'
+        response = self.conn.send_request(self.get_propose_method(default_method), params)
+        return response
 
     def delete_object(self, mvalue):
         target_url = self.get_target_url()

@@ -552,6 +552,11 @@ options:
                  - disable - Disable setting.
                  - enable - Enable setting.
                 choices: ['disable', 'enable']
+            script_run:
+                aliases: ['script-run']
+                type: str
+                description: no description
+                choices: ['none', 'read', 'read-write']
 '''
 
 EXAMPLES = '''
@@ -674,7 +679,7 @@ def main():
                 'device-policy-package-lock': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'device-wan-link-load-balance': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'event-management': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
-                'fortirecorder-setting': {'v_range': [['6.2.1', '7.2.10']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
+                'fortirecorder-setting': {'v_range': [['6.2.1', '7.2.11']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'log-viewer': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'profileid': {'type': 'str'},
                 'realtime-monitor': {'v_range': [['6.2.1', '7.4.2']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
@@ -684,7 +689,11 @@ def main():
                 'system-setting': {'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'fabric-viewer': {'v_range': [['6.4.6', '']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'execute-playbook': {'v_range': [['7.0.0', '']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
-                'extension-access': {'v_range': [['7.0.0', '']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
+                'extension-access': {
+                    'v_range': [['7.0.0', '7.2.10'], ['7.4.0', '7.4.7'], ['7.6.0', '7.6.3']],
+                    'choices': ['none', 'read', 'read-write'],
+                    'type': 'str'
+                },
                 'run-report': {'v_range': [['7.0.0', '']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'script-access': {'v_range': [['7.0.0', '']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'triage-events': {'v_range': [['7.0.0', '']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
@@ -711,7 +720,7 @@ def main():
                 'trusthost7': {'v_range': [['7.0.3', '']], 'type': 'str'},
                 'trusthost8': {'v_range': [['7.0.3', '']], 'type': 'str'},
                 'trusthost9': {'v_range': [['7.0.3', '']], 'type': 'str'},
-                'device-fortiextender': {'v_range': [['7.0.4', '7.0.13'], ['7.2.1', '']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
+                'device-fortiextender': {'v_range': [['7.0.4', '7.0.14'], ['7.2.1', '']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'ips-lock': {'v_range': [['7.2.2', '']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'},
                 'fgt-gui-proxy': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'write-passwd-access': {
@@ -734,7 +743,8 @@ def main():
                     'options': {'userid': {'v_range': [['7.4.2', '']], 'type': 'str'}},
                     'elements': 'dict'
                 },
-                'adom-admin': {'v_range': [['7.6.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
+                'adom-admin': {'v_range': [['7.6.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'script-run': {'v_range': [['7.6.4', '']], 'choices': ['none', 'read', 'read-write'], 'type': 'str'}
             }
         }
     }

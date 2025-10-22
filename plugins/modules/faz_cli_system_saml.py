@@ -267,6 +267,22 @@ options:
                  - disable - Disable setting.
                  - enable - Enable setting.
                 choices: ['disable', 'enable']
+            logout_request_signed:
+                aliases: ['logout-request-signed']
+                type: str
+                description:
+                 - Enable/Disable logout request signed.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
+                choices: ['disable', 'enable']
+            logout_response_signed:
+                aliases: ['logout-response-signed']
+                type: str
+                description:
+                 - Enable/Disable logout response signed.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''
@@ -400,7 +416,9 @@ def main():
                 'forticloud-sso': {'v_range': [['7.0.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'user-auto-create': {'v_range': [['7.0.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'auth-request-signed': {'v_range': [['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'want-assertions-signed': {'v_range': [['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
+                'want-assertions-signed': {'v_range': [['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'logout-request-signed': {'v_range': [['7.4.8', '7.4.8']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'logout-response-signed': {'v_range': [['7.4.8', '7.4.8']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
         }
     }

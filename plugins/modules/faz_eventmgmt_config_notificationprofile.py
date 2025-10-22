@@ -151,6 +151,22 @@ options:
                 aliases: ['syslog-svr']
                 type: str
                 description: 128 bytes
+            notify_sched:
+                aliases: ['notify-sched']
+                type: int
+                description: enable
+            notify_time_start:
+                aliases: ['notify-time-start']
+                type: str
+                description: 'time format in hh:mm'
+            notify_time_stop:
+                aliases: ['notify-time-stop']
+                type: str
+                description: 'time format in hh:mm'
+            notify_week_days:
+                aliases: ['notify-week-days']
+                type: int
+                description: weekday opts
 '''
 
 EXAMPLES = '''
@@ -184,6 +200,10 @@ EXAMPLES = '''
           # snmp_community: <value of string>
           # snmpv3_user: <value of string>
           # syslog_svr: <value of string>
+          # notify_sched: <value of integer>
+          # notify_time_start: <value of string>
+          # notify_time_stop: <value of string>
+          # notify_week_days: <value of integer>
 '''
 
 RETURN = '''
@@ -265,7 +285,11 @@ def main():
                 'email-to': {'v_range': [['7.6.0', '']], 'type': 'str'},
                 'snmp-community': {'v_range': [['7.6.0', '']], 'type': 'str'},
                 'snmpv3-user': {'v_range': [['7.6.0', '']], 'type': 'str'},
-                'syslog-svr': {'v_range': [['7.6.0', '']], 'type': 'str'}
+                'syslog-svr': {'v_range': [['7.6.0', '']], 'type': 'str'},
+                'notify-sched': {'v_range': [['7.6.4', '']], 'type': 'int'},
+                'notify-time-start': {'v_range': [['7.6.4', '']], 'type': 'str'},
+                'notify-time-stop': {'v_range': [['7.6.4', '']], 'type': 'str'},
+                'notify-week-days': {'v_range': [['7.6.4', '']], 'type': 'int'}
             }
         }
     }

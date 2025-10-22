@@ -166,6 +166,14 @@ options:
                     - 'cli_system_interface_member'
                     - 'cli_system_localinpolicy'
                     - 'cli_system_localinpolicy6'
+                    - 'cli_system_localinpolicy6_dport'
+                    - 'cli_system_localinpolicy6_dst'
+                    - 'cli_system_localinpolicy6_intf'
+                    - 'cli_system_localinpolicy6_src'
+                    - 'cli_system_localinpolicy_dport'
+                    - 'cli_system_localinpolicy_dst'
+                    - 'cli_system_localinpolicy_intf'
+                    - 'cli_system_localinpolicy_src'
                     - 'cli_system_locallog_disk_filter'
                     - 'cli_system_locallog_disk_setting'
                     - 'cli_system_locallog_fortianalyzer2_filter'
@@ -318,6 +326,7 @@ options:
                     - 'report_config_schedule_devices'
                     - 'report_config_schedule_filter'
                     - 'report_config_schedule_reportlayout'
+                    - 'report_configfile_export'
                     - 'report_graphfile'
                     - 'report_graphfile_data'
                     - 'report_graphfile_list'
@@ -573,7 +582,7 @@ def main():
                 '/cli/global/fmupdate/fwm-setting/upgrade-timeout'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['7.0.5', '7.0.13'], ['7.2.2', '']],
+            'jsonrpc2': False, 'v_range': [['7.0.5', '7.0.14'], ['7.2.2', '']],
         },
         'cli_fmupdate_multilayer': {
             'urls': [
@@ -981,7 +990,7 @@ def main():
                 '/cli/global/system/docker'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['6.2.1', '6.2.1'], ['6.4.1', '']],
+            'jsonrpc2': False, 'v_range': [['6.2.1', '6.2.1'], ['6.4.1', '7.0.13'], ['7.2.0', '7.2.10'], ['7.4.0', '7.4.7'], ['7.6.0', '7.6.3']],
         },
         'cli_system_fips': {
             'urls': [
@@ -1087,6 +1096,70 @@ def main():
             ],
             'params': ['fields', 'filter', 'loadsub', 'option'],
             'jsonrpc2': False, 'v_range': [['7.2.0', '']],
+        },
+        'cli_system_localinpolicy6_dport': {
+            'urls': [
+                '/cli/global/system/local-in-policy6/{local-in-policy6}/dport',
+                '/cli/global/system/local-in-policy6/{local-in-policy6}/dport/{dport}'
+            ],
+            'params': ['fields', 'filter', 'loadsub', 'option'],
+            'jsonrpc2': False, 'v_range': [['7.6.4', '']],
+        },
+        'cli_system_localinpolicy6_dst': {
+            'urls': [
+                '/cli/global/system/local-in-policy6/{local-in-policy6}/dst',
+                '/cli/global/system/local-in-policy6/{local-in-policy6}/dst/{dst}'
+            ],
+            'params': ['fields', 'filter', 'loadsub', 'option'],
+            'jsonrpc2': False, 'v_range': [['7.6.4', '']],
+        },
+        'cli_system_localinpolicy6_intf': {
+            'urls': [
+                '/cli/global/system/local-in-policy6/{local-in-policy6}/intf',
+                '/cli/global/system/local-in-policy6/{local-in-policy6}/intf/{intf}'
+            ],
+            'params': ['fields', 'filter', 'loadsub', 'option'],
+            'jsonrpc2': False, 'v_range': [['7.6.4', '']],
+        },
+        'cli_system_localinpolicy6_src': {
+            'urls': [
+                '/cli/global/system/local-in-policy6/{local-in-policy6}/src',
+                '/cli/global/system/local-in-policy6/{local-in-policy6}/src/{src}'
+            ],
+            'params': ['fields', 'filter', 'loadsub', 'option'],
+            'jsonrpc2': False, 'v_range': [['7.6.4', '']],
+        },
+        'cli_system_localinpolicy_dport': {
+            'urls': [
+                '/cli/global/system/local-in-policy/{local-in-policy}/dport',
+                '/cli/global/system/local-in-policy/{local-in-policy}/dport/{dport}'
+            ],
+            'params': ['fields', 'filter', 'loadsub', 'option'],
+            'jsonrpc2': False, 'v_range': [['7.6.4', '']],
+        },
+        'cli_system_localinpolicy_dst': {
+            'urls': [
+                '/cli/global/system/local-in-policy/{local-in-policy}/dst',
+                '/cli/global/system/local-in-policy/{local-in-policy}/dst/{dst}'
+            ],
+            'params': ['fields', 'filter', 'loadsub', 'option'],
+            'jsonrpc2': False, 'v_range': [['7.6.4', '']],
+        },
+        'cli_system_localinpolicy_intf': {
+            'urls': [
+                '/cli/global/system/local-in-policy/{local-in-policy}/intf',
+                '/cli/global/system/local-in-policy/{local-in-policy}/intf/{intf}'
+            ],
+            'params': ['fields', 'filter', 'loadsub', 'option'],
+            'jsonrpc2': False, 'v_range': [['7.6.4', '']],
+        },
+        'cli_system_localinpolicy_src': {
+            'urls': [
+                '/cli/global/system/local-in-policy/{local-in-policy}/src',
+                '/cli/global/system/local-in-policy/{local-in-policy}/src/{src}'
+            ],
+            'params': ['fields', 'filter', 'loadsub', 'option'],
+            'jsonrpc2': False, 'v_range': [['7.6.4', '']],
         },
         'cli_system_locallog_disk_filter': {
             'urls': [
@@ -1220,7 +1293,7 @@ def main():
                 '/cli/global/system/log/device-disable/{device-disable}'
             ],
             'params': ['fields', 'filter', 'loadsub', 'option'],
-            'jsonrpc2': False, 'v_range': [['6.4.4', '7.6.2']],
+            'jsonrpc2': False, 'v_range': [['6.4.4', '7.4.6'], ['7.6.0', '7.6.2']],
         },
         'cli_system_log_deviceselector': {
             'urls': [
@@ -1228,7 +1301,7 @@ def main():
                 '/cli/global/system/log/device-selector/{device-selector}'
             ],
             'params': ['fields', 'filter', 'loadsub', 'option'],
-            'jsonrpc2': False, 'v_range': [['7.6.3', '']],
+            'jsonrpc2': False, 'v_range': [['7.4.7', '7.4.8'], ['7.6.3', '']],
         },
         'cli_system_log_fospolicystats': {
             'urls': [
@@ -2204,6 +2277,13 @@ def main():
             'params': [],
             'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
+        'report_configfile_export': {
+            'urls': [
+                '/report/adom/{adom}/config-file/export'
+            ],
+            'params': ['layout-id', 'name'],
+            'jsonrpc2': True, 'v_range': [['7.6.4', '']],
+        },
         'report_graphfile': {
             'urls': [
                 '/report/adom/{adom}/graph-file'
@@ -2356,7 +2436,7 @@ def main():
                 '/soar/adom/{adom}/task/monitor'
             ],
             'params': ['filter', 'instance-id', 'playbook-uuid', 'run-id', 'sort-by', 'time-range', 'timezone'],
-            'jsonrpc2': True, 'v_range': [['6.4.2', '7.4.6'], ['7.6.2', '']],
+            'jsonrpc2': True, 'v_range': [['6.4.2', '7.4.8'], ['7.6.2', '']],
         },
         'sys_ha_status': {
             'urls': [

@@ -1020,6 +1020,26 @@ options:
                  - tlsv1.2 - set TLSv1.2 as the lowest version.
                  - tlsv1.3 - set TLSv1.3 as the lowest version.
                 choices: ['follow-global-ssl-protocol', 'sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3']
+            gui_feature_visibility_mode:
+                aliases: ['gui-feature-visibility-mode']
+                type: str
+                description:
+                 - Set GUI feature visibility mode
+                 - per-adom - Per-ADOM control in policy &amp; objects and provisioning templates.
+                 - per-admin - Per-admin control in policy &amp; objects and provisioning templates.
+                choices: ['per-adom', 'per-admin']
+            rpc_log:
+                aliases: ['rpc-log']
+                type: str
+                description:
+                 - Enable/Disable incoming/outgoing rpc log.
+                 - disable - Disable rpc log.
+                 - enable - Enable rpc log
+                choices: ['disable', 'enable']
+            gui_install_preview_concurrency:
+                aliases: ['gui-install-preview-concurrency']
+                type: int
+                description: Set the maximum number of devices to be processed in a single GUI install preview request
             fabric_storage_pool_quota:
                 aliases: ['fabric-storage-pool-quota']
                 type: int
@@ -1042,22 +1062,12 @@ options:
                 aliases: ['fmg-fabric-port']
                 type: int
                 description: no description
-            gui_feature_visibility_mode:
-                aliases: ['gui-feature-visibility-mode']
-                type: str
-                description: no description
-                choices: ['per-adom', 'per-admin']
             storage_age_limit:
                 aliases: ['storage-age-limit']
                 type: int
                 description: no description
             auth_dev_restapi_allowlist:
                 aliases: ['auth-dev-restapi-allowlist']
-                type: str
-                description: no description
-                choices: ['disable', 'enable']
-            rpc_log:
-                aliases: ['rpc-log']
                 type: str
                 description: no description
                 choices: ['disable', 'enable']
@@ -1234,9 +1244,9 @@ def main():
                     },
                     'elements': 'dict'
                 },
-                'gui-curl-timeout': {'v_range': [['6.4.11', '6.4.15'], ['7.0.7', '7.0.13'], ['7.2.2', '']], 'type': 'int'},
+                'gui-curl-timeout': {'v_range': [['6.4.11', '6.4.15'], ['7.0.7', '7.0.14'], ['7.2.2', '']], 'type': 'int'},
                 'fgfm-cert-exclusive': {
-                    'v_range': [['6.4.15', '6.4.15'], ['7.0.12', '7.0.13'], ['7.2.2', '']],
+                    'v_range': [['6.4.15', '6.4.15'], ['7.0.12', '7.0.14'], ['7.2.2', '']],
                     'choices': ['disable', 'enable'],
                     'type': 'str'
                 },
@@ -1244,12 +1254,12 @@ def main():
                 'object-revision-mandatory-note': {'v_range': [['7.0.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'object-revision-object-max': {'v_range': [['7.0.0', '']], 'type': 'int'},
                 'object-revision-status': {'v_range': [['7.0.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'table-entry-blink': {'v_range': [['7.0.4', '7.0.13'], ['7.2.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'contentpack-fgt-install': {'v_range': [['7.0.5', '7.0.13'], ['7.2.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'gui-polling-interval': {'v_range': [['7.0.5', '7.0.13'], ['7.2.1', '']], 'type': 'int'},
-                'no-copy-permission-check': {'v_range': [['7.0.8', '7.0.13'], ['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'table-entry-blink': {'v_range': [['7.0.4', '7.0.14'], ['7.2.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'contentpack-fgt-install': {'v_range': [['7.0.5', '7.0.14'], ['7.2.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'gui-polling-interval': {'v_range': [['7.0.5', '7.0.14'], ['7.2.1', '']], 'type': 'int'},
+                'no-copy-permission-check': {'v_range': [['7.0.8', '7.0.14'], ['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'ssh-enc-algo': {
-                    'v_range': [['7.0.11', '7.0.13'], ['7.2.5', '7.2.10'], ['7.4.2', '']],
+                    'v_range': [['7.0.11', '7.0.14'], ['7.2.5', '7.2.11'], ['7.4.2', '']],
                     'type': 'list',
                     'choices': [
                         'chacha20-poly1305@openssh.com', 'aes128-ctr', 'aes192-ctr', 'aes256-ctr', 'arcfour256', 'arcfour128', 'aes128-cbc', '3des-cbc',
@@ -1259,14 +1269,14 @@ def main():
                     'elements': 'str'
                 },
                 'ssh-hostkey-algo': {
-                    'v_range': [['7.0.11', '7.0.13'], ['7.2.5', '7.2.10'], ['7.4.2', '']],
+                    'v_range': [['7.0.11', '7.0.14'], ['7.2.5', '7.2.11'], ['7.4.2', '']],
                     'no_log': False,
                     'type': 'list',
                     'choices': ['ssh-rsa', 'ecdsa-sha2-nistp521', 'rsa-sha2-256', 'rsa-sha2-512', 'ssh-ed25519'],
                     'elements': 'str'
                 },
                 'ssh-kex-algo': {
-                    'v_range': [['7.0.11', '7.0.13'], ['7.2.5', '7.2.10'], ['7.4.2', '']],
+                    'v_range': [['7.0.11', '7.0.14'], ['7.2.5', '7.2.11'], ['7.4.2', '']],
                     'type': 'list',
                     'choices': [
                         'diffie-hellman-group1-sha1', 'diffie-hellman-group14-sha1', 'diffie-hellman-group14-sha256', 'diffie-hellman-group16-sha512',
@@ -1276,7 +1286,7 @@ def main():
                     'elements': 'str'
                 },
                 'ssh-mac-algo': {
-                    'v_range': [['7.0.11', '7.0.13'], ['7.2.5', '7.2.10'], ['7.4.2', '']],
+                    'v_range': [['7.0.11', '7.0.14'], ['7.2.5', '7.2.11'], ['7.4.2', '']],
                     'type': 'list',
                     'choices': [
                         'hmac-md5', 'hmac-md5-etm@openssh.com', 'hmac-md5-96', 'hmac-md5-96-etm@openssh.com', 'hmac-sha1', 'hmac-sha1-etm@openssh.com',
@@ -1287,18 +1297,18 @@ def main():
                     'elements': 'str'
                 },
                 'ssh-strong-crypto': {
-                    'v_range': [['7.0.11', '7.0.13'], ['7.2.5', '7.2.10'], ['7.4.2', '']],
+                    'v_range': [['7.0.11', '7.0.14'], ['7.2.5', '7.2.11'], ['7.4.2', '7.6.3']],
                     'choices': ['disable', 'enable'],
                     'type': 'str'
                 },
                 'admin-lockout-method': {'v_range': [['7.2.2', '']], 'choices': ['ip', 'user'], 'type': 'str'},
                 'event-correlation-cache-size': {'v_range': [['7.2.2', '']], 'type': 'int'},
                 'log-checksum-upload': {'v_range': [['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'apache-mode': {'v_range': [['7.2.4', '7.2.10'], ['7.4.1', '']], 'choices': ['event', 'prefork'], 'type': 'str'},
-                'no-vip-value-check': {'v_range': [['7.2.4', '7.2.10'], ['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'admin-ssh-grace-time': {'v_range': [['7.2.6', '7.2.10'], ['7.4.4', '']], 'type': 'int'},
-                'fcp-cfg-service': {'v_range': [['7.2.6', '7.2.10'], ['7.4.4', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'apache-wsgi-processes': {'v_range': [['7.2.10', '7.2.10'], ['7.4.6', '7.4.6'], ['7.6.2', '']], 'type': 'int'},
+                'apache-mode': {'v_range': [['7.2.4', '7.2.11'], ['7.4.1', '']], 'choices': ['event', 'prefork'], 'type': 'str'},
+                'no-vip-value-check': {'v_range': [['7.2.4', '7.2.11'], ['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'admin-ssh-grace-time': {'v_range': [['7.2.6', '7.2.11'], ['7.4.4', '']], 'type': 'int'},
+                'fcp-cfg-service': {'v_range': [['7.2.6', '7.2.11'], ['7.4.4', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'apache-wsgi-processes': {'v_range': [['7.2.10', '7.2.11'], ['7.4.6', '7.4.8'], ['7.6.2', '']], 'type': 'int'},
                 'log-forward-plugin-workers': {'v_range': [['7.4.0', '']], 'type': 'int'},
                 'fortiservice-port': {'v_range': [['7.4.1', '']], 'type': 'int'},
                 'management-ip': {'v_range': [['7.4.1', '']], 'type': 'str'},
@@ -1306,29 +1316,30 @@ def main():
                 'api-ip-binding': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'admin-host': {'v_range': [['7.4.4', '']], 'type': 'str'},
                 'global-ssl-protocol': {
-                    'v_range': [['7.4.4', '7.4.6'], ['7.6.2', '']],
+                    'v_range': [['7.4.4', '7.4.8'], ['7.6.2', '']],
                     'choices': ['sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3'],
                     'type': 'str'
                 },
                 'httpd-ssl-protocol': {
-                    'v_range': [['7.4.4', '7.4.6'], ['7.6.2', '']],
+                    'v_range': [['7.4.4', '7.4.8'], ['7.6.2', '']],
                     'type': 'list',
                     'choices': ['sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3'],
                     'elements': 'str'
                 },
                 'mapclient-ssl-protocol': {
-                    'v_range': [['7.4.4', '7.4.6'], ['7.6.2', '']],
+                    'v_range': [['7.4.4', '7.4.8'], ['7.6.2', '']],
                     'choices': ['follow-global-ssl-protocol', 'sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3'],
                     'type': 'str'
                 },
+                'gui-feature-visibility-mode': {'v_range': [['7.4.7', '7.4.8'], ['7.6.2', '']], 'choices': ['per-adom', 'per-admin'], 'type': 'str'},
+                'rpc-log': {'v_range': [['7.4.7', '7.4.8'], ['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'gui-install-preview-concurrency': {'v_range': [['7.4.8', '7.4.8'], ['7.6.4', '']], 'type': 'int'},
                 'fabric-storage-pool-quota': {'v_range': [['7.6.0', '']], 'type': 'int'},
                 'fabric-storage-pool-size': {'v_range': [['7.6.0', '']], 'type': 'int'},
                 'jsonapi-log': {'v_range': [['7.6.0', '']], 'choices': ['disable', 'request', 'response', 'all'], 'type': 'str'},
                 'fmg-fabric-port': {'v_range': [['7.6.2', '']], 'type': 'int'},
-                'gui-feature-visibility-mode': {'v_range': [['7.6.2', '']], 'choices': ['per-adom', 'per-admin'], 'type': 'str'},
                 'storage-age-limit': {'v_range': [['7.6.2', '']], 'type': 'int'},
-                'auth-dev-restapi-allowlist': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'rpc-log': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
+                'auth-dev-restapi-allowlist': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
         }
     }
