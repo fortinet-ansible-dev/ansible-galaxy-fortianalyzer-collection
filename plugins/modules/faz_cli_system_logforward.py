@@ -53,7 +53,9 @@ options:
         type: bool
         default: false
     enable_log:
-        description: Enable/Disable logging for task
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -345,7 +347,7 @@ options:
                  - syslog - Forward logs to generic syslog server.
                  - fortianalyzer - Forward logs to FortiAnalyzer.
                  - cef - Forward logs to a CEF
-                choices: ['syslog', 'fortianalyzer', 'cef', 'syslog-pack', 'fwd-via-output-plugin', 'elite-service']
+                choices: ['syslog', 'fortianalyzer', 'cef', 'syslog-pack', 'fwd-via-output-plugin', 'elite-service', 'fortisoc-to-fortisiem']
             id:
                 type: int
                 description: Log forwarding ID.
@@ -514,7 +516,7 @@ options:
                          - contain - Contain
                          - not-contain - Not contain
                          - match - Match
-                        choices: ['=', '!=', '<', '>', '<=', '>=', 'contain', 'not-contain', 'match']
+                        choices: ['=', '!=', '<', '>', '<=', '>=', 'contain', 'not-contain', 'match', 'regex-match', 'not-regex-match', 'not-match']
                     value:
                         type: str
                         description: Field filter operand or free-text matching expression.
@@ -727,6 +729,14 @@ options:
                 type: str
                 description: no description
                 choices: ['disable', 'enable']
+            log_filter_action:
+                aliases: ['log-filter-action']
+                type: str
+                description:
+                 - Action applied to logs that match the log filters.
+                 - include - Include log messages after filtering.
+                 - exclude - Exclude log messages after filtering.
+                choices: ['include', 'exclude']
 '''
 
 EXAMPLES = '''
@@ -799,7 +809,7 @@ version_check_warning:
     type: list
     returned: complex
 '''
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
@@ -815,7 +825,7 @@ def main():
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
@@ -877,7 +887,10 @@ def main():
                 'fwd-max-delay': {'choices': ['realtime', '1min', '5min'], 'type': 'str'},
                 'fwd-reliable': {'choices': ['disable', 'enable'], 'type': 'str'},
                 'fwd-secure': {'choices': ['disable', 'enable'], 'type': 'str'},
-                'fwd-server-type': {'choices': ['syslog', 'fortianalyzer', 'cef', 'syslog-pack', 'fwd-via-output-plugin', 'elite-service'], 'type': 'str'},
+                'fwd-server-type': {
+                    'choices': ['syslog', 'fortianalyzer', 'cef', 'syslog-pack', 'fwd-via-output-plugin', 'elite-service', 'fortisoc-to-fortisiem'],
+                    'type': 'str'
+                },
                 'id': {'type': 'int'},
                 'log-field-exclusion': {
                     'type': 'list',
@@ -914,7 +927,10 @@ def main():
                             'type': 'str'
                         },
                         'id': {'type': 'int'},
-                        'oper': {'choices': ['=', '!=', '<', '>', '<=', '>=', 'contain', 'not-contain', 'match'], 'type': 'str'},
+                        'oper': {
+                            'choices': ['=', '!=', '<', '>', '<=', '>=', 'contain', 'not-contain', 'match', 'regex-match', 'not-regex-match', 'not-match'],
+                            'type': 'str'
+                        },
                         'value': {'type': 'str'}
                     },
                     'elements': 'dict'
@@ -966,7 +982,8 @@ def main():
                 'fwd-output-plugin-id': {'v_range': [['7.4.0', '']], 'type': 'str'},
                 'fwd-syslog-transparent': {'v_range': [['7.4.3', '']], 'choices': ['disable', 'enable', 'faz-enrich'], 'type': 'str'},
                 'fwd-syslog-enrich-cve': {'v_range': [['7.6.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'fwd-syslog-decode-b64': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
+                'fwd-syslog-decode-b64': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'log-filter-action': {'v_range': [['7.6.8', '']], 'choices': ['include', 'exclude'], 'type': 'str'}
             }
         }
     }

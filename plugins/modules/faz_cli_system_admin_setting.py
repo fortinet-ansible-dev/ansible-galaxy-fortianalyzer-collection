@@ -52,7 +52,9 @@ options:
         type: bool
         default: false
     enable_log:
-        description: Enable/Disable logging for task
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -187,6 +189,11 @@ options:
                     - 'forest'
                     - 'cat'
                     - 'graphite'
+                    - 'sec-network-lt'
+                    - 'sec-network-dk'
+                    - 'sec-operation-lt'
+                    - 'sec-operation-dk'
+                    - 'dune'
             http_port:
                 type: int
                 description: HTTP port.
@@ -341,6 +348,10 @@ options:
                  - disable - Disable setting.
                  - enable - Enable setting.
                 choices: ['disable', 'enable']
+            admin_httpd_keep_alive_timeout:
+                aliases: ['admin-httpd-keep-alive-timeout']
+                type: int
+                description: HTTP keep-alive timeout
             object_threshold_limit:
                 aliases: ['object-threshold-limit']
                 type: str
@@ -355,6 +366,24 @@ options:
                 type: str
                 description: no description
                 choices: ['disable', 'enable']
+            ext_auth_trusthost_override:
+                aliases: ['ext-auth-trusthost-override']
+                type: str
+                description:
+                 - Allow to use the trusthost in profile provided by the remote authentication server.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
+                choices: ['disable', 'enable']
+            custom_session_label:
+                aliases: ['custom-session-label']
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
+            custom_session_label_mode:
+                aliases: ['custom-session-label-mode']
+                type: str
+                description: no description
+                choices: ['changeable', 'unique-per-session']
 '''
 
 EXAMPLES = '''
@@ -422,7 +451,7 @@ version_check_warning:
     type: list
     returned: complex
 '''
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
@@ -438,7 +467,7 @@ def main():
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
@@ -459,7 +488,8 @@ def main():
                         'blue', 'green', 'red', 'melongene', 'spring', 'summer', 'autumn', 'winter', 'space', 'calla-lily', 'binary-tunnel', 'diving',
                         'dreamy', 'technology', 'landscape', 'twilight', 'canyon', 'northern-light', 'astronomy', 'fish', 'penguin', 'panda',
                         'polar-bear', 'parrot', 'cave', 'mountain', 'zebra', 'contrast-dark', 'circuit-board', 'mars', 'blue-sea', 'mariner', 'jade',
-                        'neutrino', 'dark-matter', 'forest', 'cat', 'graphite'
+                        'neutrino', 'dark-matter', 'forest', 'cat', 'graphite', 'sec-network-lt', 'sec-network-dk', 'sec-operation-lt',
+                        'sec-operation-dk', 'dune'
                     ],
                     'type': 'str'
                 },
@@ -486,14 +516,18 @@ def main():
                 'auth-port': {'v_range': [['7.0.1', '']], 'type': 'int'},
                 'preferred-fgfm-intf': {'v_range': [['7.0.2', '']], 'type': 'str'},
                 'idle_timeout_sso': {'v_range': [['7.0.3', '']], 'type': 'int'},
-                'fsw-ignore-platform-check': {'v_range': [['7.0.7', '7.0.14'], ['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'fsw-ignore-platform-check': {'v_range': [['7.0.7', '7.0.16'], ['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'firmware-upgrade-check': {'v_range': [['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'fgt-gui-proxy': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'fgt-gui-proxy-port': {'v_range': [['7.4.2', '']], 'type': 'int'},
-                'admin-scp': {'v_range': [['7.4.8', '7.4.8']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'admin-scp': {'v_range': [['7.4.8', '7.4.11'], ['7.6.5', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'admin-httpd-keep-alive-timeout': {'v_range': [['7.4.11', '7.4.11'], ['7.6.7', '7.6.7'], ['8.0.0', '8.0.0']], 'type': 'int'},
                 'object-threshold-limit': {'v_range': [['7.6.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'object-threshold-limit-value': {'v_range': [['7.6.2', '']], 'type': 'int'},
-                'show-sdwan-manager': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
+                'show-sdwan-manager': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'ext-auth-trusthost-override': {'v_range': [['7.6.8', '7.6.8'], ['8.0.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'custom-session-label': {'v_range': [['8.0.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'custom-session-label-mode': {'v_range': [['8.0.0', '']], 'choices': ['changeable', 'unique-per-session'], 'type': 'str'}
             }
         }
     }

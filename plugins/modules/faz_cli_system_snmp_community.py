@@ -53,7 +53,9 @@ options:
         type: bool
         default: false
     enable_log:
-        description: Enable/Disable logging for task
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -127,6 +129,7 @@ options:
                     - 'lic-gbday'
                     - 'lic-dev-quota'
                     - 'cpu-high-exclude-nice'
+                    - 'ha_switch'
             hosts:
                 description: no description
                 type: list
@@ -211,23 +214,35 @@ options:
 '''
 
 EXAMPLES = '''
-- name: Example playbook
-  gather_facts: false
-  connection: httpapi
+- name: Verify an enabled SNMP v2c community
   hosts: fortianalyzers
-  tasks:
-    - name: SNMP community configuration.
-      fortinet.fortianalyzer.faz_cli_system_snmp_community:
-        cli_system_snmp_community:
-          id: 1
-          name: foosnmpcommunity
-          status: disable
-        state: present
+  connection: httpapi
+  gather_facts: false
   vars:
-    ansible_network_os: fortinet.fortianalyzer.fortianalyzer
-    ansible_httpapi_port: 443
-    ansible_httpapi_use_ssl: true
-    ansible_httpapi_validate_certs: false
+    # Choose an unused ID before running this playbook.
+    snmp_community_id: 99
+    snmp_community_name: ansible_snmp_issue15_test
+    snmp_manager_ip: 10.0.100.100
+    snmp_manager_netmask: 255.255.255.255
+    # Set snmp_manager_ip to the IPv4 address of the SNMP query client.
+    # The host IP field requires an address and netmask separated by a space.
+    # The SNMP agent and SNMP access on the target interface must be enabled.
+  tasks:
+    - name: Configure the test SNMP community
+      fortinet.fortianalyzer.faz_cli_system_snmp_community:
+        state: present
+        cli_system_snmp_community:
+          id: "{{ snmp_community_id | int }}"
+          name: "{{ snmp_community_name }}"
+          status: enable
+          query_v1_status: disable
+          query_v2c_status: enable
+          query_v2c_port: 161
+          trap_v1_status: disable
+          trap_v2c_status: disable
+          hosts:
+            - id: 1
+              ip: "{{ snmp_manager_ip }} {{ snmp_manager_netmask }}"
 '''
 
 RETURN = '''
@@ -269,7 +284,7 @@ version_check_warning:
     type: list
     returned: complex
 '''
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
@@ -285,7 +300,7 @@ def main():
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
@@ -301,7 +316,7 @@ def main():
                     'type': 'list',
                     'choices': [
                         'disk_low', 'intf_ip_chg', 'sys_reboot', 'cpu_high', 'mem_low', 'log-alert', 'log-rate', 'log-data-rate', 'lic-gbday',
-                        'lic-dev-quota', 'cpu-high-exclude-nice'
+                        'lic-dev-quota', 'cpu-high-exclude-nice', 'ha_switch'
                     ],
                     'elements': 'str'
                 },

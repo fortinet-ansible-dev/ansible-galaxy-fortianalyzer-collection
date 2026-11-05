@@ -28,6 +28,7 @@
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.module_utils.basic import _load_params
+from ansible.module_utils.connection import ConnectionError
 import re
 
 
@@ -271,7 +272,7 @@ class FortiAnalyzerAnsible(object):
                 response = self.delete_object(mvalue)
         else:
             if state == 'absent':
-                self.do_final_exit(changed=False, msg='This module does not support state:absent. Skipping delete.')
+                self.do_final_exit(changed=False, message='This module does not support state:absent. Skipping delete.')
             self.diff_get_and_save_data('before')
             response = self.create_object()
         self.diff_get_and_save_data('after')
@@ -548,7 +549,7 @@ class FortiAnalyzerAnsible(object):
         if param_name in ['ca', 'certificate', 'cert']:
             if isinstance(remote_data, list) and len(remote_data):
                 remote_data = remote_data[0]
-            if remote_data == '"' + user_data + '"':
+            if isinstance(user_data, str) and remote_data == '"' + user_data + '"':
                 return True
         if param_name in ['TTL']:
             remote_data = str(remote_data)
@@ -568,7 +569,10 @@ class FortiAnalyzerAnsible(object):
         return self.is_object_difference(object_remote, object_present)
 
     def get_system_status(self):
-        status_code, response = self.conn.get_system_status()
+        try:
+            status_code, response = self.conn.get_system_status()
+        except ConnectionError as exc:
+            self.module.fail_json(msg=str(exc))
         if status_code == 0 and 'data' in response:
             return response['data']
         return {}
@@ -639,6 +643,8 @@ class FortiAnalyzerAnsible(object):
         target_url += str(mvalue)
         params = [{'url': target_url}]
         response = self.conn.send_request('get', params)
+        if response[1].get('transport_error'):
+            self.do_exit(response, changed=False)
         return response
 
     def update_object(self, mvalue):
@@ -849,6 +855,7 @@ class FortiAnalyzerAnsible(object):
                 result['response_message'] = response_data['status']['message']
         # Additional information for REPORT API
         if response_data.get('jsonrpc') == '2.0':
+            result['response_code'] = rc
             if 'result' in response_data:
                 result['response_data'] = response_data['result']
             if 'error' in response_data:
@@ -862,18 +869,18 @@ class FortiAnalyzerAnsible(object):
             changed = rc == 0
         if result is None:
             result = {}
-        return_response = {'rc': rc, 'failed': failed, 'changed': changed}
         if 'response_code' in result:
+            if self.module.params.get('rc_succeeded', []):
+                for rc_code in self.module.params['rc_succeeded']:
+                    if str(result['response_code']) == str(rc_code):
+                        failed = False
+                        result['result_code_overriding'] = 'rc code:%s is overridden to success' % (rc_code)
             if self.module.params.get('rc_failed', []):
                 for rc_code in self.module.params['rc_failed']:
                     if str(result['response_code']) == str(rc_code):
                         failed = True
                         result['result_code_overriding'] = 'rc code:%s is overridden to failure' % (rc_code)
-            elif self.module.params.get('rc_succeeded', []):
-                for rc_code in self.module.params['rc_succeeded']:
-                    if str(result['response_code']) == str(rc_code):
-                        failed = False
-                        result['result_code_overriding'] = 'rc code:%s is overridden to success' % (rc_code)
+        return_response = {'rc': rc, 'failed': failed, 'changed': changed}
         if self.system_status:
             result['system_information'] = self.system_status
         return_response['meta'] = result

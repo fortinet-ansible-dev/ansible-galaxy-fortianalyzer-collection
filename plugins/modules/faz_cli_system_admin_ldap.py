@@ -53,7 +53,9 @@ options:
         type: bool
         default: false
     enable_log:
-        description: Enable/Disable logging for task
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -266,7 +268,7 @@ version_check_warning:
     type: list
     returned: complex
 '''
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
@@ -282,7 +284,7 @@ def main():
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
@@ -316,7 +318,7 @@ def main():
                 'username': {'type': 'str'},
                 'adom-access': {'v_range': [['7.0.3', '']], 'choices': ['all', 'specify'], 'type': 'str'},
                 'ssl-protocol': {
-                    'v_range': [['7.4.4', '7.4.8'], ['7.6.2', '']],
+                    'v_range': [['7.4.4', '7.4.11'], ['7.6.2', '']],
                     'choices': ['follow-global-ssl-protocol', 'sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3'],
                     'type': 'str'
                 }

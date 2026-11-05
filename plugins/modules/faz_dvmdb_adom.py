@@ -53,7 +53,9 @@ options:
         type: bool
         default: false
     enable_log:
-        description: Enable/Disable logging for task
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -239,6 +241,9 @@ options:
             secondary_dns_ip6_4:
                 type: int
                 description: no description
+            workflow_peradmin_install_others:
+                type: int
+                description: no description
 '''
 
 EXAMPLES = '''
@@ -299,7 +304,7 @@ version_check_warning:
     type: list
     returned: complex
 '''
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
@@ -315,7 +320,7 @@ def main():
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
@@ -342,8 +347,12 @@ def main():
                 'log_disk_quota_split_ratio': {'type': 'int'},
                 'log_file_retention_hours': {'type': 'int'},
                 'meta fields': {'type': 'dict'},
-                'mig_mr': {'type': 'int'},
-                'mig_os_ver': {'choices': ['unknown', '0.0', '1.0', '2.0', '3.0', '4.0', '5.0', '6.0', '7.0', '8.0', '9.0'], 'type': 'str'},
+                'mig_mr': {'v_range': [['6.2.1', '7.6.6'], ['8.0.0', '8.0.0']], 'type': 'int'},
+                'mig_os_ver': {
+                    'v_range': [['6.2.1', '7.6.6'], ['8.0.0', '8.0.0']],
+                    'choices': ['unknown', '0.0', '1.0', '2.0', '3.0', '4.0', '5.0', '6.0', '7.0', '8.0', '9.0'],
+                    'type': 'str'
+                },
                 'mode': {'choices': ['ems', 'gms', 'provider'], 'type': 'str'},
                 'mr': {'type': 'int'},
                 'name': {'type': 'str'},
@@ -371,7 +380,8 @@ def main():
                 'secondary_dns_ip6_1': {'v_range': [['7.4.3', '']], 'type': 'int'},
                 'secondary_dns_ip6_2': {'v_range': [['7.4.3', '']], 'type': 'int'},
                 'secondary_dns_ip6_3': {'v_range': [['7.4.3', '']], 'type': 'int'},
-                'secondary_dns_ip6_4': {'v_range': [['7.4.3', '']], 'type': 'int'}
+                'secondary_dns_ip6_4': {'v_range': [['7.4.3', '']], 'type': 'int'},
+                'workflow_peradmin_install_others': {'v_range': [['8.0.1', '']], 'type': 'int'}
             }
         }
     }

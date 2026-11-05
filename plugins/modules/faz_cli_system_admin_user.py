@@ -53,7 +53,9 @@ options:
         type: bool
         default: false
     enable_log:
-        description: Enable/Disable logging for task
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -166,7 +168,7 @@ options:
                          - 2min  - 2 minutes.
                          - 1hour - 1 hour.
                          - 6hours - 6 hours.
-                        choices: ['2min ', '1hour', '6hours']
+                        choices: ['2min', '1hour', '6hours']
                     log_rate_topn:
                         aliases: ['log-rate-topn']
                         type: str
@@ -207,7 +209,7 @@ options:
                          - Widgets CPU display type.
                          - average  - Average usage of CPU.
                          - each - Each usage of CPU.
-                        choices: ['average ', 'each']
+                        choices: ['average', 'each']
                     res_period:
                         aliases: ['res-period']
                         type: str
@@ -216,7 +218,7 @@ options:
                          - 10min  - Last 10 minutes.
                          - hour - Last hour.
                          - day - Last day.
-                        choices: ['10min ', 'hour', 'day']
+                        choices: ['10min', 'hour', 'day']
                     res_view_type:
                         aliases: ['res-view-type']
                         type: str
@@ -224,7 +226,7 @@ options:
                          - Widgets data view type.
                          - real-time  - Real-time view.
                          - history - History view.
-                        choices: ['real-time ', 'history']
+                        choices: ['real-time', 'history']
                     status:
                         type: str
                         description:
@@ -633,6 +635,11 @@ options:
                     - 'forest'
                     - 'cat'
                     - 'graphite'
+                    - 'sec-network-lt'
+                    - 'sec-network-dk'
+                    - 'sec-operation-lt'
+                    - 'sec-operation-dk'
+                    - 'dune'
             adom_access:
                 aliases: ['adom-access']
                 type: str
@@ -680,6 +687,10 @@ options:
                 type: str
                 description: no description
                 choices: ['disable', 'enable']
+            remote_login_max:
+                aliases: ['remote-login-max']
+                type: int
+                description: Max login sessions per remote username
 '''
 
 EXAMPLES = '''
@@ -746,7 +757,7 @@ version_check_warning:
     type: list
     returned: complex
 '''
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
@@ -762,7 +773,7 @@ def main():
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
@@ -790,16 +801,16 @@ def main():
                         'column': {'type': 'int'},
                         'diskio-content-type': {'choices': ['util', 'iops', 'blks'], 'type': 'str'},
                         'diskio-period': {'choices': ['1hour', '8hour', '24hour'], 'type': 'str'},
-                        'log-rate-period': {'choices': ['2min ', '1hour', '6hours'], 'type': 'str'},
+                        'log-rate-period': {'choices': ['2min', '1hour', '6hours'], 'type': 'str'},
                         'log-rate-topn': {'choices': ['1', '2', '3', '4', '5'], 'type': 'str'},
                         'log-rate-type': {'choices': ['log', 'device'], 'type': 'str'},
                         'moduleid': {'type': 'int'},
                         'name': {'type': 'str'},
                         'num-entries': {'type': 'int'},
                         'refresh-interval': {'type': 'int'},
-                        'res-cpu-display': {'choices': ['average ', 'each'], 'type': 'str'},
-                        'res-period': {'choices': ['10min ', 'hour', 'day'], 'type': 'str'},
-                        'res-view-type': {'choices': ['real-time ', 'history'], 'type': 'str'},
+                        'res-cpu-display': {'choices': ['average', 'each'], 'type': 'str'},
+                        'res-period': {'choices': ['10min', 'hour', 'day'], 'type': 'str'},
+                        'res-view-type': {'choices': ['real-time', 'history'], 'type': 'str'},
                         'status': {'choices': ['close', 'open'], 'type': 'str'},
                         'tabid': {'type': 'int'},
                         'time-period': {'choices': ['1hour', '8hour', '24hour'], 'type': 'str'},
@@ -891,7 +902,7 @@ def main():
                         'blue', 'green', 'red', 'melongene', 'spring', 'summer', 'autumn', 'winter', 'circuit-board', 'calla-lily', 'binary-tunnel',
                         'mars', 'blue-sea', 'technology', 'landscape', 'twilight', 'canyon', 'northern-light', 'astronomy', 'fish', 'penguin',
                         'mountain', 'panda', 'parrot', 'cave', 'zebra', 'contrast-dark', 'mariner', 'jade', 'neutrino', 'dark-matter', 'forest', 'cat',
-                        'graphite'
+                        'graphite', 'sec-network-lt', 'sec-network-dk', 'sec-operation-lt', 'sec-operation-dk', 'dune'
                     ],
                     'type': 'str'
                 },
@@ -899,7 +910,7 @@ def main():
                 'th-from-profile': {'v_range': [['7.0.3', '']], 'type': 'int'},
                 'th6-from-profile': {'v_range': [['7.0.3', '']], 'type': 'int'},
                 'cors-allow-origin': {'v_range': [['7.2.2', '']], 'type': 'str'},
-                'old-password': {'v_range': [['7.2.11', '7.2.11'], ['7.4.7', '7.4.8'], ['7.6.3', '']], 'no_log': True, 'type': 'str'},
+                'old-password': {'v_range': [['7.2.11', '7.2.12'], ['7.4.7', '7.4.11'], ['7.6.3', '']], 'no_log': True, 'type': 'str'},
                 'fortiai': {'v_range': [['7.6.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'policy-block': {
                     'v_range': [['7.6.0', '']],
@@ -907,7 +918,8 @@ def main():
                     'options': {'policy-block-name': {'v_range': [['7.6.0', '']], 'type': 'str'}},
                     'elements': 'dict'
                 },
-                'autoreg-user': {'v_range': [['7.6.4', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
+                'autoreg-user': {'v_range': [['7.6.4', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'remote-login-max': {'v_range': [['8.0.1', '']], 'type': 'int'}
             }
         }
     }

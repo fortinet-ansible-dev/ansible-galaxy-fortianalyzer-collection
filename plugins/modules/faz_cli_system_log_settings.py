@@ -52,7 +52,9 @@ options:
         type: bool
         default: false
     enable_log:
-        description: Enable/Disable logging for task
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -689,6 +691,46 @@ options:
                 type: str
                 description: no description
                 choices: ['514', '6514']
+            client_cert_auth:
+                aliases: ['client-cert-auth']
+                description: no description
+                type: dict
+                suboptions:
+                    mode:
+                        type: str
+                        description: no description
+                        choices: ['basic', 'strict']
+                    tls_port:
+                        aliases: ['tls-port']
+                        type: str
+                        description: no description
+                        choices: ['both', '514', '6514']
+                    trusted_client:
+                        aliases: ['trusted-client']
+                        description: no description
+                        type: list
+                        elements: dict
+                        suboptions:
+                            certificate:
+                                description: no description
+                                type: str
+                            description:
+                                type: str
+                                description: no description
+                            domain:
+                                type: str
+                                description: no description
+                            id:
+                                type: int
+                                description: no description
+                            type:
+                                type: str
+                                description: no description
+                                choices: ['certificate', 'domain']
+            FHM_custom_field1:
+                aliases: ['FHM-custom-field1']
+                type: str
+                description: Name of custom log field to index.
 '''
 
 EXAMPLES = '''
@@ -751,7 +793,7 @@ version_check_warning:
     type: list
     returned: complex
 '''
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
@@ -767,7 +809,7 @@ def main():
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
@@ -804,9 +846,9 @@ def main():
                         'file-size': {'type': 'int'},
                         'gzip-format': {'choices': ['disable', 'enable'], 'type': 'str'},
                         'hour': {'type': 'int'},
-                        'ip': {'v_range': [['6.2.1', '7.0.14']], 'type': 'str'},
-                        'ip2': {'v_range': [['6.2.1', '7.0.14']], 'type': 'str'},
-                        'ip3': {'v_range': [['6.2.1', '7.0.14']], 'type': 'str'},
+                        'ip': {'v_range': [['6.2.1', '7.0.16']], 'type': 'str'},
+                        'ip2': {'v_range': [['6.2.1', '7.0.16']], 'type': 'str'},
+                        'ip3': {'v_range': [['6.2.1', '7.0.16']], 'type': 'str'},
                         'log-format': {'choices': ['native', 'text', 'csv'], 'type': 'str'},
                         'min': {'type': 'int'},
                         'password': {'no_log': True, 'type': 'str'},
@@ -839,9 +881,9 @@ def main():
                         'file-size': {'type': 'int'},
                         'gzip-format': {'choices': ['disable', 'enable'], 'type': 'str'},
                         'hour': {'type': 'int'},
-                        'ip': {'v_range': [['6.2.1', '7.0.14']], 'type': 'str'},
-                        'ip2': {'v_range': [['6.2.1', '7.0.14']], 'type': 'str'},
-                        'ip3': {'v_range': [['6.2.1', '7.0.14']], 'type': 'str'},
+                        'ip': {'v_range': [['6.2.1', '7.0.16']], 'type': 'str'},
+                        'ip2': {'v_range': [['6.2.1', '7.0.16']], 'type': 'str'},
+                        'ip3': {'v_range': [['6.2.1', '7.0.16']], 'type': 'str'},
                         'log-format': {'choices': ['native', 'text', 'csv'], 'type': 'str'},
                         'min': {'type': 'int'},
                         'password': {'no_log': True, 'type': 'str'},
@@ -874,9 +916,9 @@ def main():
                         'file-size': {'type': 'int'},
                         'gzip-format': {'choices': ['disable', 'enable'], 'type': 'str'},
                         'hour': {'type': 'int'},
-                        'ip': {'v_range': [['6.2.1', '7.0.14']], 'type': 'str'},
-                        'ip2': {'v_range': [['6.2.1', '7.0.14']], 'type': 'str'},
-                        'ip3': {'v_range': [['6.2.1', '7.0.14']], 'type': 'str'},
+                        'ip': {'v_range': [['6.2.1', '7.0.16']], 'type': 'str'},
+                        'ip2': {'v_range': [['6.2.1', '7.0.16']], 'type': 'str'},
+                        'ip3': {'v_range': [['6.2.1', '7.0.16']], 'type': 'str'},
                         'log-format': {'choices': ['native', 'text', 'csv'], 'type': 'str'},
                         'min': {'type': 'int'},
                         'password': {'no_log': True, 'type': 'str'},
@@ -903,27 +945,48 @@ def main():
                 'sync-search-timeout': {'type': 'int'},
                 'keep-dev-logs': {'v_range': [['6.4.7', '6.4.15'], ['7.0.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'device-auto-detect': {
-                    'v_range': [['7.0.10', '7.0.14'], ['7.2.4', '7.2.11'], ['7.4.1', '']],
+                    'v_range': [['7.0.10', '7.0.16'], ['7.2.4', '7.2.12'], ['7.4.1', '']],
                     'choices': ['disable', 'enable'],
                     'type': 'str'
                 },
                 'unencrypted-logging': {
-                    'v_range': [['7.0.10', '7.0.14'], ['7.2.4', '7.2.11'], ['7.4.1', '7.6.2']],
+                    'v_range': [['7.0.10', '7.0.16'], ['7.2.4', '7.2.12'], ['7.4.1', '7.6.2']],
                     'choices': ['disable', 'enable'],
                     'type': 'str'
                 },
                 'legacy-auth-mode': {
-                    'v_range': [['7.0.14', '7.0.14'], ['7.2.10', '7.2.11'], ['7.4.7', '7.4.8'], ['7.6.3', '']],
+                    'v_range': [['7.0.14', '7.0.16'], ['7.2.10', '7.2.12'], ['7.4.7', '7.4.11'], ['7.6.3', '']],
                     'choices': ['disable', 'enable'],
                     'type': 'str'
                 },
-                'log-interval-dev-no-logging': {'v_range': [['7.2.5', '7.2.11'], ['7.4.2', '']], 'type': 'int'},
-                'log-upload-interval-dev-no-logging': {'v_range': [['7.2.5', '7.2.11'], ['7.4.2', '']], 'type': 'int'},
-                'log-process-fast-mode': {'v_range': [['7.4.7', '7.4.8'], ['7.6.4', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'log-interval-dev-no-logging': {'v_range': [['7.2.5', '7.2.12'], ['7.4.2', '']], 'type': 'int'},
+                'log-upload-interval-dev-no-logging': {'v_range': [['7.2.5', '7.2.12'], ['7.4.2', '']], 'type': 'int'},
+                'log-process-fast-mode': {'v_range': [['7.4.7', '7.4.11'], ['7.6.4', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'FFW-custom-field1': {'v_range': [['7.6.3', '']], 'type': 'str'},
                 'unencrypted-logging-tcp': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'unencrypted-logging-udp': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'syslog-over-tls-port': {'v_range': [['7.6.4', '']], 'choices': ['514', '6514'], 'type': 'str'}
+                'syslog-over-tls-port': {'v_range': [['7.6.4', '']], 'choices': ['514', '6514'], 'type': 'str'},
+                'client-cert-auth': {
+                    'v_range': [['7.6.5', '']],
+                    'type': 'dict',
+                    'options': {
+                        'mode': {'v_range': [['7.6.5', '']], 'choices': ['basic', 'strict'], 'type': 'str'},
+                        'tls-port': {'v_range': [['7.6.5', '']], 'choices': ['both', '514', '6514'], 'type': 'str'},
+                        'trusted-client': {
+                            'v_range': [['7.6.5', '']],
+                            'type': 'list',
+                            'options': {
+                                'certificate': {'v_range': [['7.6.5', '']], 'type': 'str'},
+                                'description': {'v_range': [['7.6.5', '']], 'type': 'str'},
+                                'domain': {'v_range': [['7.6.5', '']], 'type': 'str'},
+                                'id': {'v_range': [['7.6.5', '']], 'type': 'int'},
+                                'type': {'v_range': [['7.6.5', '']], 'choices': ['certificate', 'domain'], 'type': 'str'}
+                            },
+                            'elements': 'dict'
+                        }
+                    }
+                },
+                'FHM-custom-field1': {'v_range': [['8.0.1', '']], 'type': 'str'}
             }
         }
     }

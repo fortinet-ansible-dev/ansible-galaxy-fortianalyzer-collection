@@ -44,7 +44,9 @@ options:
         description: The token to access FortiManager without using username and password.
         type: str
     enable_log:
-        description: Enable/Disable logging for task
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -150,6 +152,7 @@ options:
                     - 'cli_system_csf'
                     - 'cli_system_csf_fabricconnector'
                     - 'cli_system_csf_trustedlist'
+                    - 'cli_system_csf_trustedlist_adom'
                     - 'cli_system_dns'
                     - 'cli_system_docker'
                     - 'cli_system_fips'
@@ -191,7 +194,10 @@ options:
                     - 'cli_system_locallog_syslogd3_setting'
                     - 'cli_system_locallog_syslogd_filter'
                     - 'cli_system_locallog_syslogd_setting'
+                    - 'cli_system_locallog_tacacs_accounting_filter'
+                    - 'cli_system_locallog_tacacs_accounting_setting'
                     - 'cli_system_log_alert'
+                    - 'cli_system_log_apiratelimit'
                     - 'cli_system_log_devicedisable'
                     - 'cli_system_log_deviceselector'
                     - 'cli_system_log_fospolicystats'
@@ -203,6 +209,8 @@ options:
                     - 'cli_system_log_ratelimit_device'
                     - 'cli_system_log_ratelimit_ratelimits'
                     - 'cli_system_log_settings'
+                    - 'cli_system_log_settings_clientcertauth'
+                    - 'cli_system_log_settings_clientcertauth_trustedclient'
                     - 'cli_system_log_settings_rollinganalyzer'
                     - 'cli_system_log_settings_rollinglocal'
                     - 'cli_system_log_settings_rollingregular'
@@ -220,6 +228,8 @@ options:
                     - 'cli_system_logforwardservice'
                     - 'cli_system_mail'
                     - 'cli_system_metadata_admins'
+                    - 'cli_system_mlflow'
+                    - 'cli_system_mlflow_models'
                     - 'cli_system_ntp'
                     - 'cli_system_ntp_ntpserver'
                     - 'cli_system_passwordpolicy'
@@ -241,6 +251,9 @@ options:
                     - 'cli_system_snmp_community_hosts6'
                     - 'cli_system_snmp_sysinfo'
                     - 'cli_system_snmp_user'
+                    - 'cli_system_soc_collector'
+                    - 'cli_system_soc_collector_loglevel'
+                    - 'cli_system_soc_collector_logqueue'
                     - 'cli_system_socfabric'
                     - 'cli_system_socfabric_trustedlist'
                     - 'cli_system_sql'
@@ -264,9 +277,12 @@ options:
                     - 'eventmgmt_alertlogs'
                     - 'eventmgmt_alertlogs_count'
                     - 'eventmgmt_alerts'
+                    - 'eventmgmt_alerts_aggregate'
                     - 'eventmgmt_alerts_count'
                     - 'eventmgmt_alerts_export'
                     - 'eventmgmt_alerts_extradetails'
+                    - 'eventmgmt_alerts_suppress'
+                    - 'eventmgmt_alerts_suppress_defaultrule'
                     - 'eventmgmt_basichandlers_export'
                     - 'eventmgmt_config_basichandler'
                     - 'eventmgmt_config_correlationhandler'
@@ -306,6 +322,9 @@ options:
                     - 'logview_logsearch_count'
                     - 'logview_logstats'
                     - 'logview_pcapfile'
+                    - 'mlflow_artifact'
+                    - 'mlflow_baseline_trafficpattern'
+                    - 'mlflow_baseline_userlogin'
                     - 'report_config_chart'
                     - 'report_config_chart_drilldowntable'
                     - 'report_config_chart_tablecolumns'
@@ -333,6 +352,7 @@ options:
                     - 'report_reports_data'
                     - 'report_reports_state'
                     - 'report_run'
+                    - 'report_sqlquery_run'
                     - 'report_template_export'
                     - 'report_template_language'
                     - 'report_template_list'
@@ -349,6 +369,7 @@ options:
                     - 'soar_playbook_runlog'
                     - 'soar_subnet_export'
                     - 'soar_task_monitor'
+                    - 'soar_webhook_referrer'
                     - 'sys_ha_status'
                     - 'sys_status'
                     - 'task_task'
@@ -463,7 +484,7 @@ version_check_warning:
     returned: complex
 '''
 
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 
@@ -582,7 +603,7 @@ def main():
                 '/cli/global/fmupdate/fwm-setting/upgrade-timeout'
             ],
             'params': [],
-            'jsonrpc2': False, 'v_range': [['7.0.5', '7.0.14'], ['7.2.2', '']],
+            'jsonrpc2': False, 'v_range': [['7.0.5', '7.0.16'], ['7.2.2', '']],
         },
         'cli_fmupdate_multilayer': {
             'urls': [
@@ -978,6 +999,14 @@ def main():
             'params': ['fields', 'filter', 'loadsub', 'option'],
             'jsonrpc2': False, 'v_range': [['7.4.1', '']],
         },
+        'cli_system_csf_trustedlist_adom': {
+            'urls': [
+                '/cli/global/system/csf/trusted-list/{trusted-list}/adom',
+                '/cli/global/system/csf/trusted-list/{trusted-list}/adom/{adom}'
+            ],
+            'params': ['fields', 'filter', 'loadsub', 'option'],
+            'jsonrpc2': False, 'v_range': [['7.6.7', '']],
+        },
         'cli_system_dns': {
             'urls': [
                 '/cli/global/system/dns'
@@ -1280,12 +1309,33 @@ def main():
             'params': [],
             'jsonrpc2': False, 'v_range': [['6.2.1', '']],
         },
+        'cli_system_locallog_tacacs_accounting_filter': {
+            'urls': [
+                '/cli/global/system/locallog/tacacs+accounting/filter'
+            ],
+            'params': [],
+            'jsonrpc2': False, 'v_range': [['7.6.5', '']],
+        },
+        'cli_system_locallog_tacacs_accounting_setting': {
+            'urls': [
+                '/cli/global/system/locallog/tacacs+accounting/setting'
+            ],
+            'params': [],
+            'jsonrpc2': False, 'v_range': [['7.6.5', '']],
+        },
         'cli_system_log_alert': {
             'urls': [
                 '/cli/global/system/log/alert'
             ],
             'params': [],
             'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+        },
+        'cli_system_log_apiratelimit': {
+            'urls': [
+                '/cli/global/system/log/api-ratelimit'
+            ],
+            'params': [],
+            'jsonrpc2': False, 'v_range': [['7.6.5', '']],
         },
         'cli_system_log_devicedisable': {
             'urls': [
@@ -1301,7 +1351,7 @@ def main():
                 '/cli/global/system/log/device-selector/{device-selector}'
             ],
             'params': ['fields', 'filter', 'loadsub', 'option'],
-            'jsonrpc2': False, 'v_range': [['7.4.7', '7.4.8'], ['7.6.3', '']],
+            'jsonrpc2': False, 'v_range': [['7.4.7', '7.4.11'], ['7.6.3', '']],
         },
         'cli_system_log_fospolicystats': {
             'urls': [
@@ -1368,6 +1418,21 @@ def main():
             ],
             'params': [],
             'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+        },
+        'cli_system_log_settings_clientcertauth': {
+            'urls': [
+                '/cli/global/system/log/settings/client-cert-auth'
+            ],
+            'params': [],
+            'jsonrpc2': False, 'v_range': [['7.6.5', '']],
+        },
+        'cli_system_log_settings_clientcertauth_trustedclient': {
+            'urls': [
+                '/cli/global/system/log/settings/client-cert-auth/trusted-client',
+                '/cli/global/system/log/settings/client-cert-auth/trusted-client/{trusted-client}'
+            ],
+            'params': ['fields', 'filter', 'loadsub', 'option'],
+            'jsonrpc2': False, 'v_range': [['7.6.5', '']],
         },
         'cli_system_log_settings_rollinganalyzer': {
             'urls': [
@@ -1497,6 +1562,21 @@ def main():
             ],
             'params': ['fields', 'filter', 'loadsub', 'option'],
             'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+        },
+        'cli_system_mlflow': {
+            'urls': [
+                '/cli/global/system/mlflow'
+            ],
+            'params': [],
+            'jsonrpc2': False, 'v_range': [['8.0.0', '']],
+        },
+        'cli_system_mlflow_models': {
+            'urls': [
+                '/cli/global/system/mlflow/models',
+                '/cli/global/system/mlflow/models/{models}'
+            ],
+            'params': ['fields', 'filter', 'loadsub', 'option'],
+            'jsonrpc2': False, 'v_range': [['8.0.0', '']],
         },
         'cli_system_ntp': {
             'urls': [
@@ -1657,6 +1737,27 @@ def main():
             ],
             'params': ['fields', 'filter', 'loadsub', 'option'],
             'jsonrpc2': False, 'v_range': [['6.2.1', '']],
+        },
+        'cli_system_soc_collector': {
+            'urls': [
+                '/cli/global/system/soc/collector'
+            ],
+            'params': [],
+            'jsonrpc2': False, 'v_range': [['8.0.1', '']],
+        },
+        'cli_system_soc_collector_loglevel': {
+            'urls': [
+                '/cli/global/system/soc/collector/log-level'
+            ],
+            'params': [],
+            'jsonrpc2': False, 'v_range': [['8.0.1', '']],
+        },
+        'cli_system_soc_collector_logqueue': {
+            'urls': [
+                '/cli/global/system/soc/collector/log-queue'
+            ],
+            'params': [],
+            'jsonrpc2': False, 'v_range': [['8.0.1', '']],
         },
         'cli_system_socfabric': {
             'urls': [
@@ -1843,6 +1944,13 @@ def main():
             'params': ['filter', 'limit', 'offset', 'time-range', 'timezone'],
             'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
+        'eventmgmt_alerts_aggregate': {
+            'urls': [
+                '/eventmgmt/adom/{adom}/alerts/aggregate'
+            ],
+            'params': ['filter', 'groupby', 'limit', 'offset', 'time-range'],
+            'jsonrpc2': True, 'v_range': [['8.0.0', '']],
+        },
         'eventmgmt_alerts_count': {
             'urls': [
                 '/eventmgmt/adom/{adom}/alerts/count'
@@ -1863,6 +1971,20 @@ def main():
             ],
             'params': ['alertids'],
             'jsonrpc2': True, 'v_range': [['6.2.1', '6.2.1'], ['6.4.1', '']],
+        },
+        'eventmgmt_alerts_suppress': {
+            'urls': [
+                '/eventmgmt/adom/{adom}/alerts/suppress'
+            ],
+            'params': ['filter', 'limit', 'offset', 'sort-by'],
+            'jsonrpc2': True, 'v_range': [['8.0.0', '']],
+        },
+        'eventmgmt_alerts_suppress_defaultrule': {
+            'urls': [
+                '/eventmgmt/adom/{adom}/alerts/suppress/default-rule'
+            ],
+            'params': ['alert-id'],
+            'jsonrpc2': True, 'v_range': [['8.0.0', '']],
         },
         'eventmgmt_basichandlers_export': {
             'urls': [
@@ -2137,6 +2259,27 @@ def main():
             'params': ['key-data', 'key-type'],
             'jsonrpc2': True, 'v_range': [['7.0.3', '']],
         },
+        'mlflow_artifact': {
+            'urls': [
+                '/mlflow/adom/{adom}/artifact'
+            ],
+            'params': ['artifact-id', 'device', 'filter', 'limit', 'offset', 'partition', 'sort-by', 'time-range'],
+            'jsonrpc2': True, 'v_range': [['8.0.1', '']],
+        },
+        'mlflow_baseline_trafficpattern': {
+            'urls': [
+                '/mlflow/adom/{adom}/baseline/traffic_pattern'
+            ],
+            'params': ['artifact-id', 'device', 'direction', 'time-range'],
+            'jsonrpc2': True, 'v_range': [['8.0.1', '']],
+        },
+        'mlflow_baseline_userlogin': {
+            'urls': [
+                '/mlflow/adom/{adom}/baseline/user_login'
+            ],
+            'params': ['artifact-id', 'user'],
+            'jsonrpc2': True, 'v_range': [['8.0.1', '']],
+        },
         'report_config_chart': {
             'urls': [
                 '/report/adom/{adom}/config/chart'
@@ -2326,6 +2469,13 @@ def main():
             'params': [],
             'jsonrpc2': True, 'v_range': [['6.2.1', '']],
         },
+        'report_sqlquery_run': {
+            'urls': [
+                '/report/adom/{adom}/sql-query/run/{tid}'
+            ],
+            'params': [],
+            'jsonrpc2': True, 'v_range': [['7.6.8', '7.6.8'], ['8.0.1', '']],
+        },
         'report_template_export': {
             'urls': [
                 '/report/adom/{adom}/template/export'
@@ -2436,7 +2586,14 @@ def main():
                 '/soar/adom/{adom}/task/monitor'
             ],
             'params': ['filter', 'instance-id', 'playbook-uuid', 'run-id', 'sort-by', 'time-range', 'timezone'],
-            'jsonrpc2': True, 'v_range': [['6.4.2', '7.4.8'], ['7.6.2', '']],
+            'jsonrpc2': True, 'v_range': [['6.4.2', '7.4.11'], ['7.6.2', '']],
+        },
+        'soar_webhook_referrer': {
+            'urls': [
+                '/soar/adom/{adom}/webhook/referrer'
+            ],
+            'params': ['webhook-name'],
+            'jsonrpc2': True, 'v_range': [['8.0.1', '']],
         },
         'sys_ha_status': {
             'urls': [
@@ -2530,7 +2687,7 @@ def main():
 
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'version_check': {'type': 'bool', 'default': 'true'},

@@ -52,7 +52,9 @@ options:
         type: bool
         default: false
     enable_log:
-        description: Enable/Disable logging for task
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -113,10 +115,23 @@ EXAMPLES = '''
   connection: httpapi
   hosts: fortianalyzers
   tasks:
-    - name: No description
+    - name: Create administrator meta field
       fortinet.fortianalyzer.faz_cli_metafields_system_admin_user:
+        enable_log: true
+        proposed_method: add
         cli_metafields_system_admin_user:
-          status: disable
+          name: ansible_test_field
+          length: 50
+          importance: optional
+          status: enable
+    - name: Delete administrator meta field
+      fortinet.fortianalyzer.faz_generic:
+        enable_log: true
+        method: delete
+        params:
+          - url: /cli/global/_meta_fields/system/admin/user
+            data:
+              name: ansible_test_field
   vars:
     ansible_network_os: fortinet.fortianalyzer.fortianalyzer
     ansible_httpapi_port: 443
@@ -163,7 +178,7 @@ version_check_warning:
     type: list
     returned: complex
 '''
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
@@ -179,7 +194,7 @@ def main():
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},

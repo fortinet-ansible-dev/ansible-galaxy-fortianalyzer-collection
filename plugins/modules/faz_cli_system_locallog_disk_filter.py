@@ -52,7 +52,9 @@ options:
         type: bool
         default: false
     enable_log:
-        description: Enable/Disable logging for task
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -392,6 +394,18 @@ options:
                  - disable - Disable setting.
                  - enable - Enable setting.
                 choices: ['disable', 'enable']
+            fazfabric:
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
+            fortism:
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
+            http:
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''
@@ -490,7 +504,7 @@ version_check_warning:
     type: list
     returned: complex
 '''
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
@@ -506,7 +520,7 @@ def main():
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
@@ -557,9 +571,16 @@ def main():
                 'scvpn': {'choices': ['disable', 'enable'], 'type': 'str'},
                 'system': {'choices': ['disable', 'enable'], 'type': 'str'},
                 'webport': {'choices': ['disable', 'enable'], 'type': 'str'},
-                'aid': {'v_range': [['6.4.1', '7.2.11']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'docker': {'v_range': [['6.4.3', '7.2.10'], ['7.4.0', '7.4.7'], ['7.6.0', '7.6.3']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'controller': {'v_range': [['7.0.9', '7.0.14'], ['7.2.4', '7.2.11'], ['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
+                'aid': {'v_range': [['6.4.1', '7.2.12']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'docker': {
+                    'v_range': [['6.4.3', '7.0.14'], ['7.2.0', '7.2.10'], ['7.4.0', '7.4.7'], ['7.6.0', '7.6.3']],
+                    'choices': ['disable', 'enable'],
+                    'type': 'str'
+                },
+                'controller': {'v_range': [['7.0.9', '7.0.16'], ['7.2.4', '7.2.12'], ['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'fazfabric': {'v_range': [['7.6.7', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'fortism': {'v_range': [['8.0.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'http': {'v_range': [['8.0.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
         }
     }

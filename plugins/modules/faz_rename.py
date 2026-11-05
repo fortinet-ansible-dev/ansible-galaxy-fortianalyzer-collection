@@ -43,7 +43,9 @@ options:
         description: The token to access FortiManager without using username and password.
         type: str
     enable_log:
-        description: Enable/Disable logging for task.
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -124,6 +126,7 @@ options:
                     - 'cli_system_log_maildomain'
                     - 'cli_system_log_ratelimit_device'
                     - 'cli_system_log_ratelimit_ratelimits'
+                    - 'cli_system_log_settings_clientcertauth_trustedclient'
                     - 'cli_system_logfetch_clientprofile'
                     - 'cli_system_logfetch_clientprofile_devicefilter'
                     - 'cli_system_logfetch_clientprofile_logfilter'
@@ -134,6 +137,7 @@ options:
                     - 'cli_system_logforward_logmaskingcustom'
                     - 'cli_system_mail'
                     - 'cli_system_metadata_admins'
+                    - 'cli_system_mlflow_models'
                     - 'cli_system_ntp_ntpserver'
                     - 'cli_system_report_group'
                     - 'cli_system_report_group_chartalternative'
@@ -280,7 +284,7 @@ version_check_warning:
     returned: complex
 '''
 
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 
@@ -411,14 +415,14 @@ def main():
                 '/cli/global/system/admin/user/{user}/dashboard/{dashboard}'
             ],
             'v_range': [['6.2.1', '']],
-            'mkey': 'tabid'
+            'mkey': 'moduleid'
         },
         'cli_system_admin_user_dashboardtabs': {
             'urls': [
                 '/cli/global/system/admin/user/{user}/dashboard-tabs/{dashboard-tabs}'
             ],
             'v_range': [['6.2.1', '']],
-            'mkey': 'name'
+            'mkey': 'tabid'
         },
         'cli_system_admin_user_metadata': {
             'urls': [
@@ -564,7 +568,7 @@ def main():
             'urls': [
                 '/cli/global/system/log/device-selector/{device-selector}'
             ],
-            'v_range': [['7.4.7', '7.4.8'], ['7.6.3', '']],
+            'v_range': [['7.4.7', '7.4.11'], ['7.6.3', '']],
             'mkey': 'id'
         },
         'cli_system_log_maildomain': {
@@ -586,6 +590,13 @@ def main():
                 '/cli/global/system/log/ratelimit/ratelimits/{ratelimits}'
             ],
             'v_range': [['7.0.3', '']],
+            'mkey': 'id'
+        },
+        'cli_system_log_settings_clientcertauth_trustedclient': {
+            'urls': [
+                '/cli/global/system/log/settings/client-cert-auth/trusted-client/{trusted-client}'
+            ],
+            'v_range': [['7.6.5', '']],
             'mkey': 'id'
         },
         'cli_system_logfetch_clientprofile': {
@@ -657,6 +668,13 @@ def main():
             ],
             'v_range': [['6.2.1', '']],
             'mkey': 'fieldname'
+        },
+        'cli_system_mlflow_models': {
+            'urls': [
+                '/cli/global/system/mlflow/models/{models}'
+            ],
+            'v_range': [['8.0.0', '']],
+            'mkey': 'id'
         },
         'cli_system_ntp_ntpserver': {
             'urls': [
@@ -1036,7 +1054,7 @@ def main():
 
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'version_check': {'type': 'bool', 'default': 'true'},
@@ -1093,6 +1111,7 @@ def main():
                         'cli_system_log_maildomain',
                         'cli_system_log_ratelimit_device',
                         'cli_system_log_ratelimit_ratelimits',
+                        'cli_system_log_settings_clientcertauth_trustedclient',
                         'cli_system_logfetch_clientprofile',
                         'cli_system_logfetch_clientprofile_devicefilter',
                         'cli_system_logfetch_clientprofile_logfilter',
@@ -1103,6 +1122,7 @@ def main():
                         'cli_system_logforward_logmaskingcustom',
                         'cli_system_mail',
                         'cli_system_metadata_admins',
+                        'cli_system_mlflow_models',
                         'cli_system_ntp_ntpserver',
                         'cli_system_report_group',
                         'cli_system_report_group_chartalternative',

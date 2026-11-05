@@ -402,3 +402,60 @@ releases:
         name: faz_cli_system_localinpolicy_src
         namespace: ""
     release_date: "2025-10-22"
+  1.11.0:
+    changes:
+      bugfixes:
+        - Corrected the mkey for faz_cli_system_admin_user_dashboardtabs and faz_cli_system_admin_user_dashboard.
+        - Fixed an issue that could cause the program to crash when deleting certain
+          resources.
+        - Fixed rc_succeeded and rc_failed handling.
+        - Improved log formatting for better readability.
+        - Simplified error output by removing unnecessary details.
+      minor_changes:
+        - Added support for all FortiAnalyzer 7.x versions, and versions 8.0.0 and 8.0.1.
+      release_summary: Release fortinet.fortianalyzer 1.11.0
+    fragments:
+      - 1.11.0.yml
+    modules:
+      - description: Force start autolink process on link-pending device.
+        name: faz_cli_exec_fgfm_autolinkdevice
+        namespace: ""
+      - description: Admin domain.
+        name: faz_cli_system_csf_trustedlist_adom
+        namespace: ""
+      - description: Settings for tacacs+ accounting events filter.
+        name: faz_cli_system_locallog_tacacs_accounting_filter
+        namespace: ""
+      - description: Settings for tacacs+ accounting.
+        name: faz_cli_system_locallog_tacacs_accounting_setting
+        namespace: ""
+      - description: API rate limit.
+        name: faz_cli_system_log_apiratelimit
+        namespace: ""
+      - description: Configure client certificate authentication.
+        name: faz_cli_system_log_settings_clientcertauth
+        namespace: ""
+      - description: Trusted client certificate or CN/SAN domain for client authentication.
+        name: faz_cli_system_log_settings_clientcertauth_trustedclient
+        namespace: ""
+      - description: Configure mlflow.
+        name: faz_cli_system_mlflow
+        namespace: ""
+      - description: Machine learning model configurations.
+        name: faz_cli_system_mlflow_models
+        namespace: ""
+      - description: FAZ SOC collector settings.
+        name: faz_cli_system_soc_collector
+        namespace: ""
+      - description: Log queue settings.
+        name: faz_cli_system_soc_collector_loglevel
+        namespace: ""
+      - description: Log queue settings.
+        name: faz_cli_system_soc_collector_logqueue
+        namespace: ""
+      - description:
+          Get detailed information about IPS packages and signatures using
+          the um/query/productapi endpoint.
+        name: faz_um_query_productapi
+        namespace: ""
+    release_date: "2026-11-05"

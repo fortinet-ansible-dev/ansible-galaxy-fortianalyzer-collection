@@ -1,6 +1,6 @@
-![Fortinet logo|](https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Fortinet_logo.svg/320px-Fortinet_logo.svg.png)
+<img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Fortinet_logo.svg" alt="Fortinet LOGO" width="300" />
 
-# fortinet.fortianalyzer:1.10.0 - configuring FortiAnalyzer
+# fortinet.fortianalyzer:1.11.0 - configuring FortiAnalyzer
 
 ## Description
 
@@ -10,8 +10,8 @@ FortiAnalyzer Ansible Collection includes the modules that are able to configure
 
 ## Requirements
 
-- Ansible 2.16.0 or above
-- Python 3.9 or above
+- Ansible-core 2.16 or above
+- Python 3.12 or above
 
 ## Installation
 
@@ -73,6 +73,7 @@ FortiAnalyzer Ansible is expected to be updated every two months.
 ## Modules
 The collection provides the following modules:
 
+* `faz_cli_exec_fgfm_autolinkdevice`  Force start autolink process on link-pending device.
 * `faz_cli_exec_fgfm_reclaimdevtunnel`  Reclaim management tunnel to device.Request without device name specified will reclaim tunnels for all managed devices.
 * `faz_cli_fmupdate_analyzer_virusreport`  Send virus detection notification to FortiGuard.
 * `faz_cli_fmupdate_avips_advancedlog`  Enable/disable logging of FortiGuard antivirus and IPS update packages received by FortiManagers built-in FortiGuard.
@@ -80,14 +81,14 @@ The collection provides the following modules:
 * `faz_cli_fmupdate_customurllist`  Configure the URL database for rating and filtering.
 * `faz_cli_fmupdate_diskquota`  Configure disk space available for use by the Upgrade Manager.
 * `faz_cli_fmupdate_fctservices`  Configure FortiGuard to provide services to FortiClient installations.
-* `faz_cli_fmupdate_fdssetting`  Configure FortiGuard settings.
+* `faz_cli_fmupdate_fdssetting`  Configure FortiGuard fds settings.
 * `faz_cli_fmupdate_fdssetting_pushoverride`  Enable/disable push updates, and override the default IP address and port used by FortiGuard to send antivirus and IPS push messages...
 * `faz_cli_fmupdate_fdssetting_pushoverridetoclient`  Enable/disable push updates, and override the default IP address and port used by FortiGuard to send antivirus and IPS push messages...
 * `faz_cli_fmupdate_fdssetting_pushoverridetoclient_announceip`  Announce IP addresses for the device.
 * `faz_cli_fmupdate_fdssetting_serveroverride`  Server override configure.
 * `faz_cli_fmupdate_fdssetting_serveroverride_servlist`  Override server.
 * `faz_cli_fmupdate_fdssetting_updateschedule`  Configure the schedule when built-in FortiGuard retrieves antivirus and IPS updates.
-* `faz_cli_fmupdate_fgdsetting`  Cli fmupdate fgd setting.
+* `faz_cli_fmupdate_fgdsetting`  Configure FortiGuard fgd parameters.
 * `faz_cli_fmupdate_fwmsetting`  Configure firmware management settings.
 * `faz_cli_fmupdate_fwmsetting_upgradetimeout`  Configure the timeout value of image upgrade process.
 * `faz_cli_fmupdate_multilayer`  Configure multilayer mode.
@@ -142,6 +143,7 @@ The collection provides the following modules:
 * `faz_cli_system_csf`  Add this device to a Security Fabric or set up a new Security Fabric on this device.
 * `faz_cli_system_csf_fabricconnector`  Fabric connector configuration.
 * `faz_cli_system_csf_trustedlist`  Pre-authorized and blocked security fabric nodes.
+* `faz_cli_system_csf_trustedlist_adom`  Admin domain.
 * `faz_cli_system_dns`  DNS configuration.
 * `faz_cli_system_docker`  Docker host.
 * `faz_cli_system_fips`  Settings for FIPS-CC mode.
@@ -158,14 +160,14 @@ The collection provides the following modules:
 * `faz_cli_system_interface_member`  Physical interfaces that belong to the aggregate or redundant interface.
 * `faz_cli_system_localinpolicy`  IPv4 local in policy configuration.
 * `faz_cli_system_localinpolicy6`  IPv6 local in policy configuration.
-* `faz_cli_system_localinpolicy6_dport`  Cli system local in policy6 dport.
-* `faz_cli_system_localinpolicy6_dst`  Cli system local in policy6 dst.
-* `faz_cli_system_localinpolicy6_intf`  Cli system local in policy6 intf.
-* `faz_cli_system_localinpolicy6_src`  Cli system local in policy6 src.
-* `faz_cli_system_localinpolicy_dport`  Cli system local in policy dport.
-* `faz_cli_system_localinpolicy_dst`  Cli system local in policy dst.
-* `faz_cli_system_localinpolicy_intf`  Cli system local in policy intf.
-* `faz_cli_system_localinpolicy_src`  Cli system local in policy src.
+* `faz_cli_system_localinpolicy6_dport`  List of Destination port number.
+* `faz_cli_system_localinpolicy6_dst`  Destination IP and prefix.
+* `faz_cli_system_localinpolicy6_intf`  List of Incoming interface name.
+* `faz_cli_system_localinpolicy6_src`  List of Source IP and prefix.
+* `faz_cli_system_localinpolicy_dport`  List of Destination port number.
+* `faz_cli_system_localinpolicy_dst`  List of Destination IP and mask.
+* `faz_cli_system_localinpolicy_intf`  List of Incoming interface name.
+* `faz_cli_system_localinpolicy_src`  List of Source IP and mask.
 * `faz_cli_system_locallog_disk_filter`  Filter for disk logging.
 * `faz_cli_system_locallog_disk_setting`  Settings for local disk logging.
 * `faz_cli_system_locallog_fortianalyzer2_filter`  Filter for FortiAnalyzer2 logging.
@@ -183,7 +185,10 @@ The collection provides the following modules:
 * `faz_cli_system_locallog_syslogd3_setting`  Settings for remote syslog server.
 * `faz_cli_system_locallog_syslogd_filter`  Filter for syslog logging.
 * `faz_cli_system_locallog_syslogd_setting`  Settings for remote syslog server.
+* `faz_cli_system_locallog_tacacs_accounting_filter`  Settings for tacacs+ accounting events filter.
+* `faz_cli_system_locallog_tacacs_accounting_setting`  Settings for tacacs+ accounting.
 * `faz_cli_system_log_alert`  Log based alert settings.
+* `faz_cli_system_log_apiratelimit`  API rate limit.
 * `faz_cli_system_log_devicedisable`  Disable client device logging.
 * `faz_cli_system_log_deviceselector`  Accept/reject devices matching specified filter types.
 * `faz_cli_system_log_fospolicystats`  FortiOS policy statistics settings.
@@ -195,6 +200,8 @@ The collection provides the following modules:
 * `faz_cli_system_log_ratelimit_device`  Device log rate limit.
 * `faz_cli_system_log_ratelimit_ratelimits`  Per device or ADOM log rate limits.
 * `faz_cli_system_log_settings`  Log settings.
+* `faz_cli_system_log_settings_clientcertauth`  Configure client certificate authentication.
+* `faz_cli_system_log_settings_clientcertauth_trustedclient`  Trusted client certificate or CN/SAN domain for client authentication.
 * `faz_cli_system_log_settings_rollinganalyzer`  Log rolling policy for Network Analyzer logs.
 * `faz_cli_system_log_settings_rollinglocal`  Log rolling policy for local logs.
 * `faz_cli_system_log_settings_rollingregular`  Log rolling policy for device logs.
@@ -212,6 +219,8 @@ The collection provides the following modules:
 * `faz_cli_system_logforwardservice`  Log forwarding service.
 * `faz_cli_system_mail`  Alert emails.
 * `faz_cli_system_metadata_admins`  Configure admins.
+* `faz_cli_system_mlflow`  Configure mlflow.
+* `faz_cli_system_mlflow_models`  Machine learning model configurations.
 * `faz_cli_system_ntp`  NTP settings.
 * `faz_cli_system_ntp_ntpserver`  NTP server.
 * `faz_cli_system_passwordpolicy`  Password policy.
@@ -232,6 +241,9 @@ The collection provides the following modules:
 * `faz_cli_system_snmp_community_hosts6`  Allow hosts configuration for IPv6.
 * `faz_cli_system_snmp_sysinfo`  SNMP configuration.
 * `faz_cli_system_snmp_user`  SNMP user configuration.
+* `faz_cli_system_soc_collector`  FAZ SOC collector settings.
+* `faz_cli_system_soc_collector_loglevel`  Log queue settings.
+* `faz_cli_system_soc_collector_logqueue`  Log queue settings.
 * `faz_cli_system_socfabric`  SOC Fabric.
 * `faz_cli_system_socfabric_trustedlist`  Pre-authorized security fabric nodes.
 * `faz_cli_system_sql`  SQL settings.
@@ -271,6 +283,9 @@ The collection provides the following modules:
 * `faz_eventmgmt_config_trigger_filter`  Filter.
 * `faz_eventmgmt_config_trigger_filter_rule`  Rule.
 * `faz_eventmgmt_correlationhandlers_import`  Import correlation handlers.
+* `faz_fact`  Gather FortiAnalyzer facts.
+* `faz_generic`  Build and send generic FortiAnalyzer API request.
+* `faz_rename`  Rename an object in FortiAnalyzer.
 * `faz_report_config_chart`  Config chart.
 * `faz_report_config_chart_drilldowntable`  Config drill-down-table.
 * `faz_report_config_chart_tablecolumns`  Config table-columns.
@@ -309,6 +324,7 @@ The collection provides the following modules:
 * `faz_sys_reboot`  Restart FortiAnalyzer.
 * `faz_um_image_upgrade`  The older API for updating the firmware of specific device.
 * `faz_um_image_upgrade_ext`  Update the firmware of specific device.
+* `faz_um_query_productapi`  Get detailed information about IPS packages and signatures using the um/query/productapi endpoint.
 
 
 ## License

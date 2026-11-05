@@ -52,7 +52,9 @@ options:
         type: bool
         default: false
     enable_log:
-        description: Enable/Disable logging for task
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -108,6 +110,9 @@ options:
             schedule_time:
                 type: str
                 description: no description
+            adom:
+                description: no description
+                type: str
 '''
 
 EXAMPLES = '''
@@ -134,6 +139,7 @@ EXAMPLES = '''
           # flags: <value in [f_boot_alt_partition, f_skip_retrieve, f_skip_multi_steps, ...]>
           # image: <value of string>
           # schedule_time: <value of string>
+          # adom: <value of string>
 '''
 
 RETURN = '''
@@ -175,7 +181,7 @@ version_check_warning:
     type: list
     returned: complex
 '''
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
@@ -191,7 +197,7 @@ def main():
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'version_check': {'type': 'bool', 'default': 'true'},
@@ -214,7 +220,8 @@ def main():
                     'type': 'str'
                 },
                 'image': {'v_range': [['7.2.1', '']], 'type': 'str'},
-                'schedule_time': {'v_range': [['7.2.1', '']], 'type': 'str'}
+                'schedule_time': {'v_range': [['7.2.1', '']], 'type': 'str'},
+                'adom': {'v_range': [['7.6.8', '7.6.8']], 'type': 'str'}
             }
         }
     }

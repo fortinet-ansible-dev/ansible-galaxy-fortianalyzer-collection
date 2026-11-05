@@ -52,7 +52,9 @@ options:
         type: bool
         default: false
     enable_log:
-        description: Enable/Disable logging for task
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -244,7 +246,7 @@ options:
                  - none - No modules disabled.
                 type: list
                 elements: str
-                choices: ['fortiview-noc', 'siem', 'soar', 'none', 'soc', 'fortirecorder', 'ai', 'ot-view', 'safeguard-mv']
+                choices: ['fortiview-noc', 'siem', 'soar', 'none', 'soc', 'fortirecorder', 'ai', 'ot-view', 'safeguard-mv', 'ml']
             enc_algorithm:
                 aliases: ['enc-algorithm']
                 type: str
@@ -649,6 +651,7 @@ options:
                     - '89'
                     - '90'
                     - '91'
+                    - '92'
             tunnel_mtu:
                 aliases: ['tunnel-mtu']
                 type: int
@@ -856,6 +859,8 @@ options:
                     - 'ecdh-sha2-nistp256'
                     - 'ecdh-sha2-nistp384'
                     - 'ecdh-sha2-nistp521'
+                    - 'sntrup761x25519-sha512'
+                    - 'mlkem768x25519-sha256'
             ssh_mac_algo:
                 aliases: ['ssh-mac-algo']
                 description:
@@ -1040,6 +1045,14 @@ options:
                 aliases: ['gui-install-preview-concurrency']
                 type: int
                 description: Set the maximum number of devices to be processed in a single GUI install preview request
+            skip_ip_check_in_session:
+                aliases: ['skip-ip-check-in-session']
+                type: str
+                description:
+                 - Enable/disable remote IP check for gui session.
+                 - disable - Disable setting.
+                 - enable - Enable setting.
+                choices: ['disable', 'enable']
             fabric_storage_pool_quota:
                 aliases: ['fabric-storage-pool-quota']
                 type: int
@@ -1070,6 +1083,72 @@ options:
                 aliases: ['auth-dev-restapi-allowlist']
                 type: str
                 description: no description
+                choices: ['disable', 'enable']
+            cli_auth:
+                aliases: ['cli-auth']
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
+            debug_tool:
+                aliases: ['debug-tool']
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
+            ai_mode:
+                aliases: ['ai-mode']
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
+            gui_max_objects_per_row:
+                aliases: ['gui-max-objects-per-row']
+                type: int
+                description: no description
+            vm_swappiness:
+                aliases: ['vm-swappiness']
+                type: int
+                description: no description
+            apache_keepalive_timeout:
+                aliases: ['apache-keepalive-timeout']
+                type: int
+                description: Set apache keepalive timeout
+            webwork_job_timeout:
+                aliases: ['webwork-job-timeout']
+                type: int
+                description: Seconds before a webworker child is killed
+            webwork_max_processes:
+                aliases: ['webwork-max-processes']
+                type: int
+                description: Maximum concurrent webworker child processes
+            gui_object_protect:
+                aliases: ['gui-object-protect']
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
+            gui_object_search:
+                aliases: ['gui-object-search']
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
+            http_extended_log:
+                aliases: ['http-extended-log']
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
+            bkup_mode_shared_objs:
+                aliases: ['bkup-mode-shared-objs']
+                type: str
+                description:
+                 - Enable/disable shared objects in backup ADOMs.
+                 - disable - Disable shared objects in backup ADOMs
+                 - enable - Enable shared objects in backup ADOMs
+                choices: ['disable', 'enable']
+            usb_port:
+                aliases: ['usb-port']
+                type: str
+                description:
+                 - Enable/disable USB ports.
+                 - disable - Disable USB ports
+                 - enable - Enable USB ports
                 choices: ['disable', 'enable']
 '''
 
@@ -1129,7 +1208,7 @@ version_check_warning:
     type: list
     returned: complex
 '''
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
@@ -1145,7 +1224,7 @@ def main():
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
@@ -1176,7 +1255,7 @@ def main():
                 'dh-params': {'choices': ['1024', '1536', '2048', '3072', '4096', '6144', '8192'], 'type': 'str'},
                 'disable-module': {
                     'type': 'list',
-                    'choices': ['fortiview-noc', 'siem', 'soar', 'none', 'soc', 'fortirecorder', 'ai', 'ot-view', 'safeguard-mv'],
+                    'choices': ['fortiview-noc', 'siem', 'soar', 'none', 'soc', 'fortirecorder', 'ai', 'ot-view', 'safeguard-mv', 'ml'],
                     'elements': 'str'
                 },
                 'enc-algorithm': {'choices': ['low', 'medium', 'high', 'custom'], 'type': 'str'},
@@ -1191,7 +1270,7 @@ def main():
                 'latitude': {'type': 'str'},
                 'ldap-cache-timeout': {'type': 'int'},
                 'ldapconntimeout': {'type': 'int'},
-                'lock-preempt': {'choices': ['disable', 'enable'], 'type': 'str'},
+                'lock-preempt': {'v_range': [['6.2.1', '8.0.0']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'log-checksum': {'choices': ['none', 'md5', 'md5-auth'], 'type': 'str'},
                 'log-forward-cache-size': {'type': 'int'},
                 'log-mode': {'choices': ['analyzer', 'collector'], 'type': 'str'},
@@ -1224,14 +1303,19 @@ def main():
                         '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41',
                         '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61', '62',
                         '63', '64', '65', '66', '67', '68', '69', '70', '71', '72', '73', '74', '75', '76', '77', '78', '79', '80', '81', '82', '83',
-                        '84', '85', '86', '87', '88', '89', '90', '91'
+                        '84', '85', '86', '87', '88', '89', '90', '91', '92'
                     ],
                     'type': 'str'
                 },
                 'tunnel-mtu': {'type': 'int'},
                 'usg': {'choices': ['disable', 'enable'], 'type': 'str'},
-                'webservice-proto': {'type': 'list', 'choices': ['tlsv1.3', 'tlsv1.2', 'tlsv1.1', 'tlsv1.0', 'sslv3', 'sslv2'], 'elements': 'str'},
-                'workflow-max-sessions': {'type': 'int'},
+                'webservice-proto': {
+                    'v_range': [['6.2.1', '7.6.4']],
+                    'type': 'list',
+                    'choices': ['tlsv1.3', 'tlsv1.2', 'tlsv1.1', 'tlsv1.0', 'sslv3', 'sslv2'],
+                    'elements': 'str'
+                },
+                'workflow-max-sessions': {'v_range': [['6.2.1', '8.0.0']], 'type': 'int'},
                 'multiple-steps-upgrade-in-autolink': {'v_range': [['6.4.5', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'normalized-intf-zone-only': {'v_range': [['6.4.7', '6.4.15'], ['7.0.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'ssl-cipher-suites': {
@@ -1244,9 +1328,9 @@ def main():
                     },
                     'elements': 'dict'
                 },
-                'gui-curl-timeout': {'v_range': [['6.4.11', '6.4.15'], ['7.0.7', '7.0.14'], ['7.2.2', '']], 'type': 'int'},
+                'gui-curl-timeout': {'v_range': [['6.4.11', '6.4.15'], ['7.0.7', '7.0.16'], ['7.2.2', '']], 'type': 'int'},
                 'fgfm-cert-exclusive': {
-                    'v_range': [['6.4.15', '6.4.15'], ['7.0.12', '7.0.14'], ['7.2.2', '']],
+                    'v_range': [['6.4.15', '6.4.15'], ['7.0.12', '7.0.16'], ['7.2.2', '']],
                     'choices': ['disable', 'enable'],
                     'type': 'str'
                 },
@@ -1254,12 +1338,12 @@ def main():
                 'object-revision-mandatory-note': {'v_range': [['7.0.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'object-revision-object-max': {'v_range': [['7.0.0', '']], 'type': 'int'},
                 'object-revision-status': {'v_range': [['7.0.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'table-entry-blink': {'v_range': [['7.0.4', '7.0.14'], ['7.2.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'contentpack-fgt-install': {'v_range': [['7.0.5', '7.0.14'], ['7.2.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'gui-polling-interval': {'v_range': [['7.0.5', '7.0.14'], ['7.2.1', '']], 'type': 'int'},
-                'no-copy-permission-check': {'v_range': [['7.0.8', '7.0.14'], ['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'table-entry-blink': {'v_range': [['7.0.4', '7.0.16'], ['7.2.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'contentpack-fgt-install': {'v_range': [['7.0.5', '7.0.16'], ['7.2.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'gui-polling-interval': {'v_range': [['7.0.5', '7.0.16'], ['7.2.1', '']], 'type': 'int'},
+                'no-copy-permission-check': {'v_range': [['7.0.8', '7.0.16'], ['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'ssh-enc-algo': {
-                    'v_range': [['7.0.11', '7.0.14'], ['7.2.5', '7.2.11'], ['7.4.2', '']],
+                    'v_range': [['7.0.11', '7.0.16'], ['7.2.5', '7.2.12'], ['7.4.2', '']],
                     'type': 'list',
                     'choices': [
                         'chacha20-poly1305@openssh.com', 'aes128-ctr', 'aes192-ctr', 'aes256-ctr', 'arcfour256', 'arcfour128', 'aes128-cbc', '3des-cbc',
@@ -1269,24 +1353,25 @@ def main():
                     'elements': 'str'
                 },
                 'ssh-hostkey-algo': {
-                    'v_range': [['7.0.11', '7.0.14'], ['7.2.5', '7.2.11'], ['7.4.2', '']],
+                    'v_range': [['7.0.11', '7.0.16'], ['7.2.5', '7.2.12'], ['7.4.2', '']],
                     'no_log': False,
                     'type': 'list',
                     'choices': ['ssh-rsa', 'ecdsa-sha2-nistp521', 'rsa-sha2-256', 'rsa-sha2-512', 'ssh-ed25519'],
                     'elements': 'str'
                 },
                 'ssh-kex-algo': {
-                    'v_range': [['7.0.11', '7.0.14'], ['7.2.5', '7.2.11'], ['7.4.2', '']],
+                    'v_range': [['7.0.11', '7.0.16'], ['7.2.5', '7.2.12'], ['7.4.2', '']],
                     'type': 'list',
                     'choices': [
                         'diffie-hellman-group1-sha1', 'diffie-hellman-group14-sha1', 'diffie-hellman-group14-sha256', 'diffie-hellman-group16-sha512',
                         'diffie-hellman-group18-sha512', 'diffie-hellman-group-exchange-sha1', 'diffie-hellman-group-exchange-sha256',
-                        'curve25519-sha256@libssh.org', 'ecdh-sha2-nistp256', 'ecdh-sha2-nistp384', 'ecdh-sha2-nistp521'
+                        'curve25519-sha256@libssh.org', 'ecdh-sha2-nistp256', 'ecdh-sha2-nistp384', 'ecdh-sha2-nistp521', 'sntrup761x25519-sha512',
+                        'mlkem768x25519-sha256'
                     ],
                     'elements': 'str'
                 },
                 'ssh-mac-algo': {
-                    'v_range': [['7.0.11', '7.0.14'], ['7.2.5', '7.2.11'], ['7.4.2', '']],
+                    'v_range': [['7.0.11', '7.0.16'], ['7.2.5', '7.2.12'], ['7.4.2', '']],
                     'type': 'list',
                     'choices': [
                         'hmac-md5', 'hmac-md5-etm@openssh.com', 'hmac-md5-96', 'hmac-md5-96-etm@openssh.com', 'hmac-sha1', 'hmac-sha1-etm@openssh.com',
@@ -1297,18 +1382,18 @@ def main():
                     'elements': 'str'
                 },
                 'ssh-strong-crypto': {
-                    'v_range': [['7.0.11', '7.0.14'], ['7.2.5', '7.2.11'], ['7.4.2', '7.6.3']],
+                    'v_range': [['7.0.11', '7.0.16'], ['7.2.5', '7.2.12'], ['7.4.2', '7.6.3']],
                     'choices': ['disable', 'enable'],
                     'type': 'str'
                 },
                 'admin-lockout-method': {'v_range': [['7.2.2', '']], 'choices': ['ip', 'user'], 'type': 'str'},
                 'event-correlation-cache-size': {'v_range': [['7.2.2', '']], 'type': 'int'},
                 'log-checksum-upload': {'v_range': [['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'apache-mode': {'v_range': [['7.2.4', '7.2.11'], ['7.4.1', '']], 'choices': ['event', 'prefork'], 'type': 'str'},
-                'no-vip-value-check': {'v_range': [['7.2.4', '7.2.11'], ['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'admin-ssh-grace-time': {'v_range': [['7.2.6', '7.2.11'], ['7.4.4', '']], 'type': 'int'},
-                'fcp-cfg-service': {'v_range': [['7.2.6', '7.2.11'], ['7.4.4', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'apache-wsgi-processes': {'v_range': [['7.2.10', '7.2.11'], ['7.4.6', '7.4.8'], ['7.6.2', '']], 'type': 'int'},
+                'apache-mode': {'v_range': [['7.2.4', '7.2.12'], ['7.4.1', '']], 'choices': ['event', 'prefork'], 'type': 'str'},
+                'no-vip-value-check': {'v_range': [['7.2.4', '7.2.12'], ['7.4.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'admin-ssh-grace-time': {'v_range': [['7.2.6', '7.2.12'], ['7.4.4', '']], 'type': 'int'},
+                'fcp-cfg-service': {'v_range': [['7.2.6', '7.2.12'], ['7.4.4', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'apache-wsgi-processes': {'v_range': [['7.2.10', '7.2.12'], ['7.4.6', '7.4.11'], ['7.6.2', '']], 'type': 'int'},
                 'log-forward-plugin-workers': {'v_range': [['7.4.0', '']], 'type': 'int'},
                 'fortiservice-port': {'v_range': [['7.4.1', '']], 'type': 'int'},
                 'management-ip': {'v_range': [['7.4.1', '']], 'type': 'str'},
@@ -1316,30 +1401,44 @@ def main():
                 'api-ip-binding': {'v_range': [['7.4.2', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'admin-host': {'v_range': [['7.4.4', '']], 'type': 'str'},
                 'global-ssl-protocol': {
-                    'v_range': [['7.4.4', '7.4.8'], ['7.6.2', '']],
+                    'v_range': [['7.4.4', '7.4.11'], ['7.6.2', '']],
                     'choices': ['sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3'],
                     'type': 'str'
                 },
                 'httpd-ssl-protocol': {
-                    'v_range': [['7.4.4', '7.4.8'], ['7.6.2', '']],
+                    'v_range': [['7.4.4', '7.4.11'], ['7.6.2', '']],
                     'type': 'list',
                     'choices': ['sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3'],
                     'elements': 'str'
                 },
                 'mapclient-ssl-protocol': {
-                    'v_range': [['7.4.4', '7.4.8'], ['7.6.2', '']],
+                    'v_range': [['7.4.4', '7.4.11'], ['7.6.2', '']],
                     'choices': ['follow-global-ssl-protocol', 'sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3'],
                     'type': 'str'
                 },
-                'gui-feature-visibility-mode': {'v_range': [['7.4.7', '7.4.8'], ['7.6.2', '']], 'choices': ['per-adom', 'per-admin'], 'type': 'str'},
-                'rpc-log': {'v_range': [['7.4.7', '7.4.8'], ['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'gui-install-preview-concurrency': {'v_range': [['7.4.8', '7.4.8'], ['7.6.4', '']], 'type': 'int'},
+                'gui-feature-visibility-mode': {'v_range': [['7.4.7', '7.4.11'], ['7.6.2', '']], 'choices': ['per-adom', 'per-admin'], 'type': 'str'},
+                'rpc-log': {'v_range': [['7.4.7', '7.4.11'], ['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'gui-install-preview-concurrency': {'v_range': [['7.4.8', '7.4.11'], ['7.6.4', '']], 'type': 'int'},
+                'skip-ip-check-in-session': {'v_range': [['7.4.11', '7.4.11'], ['7.6.5', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'fabric-storage-pool-quota': {'v_range': [['7.6.0', '']], 'type': 'int'},
                 'fabric-storage-pool-size': {'v_range': [['7.6.0', '']], 'type': 'int'},
                 'jsonapi-log': {'v_range': [['7.6.0', '']], 'choices': ['disable', 'request', 'response', 'all'], 'type': 'str'},
-                'fmg-fabric-port': {'v_range': [['7.6.2', '']], 'type': 'int'},
+                'fmg-fabric-port': {'v_range': [['7.6.2', '7.6.6']], 'type': 'int'},
                 'storage-age-limit': {'v_range': [['7.6.2', '']], 'type': 'int'},
-                'auth-dev-restapi-allowlist': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
+                'auth-dev-restapi-allowlist': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'cli-auth': {'v_range': [['7.6.5', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'debug-tool': {'v_range': [['7.6.5', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'ai-mode': {'v_range': [['7.6.7', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'gui-max-objects-per-row': {'v_range': [['7.6.7', '']], 'type': 'int'},
+                'vm-swappiness': {'v_range': [['7.6.7', '7.6.8']], 'type': 'int'},
+                'apache-keepalive-timeout': {'v_range': [['7.6.8', '7.6.8'], ['8.0.1', '']], 'type': 'int'},
+                'webwork-job-timeout': {'v_range': [['7.6.8', '7.6.8'], ['8.0.1', '']], 'type': 'int'},
+                'webwork-max-processes': {'v_range': [['7.6.8', '7.6.8'], ['8.0.1', '']], 'type': 'int'},
+                'gui-object-protect': {'v_range': [['8.0.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'gui-object-search': {'v_range': [['8.0.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'http-extended-log': {'v_range': [['8.0.0', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'bkup-mode-shared-objs': {'v_range': [['8.0.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'usb-port': {'v_range': [['8.0.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
         }
     }

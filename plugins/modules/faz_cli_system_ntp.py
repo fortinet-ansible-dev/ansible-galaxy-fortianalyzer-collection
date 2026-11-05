@@ -52,7 +52,9 @@ options:
         type: bool
         default: false
     enable_log:
-        description: Enable/Disable logging for task
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -129,6 +131,16 @@ options:
                     minpoll:
                         type: int
                         description: Minimum poll interval in seconds as power of 2
+                    key_fmt:
+                        aliases: ['key-fmt']
+                        type: str
+                        description: no description
+                        choices: ['ascii', 'hex']
+                    key_type:
+                        aliases: ['key-type']
+                        type: str
+                        description: no description
+                        choices: ['md5', 'sha256']
             status:
                 type: str
                 description:
@@ -197,7 +209,7 @@ version_check_warning:
     type: list
     returned: complex
 '''
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
@@ -213,7 +225,7 @@ def main():
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
@@ -234,7 +246,9 @@ def main():
                         'ntpv3': {'choices': ['disable', 'enable'], 'type': 'str'},
                         'server': {'type': 'str'},
                         'maxpoll': {'v_range': [['6.4.8', '6.4.15'], ['7.0.3', '']], 'type': 'int'},
-                        'minpoll': {'v_range': [['6.4.8', '6.4.15'], ['7.0.3', '']], 'type': 'int'}
+                        'minpoll': {'v_range': [['6.4.8', '6.4.15'], ['7.0.3', '']], 'type': 'int'},
+                        'key-fmt': {'v_range': [['7.6.7', '']], 'choices': ['ascii', 'hex'], 'no_log': False, 'type': 'str'},
+                        'key-type': {'v_range': [['7.6.7', '']], 'choices': ['md5', 'sha256'], 'no_log': False, 'type': 'str'}
                     },
                     'elements': 'dict'
                 },

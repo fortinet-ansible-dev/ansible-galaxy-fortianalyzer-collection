@@ -52,7 +52,9 @@ options:
         type: bool
         default: false
     enable_log:
-        description: Enable/Disable logging for task
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -209,6 +211,7 @@ options:
                     - 'override_management_intf'
                     - 'sdwan_management'
                     - 'deny_api_access'
+                    - 'no_siem_logfwd'
             foslic_cpu:
                 type: int
                 description: VM Meter vCPU count.
@@ -393,6 +396,8 @@ options:
                     - 'fss'
                     - 'fra'
                     - 'sim'
+                    - 'fdt'
+                    - 'fhm'
             os_ver:
                 type: str
                 description: no description
@@ -518,6 +523,9 @@ options:
             cluster_worker:
                 type: str
                 description: no description
+            tunnel_sn:
+                type: str
+                description: no description
 '''
 
 EXAMPLES = '''
@@ -578,7 +586,7 @@ version_check_warning:
     type: list
     returned: complex
 '''
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
@@ -595,7 +603,7 @@ def main():
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
@@ -639,7 +647,7 @@ def main():
                     'choices': [
                         'has_hdd', 'vdom_enabled', 'discover', 'reload', 'interim_build', 'offline_mode', 'is_model', 'fips_mode', 'linked_to_model',
                         'ip-conflict', 'faz-autosync', 'need_reset', 'backup_mode', 'azure_vwan_nva', 'fgsp_configured', 'cnf_mode', 'sase_managed',
-                        'override_management_intf', 'sdwan_management', 'deny_api_access'
+                        'override_management_intf', 'sdwan_management', 'deny_api_access', 'no_siem_logfwd'
                     ],
                     'elements': 'str'
                 },
@@ -663,7 +671,7 @@ def main():
                         'role': {'choices': ['slave', 'master'], 'type': 'str'},
                         'sn': {'type': 'str'},
                         'status': {'type': 'int'},
-                        'conf_status': {'v_range': [['7.0.10', '7.0.14'], ['7.2.1', '']], 'type': 'int'}
+                        'conf_status': {'v_range': [['7.0.10', '7.0.16'], ['7.2.1', '']], 'type': 'int'}
                     },
                     'elements': 'dict'
                 },
@@ -694,7 +702,7 @@ def main():
                 'os_type': {
                     'choices': [
                         'unknown', 'fos', 'fsw', 'foc', 'fml', 'faz', 'fwb', 'fch', 'fct', 'log', 'fmg', 'fsa', 'fdd', 'fac', 'fpx', 'fna', 'fdc', 'ffw',
-                        'fsr', 'fad', 'fts', 'fap', 'fxt', 'fai', 'fwc', 'fis', 'fed', 'fpa', 'fca', 'ftc', 'fss', 'fra', 'sim'
+                        'fsr', 'fad', 'fts', 'fap', 'fxt', 'fai', 'fwc', 'fis', 'fed', 'fpa', 'fca', 'ftc', 'fss', 'fra', 'sim', 'fdt', 'fhm'
                     ],
                     'type': 'str'
                 },
@@ -731,17 +739,18 @@ def main():
                 'prio': {'v_range': [['6.4.1', '']], 'type': 'int'},
                 'role': {'v_range': [['6.4.1', '']], 'choices': ['master', 'ha-slave', 'autoscale-slave'], 'type': 'str'},
                 'nsxt_service_name': {'v_range': [['6.4.4', '']], 'type': 'str'},
-                'vm_lic_overdue_since': {'v_range': [['6.4.12', '6.4.15'], ['7.0.8', '7.0.14'], ['7.2.3', '']], 'type': 'int'},
-                'first_tunnel_up': {'v_range': [['7.0.4', '7.0.14'], ['7.2.1', '']], 'type': 'int'},
+                'vm_lic_overdue_since': {'v_range': [['6.4.12', '6.4.15'], ['7.0.8', '7.0.16'], ['7.2.3', '']], 'type': 'int'},
+                'first_tunnel_up': {'v_range': [['7.0.4', '7.0.16'], ['7.2.1', '']], 'type': 'int'},
                 'eip': {'v_range': [['7.2.1', '']], 'type': 'str'},
                 'mgmt_uuid': {'v_range': [['7.2.1', '']], 'type': 'str'},
-                'hw_generation': {'v_range': [['7.2.4', '7.2.11'], ['7.4.1', '']], 'type': 'int'},
-                'ha.vsn': {'v_range': [['7.2.6', '7.2.11'], ['7.4.4', '']], 'type': 'str'},
+                'hw_generation': {'v_range': [['7.2.4', '7.2.12'], ['7.4.1', '']], 'type': 'int'},
+                'ha.vsn': {'v_range': [['7.2.6', '7.2.12'], ['7.4.4', '']], 'type': 'str'},
                 'relver_info': {'v_range': [['7.4.3', '']], 'type': 'str'},
                 'ha_upgrade_mode': {'v_range': [['7.4.4', '']], 'type': 'int'},
-                'vm_payg_status': {'v_range': [['7.4.4', '7.4.8'], ['7.6.2', '']], 'type': 'int'},
-                'sov_sase_license': {'v_range': [['7.4.7', '7.4.8'], ['7.6.4', '']], 'type': 'str'},
-                'cluster_worker': {'v_range': [['7.6.0', '']], 'type': 'str'}
+                'vm_payg_status': {'v_range': [['7.4.4', '7.4.11'], ['7.6.2', '']], 'type': 'int'},
+                'sov_sase_license': {'v_range': [['7.4.7', '7.4.11'], ['7.6.4', '']], 'type': 'str'},
+                'cluster_worker': {'v_range': [['7.6.0', '']], 'type': 'str'},
+                'tunnel_sn': {'v_range': [['7.6.5', '']], 'type': 'str'}
             }
         }
     }

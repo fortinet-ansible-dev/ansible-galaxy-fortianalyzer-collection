@@ -4,6 +4,45 @@ Fortinet.Fortianalyzer Release Notes
 
 .. contents:: Topics
 
+v1.11.0
+=======
+
+Release Summary
+---------------
+
+Release fortinet.fortianalyzer 1.11.0
+
+Minor Changes
+-------------
+
+- Added support for all FortiAnalyzer 7.x versions, and versions 8.0.0 and 8.0.1.
+
+Bugfixes
+--------
+
+- Corrected the mkey for faz_cli_system_admin_user_dashboardtabs and faz_cli_system_admin_user_dashboard.
+- Fixed an issue that could cause the program to crash when deleting certain resources.
+- Fixed rc_succeeded and rc_failed handling.
+- Improved log formatting for better readability.
+- Simplified error output by removing unnecessary details.
+
+New Modules
+-----------
+
+- fortinet.fortianalyzer.faz_cli_exec_fgfm_autolinkdevice - Force start autolink process on link-pending device.
+- fortinet.fortianalyzer.faz_cli_system_csf_trustedlist_adom - Admin domain.
+- fortinet.fortianalyzer.faz_cli_system_locallog_tacacs_accounting_filter - Settings for tacacs+ accounting events filter.
+- fortinet.fortianalyzer.faz_cli_system_locallog_tacacs_accounting_setting - Settings for tacacs+ accounting.
+- fortinet.fortianalyzer.faz_cli_system_log_apiratelimit - API rate limit.
+- fortinet.fortianalyzer.faz_cli_system_log_settings_clientcertauth - Configure client certificate authentication.
+- fortinet.fortianalyzer.faz_cli_system_log_settings_clientcertauth_trustedclient - Trusted client certificate or CN/SAN domain for client authentication.
+- fortinet.fortianalyzer.faz_cli_system_mlflow - Configure mlflow.
+- fortinet.fortianalyzer.faz_cli_system_mlflow_models - Machine learning model configurations.
+- fortinet.fortianalyzer.faz_cli_system_soc_collector - FAZ SOC collector settings.
+- fortinet.fortianalyzer.faz_cli_system_soc_collector_loglevel - Log queue settings.
+- fortinet.fortianalyzer.faz_cli_system_soc_collector_logqueue - Log queue settings.
+- fortinet.fortianalyzer.faz_um_query_productapi - Get detailed information about IPS packages and signatures using the um/query/productapi endpoint.
+
 v1.10.0
 =======
 

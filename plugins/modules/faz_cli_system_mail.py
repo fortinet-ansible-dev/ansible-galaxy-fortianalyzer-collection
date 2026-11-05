@@ -53,7 +53,9 @@ options:
         type: bool
         default: false
     enable_log:
-        description: Enable/Disable logging for task
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -138,7 +140,7 @@ options:
                  - SMTP authentication type.
                  - psk - Use username and password to authenticate.
                  - certificate - Use local certificate to authenticate.
-                choices: ['psk', 'certificate']
+                choices: ['psk', 'certificate', 'oauth2']
             local_cert:
                 aliases: ['local-cert']
                 type: str
@@ -158,6 +160,22 @@ options:
                  - tlsv1.2 - set TLSv1.2 as the lowest version.
                  - tlsv1.3 - set TLSv1.3 as the lowest version.
                 choices: ['follow-global-ssl-protocol', 'sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3']
+            oauth2_auth_scope:
+                aliases: ['oauth2-auth-scope']
+                type: str
+                description: no description
+            oauth2_auth_server:
+                aliases: ['oauth2-auth-server']
+                type: str
+                description: no description
+            oauth2_client_id:
+                aliases: ['oauth2-client-id']
+                type: str
+                description: no description
+            oauth2_client_secret:
+                aliases: ['oauth2-client-secret']
+                description: no description
+                type: str
 '''
 
 EXAMPLES = '''
@@ -223,7 +241,7 @@ version_check_warning:
     type: list
     returned: complex
 '''
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
@@ -239,7 +257,7 @@ def main():
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
@@ -258,14 +276,18 @@ def main():
                 'secure-option': {'choices': ['default', 'none', 'smtps', 'starttls'], 'type': 'str'},
                 'server': {'type': 'str'},
                 'user': {'type': 'str'},
-                'auth-type': {'v_range': [['6.4.6', '']], 'choices': ['psk', 'certificate'], 'type': 'str'},
+                'auth-type': {'v_range': [['6.4.6', '']], 'choices': ['psk', 'certificate', 'oauth2'], 'type': 'str'},
                 'local-cert': {'v_range': [['6.4.6', '']], 'type': 'str'},
-                'from': {'v_range': [['7.0.7', '7.0.14'], ['7.2.2', '']], 'type': 'str'},
+                'from': {'v_range': [['7.0.7', '7.0.16'], ['7.2.2', '']], 'type': 'str'},
                 'ssl-protocol': {
-                    'v_range': [['7.4.4', '7.4.8'], ['7.6.2', '']],
+                    'v_range': [['7.4.4', '7.4.11'], ['7.6.2', '']],
                     'choices': ['follow-global-ssl-protocol', 'sslv3', 'tlsv1.0', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3'],
                     'type': 'str'
-                }
+                },
+                'oauth2-auth-scope': {'v_range': [['7.6.7', '7.6.8'], ['8.0.1', '']], 'type': 'str'},
+                'oauth2-auth-server': {'v_range': [['7.6.7', '7.6.8'], ['8.0.1', '']], 'type': 'str'},
+                'oauth2-client-id': {'v_range': [['7.6.7', '7.6.8'], ['8.0.1', '']], 'type': 'str'},
+                'oauth2-client-secret': {'v_range': [['7.6.7', '7.6.8'], ['8.0.1', '']], 'no_log': True, 'type': 'str'}
             }
         }
     }

@@ -1,57 +1,8 @@
 ---
 requires_ansible: ">=2.16.0"
 action_groups:
-  adom:
-    - faz_dvmdb_adom_objectmember
-    - faz_dvmdb_device
-    - faz_dvmdb_device_vdom
-    - faz_dvmdb_folder
-    - faz_dvmdb_group
-    - faz_dvmdb_group_objectmember
-    - faz_eventmgmt_alerts_ack
-    - faz_eventmgmt_alerts_assign
-    - faz_eventmgmt_alerts_comment
-    - faz_eventmgmt_alerts_import
-    - faz_eventmgmt_alerts_read
-    - faz_eventmgmt_alerts_unack
-    - faz_eventmgmt_basichandlers_import
-    - faz_eventmgmt_config_basichandler
-    - faz_eventmgmt_config_correlationhandler
-    - faz_eventmgmt_config_dataselector
-    - faz_eventmgmt_config_notificationprofile
-    - faz_eventmgmt_config_trigger
-    - faz_eventmgmt_config_trigger_device
-    - faz_eventmgmt_config_trigger_filter
-    - faz_eventmgmt_config_trigger_filter_rule
-    - faz_eventmgmt_correlationhandlers_import
-    - faz_report_config_chart
-    - faz_report_config_chart_drilldowntable
-    - faz_report_config_chart_tablecolumns
-    - faz_report_config_chart_variabletemplate
-    - faz_report_config_dataset
-    - faz_report_config_dataset_variable
-    - faz_report_config_layout
-    - faz_report_config_layout_component
-    - faz_report_config_layout_component_variable
-    - faz_report_config_layout_footer
-    - faz_report_config_layout_header
-    - faz_report_config_layoutfolder
-    - faz_report_config_macro
-    - faz_report_config_output
-    - faz_report_config_output_emailrecipients
-    - faz_report_config_schedule
-    - faz_report_config_schedule_addressfilter
-    - faz_report_config_schedule_devices
-    - faz_report_config_schedule_filter
-    - faz_report_config_schedule_reportlayout
-    - faz_report_configfile_import
-    - faz_report_graphfile
-    - faz_report_graphfile_delete
-    - faz_report_reports_data_delete
-    - faz_report_run
-    - faz_report_run_delete
-    - faz_report_template_install
   all:
+    - faz_cli_exec_fgfm_autolinkdevice
     - faz_cli_exec_fgfm_reclaimdevtunnel
     - faz_cli_fmupdate_analyzer_virusreport
     - faz_cli_fmupdate_avips_advancedlog
@@ -115,13 +66,17 @@ action_groups:
     - faz_cli_system_locallog_syslogd3_setting
     - faz_cli_system_locallog_syslogd_filter
     - faz_cli_system_locallog_syslogd_setting
+    - faz_cli_system_locallog_tacacs_accounting_filter
+    - faz_cli_system_locallog_tacacs_accounting_setting
     - faz_cli_system_log_alert
+    - faz_cli_system_log_apiratelimit
     - faz_cli_system_log_fospolicystats
     - faz_cli_system_log_interfacestats
     - faz_cli_system_log_ioc
     - faz_cli_system_log_pcapfile
     - faz_cli_system_log_ratelimit
     - faz_cli_system_log_settings
+    - faz_cli_system_log_settings_clientcertauth
     - faz_cli_system_log_settings_rollinganalyzer
     - faz_cli_system_log_settings_rollinglocal
     - faz_cli_system_log_settings_rollingregular
@@ -129,6 +84,7 @@ action_groups:
     - faz_cli_system_log_ueba
     - faz_cli_system_logfetch_serversettings
     - faz_cli_system_logforwardservice
+    - faz_cli_system_mlflow
     - faz_cli_system_ntp
     - faz_cli_system_passwordpolicy
     - faz_cli_system_report_autocache
@@ -136,6 +92,9 @@ action_groups:
     - faz_cli_system_report_setting
     - faz_cli_system_saml
     - faz_cli_system_snmp_sysinfo
+    - faz_cli_system_soc_collector
+    - faz_cli_system_soc_collector_loglevel
+    - faz_cli_system_soc_collector_logqueue
     - faz_cli_system_socfabric
     - faz_cli_system_sql
     - faz_cli_system_webproxy
@@ -158,10 +117,61 @@ action_groups:
     - faz_sys_reboot
     - faz_um_image_upgrade
     - faz_um_image_upgrade_ext
+    - faz_um_query_productapi
     - metadata:
         extend_group:
           - adom
           - state
+  adom:
+    - faz_dvmdb_adom_objectmember
+    - faz_dvmdb_device
+    - faz_dvmdb_device_vdom
+    - faz_dvmdb_folder
+    - faz_dvmdb_group
+    - faz_dvmdb_group_objectmember
+    - faz_eventmgmt_alerts_ack
+    - faz_eventmgmt_alerts_assign
+    - faz_eventmgmt_alerts_comment
+    - faz_eventmgmt_alerts_import
+    - faz_eventmgmt_alerts_read
+    - faz_eventmgmt_alerts_unack
+    - faz_eventmgmt_basichandlers_import
+    - faz_eventmgmt_config_basichandler
+    - faz_eventmgmt_config_correlationhandler
+    - faz_eventmgmt_config_dataselector
+    - faz_eventmgmt_config_notificationprofile
+    - faz_eventmgmt_config_trigger
+    - faz_eventmgmt_config_trigger_device
+    - faz_eventmgmt_config_trigger_filter
+    - faz_eventmgmt_config_trigger_filter_rule
+    - faz_eventmgmt_correlationhandlers_import
+    - faz_report_config_chart
+    - faz_report_config_chart_drilldowntable
+    - faz_report_config_chart_tablecolumns
+    - faz_report_config_chart_variabletemplate
+    - faz_report_config_dataset
+    - faz_report_config_dataset_variable
+    - faz_report_config_layout
+    - faz_report_config_layout_component
+    - faz_report_config_layout_component_variable
+    - faz_report_config_layout_footer
+    - faz_report_config_layout_header
+    - faz_report_config_layoutfolder
+    - faz_report_config_macro
+    - faz_report_config_output
+    - faz_report_config_output_emailrecipients
+    - faz_report_config_schedule
+    - faz_report_config_schedule_addressfilter
+    - faz_report_config_schedule_devices
+    - faz_report_config_schedule_filter
+    - faz_report_config_schedule_reportlayout
+    - faz_report_configfile_import
+    - faz_report_graphfile
+    - faz_report_graphfile_delete
+    - faz_report_reports_data_delete
+    - faz_report_run
+    - faz_report_run_delete
+    - faz_report_template_install
   state:
     - faz_cli_fmupdate_fdssetting_pushoverridetoclient_announceip
     - faz_cli_fmupdate_fdssetting_serveroverride_servlist
@@ -195,6 +205,7 @@ action_groups:
     - faz_cli_system_certificate_ssh
     - faz_cli_system_csf_fabricconnector
     - faz_cli_system_csf_trustedlist
+    - faz_cli_system_csf_trustedlist_adom
     - faz_cli_system_ha_peer
     - faz_cli_system_ha_privatepeer
     - faz_cli_system_ha_vip
@@ -215,6 +226,7 @@ action_groups:
     - faz_cli_system_log_maildomain
     - faz_cli_system_log_ratelimit_device
     - faz_cli_system_log_ratelimit_ratelimits
+    - faz_cli_system_log_settings_clientcertauth_trustedclient
     - faz_cli_system_logfetch_clientprofile
     - faz_cli_system_logfetch_clientprofile_devicefilter
     - faz_cli_system_logfetch_clientprofile_logfilter
@@ -225,6 +237,7 @@ action_groups:
     - faz_cli_system_logforward_logmaskingcustom
     - faz_cli_system_mail
     - faz_cli_system_metadata_admins
+    - faz_cli_system_mlflow_models
     - faz_cli_system_ntp_ntpserver
     - faz_cli_system_report_group
     - faz_cli_system_report_group_chartalternative

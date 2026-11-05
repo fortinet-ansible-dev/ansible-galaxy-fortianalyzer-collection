@@ -52,7 +52,9 @@ options:
         type: bool
         default: false
     enable_log:
-        description: Enable/Disable logging for task
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -283,6 +285,54 @@ options:
                  - disable - Disable setting.
                  - enable - Enable setting.
                 choices: ['disable', 'enable']
+            ha_config_sync:
+                aliases: ['ha-config-sync']
+                type: str
+                description:
+                 - Enable/disable HA syncing of SAML config.
+                 - disable - Disable HA syncing of SAML config.
+                 - enable - Enable HA syncing of SAML config.
+                choices: ['disable', 'enable']
+            custom_sp_entity_id:
+                aliases: ['custom-sp-entity-id']
+                type: str
+                description:
+                 - Enable/disable custom SP entity ID
+                 - disable - Disable custom SP entity ID.
+                 - enable - Enable custom SP entity ID.
+                choices: ['disable', 'enable']
+            digest_method:
+                aliases: ['digest-method']
+                type: str
+                description:
+                 - Digest method for SP requests.
+                 - sha256 - SHA256.
+                 - sha512 - SHA512.
+                choices: ['sha256', 'sha512']
+            idp_digest_method:
+                aliases: ['idp-digest-method']
+                type: str
+                description:
+                 - Digest method for IDP assertions.
+                 - sha256 - SHA256.
+                 - sha512 - SHA512.
+                choices: ['sha256', 'sha512']
+            idp_signature_algorithm:
+                aliases: ['idp-signature-algorithm']
+                type: str
+                description:
+                 - Signature algorithm for IDP assertions.
+                 - rsa-sha256 - RSA-SHA256.
+                 - rsa-sha512 - RSA-SHA512.
+                choices: ['rsa-sha256', 'rsa-sha512']
+            signature_algorithm:
+                aliases: ['signature-algorithm']
+                type: str
+                description:
+                 - Signature algorithm for SP requests.
+                 - rsa-sha256 - RSA-SHA256.
+                 - rsa-sha512 - RSA-SHA512.
+                choices: ['rsa-sha256', 'rsa-sha512']
 '''
 
 EXAMPLES = '''
@@ -343,7 +393,7 @@ version_check_warning:
     type: list
     returned: complex
 '''
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
@@ -359,7 +409,7 @@ def main():
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
@@ -417,8 +467,14 @@ def main():
                 'user-auto-create': {'v_range': [['7.0.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'auth-request-signed': {'v_range': [['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
                 'want-assertions-signed': {'v_range': [['7.2.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'logout-request-signed': {'v_range': [['7.4.8', '7.4.8']], 'choices': ['disable', 'enable'], 'type': 'str'},
-                'logout-response-signed': {'v_range': [['7.4.8', '7.4.8']], 'choices': ['disable', 'enable'], 'type': 'str'}
+                'logout-request-signed': {'v_range': [['7.4.8', '7.4.11'], ['7.6.5', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'logout-response-signed': {'v_range': [['7.4.8', '7.4.11'], ['7.6.5', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'ha-config-sync': {'v_range': [['7.4.11', '7.4.11'], ['7.6.7', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'custom-sp-entity-id': {'v_range': [['7.6.8', '7.6.8'], ['8.0.1', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'digest-method': {'v_range': [['7.6.8', '']], 'choices': ['sha256', 'sha512'], 'type': 'str'},
+                'idp-digest-method': {'v_range': [['7.6.8', '']], 'choices': ['sha256', 'sha512'], 'type': 'str'},
+                'idp-signature-algorithm': {'v_range': [['7.6.8', '']], 'choices': ['rsa-sha256', 'rsa-sha512'], 'type': 'str'},
+                'signature-algorithm': {'v_range': [['7.6.8', '']], 'choices': ['rsa-sha256', 'rsa-sha512'], 'type': 'str'}
             }
         }
     }

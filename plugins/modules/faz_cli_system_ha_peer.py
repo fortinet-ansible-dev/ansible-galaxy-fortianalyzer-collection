@@ -53,7 +53,9 @@ options:
         type: bool
         default: false
     enable_log:
-        description: Enable/Disable logging for task
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -139,8 +141,10 @@ EXAMPLES = '''
       fortinet.fortianalyzer.faz_cli_system_ha_peer:
         cli_system_ha_peer:
           id: 0
-          ip: 2.33.4.55
-          # ip_hb: <value of string>
+          addr: 2.33.4.55  # FortiAnalyzer 7.4.4 and later.
+          # addr_hb: <value of string>  # FortiAnalyzer 7.4.4 and later.
+          # ip: 2.33.4.55  # FortiAnalyzer 6.2.1 through 7.4.3.
+          # ip_hb: <value of string>  # FortiAnalyzer 6.2.1 through 7.4.3.
           serial_number: FLVMS4713869145
           status: disable
         state: present
@@ -190,7 +194,7 @@ version_check_warning:
     type: list
     returned: complex
 '''
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
@@ -206,7 +210,7 @@ def main():
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},

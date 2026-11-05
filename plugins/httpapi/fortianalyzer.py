@@ -74,6 +74,29 @@ class HttpApi(HttpApiBase):
         self._log.write(log_message)
         self._log.flush()
 
+    def _log_request(self, request_type, request_url, method, json_data):
+        log_enabled = self.customer_options.get("enable_log", False)
+        if not log_enabled:
+            return
+
+        def mask_sensitive_data(data):
+            if isinstance(data, dict):
+                return {
+                    key: "******" if isinstance(key, str) and key.lower() in ("session", "password", "passwd")
+                    else mask_sensitive_data(value)
+                    for key, value in data.items()
+                }
+            if isinstance(data, (list, tuple)):
+                return [mask_sensitive_data(value) for value in data]
+            return data
+
+        try:
+            log_data = mask_sensitive_data(json_data)
+            self.log("%s (%s) [%s]: \n%s" % (request_url, method, request_type, self._jsonize(log_data)))
+        except Exception:
+            # Logging failures must not interrupt requests or expose unmasked data.
+            return
+
     def set_become(self, become_context):
         """
         ELEVATION IS NOT REQUIRED ON FORTINET DEVICES - SKIPPED
@@ -107,7 +130,7 @@ class HttpApi(HttpApiBase):
             headers=BASE_HEADERS,
         )
         result = json.loads(to_text(response_data.getvalue()))
-        self.log("forticloud login response: %s" % (str(self._jsonize(result))))
+        self._log_request("Response", "/p/forticloud_jsonrpc_login/", "exec", result)
         return self._set_sid(result)
 
     def login(self, username, password):
@@ -186,29 +209,41 @@ class HttpApi(HttpApiBase):
         if request_url.startswith("/report/") or request_url.startswith("/eventmgmt/") or jsonrpc2:
             json_request["jsonrpc"] = "2.0"
             json_request["params"][0]["apiver"] = 3
-        data = json.dumps(json_request, ensure_ascii=False).replace("\\\\", "\\")
+        data = json.dumps(json_request, ensure_ascii=False)
 
-        # Log debug data, don't log sensitive information
-        if request_url == "sys/login/user" and "data" in params[0] and "passwd" in params[0]["data"]:
-            json_request["params"][0]["data"]["passwd"] = "******"
-        json_request["session"] = "******"
-        log_data = json.dumps(json_request, ensure_ascii=False).replace("\\\\", "\\")
-        self.log("request: %s" % (log_data))
+        self._log_request("Request", request_url, method, json_request)
 
         # Sending URL and Data in Unicode, per Ansible Specifications for Connection Plugins
         access_token_str = ""
-        header_data = BASE_HEADERS
+        header_data = BASE_HEADERS.copy()
         if self._login_method == "access_token":
             access_token_str = "?access_token=" + self._access_token
             header_data["Authorization"] = "Bearer " + self._access_token
-        rc, response_data = self.connection.send(path=to_text(self._url) + access_token_str, data=to_text(data), headers=header_data)
-        header_data["Authorization"] = "******"
-        self.log("header: %s" % (str(header_data)))
+        try:
+            rc, response_data = self.connection.send(path=to_text(self._url) + access_token_str, data=to_text(data), headers=header_data)
+        except Exception:
+            return self._request_error(method, request_url, "Failed to receive an HTTP response")
 
         # Get Unicode Response - Must convert from StringIO to unicode first so we can do a replace function below
-        result = json.loads(to_text(response_data.getvalue()))
-        self.log("response: %s" % (str(self._jsonize(result))))
+        response_text = to_text(response_data.getvalue()) if response_data is not None else ""
+        if not response_text.strip():
+            return self._request_error(method, request_url, "Received an empty HTTP response")
+        try:
+            result = json.loads(response_text)
+        except ValueError:
+            return self._request_error(method, request_url, "Received an invalid JSON response")
+        if not isinstance(result, dict) or not isinstance(result.get("result", result.get("error")), (dict, list)):
+            return self._request_error(method, request_url, "Received an invalid JSON-RPC response")
+        if isinstance(result.get("result"), list) and not result["result"]:
+            return self._request_error(method, request_url, "Received an empty JSON-RPC result")
+        self._log_request("Response", request_url, method, result)
         return self._handle_response(result, request_url)
+
+    def _request_error(self, method, request_url, reason):
+        message = "%s for %s %s. Verify device state before retrying." % (
+            reason, method, request_url)
+        self.log(message)
+        return -1, {"url": request_url, "status": {"code": -1, "message": message}, "transport_error": True}
 
     def _jsonize(self, data):
         ret = None

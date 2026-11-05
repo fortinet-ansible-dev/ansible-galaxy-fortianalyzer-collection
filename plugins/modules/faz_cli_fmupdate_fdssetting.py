@@ -24,7 +24,7 @@ ANSIBLE_METADATA = {'status': ['preview'],
 DOCUMENTATION = '''
 ---
 module: faz_cli_fmupdate_fdssetting
-short_description: Configure FortiGuard settings.
+short_description: Configure FortiGuard fds settings.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
@@ -52,7 +52,9 @@ options:
         type: bool
         default: false
     enable_log:
-        description: Enable/Disable logging for task
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -292,7 +294,7 @@ options:
                  - 6.4 - Support version 6.4
                 type: list
                 elements: str
-                choices: ['5.4', '5.6', '6.0', '6.2', '6.4', '7.0', '7.2', '7.4', '7.6']
+                choices: ['5.4', '5.6', '6.0', '6.2', '6.4', '7.0', '7.2', '7.4', '7.6', '5.x', '6.x', '7.x', '8.0']
             system_support_fml:
                 aliases: ['system-support-fml']
                 description:
@@ -418,7 +420,7 @@ options:
                  - 7.x - Support version 7.x
                 type: list
                 elements: str
-                choices: ['6.x', '7.x']
+                choices: ['6.x', '7.x', '8.x']
             system_support_fis:
                 aliases: ['system-support-fis']
                 description:
@@ -436,6 +438,11 @@ options:
                 type: list
                 elements: str
                 choices: ['7.x']
+            controller_contract_download:
+                aliases: ['controller-contract-download']
+                type: str
+                description: no description
+                choices: ['disable', 'enable']
 '''
 
 EXAMPLES = '''
@@ -495,7 +502,7 @@ version_check_warning:
     type: list
     returned: complex
 '''
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
@@ -511,7 +518,7 @@ def main():
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
@@ -570,7 +577,11 @@ def main():
                     'choices': ['4.x', '5.0', '5.2', '5.4', '5.6', '6.0', '6.2', '6.4', '7.0', '7.2', '7.4'],
                     'elements': 'str'
                 },
-                'system-support-fgt': {'type': 'list', 'choices': ['5.4', '5.6', '6.0', '6.2', '6.4', '7.0', '7.2', '7.4', '7.6'], 'elements': 'str'},
+                'system-support-fgt': {
+                    'type': 'list',
+                    'choices': ['5.4', '5.6', '6.0', '6.2', '6.4', '7.0', '7.2', '7.4', '7.6', '5.x', '6.x', '7.x', '8.0'],
+                    'elements': 'str'
+                },
                 'system-support-fml': {'type': 'list', 'choices': ['4.x', '5.x', '6.x', '6.0', '6.2', '6.4', '7.0', '7.2', '7.x'], 'elements': 'str'},
                 'system-support-fsa': {'type': 'list', 'choices': ['1.x', '2.x', '3.x', '3.0', '3.1', '3.2', '4.x', '5.x'], 'elements': 'str'},
                 'system-support-fsw': {
@@ -603,9 +614,15 @@ def main():
                     'choices': ['4.x', '3.x', '7.x'],
                     'elements': 'str'
                 },
-                'system-support-faz': {'v_range': [['7.0.7', '7.0.14'], ['7.2.2', '']], 'type': 'list', 'choices': ['6.x', '7.x'], 'elements': 'str'},
+                'system-support-faz': {
+                    'v_range': [['7.0.7', '7.0.16'], ['7.2.2', '']],
+                    'type': 'list',
+                    'choices': ['6.x', '7.x', '8.x'],
+                    'elements': 'str'
+                },
                 'system-support-fis': {'v_range': [['7.4.0', '']], 'type': 'list', 'choices': ['1.x', '2.x'], 'elements': 'str'},
-                'system-support-fai': {'v_range': [['7.6.0', '']], 'type': 'list', 'choices': ['7.x'], 'elements': 'str'}
+                'system-support-fai': {'v_range': [['7.6.0', '']], 'type': 'list', 'choices': ['7.x'], 'elements': 'str'},
+                'controller-contract-download': {'v_range': [['7.6.7', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
             }
         }
     }

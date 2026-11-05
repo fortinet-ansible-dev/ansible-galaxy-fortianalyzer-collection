@@ -53,7 +53,9 @@ options:
         type: bool
         default: false
     enable_log:
-        description: Enable/Disable logging for task
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -108,16 +110,16 @@ options:
                  - accept - Allow traffic matching this policy.
                 choices: ['drop', 'reject', 'accept']
             dport:
-                type: int
+                type: raw
                 description: Destination port number
             dst:
-                type: str
+                type: raw
                 description: Destination IP and prefix.
             id:
                 type: int
                 description: Entry number.
             intf:
-                type: str
+                type: raw
                 description: Incoming interface name.
             protocol:
                 type: str
@@ -128,7 +130,7 @@ options:
                  - tcp_udp - Both TCP and UDP.
                 choices: ['tcp', 'udp', 'tcp_udp']
             src:
-                type: str
+                type: raw
                 description: Source IP and prefix.
             description:
                 type: str
@@ -137,30 +139,45 @@ options:
 
 EXAMPLES = '''
 - name: Example playbook
-  hosts: fortianalyzers
-  connection: httpapi
   gather_facts: false
+  connection: httpapi
+  hosts: fortianalyzers
+  tasks:
+    # FortiAnalyzer 7.6.4 and later.
+    - name: Configure an IPv6 local-in policy
+      fortinet.fortianalyzer.faz_cli_system_localinpolicy6:
+        state: present
+        cli_system_localinpolicy6:
+          id: 1
+          action: accept
+          protocol: udp
+          dport:
+            - dport-value: '23'
+          # The IPv6 schema names the destination entry field src-ip.
+          dst:
+            - src-ip: fff::/24
+          intf:
+            - intf-name: port4
+          src:
+            - src-ip: fff::/24
+
+    # Before FortiAnalyzer 7.6.4.
+    # - name: Configure an IPv6 local-in policy with the legacy schema
+    #   fortinet.fortianalyzer.faz_cli_system_localinpolicy6:
+    #     state: present
+    #     cli_system_localinpolicy6:
+    #       id: 1
+    #       action: accept
+    #       protocol: udp
+    #       dport: 23
+    #       dst: fff::/24
+    #       intf: port4
+    #       src: fff::/24
   vars:
     ansible_network_os: fortinet.fortianalyzer.fortianalyzer
     ansible_httpapi_port: 443
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
-  tasks:
-    - name: IPv6 local in policy configuration.
-      fortinet.fortianalyzer.faz_cli_system_localinpolicy6:
-        # bypass_validation: false
-        # rc_succeeded: [0, -2, -3, ...]
-        # rc_failed: [-2, -3, ...]
-        state: present # <value in [present, absent]>
-        cli_system_localinpolicy6:
-          id: 0 # Required variable, integer
-          # action: <value in [drop, reject, accept]>
-          # dport: <value of integer>
-          # dst: <value of string>
-          # intf: <value of string>
-          # protocol: <value in [tcp, udp, tcp_udp]>
-          # src: <value of string>
-          # description: <value of string>
 '''
 
 RETURN = '''
@@ -202,7 +219,7 @@ version_check_warning:
     type: list
     returned: complex
 '''
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
@@ -218,7 +235,7 @@ def main():
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
@@ -231,12 +248,12 @@ def main():
             'v_range': [['7.2.0', '']],
             'options': {
                 'action': {'v_range': [['7.2.0', '']], 'choices': ['drop', 'reject', 'accept'], 'type': 'str'},
-                'dport': {'v_range': [['7.2.0', '']], 'type': 'int'},
-                'dst': {'v_range': [['7.2.0', '']], 'type': 'str'},
+                'dport': {'v_range': [['7.2.0', '']], 'type': 'raw'},
+                'dst': {'v_range': [['7.2.0', '']], 'type': 'raw'},
                 'id': {'v_range': [['7.2.0', '']], 'type': 'int'},
-                'intf': {'v_range': [['7.2.0', '']], 'type': 'str'},
+                'intf': {'v_range': [['7.2.0', '']], 'type': 'raw'},
                 'protocol': {'v_range': [['7.2.0', '']], 'choices': ['tcp', 'udp', 'tcp_udp'], 'type': 'str'},
-                'src': {'v_range': [['7.2.0', '']], 'type': 'str'},
+                'src': {'v_range': [['7.2.0', '']], 'type': 'raw'},
                 'description': {'v_range': [['7.6.4', '']], 'type': 'str'}
             }
         }

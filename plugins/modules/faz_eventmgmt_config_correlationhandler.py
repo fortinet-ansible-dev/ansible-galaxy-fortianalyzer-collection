@@ -53,7 +53,9 @@ options:
         type: bool
         default: false
     enable_log:
-        description: Enable/Disable logging for task
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -233,12 +235,12 @@ EXAMPLES = '''
           # creation_time: <value of integer>
           # data_selector: <value of string>
           # description_: <value of string>
-          # enable: <value in [disable, enable]>
+          # enable: <value in [disable, enable, 0, ...]>
           # enable_time: <value of integer>
           # eventstatus: <value of string>
           # eventtype: <value of string>
           # extrainfo: <value of string>
-          # extrainfo_type: <value in [default, custom]>
+          # extrainfo_type: <value in [default, custom, 0, ...]>
           # mitre_info: <value of string>
           # notification: <value of string>
           # rule_relation: <value of string>
@@ -289,7 +291,7 @@ version_check_warning:
     type: list
     returned: complex
 '''
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
@@ -305,7 +307,7 @@ def main():
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},

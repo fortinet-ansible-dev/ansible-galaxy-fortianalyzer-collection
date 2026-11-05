@@ -24,7 +24,7 @@ ANSIBLE_METADATA = {'status': ['preview'],
 DOCUMENTATION = '''
 ---
 module: faz_cli_fmupdate_fgdsetting
-short_description: Cli fmupdate fgd setting
+short_description: Configure FortiGuard fgd parameters.
 description:
     - This module is able to configure a FortiAnalyzer device.
     - Examples include all parameters and values which need to be adjusted to data sources before usage.
@@ -52,7 +52,9 @@ options:
         type: bool
         default: false
     enable_log:
-        description: Enable/Disable logging for task
+        description:
+            - Enable/Disable logging for task.
+            - If omitted, use environment variable ANSIBLE_FORTIANALYZER_ENABLE_LOG. Defaults to false.
         type: bool
         default: false
     forticloud_access_token:
@@ -299,6 +301,10 @@ options:
                 type: str
                 description: no description
                 choices: ['disable', 'enable']
+            delta_ratio:
+                aliases: ['delta-ratio']
+                type: int
+                description: no description
 '''
 
 EXAMPLES = '''
@@ -312,7 +318,7 @@ EXAMPLES = '''
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
   tasks:
-    - name: Cli fmupdate fgd setting
+    - name: Configure FortiGuard fgd parameters.
       fortinet.fortianalyzer.faz_cli_fmupdate_fgdsetting:
         # bypass_validation: false
         # rc_succeeded: [0, -2, -3, ...]
@@ -366,6 +372,7 @@ EXAMPLES = '''
           # wf_dn_cache_max_number: <value of integer>
           # wf_log: <value in [disable, nourl, all]>
           # wf_preload: <value in [disable, enable]>
+          # delta_ratio: <value of integer>
 '''
 
 RETURN = '''
@@ -407,7 +414,7 @@ version_check_warning:
     type: list
     returned: complex
 '''
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import FortiAnalyzerAnsible
 from ansible_collections.fortinet.fortianalyzer.plugins.module_utils.napi import modify_argument_spec
@@ -423,7 +430,7 @@ def main():
     module_arg_spec = {
         'access_token': {'type': 'str', 'no_log': True},
         'bypass_validation': {'type': 'bool', 'default': False},
-        'enable_log': {'type': 'bool', 'default': False},
+        'enable_log': {'type': 'bool', 'default': False, 'fallback': (env_fallback, ['ANSIBLE_FORTIANALYZER_ENABLE_LOG'])},
         'forticloud_access_token': {'type': 'str', 'no_log': True},
         'log_path': {'type': 'str', 'default': '/tmp/fortianalyzer.ansible.log'},
         'proposed_method': {'type': 'str', 'choices': ['set', 'update', 'add']},
@@ -500,7 +507,8 @@ def main():
                 'wf-dn-cache-expire-time': {'v_range': [['7.6.3', '']], 'type': 'int'},
                 'wf-dn-cache-max-number': {'v_range': [['7.6.3', '']], 'type': 'int'},
                 'wf-log': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'nourl', 'all'], 'type': 'str'},
-                'wf-preload': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'}
+                'wf-preload': {'v_range': [['7.6.3', '']], 'choices': ['disable', 'enable'], 'type': 'str'},
+                'delta-ratio': {'v_range': [['7.6.7', '7.6.8'], ['8.0.1', '']], 'type': 'int'}
             }
         }
     }
